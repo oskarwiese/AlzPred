@@ -1,0 +1,19 @@
+MRI-data til at finde bias i alzhemers-patienter
+Aasa har to forskellige specialer (camilla fra KU og louise), som har at gøre med netop dette, som bruger ADNI- og AIBL-data.
+
+
+FORSLAG 1
+Find en måde at fjerne bias fra Tesla-målingerne ved hjælp af:
+Adversarial learning, transfer learning, domain adaptation.
+Brug billederne fra dem, der måske kunne have alzheimers.
+regression kunne bruges til at finde de patienter, der skal med.
+Gør noget ved forskellen mellem 1.5- og 3-tesla.
+Er det muligt at gå fra 1.5 til 3 eller omvendt? Det kunne være et forslag til et projekt
+
+
+
+FORSLAG 2
+Tag mere af data med, så man også får de patienter med, der får alzhimers på et senere tidspunkt i fremtiden.
+Der er generelt set ikke særlig meget data (ikke mange features og få personer).
+
+
