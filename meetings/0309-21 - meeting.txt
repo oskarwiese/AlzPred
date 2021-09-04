@@ -1,0 +1,32 @@
+Svar på spørgsmålene:
+Er det muligt at få adgang til dataen og serveren med det samme?
+Vi får meget snart adgang til serveren og nogle hjælpe-scripts til at lære kommandoerne.
+kan vi få adgang til din kandidatstuderendes data og model??
+Ja, Camillas model ligger på serveren, og vi kan læse hendes speciale på slack under "#adni-fieldstrength-augmentation"-kanalen. Samtidig kan vi også undersøge selve serveren med filen, som er sendt på google drev.
+Hvilke ressourcer har du fra kurset "Deep Learning for Computer Vision" som vi kan bruge til cycle GAN (også generelle ressourcer/artikler)? 
+
+Hvilket workflow kommer vi til at arbejde med? tensorflow, keras, pytorch?
+
+Kan vi få sat gang i ugentlige møder? Hvornår mødes vi?
+
+Hvornår starter og slutter bacheloren officielt? Er det muligt at starte den senere?
+
+
+
+
+Meeting with Luise
+She's using the same data as Camilla
+She's analyzing whether a gender bias exists
+SPM and freesurfer is used to find properties of the images
+Classifying alzheimers based on volume of the brain compared to volume of some parts of the brain
+These simple features are often more simple than 3D images
+She does not have enough data - The models give different results each time
+
+
+
+Maria Luise da Costa Zemsch
+
+
+Når vi skal prøve at arbejde med serveren, så start under "diagnostic info"-mappen
+Vi kan også begynde at se på Camillas kode
+Man kan ikke træne så mange modeller af gangen
