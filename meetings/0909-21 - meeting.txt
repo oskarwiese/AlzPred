@@ -1,0 +1,37 @@
+Hvornår starter og slutter vi reelt vores bachelor?
+
+
+Hvad er opløsningen af billederne?
+
+
+Hvor ligger data på serveren?
+Første sti indeholder 1.5T billeder, anden sti 3T billeder.
+.nii billeder kan åbnet med nogle pakker fra Nipype. Det er også her spm og freesurfer kommer fra.
+Vi får også brug for en 3D-viewer til at kunne se på billederne. ImageJ og [[ITKSnap]]. Helst ITKSnap.
+"dtu-compute/ADNIbias/spm12_ADNI1"
+"dtu-compute/ADNIbias/spm12_ADNI1_Baseline3T"
+
+Hvilken model bruges til klassifikationen?
+Modellen der har været brugt til klassifikation har nok ikke været særlig god, men den så imponerende ud.
+Det største bias i dataen er hvilken scanner, der har været brugt, så man kan slet ikke se andre forhold i data.
+
+Hvor mange GB er der adgang til på serveren?
+Højest 12, hvis vi får lov til at få adgang til så meget som muligt. De største har 48GB.
+
+Vigtige pointer om CycleGAN:
+Man kan bruge multiview/slices til at få flere 2D-billeder i stedet for ét stort 3D-billede. Det er både meget nemmere og det koster mindre i RAM.
+Der skal nok også et netværk mere til, når man har lavet klassifikationer på alle billederne.
+Det originale paper på cycleGAN er godt og ellers kan man bruge github, hvor man nok kan finde adskellige implementationer.
+Det er nok nemmere at gå fra 3T til 1.5T, da dette bare ligner en slags "blur"-effekt.
+Det er nok mest relevant at lave det hele om til 1.5T, da dette er mere realistisk.
+
+Er det smart at bruge ét eller tre netværk, hvis man har tre forskellige slices? Er det smart at få lavet alle billederne om til 1.5T?
+Vi har brug for at kunne træne klassifikationsdelen, hvis vi skal teste hvad der er smartest.
+Det kunne måske være en ide at bruge pix2pix eller andre nyere metoder med paired data.
+Man kunne overføre fra 3T til 1.5T og bruge vores paired data som ground truth.
+
+
+TORSDAG 10.00-11.00 KAN VI MØDES MED MORTEN
+FREDAG 10.00-11.00 KAN VI MØDES MED AASA
+
+NÆSTE UGE MØDES VI TIRSDAG 9:00-9:30
