@@ -1,0 +1,16 @@
+
+SPØRGSMÅL
+
+Hvilket workflow kommer vi til at arbejde med? tensorflow, keras, pytorch?
+
+Kan vi få sat gang i ugentlige møder? Hvornår mødes vi?
+
+Hvornår starter og slutter bacheloren officielt? Er det muligt at starte den senere?
+
+Skal vi lave spatial normalization for at ligge billederne på hinanden?
+
+Hvor kan vi se Kamillas kode? 
+
+Tutorial is NiPy / hvordan vi laver 2d billeder ud af 3d
+
+Det er muligt at sende udkast af afsnit / rapoorter tidligere for at få feedback?
