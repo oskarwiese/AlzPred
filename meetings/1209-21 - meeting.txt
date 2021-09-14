@@ -36,7 +36,6 @@ Vi kommer til at træne en cycleGAN og så bruge vores paired data til at skabe 
 
 
 OPGAVER TIL NÆSTE GANG
-- FÅ CMD TIL AT HUSKE EFTER DEN ER BLEVET LUKKET.
 - Lav en meget kort projektplan med nogle korte mål og en halv sides tekst. Hele resten af tidsplanen og projektplanen tager vi os af senere.
 - Prøv at plotte slices af billederne, og se om de ser ud som forventet.
 - Begynd at se på at implementere en cycleGAN.
