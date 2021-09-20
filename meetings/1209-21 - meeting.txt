@@ -1,0 +1,43 @@
+---
+---
+---
+VI SKAL HAVE AFLEVERET BACHELORPROJEKT SENEST 14. JANUAR
+Dette betyder, at vores bachelor officielt starter 1. oktober.
+---
+---
+---
+FREDAG 10.00-11.00 KAN VI MØDES MED AASA (DOG IKKE FREDAG 14-09-2021)
+
+Hvornår starter og slutter vi reelt vores bachelor?
+Det skulle gerne kunne lade sig gøre at slutte bacheloren
+
+Hvad er opløsningen af billederne?
+256x256x"et tal der nok varierer".
+
+Hvilket af de billederne i mappen for hver person er det vi skal bruge? hvad indeholder de andre billeder/hvad er forskellen?
+Indtil videre ser det ud til at det korteste filnavn ser ud til at være den rigtige. Denne indeholder preprocessing men ikke nogen segmentering.
+
+ITK-Snap kan ikke finde ud af at lægge billederne oveni hinanden, er der en måde at fikse det på? skal vi lave spatial normalization for at ligge billederne ovenpå hinanden?
+Det er nok billederne, der ikke har samme dimension. Prøv at fikse dette eller find en anden 3D-viewer. Det første vi kan gøre er at printe forskellige dimensioner af billederne, så vi kan se om billederne ser ud, som vi forventer.
+
+Hvornår kommer de ugentlige møder til at ligge?
+Hver fredag kl 10.
+
+Hvor kan vi finde Camillas kode?
+"Camillas model" eller noget i den stil et sted på serveren.
+
+
+Kan vi en gang i mellem sende udkast til afsnit for at få feedback ligesom sidst?
+Det må vi meget gerne.
+
+
+Det kunne nok være en ret god ide at lære spm og bruge det til at få 1.5T og 3T til at have samme dimensionalitet.
+Vi kommer til at træne en cycleGAN og så bruge vores paired data til at skabe et loss eller en ground truth.
+
+
+OPGAVER TIL NÆSTE GANG
+- Lav en meget kort projektplan med nogle korte mål og en halv sides tekst. Hele resten af tidsplanen og projektplanen tager vi os af senere.
+- Prøv at plotte slices af billederne, og se om de ser ud som forventet.
+- Begynd at se på at implementere en cycleGAN.
+- Læs noget mere om de homogene koordinater i den affine transformation.
+- Se på ADNI2 og undersøg hvor mange 3T billeder der er dér.
