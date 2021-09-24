@@ -13,8 +13,18 @@ kan finde rundt (det er på ingen led oplagt), så svarer jeg så hurtigt jeg ka
 
 
 TODOs til næste gang:
-- Lav en meget kort projektplan med nogle korte mål og en halv sides tekst. Hele resten af tidsplanen og projektplanen tager vi os af senere.
-- Prøv at plotte slices af billederne, og se om de ser ud som forventet.
-- Begynd at se på at implementere en cycleGAN.
-- Læs noget mere om de homogene koordinater i den affine transformation.
-- Se på ADNI2 og undersøg hvor mange 3T billeder der er dér.
+- [✓]Opret profil hos IDA ADNI og undersøg, hvor de relevante billeder ligger (se ovenstående).
+Vi har fået adgang til ADNI, men vi kan ikke se finde data på nuværende tidspunkt.
+
+- [✓]Lav en meget kort projektplan med nogle korte mål og en halv sides tekst. Hele resten af tidsplanen og projektplanen tager vi os af senere.
+Vi har nu skrevet nogle projektspørgsmål ned, og vi mangler at skrive den rå tekst. Hører til filen "project_plan.tex".
+
+- [✓]Prøv at plotte slices af billederne, og se om de ser ud som forventet.
+Vores slices ser lidt ud, som vi havde forventet. Vi har nu gennemskuet hvordan man flipper og rykker koordinater, så 1.5T og 3T matcher. Vi mangler måske at gøre det mere generalisérbart. Ligger i filen "normalized_imgs.ipynb".
+
+- [ ]Begynd at se på at implementere en cycleGAN.
+Vi har nu implementeret bunden af en cycleGAN. Den kører ikke på horses2zebra-data, så der er noget arbejde endnu. Ligger i filen "cyclegan_horse2zebra.ipynb".
+
+- [ ]Læs noget mere om de homogene koordinater i den affine transformation.
+
+- [ ]Se på ADNI2 og undersøg hvor mange 3T billeder der er dér.
