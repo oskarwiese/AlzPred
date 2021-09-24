@@ -1,0 +1,25 @@
+Hvornår mødes vi næste gang?
+Fredag kl. 8:45 bygning 324 på DTU
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TODOs til næste gang:
+Arbejd videre på at få en GAN til at virke.
