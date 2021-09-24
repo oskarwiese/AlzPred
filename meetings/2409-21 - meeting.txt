@@ -2,24 +2,19 @@ Hvornår mødes vi næste gang?
 Fredag kl. 8:45 bygning 324 på DTU
 
 
+MØDET ER AFLYST.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+"""
+Jeg foreslår at i prøver at komme ind i ADNI-databasen (https://ida.loni.usc.edu/login.jsp) 
+og se om i kan søge frem f eks de ca 150 1.5T screening-billeder -- det kræver at i lige leger 
+lidt rundt med søgefunktionen. Skriv her [red. Slack adni-fieldstrength-augmentation] hvis i ikke 
+kan finde rundt (det er på ingen led oplagt), så svarer jeg så hurtigt jeg kan.
+"""
 
 
 TODOs til næste gang:
-Arbejd videre på at få en GAN til at virke.
+- Lav en meget kort projektplan med nogle korte mål og en halv sides tekst. Hele resten af tidsplanen og projektplanen tager vi os af senere.
+- Prøv at plotte slices af billederne, og se om de ser ud som forventet.
+- Begynd at se på at implementere en cycleGAN.
+- Læs noget mere om de homogene koordinater i den affine transformation.
+- Se på ADNI2 og undersøg hvor mange 3T billeder der er dér.
