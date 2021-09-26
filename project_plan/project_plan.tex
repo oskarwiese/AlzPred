@@ -7,8 +7,19 @@
 \begin{document}
 
 \maketitle
+\noindent
+Alzheimer is a disease which in the year 2021 affected an estimated 5.8 million people aged 65 years or older in America alone.
+By the time an individual show early symptoms of alzheimer whether by a screening test or a physical measurement of the brain volume it is already too late to prevent the rapid development of the disease. 
+Thus, it is becoming ever increasingly important to detect alzheimer at earlier stages than what is the state of the art today to decrease cost of treatment and increase chance of successful rehabilitation.
+Therefore, we wish to explore whether it is possible with tools of computer vision and machine learning to detect alzheimer disease before an individual shows symptoms detectable by the common screening process of doctors. 
+Many studies has been conducted within the field of alzheimer and all of the studies including MRI scans are stored in the Alzheimers's Disease Neuroimaging Initiative (ADNI).
+The MRI scans range from an electromagnetic field of 1.5T to 3T. 
+This inherently will introduce a bias in an algorithm trained on a dataset with MRI images spanning in two ranges of magnetic fields resulting in images with different levels of detail.
+The scope of this project will be to train a classifier on MRI images to predict AD, but in order to have more data, we further want to train a cycleGAN to construct 1.5T images from 3T images. 
+Thereby, the model will have more available training data leading to a more successful classifier which will be able to aid doctors and humans in need all around the world.
+This project will also aim to determine possible bias introduced in the model, if any and discuss how a classifier can be implemented as a tool for doctors, the cost benefits and possible ethical scenarios which could play out. 
 
-\section{What will we be doing?}
+\section{Research Questions}
 Research Question: Is it possible with tools of ML to predict Alzheimers at an earlier stage than previously possible?
 \begin{itemize}
 	\item How can a cycle-GAN be used to convert between 1.5T and 3T MRI images? Does the data prove useful for classification? (Based on preliminary studies it is found that 1.5T and 3T respectively create noise. Can we then try to find a way to compensate for this by generating 1.5T from 3T and reverse using a CycleGan)
