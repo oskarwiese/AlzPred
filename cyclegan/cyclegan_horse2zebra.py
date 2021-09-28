@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 import numpy as np
 from tqdm.notebook import tqdm
 import torch
@@ -16,18 +10,11 @@ import torchvision.transforms as transforms
 from IPython import display
 import matplotlib.pylab as plt
 import ipywidgets
-
-
-# # Load Horse2Zebra data
-
-# In[2]:
-
-
 from google.colab import drive
+
+
+## Load Horse2Zebra data
 drive.mount('/content/drive')
-
-
-# In[3]:
 
 
 #batch_size = 64
@@ -80,9 +67,6 @@ dataloader_zebra_test = torch.utils.data.DataLoader(dataset_zebra_test, batch_si
                                          shuffle=True, num_workers = 1)
 
 
-# In[4]:
-
-
 if torch.cuda.is_available():
     print("The code will run on GPU.")
 else:
@@ -91,10 +75,6 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
 # #Generator
-
-# In[5]:
-
-
 def conv_norm_act(in_dim, out_dim, kernel_size, stride, padding=0,
                   norm=nn.BatchNorm2d, relu=nn.ReLU):
     return nn.Sequential(
@@ -186,7 +166,6 @@ class Generator(nn.Module):
 #         return x
 
 
-# In[ ]:
 
 
 # norm_layer = nn.InstanceNorm2d
@@ -219,11 +198,7 @@ class Generator(nn.Module):
 #         return self.conv(x)
 
 
-# # Discriminator
-
-# In[6]:
-
-
+## Discriminator
 class Discriminator(nn.Module):
     def __init__(self):
         super(Discriminator, self).__init__()
@@ -250,11 +225,7 @@ class Discriminator(nn.Module):
         return x
 
 
-# # Train loop
-
-# In[8]:
-
-
+## Train loop
 #Initialize networks
 d_a = Discriminator().to(device)
 d_b = Discriminator().to(device)
@@ -362,13 +333,6 @@ for epoch in range(num_epochs):
                 plt.gcf().suptitle(title, fontsize=20)
                 display.display(plt.gcf())
                 display.clear_output(wait=True)
-                
-
-#         fake_labels = torch.zeros(d_fake.size(0)).unsqueeze(1).float().to(device)
-#         real_labels = torch.ones(d_real.size(0)).unsqueeze(1).float().to(device)
-
-
-# In[ ]:
 
 
 ############################################################################################
@@ -459,5 +423,3 @@ for epoch in range(num_epochs):
 #                 plt.gcf().suptitle(title, fontsize=20)
 #                 display.display(plt.gcf())
 #                 display.clear_output(wait=True)
-                
-
