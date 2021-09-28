@@ -28,4 +28,4 @@
 #BSUB -e Error_%J.err 
 
 # here follow the commands you want to execute 
-python Horse2zebra.py < input.in > output.out
+python cyclegan_horse2zebra.py < input.in > output.out
