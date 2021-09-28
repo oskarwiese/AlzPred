@@ -1,5 +1,4 @@
 import numpy as np
-from tqdm.notebook import tqdm
 import torch
 import torchvision
 import torch.nn as nn
@@ -7,16 +6,9 @@ import torch.nn.functional as F
 import torchvision.datasets as datasets
 from torch.utils.data import Dataset, DataLoader
 import torchvision.transforms as transforms
-from IPython import display
-import matplotlib.pylab as plt
-import ipywidgets
-from google.colab import drive
 
 
-## Load Horse2Zebra data
-drive.mount('/content/drive')
-
-
+## Load horse2zebra data
 #batch_size = 64
 batch_size = 5
 color_channels = 3
@@ -139,65 +131,6 @@ class Generator(nn.Module):
     def forward(self, x):
         return self.ls(x)
 
-# class Generator(nn.Module):
-#     def __init__(self):
-#         super(Generator, self).__init__()
-#         self.model = nn.Sequential(
-#           nn.Linear(100,2848),
-#           nn.BatchNorm1d(2848),
-#           nn.LeakyReLU(0.2),
-#           nn.Linear(2848,2848),
-#           nn.BatchNorm1d(2848),
-#           nn.LeakyReLU(0.2),
-#           nn.Linear(2848,2848),
-#           nn.BatchNorm1d(2848),
-#           nn.LeakyReLU(0.2),
-#           nn.Linear(2848,2848),
-#           nn.BatchNorm1d(2848),
-#           nn.LeakyReLU(0.2),
-#           nn.Linear(2848,784),
-#           nn.Tanh()
-#         )
-
-        
-#     def forward(self, x):
-        
-#         x = self.model(x)
-#         x = x.view(x.size(0), 1, 28, 28)
-#         return x
-
-
-
-
-# norm_layer = nn.InstanceNorm2d
-# class ResBlock(nn.Module):
-#     def __init__(self, f):
-#         super(ResBlock, self).__init__()
-#         self.conv = nn.Sequential(nn.Conv2d(f, f, 3, 1, 1), norm_layer(f), nn.ReLU(),
-#                                   nn.Conv2d(f, f, 3, 1, 1))
-#         self.norm = norm_layer(f)
-#     def forward(self, x):
-#         return F.relu(self.norm(self.conv(x)+x))
-
-# class Generator(nn.Module):
-#     def __init__(self, f=64, blocks=9):
-#         super(Generator, self).__init__()
-#         layers = [nn.ReflectionPad2d(3),
-#                   nn.Conv2d(  3,   f, 7, 1, 0), norm_layer(  f), nn.ReLU(True),
-#                   nn.Conv2d(  f, 2*f, 3, 2, 1), norm_layer(2*f), nn.ReLU(True),
-#                   nn.Conv2d(2*f, 4*f, 3, 2, 1), norm_layer(4*f), nn.ReLU(True)]
-#         for i in range(int(blocks)):
-#             layers.append(ResBlock(4*f))
-#         layers.extend([
-#                 nn.ConvTranspose2d(4*f, 4*2*f, 3, 1, 1), nn.PixelShuffle(2), norm_layer(2*f), nn.ReLU(True),
-#                 nn.ConvTranspose2d(2*f,   4*f, 3, 1, 1), nn.PixelShuffle(2), norm_layer(  f), nn.ReLU(True),
-#                 nn.ReflectionPad2d(3), nn.Conv2d(f, 3, 7, 1, 0),
-#                 nn.Tanh()])
-#         self.conv = nn.Sequential(*layers)
-        
-#     def forward(self, x):
-#         return self.conv(x)
-
 
 ## Discriminator
 class Discriminator(nn.Module):
@@ -306,103 +239,11 @@ for epoch in range(num_epochs):
         g_ab_loss.backward(retain_graph=True)
         g_ab_opt.step()
 
-        assert(not np.isnan(d_loss.item()))
-        #Plot results every 100 minibatches
-        if minibatch_no % 100 == 0:
-            with torch.no_grad():
-                P = discriminator_final_layer(d(x_fake))
-                for k in range(11):
-                    x_fake_k = x_fake[k].cpu().squeeze()/2+.5
-                z = torch.randn(batch_size, 100).to(device)
-                H1 = discriminator_final_layer(d(g(z))).cpu()
-                H2 = discriminator_final_layer(d(x_real)).cpu()
+        assert(not np.isnan(d_a_loss.item()))
+        assert(not np.isnan(d_b_loss.item()))
 
 
-############################################################################################
-#### CODE BEFORE IMPLEMENTING https://hardikbansal.github.io/CycleGANBlog/ ARCHITECTURE ####
-############################################################################################
-
-# #Initialize networks
-# d_a = Discriminator().to(device)
-# d_b = Discriminator().to(device)
-# g_ab = Generator().to(device)
-# g_ba = Generator().to(device)
-# d_opt = torch.optim.Adam(d.parameters(), 0.0004, (0.5, 0.999))
-# g_opt = torch.optim.Adam(g.parameters(), 0.0001, (0.5, 0.999))
-
-# plt.figure(figsize=(20,10))
-# subplots = [plt.subplot(2, 6, k+1) for k in range(12)]
-# num_epochs = 10
-# discriminator_final_layer = torch.sigmoid
-
-# for epoch in range(num_epochs):
-#     for minibatch_no, (x, target) in enumerate(train_loader):
-#         x_real = x.to(device)*2-1 #scale to (-1, 1) range
-#         z = torch.randn(x.shape[0], 100).to(device)
-#         x_fake = g_ab(z)
-
-#         #Update discriminator A
-#         d.zero_grad()
-#         #remember to detach x_fake before using it to compute the discriminator loss
-#         #otherwise the discriminator loss will backpropagate through the generator as well, which is unnecessary.
-#         #x_fake = x_fake.detach()
-#         loss1 = nn.L1Loss()
-#         d_fake = d(x_fake)
-#         d_real = d(x_real)
-#         fake_labels = torch.zeros(d_fake.size(0)).unsqueeze(1).float().to(device)
-#         real_labels = torch.ones(d_real.size(0)).unsqueeze(1).float().to(device)
-#         d_loss = loss1(d_fake, fake_labels) + loss1(d_real, real_labels)
-#         d_loss.backward(retain_graph=True)
-#         d_opt.step()
-
-#         #Update discriminator B
-#         #### FORMULA ####
-#         #model.zero_grad()
-#         #loss_function = loss_function()
-#         #model_loss = loss_function(value, target)
-#         #model_loss.backward(retain_graph = True)
-#         #model_opt.step()
-
-#         #Update generator A
-#         g.zero_grad()
-#         #loss = nn.L1Loss()
-#         loss2 = nn.BCEWithLogitsLoss()
-#         g_loss = loss2(d(x_fake), real_labels)
-#         g_loss.backward(retain_graph=True)
-#         g_opt.step()
-        
-
-#         #Update generator B
-#         #### FORMULA ####
-#         #model.zero_grad()
-#         #loss_function = loss_function()
-#         #model_loss = loss_function(value, target)
-#         #model_loss.backward(retain_graph = True)
-#         #model_opt.step()
-
-#         assert(not np.isnan(d_loss.item()))
-#         #Plot results every 100 minibatches
-#         if minibatch_no % 100 == 0:
-#             with torch.no_grad():
-#                 P = discriminator_final_layer(d(x_fake))
-#                 for k in range(11):
-#                     x_fake_k = x_fake[k].cpu().squeeze()/2+.5
-#                     subplots[k].imshow(x_fake_k, cmap='gray')
-#                     subplots[k].set_title('d(x)=%.2f' % P[k])
-#                     subplots[k].axis('off')
-#                 z = torch.randn(batch_size, 100).to(device)
-#                 H1 = discriminator_final_layer(d(g(z))).cpu()
-#                 H2 = discriminator_final_layer(d(x_real)).cpu()
-#                 plot_min = min(H1.min(), H2.min()).item()
-#                 plot_max = max(H1.max(), H2.max()).item()
-#                 subplots[-1].cla()
-#                 subplots[-1].hist(H1.squeeze(), label='fake', range=(plot_min, plot_max), alpha=0.5)
-#                 subplots[-1].hist(H2.squeeze(), label='real', range=(plot_min, plot_max), alpha=0.5)
-#                 subplots[-1].legend()
-#                 subplots[-1].set_xlabel('Probability of being real')
-#                 subplots[-1].set_title('Discriminator loss: %.2f' % d_loss.item())
-                
-#                 title = 'Epoch {e} - minibatch {n}/{d}'.format(e=epoch+1, n=minibatch_no, d=len(train_loader))
-#                 plt.gcf().suptitle(title, fontsize=20)
-#                 display.display(plt.gcf())
-#                 display.clear_output(wait=True)
+torch.save(d_a.state_dict(), "/dtu-compute/ADNIbias/AlzPred/model_da")
+torch.save(d_b.state_dict(), "/dtu-compute/ADNIbias/AlzPred/model_db")
+torch.save(g_ab.state_dict(), "/dtu-compute/ADNIbias/AlzPred/model_gab")
+torch.save(g_ba.state_dict(), "/dtu-compute/ADNIbias/AlzPred/model_gba")
