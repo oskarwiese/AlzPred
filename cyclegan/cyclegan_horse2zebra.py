@@ -1,15 +1,14 @@
 import numpy as np
 import torch
-import torchvision
 import torch.nn as nn
 import torch.nn.functional as F
 import torchvision.datasets as datasets
-from torch.utils.data import Dataset, DataLoader
 import torchvision.transforms as transforms
-
+import datetime
 
 ## Load horse2zebra data
 #batch_size = 64
+
 batch_size = 5
 color_channels = 3
 image_size = (256,256)
@@ -242,8 +241,8 @@ for epoch in range(num_epochs):
         assert(not np.isnan(d_a_loss.item()))
         assert(not np.isnan(d_b_loss.item()))
 
-
-torch.save(d_a.state_dict(), "/dtu-compute/ADNIbias/AlzPred/model_da")
-torch.save(d_b.state_dict(), "/dtu-compute/ADNIbias/AlzPred/model_db")
-torch.save(g_ab.state_dict(), "/dtu-compute/ADNIbias/AlzPred/model_gab")
-torch.save(g_ba.state_dict(), "/dtu-compute/ADNIbias/AlzPred/model_gba")
+now = datetime.datetime.now()
+torch.save(d_a.state_dict(),  f'/dtu-compute/ADNIbias/AlzPred/model_d_a_{now.strftime("%Y_%m_%d-%H:%M:%S")}')
+torch.save(d_b.state_dict(),  f'/dtu-compute/ADNIbias/AlzPred/model_d_b_{now.strftime("%Y_%m_%d-%H:%M:%S")}')
+torch.save(g_ab.state_dict(), f'/dtu-compute/ADNIbias/AlzPred/model_g_ab_{now.strftime("%Y_%m_%d-%H:%M:%S")}')
+torch.save(g_ba.state_dict(), f'/dtu-compute/ADNIbias/AlzPred/model_g_ba_{now.strftime("%Y_%m_%d-%H:%M:%S")}')
