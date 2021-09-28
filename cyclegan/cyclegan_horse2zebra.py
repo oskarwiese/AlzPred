@@ -21,8 +21,9 @@ drive.mount('/content/drive')
 batch_size = 5
 color_channels = 3
 image_size = (256,256)
+path = r"/dtu-compute/ADNIbias/AlzPred/horse2zebra/"
 
-dataroot = r"/content/drive/MyDrive/bachelor - cyclegan/horse2zebra/train/A/"
+dataroot = path + "train/A/"
 dataset_horse_train = datasets.ImageFolder(root=dataroot,
                            transform=transforms.Compose([
                                transforms.Resize(image_size),
@@ -33,7 +34,7 @@ dataset_horse_train = datasets.ImageFolder(root=dataroot,
 dataloader_train_horse = torch.utils.data.DataLoader(dataset_horse_train, batch_size=batch_size,
                                          shuffle=True, num_workers = 1)
 
-dataroot = r"/content/drive/MyDrive/bachelor - cyclegan/horse2zebra/test/A/"
+dataroot = path + "test/A/"
 dataset_horse_test = datasets.ImageFolder(root=dataroot,
                            transform=transforms.Compose([
                                transforms.Resize(image_size),
@@ -44,7 +45,7 @@ dataset_horse_test = datasets.ImageFolder(root=dataroot,
 dataloader_test_horse = torch.utils.data.DataLoader(dataset_horse_test, batch_size=batch_size,
                                          shuffle=True, num_workers=1)
 
-dataroot = r"/content/drive/MyDrive/bachelor - cyclegan/horse2zebra/train/B/"
+dataroot = path + "train/B/"
 dataset_zebra_train = datasets.ImageFolder(root=dataroot,
                            transform=transforms.Compose([
                                transforms.Resize(image_size),
@@ -55,7 +56,7 @@ dataset_zebra_train = datasets.ImageFolder(root=dataroot,
 dataloader_zebra_train = torch.utils.data.DataLoader(dataset_zebra_train, batch_size=batch_size,
                                          shuffle=True, num_workers = 1)
 
-dataroot = r"/content/drive/MyDrive/bachelor - cyclegan/horse2zebra/test/B/"
+dataroot = path + "test/B/"
 dataset_zebra_test = datasets.ImageFolder(root=dataroot,
                            transform=transforms.Compose([
                                transforms.Resize(image_size),
@@ -67,10 +68,10 @@ dataloader_zebra_test = torch.utils.data.DataLoader(dataset_zebra_test, batch_si
                                          shuffle=True, num_workers = 1)
 
 
-if torch.cuda.is_available():
-    print("The code will run on GPU.")
-else:
-    print("The code will run on CPU. Go to Edit->Notebook Settings and choose GPU as the hardware accelerator")
+# if torch.cuda.is_available():
+#     print("The code will run on GPU.")
+# else:
+#     print("The code will run on CPU. Go to Edit->Notebook Settings and choose GPU as the hardware accelerator")
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
@@ -236,8 +237,6 @@ d_b_opt = torch.optim.Adam(d_b.parameters(), 0.0004, (0.5, 0.999))
 g_ab_opt = torch.optim.Adam(g_ab.parameters(), 0.0001, (0.5, 0.999))
 g_ba_opt = torch.optim.Adam(g_ba.parameters(), 0.0001, (0.5, 0.999))
 
-plt.figure(figsize=(20,10))
-subplots = [plt.subplot(2, 6, k+1) for k in range(12)]
 num_epochs = 10
 discriminator_final_layer = torch.sigmoid
 
@@ -314,25 +313,9 @@ for epoch in range(num_epochs):
                 P = discriminator_final_layer(d(x_fake))
                 for k in range(11):
                     x_fake_k = x_fake[k].cpu().squeeze()/2+.5
-                    subplots[k].imshow(x_fake_k, cmap='gray')
-                    subplots[k].set_title('d(x)=%.2f' % P[k])
-                    subplots[k].axis('off')
                 z = torch.randn(batch_size, 100).to(device)
                 H1 = discriminator_final_layer(d(g(z))).cpu()
                 H2 = discriminator_final_layer(d(x_real)).cpu()
-                plot_min = min(H1.min(), H2.min()).item()
-                plot_max = max(H1.max(), H2.max()).item()
-                subplots[-1].cla()
-                subplots[-1].hist(H1.squeeze(), label='fake', range=(plot_min, plot_max), alpha=0.5)
-                subplots[-1].hist(H2.squeeze(), label='real', range=(plot_min, plot_max), alpha=0.5)
-                subplots[-1].legend()
-                subplots[-1].set_xlabel('Probability of being real')
-                subplots[-1].set_title('Discriminator loss: %.2f' % d_loss.item())
-                
-                title = 'Epoch {e} - minibatch {n}/{d}'.format(e=epoch+1, n=minibatch_no, d=len(train_loader))
-                plt.gcf().suptitle(title, fontsize=20)
-                display.display(plt.gcf())
-                display.clear_output(wait=True)
 
 
 ############################################################################################
