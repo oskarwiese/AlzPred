@@ -274,3 +274,8 @@ TSWLatexianTemp*
 
 # Makeindex log files
 *.lpz
+
+# Texfiles ignore
+Blastoise.sty
+MediocreMike.sty
+SpeedyGonzales.sty
