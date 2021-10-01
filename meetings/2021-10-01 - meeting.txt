@@ -46,15 +46,14 @@ Den nye data med de manglende 3T ligger nu under /dtu-compute/ADNIbias/AasaDownl
 
 
 TODOS TIL NÆSTE GANG:
-- [ ]Lav ssh-key både for Anders og for serveren.
+- [✓]Lav ssh-key både for Anders og for serveren.
 
-- [ ]Få git på serveren, så man kan pushe og pulle fra serveren.
+- [✓]Få git på serveren, så man kan pushe og pulle fra serveren.
 
 - [ ]Læs noget om Camillas preprocessing til næste gang, så vi kan få svar på eventuelle spørgsmål. Det ligger i hendes kandidat på slack.
 
-- [ ]Undersøg om de andre filer i hver mappe fra ADNI1 kunne være mere relevante end dem med kortest filnavn.
-
-- [ ]Undersøg om der findes noget data, der er "skull-stripped".
+- [✓]Undersøg om de andre filer i hver mappe fra ADNI1 kunne være mere relevante end dem med kortest filnavn. Vi leder primært efter noget, der er "skull-stripped".
+Det viser sig, at filerne med c1-, c2- og c3- er dem, vi gerne vil bruge. Vi er ikke endnu sikre på, hvilken, der er den rigtige, men det spørger vi forhåbentlig Camilla om næste gang.
 
 - [ ]Arbejd videre på at få CycleGAN til at virke. Det skal fra nu af ske på serveren.
 
