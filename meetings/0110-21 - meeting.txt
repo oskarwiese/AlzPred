@@ -1,3 +1,5 @@
+OSKAR - SKRIV TIL HENNING VEDRØRENDE THINLINC.
+
 Hvornår mødes vi næste gang?
 Fredag kl. 8:45 bygning 324 på DTU
 
@@ -7,7 +9,7 @@ TODOS FRA SIDSTE GANG:
 Vi har fået adgang til ADNI, men vi kan ikke se finde data på nuværende tidspunkt.
 
 - [✓]Lav en meget kort projektplan med nogle korte mål og en halv sides tekst. Hele resten af tidsplanen og projektplanen tager vi os af senere.
-Vi har nu skrevet nogle projektspørgsmål ned, og vi mangler at skrive den rå tekst. Hører til filen "project_plan.tex".
+Vi har nu skrevet nogle projektspørgsmål ned, og vi har nu også skrevet den rå tekst. Hører til filen "project_plan.tex".
 
 - [✓]Prøv at plotte slices af billederne, og se om de ser ud som forventet.
 Vores slices ser lidt ud, som vi havde forventet. Vi har nu gennemskuet hvordan man flipper og rykker koordinater, så 1.5T og 3T matcher. Vi mangler måske at gøre det mere generalisérbart. Ligger i filen "normalized_imgs.ipynb".
@@ -22,18 +24,37 @@ Vi har nu implementeret bunden af en cycleGAN og fået det hele til at spille me
 
 
 SPØRGSMÅL:
+Hvor skal vi hen på ADNI-siden?
+Hvis man følger shared projects når man skal downloade data, kan man finde ADNI under other shared collections->ADNI->ADNI1:Screening 1.5T. Man kan også finde nogle ved Other shared collections->ADNI->ADNI:Baseline 3T.
+
 Hvordan debugger man nemmest koden inde på serveren?
-
-
-Hvad ville i anbefale at man sætter sine requirements til i submit.sh? De skal vel være høje for at køre på 256x256 billeder? 
-
+Skær dimensionaliteten af data ned, så det er muligt at køre det hele lokalt.
 
 siden alle tre dimensioner af ADNI-data ikke har samme dimension: burde vi croppe nogle af dimensionerne, eller er det nemmere at lave tre forskellige modeller med hver deres input-dimension?
 
 
 
 
+KOMMENTARER:
+Det viser sig, at vi ikke har al 3T-data. Derfor har vi tænkt os at downloade (åbenbart gennem thinlinc). Her bruges thinlinc.compute.dtu.dk på som brugernavn og DTU-adgangskode som adgangskoden.
+Når man er inde på thinlinc kan man hoppe på IDA ADNI-hjemmesiden og downloade data. Her bruger man så linket fra "Zip File 1" og "Metadata" gennem wget i en prompt.
+
+Det er muligvis meningen at vi skal bruge dartel og ikke standard-adni. Der er ikke rigtig nogen måde at være helt sikker endnu. Det er nok en god ide at hive hele mappen ned i stedet for filen med korteste filnavn.
+
+Den nye data med de manglende 3T ligger nu under /dtu-compute/ADNIbias/AasaDownload
+
+
 
 TODOS TIL NÆSTE GANG:
-- [ ]
+- [ ]Lav ssh-key både for Anders og for serveren.
+
+- [ ]Få git på serveren, så man kan pushe og pulle fra serveren.
+
+- [ ]Læs noget om Camillas preprocessing til næste gang, så vi kan få svar på eventuelle spørgsmål. Det ligger i hendes kandidat på slack.
+
+- [ ]Undersøg om de andre filer i hver mappe fra ADNI1 kunne være mere relevante end dem med kortest filnavn.
+
+- [ ]Undersøg om der findes noget data, der er "skull-stripped".
+
+- [ ]Arbejd videre på at få CycleGAN til at virke. Det skal fra nu af ske på serveren.
 

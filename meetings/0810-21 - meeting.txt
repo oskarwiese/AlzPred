@@ -1,0 +1,24 @@
+OSKAR - SKRIV TIL HENNING VEDRØRENDE THINLINC.
+
+Hvornår mødes vi næste gang?
+Fredag kl. 8:45 bygning 324 på DTU
+
+
+TODOS FRA SIDSTE GANG:
+
+
+
+
+SPØRGSMÅL:
+Hvad ville i anbefale at man sætter sine requirements til i submit.sh? De skal vel være høje for at køre på 256x256 billeder?
+
+
+
+KOMMENTARER:
+
+
+
+
+TODOS TIL NÆSTE GANG:
+
+
