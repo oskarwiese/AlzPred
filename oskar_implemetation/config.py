@@ -8,6 +8,7 @@ TRAIN_DIR_B = "/dtu-compute/ADNIbias/AlzPred/horse2zebra/train/B/"
 SAVE_IMG_DIR = "/dtu-compute/ADNIbias/AlzPred/git_code/AlzPred/oskar_implemetation"
 VAL_DIR = "data/val"
 BATCH_SIZE = 1
+LOSS_PLOT = "/dtu-compute/ADNIbias/AlzPred/git_code/AlzPred/oskar_implemetation"
 LEARNING_RATE = 1e-5
 LAMBDA_IDENTITY = 0.0
 LAMBDA_CYCLE = 10
