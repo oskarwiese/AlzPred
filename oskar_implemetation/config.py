@@ -3,8 +3,9 @@ import albumentations as A
 from albumentations.pytorch import ToTensorV2
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-TRAIN_DIR_A = "/home/oc/Documents/bachular/horse2zebra/train/A/"
-TRAIN_DIR_B = "/home/oc/Documents/bachular/horse2zebra/train/B/"
+TRAIN_DIR_A = "/dtu-compute/ADNIbias/AlzPred/horse2zebra/train/A/"
+TRAIN_DIR_B = "/dtu-compute/ADNIbias/AlzPred/horse2zebra/train/B/"
+SAVE_IMG_DIR = "/dtu-compute/ADNIbias/AlzPred/git_code/AlzPred/oskar_implemetation"
 VAL_DIR = "data/val"
 BATCH_SIZE = 1
 LEARNING_RATE = 1e-5

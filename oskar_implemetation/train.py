@@ -85,8 +85,8 @@ def train_cykel(D_a, D_b, G_a, G_b, loader_a, loader_b, opti_D, opti_G, l1, mse,
         g_scaler.update()
 
         if idx % 20 == 0:
-            save_image(fake_b*0.5 + 0.5, f'/home/oc/Documents/bachular/AlzPred/oskar_implemetation/saved_images/horse_idx_{idx}.png')
-            save_image(fake_a*0.5 + 0.5, f'/home/oc/Documents/bachular/AlzPred/oskar_implemetation/saved_images/zebra_idx_{idx}.png')
+            save_image(fake_b*0.5 + 0.5, config.SAVE_IMG_DIR + f'/saved_images/horse_idx_{idx}.png')
+            save_image(fake_a*0.5 + 0.5, config.SAVE_IMG_DIR + f'/saved_images/zebra_idx_{idx}.png')
 
 
 
