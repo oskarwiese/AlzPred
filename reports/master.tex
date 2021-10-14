@@ -133,7 +133,9 @@
 %		is\_recid & Whether the offender truly recidivated after two years (0/1) & Discrete nominal \\ \bottomrule
 %	\end{tabular}
 %\end{table} \noindent
+\subsubsection{Data Preprocessing}
 
+\subsubsection{Data Augmentation}
 
 \subsection{Explanation of Data Variables} 
 
@@ -146,17 +148,29 @@
 
 \section{Methods}
 
-\subsection{GAN}
+\subsection{Neural Network for Alzheimer's Disease Classification}
+In the original Alzheimer's disease classification paper by Camilla, a neural network was used to determine whether each patient had AD. Since this model was full of bias when used on the original data, we used this same model to compare and contrast if the below methods succeeded in removing the most prominent biases from the model. The model was implemented as a PyTorch neural network with 12 convolution layers using ReLU as activation function between each layer. This was followed by a fully connected layer with sigmoid activation to output the probability of each class (sick or healthy). A much more detailed breakthrough of the general project and architecture of the neural network can be seen in \cite{CamillaKandidat}.
 
-\subsection{cycleGAN}
+\subsection{Generative Adversarial Network}
+A Generative Adversarial Network (GAN) was not actually implemented in this project, but it will hopefully help to give the proper insight into the reasoning behind cycleGANs later in this section.
 
-\subsubsection{General model architecture}
+In general, GANs can be seen as two different complex neural networks competing for the best accuracy during  the process of generating a class of pictures. In other words, the networks are adversaries in generating or classifying images, from which the source of the name becomes clear. One of the networks will be focusing on generating a fake version of images seen in a training folder, called the \textit{generator}, and the other will be trying to distinguish between real and fake images, called the \textit{discriminator}. This competition between networks leads to results much better than ever seen in ML and AI image generation, thus making a good foundation for the generation of 1.5T fMRI images from 3T. The two networds are covered in depth in the below subsections.
+
+\subsubsection{Generator}
+
+
+\subsubsection{Discriminator}
+
+
+\subsection{CycleGAN}
+
+\subsubsection{General Model Architecture}
 
 \subsubsection{Discriminator}
 
 \subsubsection{Generator}
 
-\subsubsection{Loss, optimizer, cross entropy, etc.}
+\subsubsection{Loss, optimizer, cross Entropy, Etc.}
 
 \subsubsection{Classifier}
 
@@ -172,13 +186,13 @@
 
 \section{Discussion}
 
-\subsection{Would the model be efficacious in practice?}
+\subsection{Would the Model be Efficacious in Practice?}
 
-\subsection{Standardization of measuring equipment (3T/1.5T)}
+\subsection{Standardization of Measuring Equipment (3T/1.5T)}
 
-\subsection{Improvements for future papers}
+\subsection{Improvements for Future Papers}
 
-\subsection{Dealing with GDPR in personal data}
+\subsection{Dealing With GDPR in Personal Data}
 
 \subsection{Safe AI}
 
@@ -192,6 +206,10 @@
 \section{Appendix}
 
 \subsection{Pseudo Code}
+
+\subsection{Batch script}
+
+
 
 
 
@@ -208,6 +226,8 @@
 		\bibitem{first} Zhu, Jun-Yan, et al. "Unpaired image-to-image translation using cycle-consistent adversarial networks." Proceedings of the IEEE international conference on computer vision. 2017.
 		
 		\bibitem{second} Burns, Jeffrey M., et al. "Reduced lean mass in early Alzheimer disease and its association with brain atrophy." Archives of neurology 67.4 (2010): 428-433.
+		
+		\bibitem{CamillaKandidat} Pedersen, Camilla Kergel "Demographic bias in public neuroimaging databases, and its effect on AI systems for computer-aided diagnosis." University of Copenhagen Faculty of Science. 2021.
 		
 		
 	\end{thebibliography}
