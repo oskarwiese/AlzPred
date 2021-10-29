@@ -1,9 +1,14 @@
+OSKAR - SKRIV TIL HENNING CHRISTENSEN VEDRØRENDE THINLINC.
+MØDE MED MELANIE TUESDAY 15:00-15:30
+melanie.ganz@nru.dk
+probably at rigshospitalet
+
 Hvornår mødes vi næste gang?
 Fredag kl. 8:45 bygning 324 på DTU
 
 
 TODOS FRA SIDSTE GANG:
-- [✓]Undersøg hvilken data, der skal bruges
+- [ ]Undersøg hvilken data, der skal bruges
 
 
 
@@ -13,10 +18,13 @@ SPØRGSMÅL:
 
 
 KOMMENTARER:
+Camillas dartel-filer ligger under "/dtu-compute/ADNIbias/spm12_ADNI1/". Her er filerne med "dartel" i navnet nok vigtigt.
 
-
+ADNIbias spmhowto
+store freesurfer and open freeview
+Take a look at all the images
 
 
 TODOS TIL NÆSTE GANG:
-
+- [ ]Få thinlinc til at virke
 
