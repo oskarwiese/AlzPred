@@ -1,0 +1,39 @@
+OSKAR - SKRIV TIL HENNING VEDRØRENDE THINLINC.
+
+Hvornår mødes vi næste gang?
+Fredag kl. 8:45 bygning 324 på DTU
+
+
+TODOS FRA SIDSTE GANG:
+- [✓]Lav ssh-key både for Anders og for serveren.
+
+- [✓]Få git på serveren, så man kan pushe og pulle fra serveren.
+
+- [ ]Læs noget om Camillas preprocessing til næste gang, så vi kan få svar på eventuelle spørgsmål. Det ligger i hendes kandidat på slack.
+
+- [✓]Undersøg om de andre filer i hver mappe fra ADNI1 kunne være mere relevante end dem med kortest filnavn. Vi leder primært efter noget, der er "skull-stripped".
+Det viser sig, at filerne med c1-, c2- og c3- er dem, vi gerne vil bruge. Vi er ikke endnu sikre på, hvilken, der er den rigtige, men det spørger vi forhåbentlig Camilla om næste gang.
+
+- [✓]Arbejd videre på at få CycleGAN til at virke. Det skal fra nu af ske på serveren.
+
+
+
+SPØRGSMÅL:
+Hvad ville i anbefale at man sætter sine requirements til i submit.sh? De skal vel være høje for at køre på 256x256 billeder?
+
+
+Vi har fundet billederne, som camilla har brugt. Kan du forstå, hvilke der har været i brug?
+Indtil videre ser det ud til at være billederne fra "/dtu-compute/ADNIbias/spm12_ADNI1/ADNI_dartel/" og derefter varianten smwc1ADNI. c1 er grey matter.
+smwc1 ser ud til at være c1-billeder normaliseret med flow-maps (u_c1).
+
+
+
+
+KOMMENTARER:
+
+
+
+
+TODOS TIL NÆSTE GANG:
+
+
