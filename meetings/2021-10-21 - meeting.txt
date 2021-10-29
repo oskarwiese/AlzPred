@@ -24,6 +24,7 @@ ADNIbias spmhowto
 store freesurfer and open freeview
 Take a look at all the images
 
+For at komme ind på thinlinc, kan man bruge "https://thinlinc.gbar.dtu.dk/" og benytte brugernavn s183904 og adgangskode. Herfra har man adgang til serveren og man kan køre freesurfer. Brug FreeSurferHowTo i "/dtu-compute/ADNIbias/" til at køre freesurfer.
 
 TODOS TIL NÆSTE GANG:
 - [ ]Få thinlinc til at virke
