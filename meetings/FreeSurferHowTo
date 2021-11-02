@@ -1,0 +1,21 @@
+
+DO THIS ONLY ONCE:
+
+open a terminal and do the following commands
+
+cd ~ (to go to your home dir)
+
+cp /dtu-compute/ADNIbias/FSstable71 . (copy the file there)
+
+chmod 755 FSstable71 (change permisssions to make it an executable)
+
+DO THIS EVERY TIME YOU USE FREESURFER:
+
+source FSstable71 (makes FreeSurfer accessible to you)
+
+TO CHECK THIS SETUP OR VIEW IMAGES YOU NEED TO BE IN THINLINC:
+
+freeview (opens freeview so you can look at images)
+
+
+
