@@ -1,0 +1,31 @@
+Hvornår mødes vi næste gang?
+Fredag kl. 8:45 bygning 324 på DTU
+
+
+TODOS FRA SIDSTE GANG:
+
+
+
+
+SPØRGSMÅL:
+
+
+
+KOMMENTARER:
+Hvis vi skal bruge 1.5T og 3T til at lave validering, skal vi gerne have dem til at alligne fuldstændig. Dette skal vi undersøge om sker ved at registrere til MNI305 først. Hvis de ikke er allignet, burde vi nok bruge en normal affin registrering til at få de to billeder til at blive allignet.
+
+Foreslået eksperimentelt setup:
+Alle billeder fra ADNI1 og ADNI2 bliver affin-registreret med Freesurfer til MNI305.
+Træningssæt med 3T billeder fra ADNI2 (dvs hele ADNI2) samt de subjects fra ADNI1 som kun har 1.5T billeder (dvs 75%)
+Testset med de 25% af ADNI1 som har både 1.5T og 3T billeder
+
+
+
+TODOS TIL NÆSTE GANG:
+- [ ]Find ud af hvilke ADNI1-billeder der både har 1.5T og 3T billeder.
+- [ ]Hvad indebærer det at freesurfer allerede har været kørt?
+- [ ]Lav et script der kører freesurfers affine registrering og sanity check med Melanie.
+- [ ]Registrer alle billederne
+- [ ]Undersøg om registreringen er god nok på test-billederne (1.5T og 3T skal være allignet).
+
+

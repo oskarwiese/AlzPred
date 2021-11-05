@@ -1,0 +1,30 @@
+Hvornår mødes vi næste gang?
+Fredag kl. 8:45 bygning 324 på DTU
+
+
+TODOS FRA SIDSTE GANG:
+- [✓]Få thinlinc til at virke
+- [✓]Undersøg hvilke scripts der har været brugt til spm og dartel
+
+
+
+SPØRGSMÅL:
+Ved vi, hvilket billeder der har været brugt til at køre spm og dartel på? Det er måske spm12_ADNI1.
+Det er det, ja.
+
+
+KOMMENTARER:
+Der er mest 1.5T i freesurfer_ADNI1 og en blanding i freesurfer_ADNI2.
+
+Vi har tænkt os at bruge billederne i freesurfer_ADNI1 til at køre cyclegan på. Disse billeder har ikke været registreret, så vi bruger nok en registrering med MNI152 for at få billederne ind i template space fra subject space. Dette er mere generalisérbart og meget nemmere end at bruge dartel.
+
+For at bruge freesurfer til at apply mni152 kan man bruge næstnederste kodefelt på dette link hvor hvert billede.
+https://surfer.nmr.mgh.harvard.edu/fswiki/CoordinateSystems
+mri_vol2vol --reg $FREESURFER_HOME/average/mni152.register.dat --mov MNI152.nii.gz --targ orig.mgz --inv --o fsaverage.orig.mni152.mgz
+Dette kan køres i terminalen, hvis man har sourcet freesurfer.
+
+
+TODOS TIL NÆSTE GANG:
+
+
+

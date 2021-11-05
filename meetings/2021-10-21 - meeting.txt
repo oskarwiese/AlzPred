@@ -9,6 +9,7 @@ Fredag kl. 8:45 bygning 324 på DTU
 
 TODOS FRA SIDSTE GANG:
 - [ ]Undersøg hvilken data, der skal bruges
+- [ ]Få thinlinc til at virke
 
 
 
@@ -27,5 +28,4 @@ Take a look at all the images
 For at komme ind på thinlinc, kan man bruge "https://thinlinc.gbar.dtu.dk/" og benytte brugernavn s183904 og adgangskode. Herfra har man adgang til serveren og man kan køre freesurfer. Brug FreeSurferHowTo i "/dtu-compute/ADNIbias/" til at køre freesurfer.
 
 TODOS TIL NÆSTE GANG:
-- [ ]Få thinlinc til at virke
 
