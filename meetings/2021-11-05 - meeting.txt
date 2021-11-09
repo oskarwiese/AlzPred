@@ -2,12 +2,14 @@ Hvornår mødes vi næste gang?
 Fredag kl. 8:45 bygning 324 på DTU
 
 
+
 TODOS FRA SIDSTE GANG:
 
 
 
 
 SPØRGSMÅL:
+
 
 
 
@@ -19,6 +21,9 @@ Alle billeder fra ADNI1 og ADNI2 bliver affin-registreret med Freesurfer til MNI
 Træningssæt med 3T billeder fra ADNI2 (dvs hele ADNI2) samt de subjects fra ADNI1 som kun har 1.5T billeder (dvs 75%)
 Testset med de 25% af ADNI1 som har både 1.5T og 3T billeder
 
+Brug Melanie til denne slags spørgsmål, det er hun bedre til.
+
+Det kunne være det værd at tale med Morten om torsdagen om småting omkring generering af Horse2Zebra, det har han vist meget godt styr på.
 
 
 TODOS TIL NÆSTE GANG:
