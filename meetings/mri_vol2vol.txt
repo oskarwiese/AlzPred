@@ -1,0 +1,6 @@
+#SUBJECTS_DIR=/dtu-compute/ADNIbias/freesurfer_ADNI1
+mri_vol2vol --mov /dtu-compute/ADNIbias/freesurfer_ADNI1/002_S_0295/mir/norm.mgz --targ $FREESURFER_HOME/average/mni305.cor.mgz --xfm /dtu-compute/ADNIbias/freesurfer_ADNI1/002_S_0295/mri/transforms/talairach.xfm --o /dtu-compute/ADNIbias/freesurfer_ADNI1/002_S_0295/norm_mni305_melanie.mgz
+
+ressourcer:
+https://surfer.nmr.mgh.harvard.edu/fswiki/talairach
+https://www.mcgill.ca/bic/software/tools-data-analysis/anatomical-mri/atlases/mni-305
