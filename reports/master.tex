@@ -112,7 +112,19 @@
 
 \section{Data} 
 
+The data used in this project is from Alzheimer's Disease Neurosurgical Initiative (ADNI). This initiative unites researchers with study data to investigate and define the progression of Alzheimer's Disease (AD). 
+ADNI collects, validate and utilize data including magnetic resonance imaging (MRI), positron emission tomography (PET), genetics, cognitive tests, cerebrospinal fluid biomarkers (CSF) and blood biomarkers as predictors of the disease \cite{adni}.
+More specifically, this project will only use MRI data from ADNI 1. 
+Which was launched in October 24 2004. Originally this project was designed to find more ac curate biomarkers for the early detection of AD.
+The ADNI 1 project analyzed more than a thousand different brain scans from three different subject groups, namely, subjects with mild cognitive impairment (MCI), subjects with early AD and control subjects \cite{adni1}. 
+
 \subsection{Description of Data} \label{dataDescription}
+
+%Description of how images(raw) obtained from patients, number of images, type of subjects  
+
+The MRI are three dimensional images of the subjects brain. 
+The raw images stems from the original analysis 2004 etc. etc.
+
 
 
 %\begin{table}[H]\label{variable}
@@ -133,21 +145,36 @@
 %		is\_recid & Whether the offender truly recidivated after two years (0/1) & Discrete nominal \\ \bottomrule
 %	\end{tabular}
 %\end{table} \noindent
+
+
+
 \subsubsection{Data Preprocessing}
 
+% We use skullstripped 
+% We use normalized 
+% Template mni305.cor (what does cor stand for)
+% what is in the talairach file 
+% mri_vol2vol (What does it do) 
+
+% Indtilvidere skriver om advanced registration, talairach space, etc. her
+
+
 \subsubsection{Data Augmentation}
+% Hvis vi vælger at bruge augmentation
 
-\subsection{Explanation of Data Variables} 
+\subsection{Explanation of Data Variables}
+%subj_id, age, etc. etc. - dette skal findes et sted på server eller ADNI hjemmeside 
 
-\subsection{Visualization of Data} 
+\subsection{Visualization of Data}
+% Slices of img, preview 
 
 \subsection{Ethicality of Data}
-
+% Quick rant about GDPR
 
 
 
 \section{Methods}
-
+% Short description of all methods
 \subsection{Neural Network for Alzheimer's Disease Classification}
 In the original Alzheimer's disease classification paper by Camilla, a neural network was used to determine whether each patient had AD. Since this model was full of bias when used on the original data, we used this same model to compare and contrast if the below methods succeeded in removing the most prominent biases from the model. The model was implemented as a PyTorch neural network with 12 convolution layers using ReLU as activation function between each layer. This was followed by a fully connected layer with sigmoid activation to output the probability of each class (sick or healthy). A much more detailed breakthrough of the general project and architecture of the neural network can be seen in \cite{CamillaKandidat}.
 
@@ -221,7 +248,7 @@ In general, GANs can be seen as two different complex neural networks competing 
 %	\bibitem{cnn1}  M. Macaya et al. "June 17 Black Lives Matter protests news", 2020 CNN, at \url{https://edition.cnn.com/us/live-news/black-lives-matter-protests-06-17-2020/index.html}, visited at 19-06-2020
 	
 %	\bibitem{cnn2} M. Macaya et al. "June 18 Black Lives Matter protests news", 2020 CNN, at \url{https://edition.cnn.com/us/live-news/black-lives-matter-protests-06-18-2020/index.html}, visited 19-06-2020
-	
+		
 		
 		\bibitem{first} Zhu, Jun-Yan, et al. "Unpaired image-to-image translation using cycle-consistent adversarial networks." Proceedings of the IEEE international conference on computer vision. 2017.
 		
@@ -229,6 +256,12 @@ In general, GANs can be seen as two different complex neural networks competing 
 		
 		\bibitem{CamillaKandidat} Pedersen, Camilla Kergel "Demographic bias in public neuroimaging databases, and its effect on AI systems for computer-aided diagnosis." University of Copenhagen Faculty of Science. 2021.
 		
+		\bibitem{adni}  Alzheimer’s
+		Disease Neuroimaging Initiative homepage: \url{http://adni.loni.usc.edu/}, last visited at 
+		28 Nov. 2021
+		
+		\bibitem{adni1} Alzheimer’s
+		Disease Neuroimaging Initiative about ADNI1 \url{http://adni.loni.usc.edu/about/adni1/}, last visited at 28 Nov. 2021
 		
 	\end{thebibliography}
 	
