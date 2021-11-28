@@ -155,6 +155,13 @@ In the original Alzheimer's disease classification paper by Camilla, a neural ne
 A Generative Adversarial Network (GAN) was not actually implemented in this project, but it will hopefully help to give the proper insight into the reasoning behind cycleGANs later in this section.
 
 In general, GANs can be seen as two different complex neural networks competing for the best accuracy during  the process of generating a class of pictures. In other words, the networks are adversaries in generating or classifying images, from which the source of the name becomes clear. One of the networks will be focusing on generating a fake version of images seen in a training folder, called the \textit{generator}, and the other will be trying to distinguish between real and fake images, called the \textit{discriminator}. This competition between networks leads to results much better than ever seen in ML and AI image generation, thus making a good foundation for the generation of 1.5T fMRI images from 3T. The two networds are covered in depth in the below subsections.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{"imgs/GAN architecture"}
+	\caption{The GAN architecture. The generator decodes the random noise from the latent space into a fake image. This fake imgae as well as an image from the training set is fed into the Discriminator, which encodes the data into a binary prediction of whether the image is real or fake.}
+	\label{fig:gan-architecture}
+\end{figure}
+
 
 \subsubsection{Generator}
 
