@@ -123,9 +123,29 @@ The ADNI 1 project analyzed more than a thousand different brain scans from thre
 
 %Description of how images(raw) obtained from patients, number of images, type of subjects  
 
-The MRI are three dimensional images of the subjects brain. 
-The raw images stems from the original analysis 2004 etc. etc.
+The images from the ADNI 1 dataset are from both different subjects and a plethora of studies around the world. 
+Each of the patients have multiple scans throughout the span of the ADNI 1 project, however, we only use the baseline scan, which is the subjects first MRI-scan. 
+The MRI-scans are three dimensional images of the subjects brain. 
+The original image is in a \texttt{.mgz} file format which is a compressed mgh file. 
+This file format can store 4D, such as NifT1 files, which is the 3-dimensional images of the brain. 
+The forth dimension contains metadata about the specific image such as subject\_id, gender, age etc.
+The raw images stems from the original analysis from 2004 and on wards. 
+There are in total 1562 unique brain scans which are used in this project.
 
+\begin{figure}
+	\centering
+	\includegraphics[width=0.95\linewidth]{mymans2}
+	\caption{An example of the original image file: \texttt{001.mgz} from subject 002\_S\_0295}
+	\label{fig:screenshot001}
+\end{figure}
+
+
+%\begin{figure}
+%	\centering
+%	\includegraphics[width=0.7\linewidth]{imgs/mymans_orig_oskar}
+%	\caption{}
+%	\label{fig:mymansorigoskar}
+%\end{figure}
 
 
 %\begin{table}[H]\label{variable}
