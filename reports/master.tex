@@ -221,12 +221,25 @@ In general, GANs can be seen as two different complex neural networks competing 
 
 
 \subsection{CycleGAN}
+The GAN allowed for new images in a specific category to be created based on random noise. The next upgrade would be to be able to go from one category to another and back again. This is exactly the problem a cycleGAN aims to fix, which makes it perfect for this paper, since we aim to go from 3T images to 1.5T images. Going back is not as important in this case, but could prove useful for other purposes. The cycleGAN generally works by implementing two generator networks, each generating one category based on an image from the other category, and two discriminator networks, each predicting the probability of the input image actually being from the original category. This architecture is explained and showcased further in figure \ref{fig:cycleganarchitecture} and \ref{fig:cycleganarchitecture2} below.
 % Vigtigt at komme ind på original paper
-
 % F: X -> Y samt G: Y -> X
 
 \subsubsection{General Model Architecture}
 % Visualizer library (måske)
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{imgs/cyclegan_architecture}
+	\caption{This figure shows half of the connections between the four different networks. The }
+	\label{fig:cycleganarchitecture}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{imgs/cyclegan_architecture2}
+	\caption{}
+	\label{fig:cycleganarchitecture2}
+\end{figure}
 
 
 \subsubsection{Discriminator in a cycleGAN}
