@@ -222,7 +222,7 @@ In general, GANs can be seen as two different complex neural networks competing 
 
 \subsection{CycleGAN}
 The GAN allowed for new images in a specific category to be created based on random noise. The next upgrade would be to be able to go from one category to another and back again. This is exactly the problem a cycleGAN aims to fix, which makes it perfect for this paper, since we aim to go from 3T images to 1.5T images. Going back is not as important in this case, but could prove useful for other purposes. The cycleGAN generally works by implementing two generator networks, each generating one category based on an image from the other category, and two discriminator networks, each predicting the probability of the input image actually being from the original category. This architecture is explained and showcased further in figure \ref{fig:cycleganarchitecture} and \ref{fig:cycleganarchitecture2} below.
-% Vigtigt at komme ind på original paper
+% TODO: Vigtigt at komme ind på original paper
 % F: X -> Y samt G: Y -> X
 
 \subsubsection{General Model Architecture}
@@ -230,23 +230,32 @@ The GAN allowed for new images in a specific category to be created based on ran
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{imgs/cyclegan_architecture}
-	\caption{This figure shows half of the connections between the four different networks. The }
+	\caption{This figure shows the interactions necessary for the four different networks to convert images from A to B. The input image of category A is fed directly to the discriminator and to the generator that converts images from A to B. This generates an attempted image from category B, which is fed both to the discriminator to get a prediction and to the other generator to reconvert the image to one of category A for reasons that will become apparent later in this section.}
 	\label{fig:cycleganarchitecture}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{imgs/cyclegan_architecture2}
-	\caption{}
+	\caption{This figure is almost identical to figure \ref{fig:cycleganarchitecture}, though mirrored in the x and y plane. It shows the interactions necessary for the four different networks to convert images from B to A. For a basic explanation of the components involved, see the caption of figure \ref{fig:cycleganarchitecture}.}
 	\label{fig:cycleganarchitecture2}
 \end{figure}
 
 
 \subsubsection{Discriminator in a cycleGAN}
+%TODO: Mention the up-sampling structure of the model
+%TODO: Explain components (norm and activation layers, convolutions, relu, softmax, prediction layer, etc)
+%TODO: Make illustration of actual model layout
 
 \subsubsection{Generator in a cycleGAN}
+%TODO: Convolutional neural network
+%TODO: Explain components (norm and activation layers, convolutions, relu etc)
+%TODO: Make illustration of actual model layout
 
 \subsubsection{Loss, optimizer, cross Entropy, Etc.}
+%TODO: Forward and backward consistency loss
+%TODO: Discriminator loss
+%TODO: Generator loss
 
 \subsubsection{Classifier}
 
