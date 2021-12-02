@@ -28,9 +28,9 @@ Det kunne være det værd at tale med Morten om torsdagen om småting omkring ge
 
 TODOS TIL NÆSTE GANG:
 - [ ]Find ud af hvilke ADNI1-billeder der både har 1.5T og 3T billeder.
-- [ ]Hvad indebærer det at freesurfer allerede har været kørt?
-- [ ]Lav et script der kører freesurfers affine registrering og sanity check med Melanie.
-- [ ]Registrer alle billederne
-- [ ]Undersøg om registreringen er god nok på test-billederne (1.5T og 3T skal være allignet).
+- [✓]Hvad indebærer det at freesurfer allerede har været kørt?
+- [✓]Lav et script der kører freesurfers affine registrering og sanity check med Melanie.
+- [✓]Registrer alle billederne
+- [✓]Undersøg om registreringen er god nok på test-billederne (1.5T og 3T skal være allignet).
 
 

@@ -243,7 +243,9 @@ The GAN allowed for new images in a specific category to be created based on ran
 
 
 \subsubsection{Discriminator in a cycleGAN}
+The discriminator of the model should take as input an image of size 256x256x1 (since the image is greyscale) and output a prediction of dimension 1x30x30 with values between zero and one. The reason the output is not just one value is because a patch-GAN is used. This move in dimensions is accomplished using up-sampling of the image with 2D-convolutions to extract increasingly abstract features. 
 %TODO: Mention the up-sampling structure of the model
+%TODO: Explain the patch-gan structure at the end of the model
 %TODO: Explain components (norm and activation layers, convolutions, relu, softmax, prediction layer, etc)
 %TODO: Make illustration of actual model layout
 
