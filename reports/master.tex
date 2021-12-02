@@ -199,6 +199,10 @@ There are in total 1562 unique brain scans which are used in this project.
 \subsection{Neural Network for Alzheimer's Disease Classification}
 In the original Alzheimer's disease classification paper by Camilla, a neural network was used to determine whether each patient had AD. Since this model was full of bias when used on the original data, we used this same model to compare and contrast if the below methods succeeded in removing the most prominent biases from the model. The model was implemented as a PyTorch neural network with 12 convolution layers using ReLU as activation function between each layer. This was followed by a fully connected layer with sigmoid activation to output the probability of each class (sick or healthy). A much more detailed breakthrough of the general project and architecture of the neural network can be seen in \cite{CamillaKandidat}.
 
+\subsection{Model Overview}
+%TODO: Hvilke modeller har vi brugt til hvad? Hvor mange cycleGANs har vi trænet?
+%TODO: Referér til de forskellige sektioner, hvor man kan finde mere om hver model.
+
 \subsection{Generative Adversarial Network}
 Since the meat and potatoes of this project is the cycleGAN, the methods and mathematical understanding behind Generative Adversarial Networks (GANs) will only be briefly explored in this section. A GAN was implemented on the MNIST dataset as a preliminary trail to help understand the basics. This implementation can be seen \href{https://github.com/oskarwiese/AlzPred/blob/main/preliminary/GAN_MNIST.ipynb}{here}. This implementation as well as this section will hopefully help to give the proper insight into the reasoning behind cycleGANs later in this section.
 
@@ -243,15 +247,60 @@ The GAN allowed for new images in a specific category to be created based on ran
 
 
 \subsubsection{Discriminator in a cycleGAN}
-The discriminator of the model should take as input an image of size 256x256x1 (since the image is greyscale) and output a prediction of dimension 1x30x30 with values between zero and one. The reason the output is not just one value is because a patch-GAN is used. This move in dimensions is accomplished using up-sampling of the image with 2D-convolutions to extract increasingly abstract features. 
 %TODO: Mention the up-sampling structure of the model
+The discriminator of the model should take as input an image of size 256x256x1 (since the image is greyscale) and output a prediction of dimension 1x30x30 with values between zero and one. The reason the output is not just one value is because a patch-GAN is used. This move in dimensions is accomplished using up-sampling of the image with 2D-convolutions to extract increasingly abstract features by decreasing the height and width and increasing the depth of the image.
+
 %TODO: Explain the patch-gan structure at the end of the model
+To make sure that the model is as robust as possible and to avoid overfitting, a patch-GAN is used before outputting the final image prediction. This works by converting 30x30 blocks of the image into predictions, such that the model is forced to predict the "real-ness" of the image on each of these blocks. This ensures that the discriminator image can accurately predict if the image comes from the generator using any part of the image. Some problems can occur with this method like the model not being about to predict much from a 30x30 square of black pixels. These kinds of problems will be discovered further in the section \ref{discussion} on discussing problems with and efficacies of the model.
+
 %TODO: Explain components (norm and activation layers, convolutions, relu, softmax, prediction layer, etc)
+Of just as much importance as the patch-GAN architecture and general model interactions is the layout of each layer and the functions used throughout the discriminator network. A general overview of the layers, kernel size, type of convolution, stride and padding is shown below in figure \ref{fig:cycleganlayers}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{imgs/cyclegan_layers}
+	\caption{The primary model layout consisting of the input, layers and output. The input is the grey-scale intensity-based MRI input of size 256x256x1. The five consecutive convolutional layers each have a specified kernel size, stride and padding as noted in the figure. The output is constructed from running the patchGAN on the last layer of the model to get a 30x30x1 matrix of values between 0 and 1. The specific values and layer sizes are specifed in table }%TODO:
+	\label{fig:cycleganlayers}
+\end{figure}
+
+Not shown in the figure is the actions taken between each layer. These include 
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|l|r|}
+		\hline
+		Layer                         & Activation Size \\ \hline
+		Input                         & 3x256x256       \\ \hline
+		64x4x4 conv, stride 2, pad 1  & 64x128x128      \\ \hline
+		128x4x4 conv, stride 2, pad 1 & 128x64x64       \\ \hline
+		256x4x4 conv, stride 2, pad 1 & 256x32x32       \\ \hline
+		512x4x4 conv, stride 1, pad 1 & 512x31x31       \\ \hline
+		1x4x4 conv, stride 1, pad 1   & 1x30x30         \\ \hline
+	\end{tabular}
+\end{table}
+
 %TODO: Make illustration of actual model layout
 
 \subsubsection{Generator in a cycleGAN}
 %TODO: Convolutional neural network
+
+
 %TODO: Explain components (norm and activation layers, convolutions, relu etc)
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|l|r|}
+		\hline
+		Layer                                            & Activation Size \\ \hline
+		Input                                            & 3x256x256       \\ \hline
+		64x7x7 conv, stride 1, pad 3                     & 64x256x256      \\ \hline
+		128x3x3 conv, stride 2, pad 1                    & 128x128x128     \\ \hline
+		256x3x3 conv, stride 2, pad 1                    & 256x64x64       \\ \hline
+		9 residual blocks                                & 256x64x64       \\ \hline
+		128x3x3 convTranspose, stride 2, pad 1, outpad 1 & 128x128x128     \\ \hline
+		64x3x3 convTranspose, stride 2, pad 1, outpad 1  & 64x256x256      \\ \hline
+		3x7x7 conv, stride 1, pad 3                      & 3x256x256       \\ \hline
+	\end{tabular}
+\end{table}
+
 %TODO: Make illustration of actual model layout
 
 \subsubsection{Loss, optimizer, cross Entropy, Etc.}
@@ -264,12 +313,12 @@ The discriminator of the model should take as input an image of size 256x256x1 (
 \subsection{Reproducibility}\label{repro}
 
 
-\section{Results}
+\section{Results}\label{results}
 
 
 
 
-\section{Discussion}
+\section{Discussion}\label{discussion}
 
 \subsection{Would the Model be Efficacious in Practice?}
 
@@ -283,7 +332,7 @@ The discriminator of the model should take as input an image of size 256x256x1 (
 
 
 
-\section{Conclusion}
+\section{Conclusion}\label{conclusion}
 
 
 

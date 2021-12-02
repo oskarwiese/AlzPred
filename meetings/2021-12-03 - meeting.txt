@@ -14,6 +14,7 @@ TODOS FRA SIDSTE GANG:
 
 SPØRGSMÅL:
 Hvordan får vi billederne opdelt i 1.5T og 3T?
+Gå ind i ADNI1_baseline3T. Alt herinde er 3T-billeder. Ideen kunne så være at finde hvad der svarer til deres subjects i freesurfer_ADNI1.
 
 Kan det passe, at det ikke er muligt at have både en 1.5T og 3T version af billederne ved freesurfer_ADNI1?
 
@@ -22,6 +23,15 @@ Hvis ovenstående er sandt, er det så det værd at køre registrering på endnu
 
 
 KOMMENTARER:
+Man kan tage summen af alle voxels i billedet og sammenligne dem, så man finder ud af, hvilke billeder er ens. Dette kan hjælpe med at finde 3T og 1.5T.
+
+Kan man se forskel på shapen mellem 1.5T og 3T? Hvis der er forksel ville man kunne finde 3T-billederne.
+
+Det er måske muligt at komme alle billederne fra hver dimension ind i samme GAN. Det er værd at prøve.
+
+Man kan endten køre på én dimension med alle 256 slices eller alle 3. Alle 3 kunne måske være en meget god ide, da det giver mere data.
+
+Det kunne være muligt at bruge freesurfer_ADNI2 som 3T-billeder. Dette gælder hvis der ikke er 3T-billeder i freesurfer_ADNI1. Ellers skal vi prøve at opdele freesurfer_ADNI1 i 3T og 1.5T.
 
 
 
