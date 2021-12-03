@@ -13,19 +13,31 @@ TODOS FRA SIDSTE GANG:
 
 
 SPØRGSMÅL:
-Er der nogle subjects i freesurfer_ADNI1 og freesurfer_ADNI2-mapperne, der er ens? Det ville gøre det muligt at have en ground truth.
+Hvordan får vi billederne opdelt i 1.5T og 3T?
+Gå ind i ADNI1_baseline3T. Alt herinde er 3T-billeder. Ideen kunne så være at finde hvad der svarer til deres subjects i freesurfer_ADNI1.
 
-Kunne det være smart at køre registrering på freesurfer_ADNI2? Hvad med andre mapper?
+Kan det passe, at det ikke er muligt at have både en 1.5T og 3T version af billederne ved freesurfer_ADNI1?
+
+Hvis ovenstående er sandt, er det så det værd at køre registrering på endnu en mappe, fx baseline_3T, ADNI1 eller ADNI2?
 
 
 
 KOMMENTARER:
+Man kan tage summen af alle voxels i billedet og sammenligne dem, så man finder ud af, hvilke billeder er ens. Dette kan hjælpe med at finde 3T og 1.5T.
+
+Kan man se forskel på shapen mellem 1.5T og 3T? Hvis der er forksel ville man kunne finde 3T-billederne.
+
+Det er måske muligt at komme alle billederne fra hver dimension ind i samme GAN. Det er værd at prøve.
+
+Man kan endten køre på én dimension med alle 256 slices eller alle 3. Alle 3 kunne måske være en meget god ide, da det giver mere data.
+
 Det kunne være muligt at bruge freesurfer_ADNI2 som 3T-billeder. Dette gælder hvis der ikke er 3T-billeder i freesurfer_ADNI1. Ellers skal vi prøve at opdele freesurfer_ADNI1 i 3T og 1.5T.
 
 
 
 TODOS TIL NÆSTE GANG:
 - [ ]Opdel billederne i 1.5T og 3T, så vi har data at køre på.
+- [ ]Undersøg om nogle af billederne i freesurfer_ADNI1 både har 1.5T og 3T billeder.
 - [ ]Kør modellen på billederne, hvor gruppe A er 1.5T og B er 3T.
 - [ ]Hvis modellen kører godt, find ud af hvor godt den har klaret sig. Hvis ikke, find ud af, hvad der er galt.
 - [ ]Skriv første udkast til sektionerne i methods-delen af rapporten.
