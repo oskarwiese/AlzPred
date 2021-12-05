@@ -23,6 +23,7 @@
 \usepackage{multirow}
 \usepackage{enumitem}
 \usepackage{color}
+\usepackage{booktabs}
 \definecolor{green}{rgb}{0.67, 0.88, 0.69}
 \definecolor{red}{rgb}{1.0, 0.44, 0.37}
 \newcommand\MyBoxgreen[2]{
@@ -266,15 +267,14 @@ Not shown in the figure is the actions taken between each layer. These include
 
 \begin{table}[H]
 	\centering
-	\begin{tabular}{|l|r|}
-		\hline
-		Layer                         & Activation Size \\ \hline
-		Input                         & 3x256x256       \\ \hline
-		64x4x4 conv, stride 2, pad 1  & 64x128x128      \\ \hline
-		128x4x4 conv, stride 2, pad 1 & 128x64x64       \\ \hline
-		256x4x4 conv, stride 2, pad 1 & 256x32x32       \\ \hline
-		512x4x4 conv, stride 1, pad 1 & 512x31x31       \\ \hline
-		1x4x4 conv, stride 1, pad 1   & 1x30x30         \\ \hline
+	\begin{tabular}{lr}\toprule
+		Layer                         & Activation Size \\ \midrule
+		Input                         & 3x256x256       \\
+		64x4x4 conv, stride 2, pad 1  & 64x128x128      \\
+		128x4x4 conv, stride 2, pad 1 & 128x64x64       \\
+		256x4x4 conv, stride 2, pad 1 & 256x32x32       \\
+		512x4x4 conv, stride 1, pad 1 & 512x31x31       \\
+		1x4x4 conv, stride 1, pad 1   & 1x30x30         \\ \bottomrule
 	\end{tabular}
 \end{table}
 
@@ -282,22 +282,21 @@ Not shown in the figure is the actions taken between each layer. These include
 
 \subsubsection{Generator in a cycleGAN}
 %TODO: Convolutional neural network
-
+Unlike in a standard GAN, where a random image from a latent space is used to create what ends up looking like a real image, the GANs in the cycleGAN 
 
 %TODO: Explain components (norm and activation layers, convolutions, relu etc)
 \begin{table}[H]
 	\centering
-	\begin{tabular}{|l|r|}
-		\hline
-		Layer                                            & Activation Size \\ \hline
-		Input                                            & 3x256x256       \\ \hline
-		64x7x7 conv, stride 1, pad 3                     & 64x256x256      \\ \hline
-		128x3x3 conv, stride 2, pad 1                    & 128x128x128     \\ \hline
-		256x3x3 conv, stride 2, pad 1                    & 256x64x64       \\ \hline
-		9 residual blocks                                & 256x64x64       \\ \hline
-		128x3x3 convTranspose, stride 2, pad 1, outpad 1 & 128x128x128     \\ \hline
-		64x3x3 convTranspose, stride 2, pad 1, outpad 1  & 64x256x256      \\ \hline
-		3x7x7 conv, stride 1, pad 3                      & 3x256x256       \\ \hline
+	\begin{tabular}{lr}\toprule
+		Layer                                            & Activation Size \\ \midrule
+		Input                                            & 3x256x256       \\
+		64x7x7 conv, stride 1, pad 3                     & 64x256x256      \\
+		128x3x3 conv, stride 2, pad 1                    & 128x128x128     \\
+		256x3x3 conv, stride 2, pad 1                    & 256x64x64       \\
+		9 residual blocks                                & 256x64x64       \\
+		128x3x3 convTranspose, stride 2, pad 1, outpad 1 & 128x128x128     \\
+		64x3x3 convTranspose, stride 2, pad 1, outpad 1  & 64x256x256      \\
+		3x7x7 conv, stride 1, pad 3                      & 3x256x256       \\ \bottomrule
 	\end{tabular}
 \end{table}
 
