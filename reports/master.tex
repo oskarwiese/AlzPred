@@ -128,17 +128,19 @@ The images from the ADNI 1 dataset are from both different subjects and a pletho
 Each of the patients have multiple scans throughout the span of the ADNI 1 project, however, we only use the baseline scan, which is the subjects first MRI-scan. 
 The MRI-scans are three dimensional images of the subjects brain. 
 The original image is in a \texttt{.mgz} file format which is a compressed mgh file. 
-This file format can store 4D, such as NifT1 files, which is the 3-dimensional images of the brain. 
-The forth dimension contains metadata about the specific image such as subject\_id, gender, age etc.
+This file format can store 3D-images, such as NifT1 files, which is 3-dimensional images of the brain. 
+%The fourth dimension contains metadata about the specific image such as subject\_id, gender, age etc.
 The raw images stems from the original analysis from 2004 and on wards. 
-There are in total 1562 unique brain scans which are used in this project.
+There are in total 1562 %TODO perhaps more perhaps less?
+unique brain scans which are used in this project.
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=0.95\linewidth]{mymans2}
-	\caption{An example of the original image file: \texttt{001.mgz} from subject 002\_S\_0295}
+	\caption{An example of the original image file: \texttt{001.mgz} from subject 002\_S\_0295. This is the original raw image from the MRI-scan and no processing has been done.}
 	\label{fig:screenshot001}
 \end{figure}
+
 
 
 %\begin{figure}
@@ -172,6 +174,24 @@ There are in total 1562 unique brain scans which are used in this project.
 
 \subsubsection{Data Preprocessing}
 
+In this project, the area of interest is the brain itself. 
+Therefore, we need to skullstrip the raw images.
+The skullstrip process is done by using Freesurfer Software Suite \cite{freesurfer}.
+In more depth the skull is removed by using a threshold.
+The FreeSurfer software will create files which can be used to check if too much brainmatter is removed in the process of skulstripping the raw image.
+Files which can be used to inspect this are: \texttt{brainmask.mgz, T1.mgz, brainmask.gcuts.mgz}
+
+The skulllstripped images are then normalized. 
+The images are normalized using \texttt{mri\_normalize}, which converts the white matter image values around 110 \cite{normalize}. %TODO why do we normalize? 
+All human brains are different and the raw images are recorded in the subjects personal space. 
+In order to compare several brains a registration of the images has to be done to ensure they are all in the same coordinate reference system (CRS). 
+A standard CRS for the common brain is called the Tailirach space. 
+Each of the raw images in the ADNI-dataset are registered to the Tailirach space using the \texttt{mni305.cor} template from FreeSurfer. 
+This is done using \texttt{mri\_vol2vol} which resamples a volume into another field-of-view. 
+In this project, a MNI305 transformation has been applied by resampling the original normalized images into talairach space using \texttt{\$subject/mri/transforms/talairach.xfm} %TODO Description of the registration 
+
+
+
 % We use skullstripped 
 % We use normalized 
 % Template mni305.cor (what does cor stand for)
@@ -189,10 +209,14 @@ There are in total 1562 unique brain scans which are used in this project.
 
 \subsection{Visualization of Data}
 % Slices of img, preview 
+This section aims to give a visulaization of the preprocessed data.
+
 
 \subsection{Ethicality of Data}
 % Quick rant about GDPR
 
+\subsection{Trade off of using fMRI}
+%TODO Talk about voxels ( a voxel and encode information about two distinct areas in the brain in same number.see: https://www.youtube.com/watch?v=6wxJ1up-E7E&list=PLIQIswOrUH6_DWy5mJlSfj6AWY0y9iUce )
 
 
 \section{Methods}
@@ -384,6 +408,10 @@ Unlike in a standard GAN generator, where a random image from a latent space is 
 		
 		\bibitem{adni1} Alzheimer’s
 		Disease Neuroimaging Initiative about ADNI1 \url{http://adni.loni.usc.edu/about/adni1/}, last visited at 28 Nov. 2021
+		
+		\bibitem{freesurfer} FreeSurfer Software Suite \url{https://surfer.nmr.mgh.harvard.edu/}, last visited at 2nd December, 2021
+		
+		\bibitem{normalize} FreeSurfer: mri\_normalize, \url{https://surfer.nmr.mgh.harvard.edu/fswiki/mri_normalize}
 		
 	\end{thebibliography}
 	
