@@ -255,17 +255,17 @@ The discriminator of the model should take as input an image of size 256x256x1 (
 To make sure that the model is as robust as possible and to avoid overfitting, a patch-GAN is used before outputting the final image prediction. This works by converting 30x30 blocks of the image into predictions, such that the model is forced to predict the "real-ness" of the image on each of these blocks. This ensures that the discriminator image can accurately predict if the image comes from the generator using any part of the image. Some problems can occur with this method like the model not being about to predict much from a 30x30 square of black pixels. These kinds of problems will be discovered further in the section \ref{discussion} on discussing problems with and efficacies of the model.
 
 %TODO: Explain components (norm and activation layers, convolutions, relu, softmax, prediction layer, etc)
-Of just as much importance as the patch-GAN architecture and general model interactions is the layout of each layer and the functions used throughout the discriminator network. A general overview of the layers, kernel size, type of convolution, stride and padding is shown below in figure \ref{fig:cycleganlayers}.
+Of just as much importance as the patch-GAN architecture and general model interactions is the layout of each layer and the functions used throughout the discriminator network. A general overview of the layers, kernel size, type of convolution, stride and padding is shown below in figure \ref{fig:cyclegandiscriminatorlayers}.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.7\linewidth]{imgs/cyclegan_layers}
-	\caption{The primary model layout consisting of the input, layers and output. The input is the grey-scale intensity-based MRI input of size 256x256x1. The five consecutive convolutional layers each have a specified kernel size, stride and padding as noted in the figure. The output is constructed from running the patchGAN on the last layer of the model to get a 30x30x1 matrix of values between 0 and 1. The specific values and layer sizes are specifed in table }%TODO:
-	\label{fig:cycleganlayers}
+	\includegraphics[width=0.7\linewidth]{imgs/cyclegan_discriminator_layers}
+	\caption{The primary model layout consisting of the input, layers and output. The input is the grey-scale intensity-based MRI input of size 256x256x1. The five consecutive convolutional layers each have a specified kernel size, stride and padding as noted in the figure. The output is constructed from running the patchGAN on the last layer of the model to get a 30x30x1 matrix of values between 0 and 1. The specific values and layer sizes are specifed in table \ref{discriminator_layers}}
+	\label{fig:cyclegandiscriminatorlayers}
 \end{figure}
 
 Not shown in the figure is the actions taken between each layer. These include 
 
-\begin{table}[H]
+\begin{table}[H]\label{discriminator_layers}
 	\centering
 	\begin{tabular}{lr}\toprule
 		Layer                         & Activation Size \\ \midrule
@@ -282,10 +282,26 @@ Not shown in the figure is the actions taken between each layer. These include
 
 \subsubsection{Generator in a cycleGAN}
 %TODO: Convolutional neural network
-Unlike in a standard GAN, where a random image from a latent space is used to create what ends up looking like a real image, the GANs in the cycleGAN 
+Unlike in a standard GAN generator, where a random image from a latent space is used to create what ends up looking like a real image, the generators in the cycleGAN takes as input an image from one of the datasets. As such, the input dimension is 256x256x1 (since the image is grayscale). The output is of the exact same dimension, since the generator tries to generate an image from the opposite category using the input image. Between input and output, the general generator architecture is that of an autoencoder. %TODO
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{imgs/autoencoder}
+	\caption{The general autoencoder architecture. A kernel does convolutions to reduce and increase the image dimensions. The smaller the dimensions, the larger the feature complexity. The code between the encoder and decoder } %TODO
+	\label{fig:autoencoder}
+\end{figure}
+
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{imgs/cyclegan_generator_layers}
+	\caption{The primary model layout consisting of the input, layers and output. The input is the grey-scale intensity-based MRI input of size 256x256x1. The five encoding and decoding convolutional layers as well as the residual blocks each have a specified kernel size, stride and padding as noted in the figure. The specific values and layer sizes are specifed in table \ref{generator_layers}}
+	\label{fig:cyclegangeneratorlayers}
+\end{figure}
+
 
 %TODO: Explain components (norm and activation layers, convolutions, relu etc)
-\begin{table}[H]
+\begin{table}[H]\label{generator_layers}
 	\centering
 	\begin{tabular}{lr}\toprule
 		Layer                                            & Activation Size \\ \midrule
