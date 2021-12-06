@@ -300,15 +300,16 @@ Not shown in the figure is the actions taken between each layer. These include
 		512x4x4 conv, stride 1, pad 1 & 512x31x31       \\
 		1x4x4 conv, stride 1, pad 1   & 1x30x30         \\ \bottomrule
 	\end{tabular}
+	\caption{The convolutions, stride and padding of each layer in the discriminators.}
 \end{table}
 
 %TODO: Make illustration of actual model layout
 
 \subsubsection{Generator in a cycleGAN}
 %TODO: Convolutional neural network
-Unlike in a standard GAN generator, where a random image from a latent space is used to create what ends up looking like a real image, the generators in the cycleGAN takes as input an image from one of the datasets. As such, the input dimension is 256x256x1 (since the image is grayscale). The output is of the exact same dimension, since the generator tries to generate an image from the opposite category using the input image. Between input and output, the general generator architecture is that of an autoencoder. %TODO
+Unlike in a standard GAN generator, where a random image from a latent space is used to create what ends up looking like a real image, the generators in the cycleGAN takes as input an image from one of the datasets. As such, the input dimension is 256x256x1 (since the image is grayscale). The output is of the exact same dimension, since the generator tries to generate an image from the opposite category using the input image. Between input and output, the general generator architecture is that of an autoencoder, as pictured below in figure \ref{fig:autoencoder}. The autoencoder contains three layers in an encoder and a decoder, while 9 so-called resnet blocks reside between them. The encoder encodes features by narrowing the image dimensions down and widening the depth of the data. The decoder does exactly the opposite, using the extracted information to transfer back into the new image. The resnet blocks between the encoder and decoder serve the purpose of interpreting the encoded features. The resnet blocks also use skip connections, which provide an alternate path for the gradient. This helps the network reach convergence.
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{imgs/autoencoder}
 	\caption{The general autoencoder architecture. A kernel does convolutions to reduce and increase the image dimensions. The smaller the dimensions, the larger the feature complexity. The code between the encoder and decoder } %TODO
@@ -316,7 +317,7 @@ Unlike in a standard GAN generator, where a random image from a latent space is 
 \end{figure}
 
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{imgs/cyclegan_generator_layers}
 	\caption{The primary model layout consisting of the input, layers and output. The input is the grey-scale intensity-based MRI input of size 256x256x1. The five encoding and decoding convolutional layers as well as the residual blocks each have a specified kernel size, stride and padding as noted in the figure. The specific values and layer sizes are specifed in table \ref{generator_layers}}
@@ -338,14 +339,36 @@ Unlike in a standard GAN generator, where a random image from a latent space is 
 		64x3x3 convTranspose, stride 2, pad 1, outpad 1  & 64x256x256      \\
 		3x7x7 conv, stride 1, pad 3                      & 3x256x256       \\ \bottomrule
 	\end{tabular}
+	\caption{The convolutions, stride and padding of each layer in the generators.}
 \end{table}
 
 %TODO: Make illustration of actual model layout
 
-\subsubsection{Loss, optimizer, cross Entropy, Etc.}
+\subsubsection{Objective Functions (Losses)}
 %TODO: Forward and backward consistency loss
-%TODO: Discriminator loss
-%TODO: Generator loss
+$$\begin{aligned}
+	\mathcal{L}_{\text {cyc }}(G, F) &=\mathbb{E}_{x \sim p_{\text {data }}(x)}\left[\|F(G(x))-x\|_{1}\right] \\
+	&+\mathbb{E}_{y \sim p_{\text {dau }}(y)}\left[\|G(F(y))-y\|_{1}\right] .
+\end{aligned}$$
+
+%TODO: Discriminator and generator adversarial loss
+$$\begin{aligned}
+	\mathcal{L}_{\mathrm{GAN}}\left(G, D_{Y}, X, Y\right) &=\mathbb{E}_{y \sim p_{\text {data }}(y)}\left[\log D_{Y}(y)\right] \\
+	&+\mathbb{E}_{x \sim p_{\text {data }}(x)}\left[\log \left(1-D_{Y}(G(x))\right],\right.
+\end{aligned}$$
+
+%TODO: The full loss (objective)
+Our full objective is:
+$$\begin{aligned}
+	\mathcal{L}\left(G, F, D_{X}, D_{Y}\right) &=\mathcal{L}_{\mathrm{GAN}}\left(G, D_{Y}, X, Y\right) \\
+	&+\mathcal{L}_{\mathrm{GAN}}\left(F, D_{X}, Y, X\right) \\
+	&+\lambda \mathcal{L}_{\mathrm{cyc}}(G, F)
+\end{aligned}$$
+
+$$G^{*}, F^{*}=\arg \min _{G, F} \max _{D_{x}, D_{Y}} \mathcal{L}\left(G, F, D_{X}, D_{Y}\right).$$
+
+
+\subsubsection{optimizer, cross Entropy, Etc.}
 
 \subsubsection{Classifier}
 
