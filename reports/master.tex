@@ -349,6 +349,25 @@ For this section, a number of notations will be introduced. Since the goal is to
 
 This section will focus on how the objective functions are constructed to ensure the correct result from the discriminators and generators. In general, the losses are separated into three categories: adversarial losses, cycle-consistency losses and identity losses.
 
+%TODO: Discriminator and generator adversarial loss
+The adversarial losses are principally the simplest of the losses to understand. They simply make sure that the discriminators are very sure that real images are real and fake images are fake, while the generator becomes increasingly better at creating convincing fake images.
+
+$$\begin{aligned}
+	\mathcal{L}_{\mathrm{GAN}}\left(G, D_{Y}, X, Y\right) &=\mathbb{E}_{y \sim p_{\text {data }}(y)}\left[\log D_{Y}(y)\right] \\
+	&+\mathbb{E}_{x \sim p_{\text {data }}(x)}\left[\log \left(1-D_{Y}(G(x))\right],\right.
+\end{aligned}$$
+
+$$\begin{aligned}
+	\mathcal{L}_{\mathrm{GAN}}\left(F, D_{X}, X, Y\right) &=\mathbb{E}_{x \sim p_{\text {data }}(x)}\left[\log D_{X}(x)\right] \\
+	&+\mathbb{E}_{y \sim p_{\text {data }}(y)}\left[\log \left(1-D_{X}(F(y))\right],\right.
+\end{aligned}$$
+
+%TODO: Forward and backward consistency loss
+$$\begin{aligned}
+	\mathcal{L}_{\text {cyc }}(G, F) &=\mathbb{E}_{x \sim p_{\text {data }}(x)}\left[\|F(G(x))-x\|_{1}\right] \\
+	&+\mathbb{E}_{y \sim p_{\text {dau }}(y)}\left[\|G(F(y))-y\|_{1}\right] .
+\end{aligned}$$
+
 %TODO: Identity loss
 The identity loss punishes the model if the generator changes an image that is already part of the domain it transforms to. That is, $y_{new} = G(y)$ gets zero identity loss if $y_{new}$ and $y$ are completely identical and high loss if there are vast differences. The identity loss usually keeps the generators from changing the colors of the input image to get lower errors. The identity loss has therefore not been used in out implementation, as we are not working with color images. The loss has been included for completeness and for possible inspiration if color images were to be used in other contexts.
 
@@ -358,27 +377,18 @@ $$\begin{aligned}
 \end{aligned}$$
 
 
-%TODO: Forward and backward consistency loss
-$$\begin{aligned}
-	\mathcal{L}_{\text {cyc }}(G, F) &=\mathbb{E}_{x \sim p_{\text {data }}(x)}\left[\|F(G(x))-x\|_{1}\right] \\
-	&+\mathbb{E}_{y \sim p_{\text {dau }}(y)}\left[\|G(F(y))-y\|_{1}\right] .
-\end{aligned}$$
-
-%TODO: Discriminator and generator adversarial loss
-$$\begin{aligned}
-	\mathcal{L}_{\mathrm{GAN}}\left(G, D_{Y}, X, Y\right) &=\mathbb{E}_{y \sim p_{\text {data }}(y)}\left[\log D_{Y}(y)\right] \\
-	&+\mathbb{E}_{x \sim p_{\text {data }}(x)}\left[\log \left(1-D_{Y}(G(x))\right],\right.
-\end{aligned}$$
-
 %TODO: The full loss (objective)
 Our full objective is:
 $$\begin{aligned}
 	\mathcal{L}\left(G, F, D_{X}, D_{Y}\right) &=\mathcal{L}_{\mathrm{GAN}}\left(G, D_{Y}, X, Y\right) \\
 	&+\mathcal{L}_{\mathrm{GAN}}\left(F, D_{X}, Y, X\right) \\
-	&+\lambda \mathcal{L}_{\mathrm{cyc}}(G, F)
+	&+\lambda_{cyc} \mathcal{L}_{\mathrm{cyc}}(G, F) \\
+	&+\lambda_{iden} \mathcal{L}_{\mathrm{iden}}(G, F)
 \end{aligned}$$
 
-$$G^{*}, F^{*}=\arg \min _{G, F} \max _{D_{x}, D_{Y}} \mathcal{L}\left(G, F, D_{X}, D_{Y}\right).$$
+\begin{equation}\label{minimax}
+	G^{*}, F^{*}=\arg \min _{G, F} \max _{D_{x}, D_{Y}} \mathcal{L}\left(G, F, D_{X}, D_{Y}\right).
+\end{equation}
 
 
 \subsubsection{optimizer, cross Entropy, Etc.}
