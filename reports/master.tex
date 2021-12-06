@@ -345,6 +345,19 @@ Unlike in a standard GAN generator, where a random image from a latent space is 
 %TODO: Make illustration of actual model layout
 
 \subsubsection{Objective Functions (Losses)}
+For this section, a number of notations will be introduced. Since the goal is to map between the two domains $X$ and $Y$, we introduce $G : X \rightarrow Y$ and $F : Y \rightarrow X$. Furthermore, $y \sim p_{\text {dau }}(y)$ and $x \sim p_{\text {data }}(x)$ refer to the distributions of each domain and $x$ and $y$ refer to samples from each domain. Lastly, the discriminators for each domain are given by $D_X$ and $D_Y$.
+
+This section will focus on how the objective functions are constructed to ensure the correct result from the discriminators and generators. In general, the losses are separated into three categories: adversarial losses, cycle-consistency losses and identity losses.
+
+%TODO: Identity loss
+The identity loss punishes the model if the generator changes an image that is already part of the domain it transforms to. That is, $y_{new} = G(y)$ gets zero identity loss if $y_{new}$ and $y$ are completely identical and high loss if there are vast differences. The identity loss usually keeps the generators from changing the colors of the input image to get lower errors. The identity loss has therefore not been used in out implementation, as we are not working with color images. The loss has been included for completeness and for possible inspiration if color images were to be used in other contexts.
+
+$$\begin{aligned}
+	\mathcal{L}_{\text {iden }}(G, F) &=\mathbb{E}_{x \sim p_{\text {data }}(x)}\left[\|F(y)-x\|_{1}\right] \\
+	&+\mathbb{E}_{y \sim p_{\text {data }}(y)}\left[\|G(x)-y\|_{1}\right] .
+\end{aligned}$$
+
+
 %TODO: Forward and backward consistency loss
 $$\begin{aligned}
 	\mathcal{L}_{\text {cyc }}(G, F) &=\mathbb{E}_{x \sim p_{\text {data }}(x)}\left[\|F(G(x))-x\|_{1}\right] \\
