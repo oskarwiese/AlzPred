@@ -1,0 +1,65 @@
+Hvornår mødes vi næste gang?
+Fredag kl. 8:45 bygning 324 på DTU
+
+
+
+TODOS FRA SIDSTE GANG:
+- [✓]Opdel billederne i 1.5T og 3T, så vi har data at køre på.
+- [✓]Kør modellen på billederne, hvor gruppe A er 1.5T og B er 3T.
+- [ ]Hvis modellen kører godt, find ud af hvor godt den har klaret sig. Hvis ikke, find ud af, hvad der er galt.
+- [✓]Skriv første udkast til sektionerne i methods-delen af rapporten.
+
+
+
+SPØRGSMÅL:
+Kan vi træne uden helt sorte billeder?
+Vi kan bruge MNI305 brainmask til kun at få de billeder ud, der har content. Altså vil vi ikke træne på sorte billeder. Vi har repræsenteret nok sorte pixels i de andre billeder, der har sorte kanter.
+
+Hvordan får vi fat i de hurtigeste GPU'er på hpc? Og, er det muligt at få fat i mere end 1 GPU til multi thread på GPU'er (torch har en indbygget library til dette)?
+Skriv til HPC support (support@hpc.dtu.dk). De svarer hurtigt og de ved meget om emnet.
+
+Hvilken vinkel skal vi tage i vores bachelor projekt:
+Skal vi fokusere på at få trænet en model til at oversætte mellem 1.5T og 3T?
+Skal vi fokusere på at få trænet en model til at fjerne bias i klassifikation (altså det bias Camilla fandt) og vinkle projektet mere i retning af klassifikation / prediction af Alzheimer Disease?
+Det giver helt klart bedst mening at fokusere på første vinkel. Så kan man altid bruge Alzheimer's klassifikation som motivation og evt som validering. Der findes forskellige måder at validere på med forskellige arbejdsbyrder.
+
+
+
+KOMMENTARER:
+Hvis de sorte billeder ikke bliver helt sorte, kan man bare bruge thresholding post-processing.
+
+Vi skriver til support. Hvis vi ikke får svar på det inden for 1 dag, kan vi kontakte Aasa. Så kan vi få adgang til hendes forskningscluster.
+
+Det er ikke vigtigt hvor mange epocs vi træner. Det er vigtigere hvor mange steps vi træner og hvor meget data vi bruger. Vi burde nok kigge på loss. Hvis denne stopper med at falde, skal vi nok ikke træne længere.
+
+Vi har nu fået adgang til forskningsclusteret
+https://itswiki.compute.dtu.dk/index.php/GPU_Cluster
+Log først ind med fx thinlinc.compute.dtu.dk
+så skriver man ssh theia og er på serveren
+screen for at starte screenen
+ctrl+a d til at detache screen
+screen -r til at komme tilbage
+screen -r [NUMMER] hvis man har flere åbne
+Man skal lukke dem med exit inde på selve screenen
+
+gpustat til at se hvilke GPUer, der er ledige.
+åben screen
+aktiver conda environment
+gpustat
+CUDA_VISIBLE_DEVICES=0 python3 test.py
+
+Vi må gerne bruge et par GPUer, men helst ikke flere end det. Vi bruger nok bare 2.
+
+for at få loss ud:
+tensupport
+weightsandbiases
+
+
+For at validere:
+Vi kunne bruge freesurfer til at få alle billederne over i samme standard space.
+
+
+TODOS TIL NÆSTE GANG:
+-[ ]Træn den rigtige model for første gang
+
+
