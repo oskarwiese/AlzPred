@@ -1,5 +1,5 @@
 % !TeX spellcheck = en_US
-\documentclass[11pt, fleqn, titlepage]{article}
+\documentclass[12pt, fleqn, titlepage]{article}
 %\usepackage{siunitx}
 \usepackage{SpeedyGonzales}
 \usepackage{MediocreMike}
@@ -429,6 +429,9 @@ A table of the used hyperparameters and their values in this project in given be
 		%& Train-test split         &&&&& & $0.8/0.2$& \\
 	\end{tabular}
 \end{table} 
+The batch size, learning rate, $lambda_{cyc}$ and betas were set to the same value as in the original CycleGAN paper, as this turned out to be efficacious on ADNI images too. Most notably, the number of epochs has been drastically reduced (from 200 in the original paper to 10). This is due to the fact that the training data used in this project is much more plentiful than originally used to train the first CycleGAN in the paper. This means that we can get away with using vastly fewer epochs. The weight $lambda_{iden}$ was set to zero in this paper. This is because RGB images have not been used in this project and color integrity is therefore not important in the generator output.
+
+The discriminator and generator convolution depths were chosen to match those used in the original CycleGAN paper. It is self-explanatory that using other images (RGB, non-square, different dimension) would require changing the architecture of input and output dimensions of all four models while also ensuring that the kernel size, stride and padding of the convolutional layers are setup correctly. This can be double checked by using $output\_dim = n - k + p + 1$, where $n$ is the image dimension, $k$ is kernel size and $p$ is padding.
 
 \subsubsection{Classifier}
 
@@ -512,7 +515,8 @@ The script \texttt{utils.py} and \texttt{dataset.py} are not as important to the
 
 \subsection{Pseudo Code}
 
-\subsection{Batch script}
+\subsection{Bash script}
+
 
 
 
