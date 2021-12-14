@@ -105,15 +105,36 @@
 
 \subsection{Incentive of the Project}
 
-\subsection{Related Work}
+\subsection{State of the art}
 % Statens kunst
+In recent years there have been many attempts to both classify and detect Alzheimer Disease (AD). Many different approaches to this classification problem has been taken. However, as computers get better and the field of machine learning and deep learning grows, an arsenal of new methods to predict and classify Alzheimer's disease at early stages have been proposed in the latter years. This section aims to highlight some of finest work within this field of study, demonstrating the current stage and methods used to approach the classification problem. 
+\\\\
+\noindent
+A novel approach was proposed by Zhang et al. in 2014, using kernel support vector machine decision tree. In this study, they use basic preprocessing as well as principle component analysis for feature extraction. On the basics of these feature the kernel support vector machine decision tree (kSVM-DT) was constructed. The proposed model has an 80\% classification accuracy. Furthermore, the computation of classifying a subject is relatively fast, taking 0.022 seconds \cite{yudong}. 
+\\\\
+%%%% e. The results show that the proposed kSVM-DT
+%achieves 80% classiØcation accuracy, better than 74% of the method without kernel. Besides, the PSO
+%exceeds the random selection method in choosing the parameters of the classiØer. The computation
+%time to predict a new patient is only 0.022 s.
+%TODO Et andet paper her om biomarkers måske?
+Another approach was taken by Suk and Shen using a stacked auto-encoder. Their method was different from previous methods which focused mainly on low-level features such as gray matter tissue volumes from MRI. A stacked auto-encoder can represent complicated features such as non-linear relationships. Combining the low-level features with latent information they created a robust model for classification achiving 95.9\% accuracy and  75.8\% prediction accuracy of MCI to AD conversion \cite{suk_and_shen_1}. In 2015, the work was extended and they achieved an accuracy of  98.8\% for AD/CN classification and 83.7\% accuracy for prediction of MCI to AD conversion. This was done with greedy layer-wise pre-training and fine-tuning of the deep learning model \cite{suk_and_shen_2}.
+\\\\
+Recently, convolutional neural networks (CNN) have been showing promising results for AD prediction. In general CNNs have been a widely implemented method within the field of image recognition. Cheng et al. proposes to construct multi-level CNNs to gradually learn and combine the multi-modality features for AD classification using MRI and PET images. An accuracy of 89.6\% was achieved using this method. \cite{cheng}
+
+Basaia et al. achieved the highest measured accuracy on the ADNI1 data with a CNN classifier. The highest rate achieved was 99\%. Thus, concluding that CNNs serves as a powerful method for Alzheimer diagnostic. Furthermore, the model demonstrated good predictions with no prior feature engineering nor variability of imaging protocols and Basaia et al. concludes, that it is likely to be a generalizable model to unseen patient data \cite{neuro}. 
 
 \subsection{Contributions}
 
 \section{Glossary}
 
+\section{Background}
+
+\subsection{MNI space}
 
 \section{Data} 
+%TODO Look at histogram distribution, types of images, etc etc etc etc
+%TODO Look at age distribution of subjects in data and also put which subjects
+
 
 The data used in this project is from Alzheimer's Disease Neurosurgical Initiative (ADNI). This initiative unites researchers with study data to investigate and define the progression of Alzheimer's Disease (AD). 
 ADNI collects, validate and utilize data including magnetic resonance imaging (MRI), positron emission tomography (PET), genetics, cognitive tests, cerebrospinal fluid biomarkers (CSF) and blood biomarkers as predictors of the disease \cite{adni}.
@@ -549,10 +570,34 @@ The script \texttt{utils.py} and \texttt{dataset.py} are not as important to the
 		
 		\bibitem{normalize} FreeSurfer: mri\_normalize, \url{https://surfer.nmr.mgh.harvard.edu/fswiki/mri_normalize}
 		
+		\bibitem{neuro} Basaia, Silvia et al. "Automated classification of alzheimer’s disease and mild cognitive impairment using a
+		single mri and deep neural networks." NeuroImage: Clinical, 21:101645, 2019.
+		
+		\bibitem{suk_and_shen_1} 
+		 Suk, Heung-II and Shen, Dinggang
+		 "Deep learning-based feature representation for AD/MCI classification2", 2013
+		 
+		 \bibitem{suk_and_shen_2} Suk, Heung-II et al. "Latent feature representation with stacked auto-encoder for AD/MCI diagnosis", 2015
+		
+		\bibitem{cheng} Cheng, Danni "CNNs based multi-modality classification for AD diagnosis", 2017 10th International Congress on Image and Signal Processing, BioMedical Engineering and Informatics (CISP-BMEI) 
+		
+		\bibitem{yudong} Zhang, Yudong et al. "ClassiØcation of Alzheimer Disease Based on Structural Magnetic
+		Resonance Imaging by Kernel Support Vector Machine Decision Tree", Progress In Electromagnetics Research, Vol. 144, 171-184, 2014
+		
 	\end{thebibliography}
 	
 	
 	\newpage
 	\bibliographystyle{IEEEbib}
 	\bibliography{refs}
+	
+	
+	
+	% List of articles
+	% Machine learning framework for early MRI-based Alzheimer's conversion prediction in MCI subjects - Elahi Mohadi et al
+	% How early can we predict Alzheimer's disease using computational anatomy? - Stanisław Adaszewski
+	%
+	%
+	%
+	
 \end{document}
