@@ -63,7 +63,8 @@
 \usepackage{graphicx}
 %\usepackage{algorithmic}
 %\usepackage{program}
-\title{CycleGAN (Cyclical Generative Adversarial Network) for Field Strength Bias Removal in Alzheimer's Disease Classification Model}
+%\title{CycleGAN (Cyclical Generative Adversarial Network) for Field Strength Bias Removal in Alzheimer's Disease Classification Model}
+\title{CycleGAN for Removing Field Strength Bias in Alzheimer's Disease Classification Model}
 \author{Oskar Eiler Wiese Christensen \& Anders Henriksen \\ \texttt{\{s183917, s183904\}@dtu.dk}}
 \date{\today}
 
@@ -78,7 +79,7 @@
 \begin{abstract}
 	\small
 	\noindent
-	Er du abstrakt?.
+	Er du abstrakt?. Jeg er født abstrakt
 	
 	%	UDKAST 2
 	%	Unfair treatment is deeply ingrained in many cultures and awareness of this is only just now starting to rise up. After the display of rage against the system and oppression seen in America during the spring and summer of 2020, it is obvious that discrimination has no place in a first world country. To that same extent, machine learning models that have been trained on biased datasets based on people's actions also need to have the discrimination corrected to avoid generally unfair treatment. One significant case is that of the COMPAS dataset and algorithm by Northpointe Inc., which has been used commercially to determine the recidivism risk scores (chance to re-offend) of defendants in the court of law. This algorithm was scrutinized by ProPublica for having a significant bias of applying higher risk scores to African-Americans than to Caucasians. As such, Northpointe has gotten away with using a biased algorithm in a highly important setting. To find and eliminate the bias in the COMPAS dataset, a feed forward neural network was implemented to predict the recidivism score. The classifier obtains an accuracy of $ 68.04 \% \pm 0.015 \% $. Plots of the data are used to estimate the existence of bias, but generally, bias is proven by separating the protected groups of the data and analyzing whether their false positive and true positive rates are equal and plotting the ROC-curves of each group of different classification thresholds of the model. The project finds that the model has inherited two biases, one of which is discussed and found by ProPublicas analysis, which is the racial bias against African-Americans. Furthermore, a sexist bias towards men is also proven in this project. Equal opportunity and equalized odds from Hardt et al.'s paper will be used to correct for any such bias found in the model \cite{equal_of_oppor}. Regarding the bias, it can be seen that Arfican-Americans are twice as often given an undeserved higher risk assessment and Caucasians are twice as often given an undeserved lower assenssment. Surprisingly, almost the same result can be seen for gender, where males are the disadvantaged group, which was never addressed in the ProPublica analysis. Regarding gender, defendants under 25 are shown to get an undeserving lower score almost twice as often as those over 25, while the higher score remains similar. As such, race gender and age are all discriminated against in the COMPAS dataset. When correcting bias using equal opportunity, the accuracy falls to around 67.5\% where the threshold for the protected groups are $ T_{African-American}=0.51  $ and $ T_{Caucasian}=0.56 $. When conditioning on gender the thresholds are $ T_{Male} = 0.45 $ and $ T_{Female}=0.68 $. Equalized odds gives a slightly lower accuracy 67\% and yields two different thresholds, one for the lower ROC-curve and a randomized threshold for the upper one, which makes the model unbiased. The threshold for African-Americans is, $ T_{\text{African-Americans}} = 0.47 $. As for Caucasian, the predictor has a randomized threshold, $ T_{\text{Caucasian}} $. The threshold assumes the value $\underline t_{\text{Caucasian}} = 1 $  with a probability $ \underline p_{\text{Caucasian}}= 0.76 $ and the value $ \bar t_{\text{Caucasian}} = 0.50 $ with the probability $\bar p_{\text{Caucasian}} = 0.24 $. For gender the threshold $T_{\text{Female}}$ is 0.45 and the male threshold is $\bar t_{\text{male}} = 0.61$ with probability $\bar p_{\text{Male}} = 0.09$ and $,\underline t_{\text{Male}} = 1.00$ with probability $\underline p_{\text{Male}} = 0.91$.
@@ -101,9 +102,48 @@
 
 \section{Introduction} \label{indledning}
 % Indeholde purpose / formål med projekt
-
+%TODO skal skrives om 
+Alzheimer’s Disease (AD) is a disease which in the year 2021 affected an
+estimated 5.8 million people aged 65 years or older in America alone. By the
+time an individual shows early symptoms of AD, whether by a screening test
+or a physical measurement of the brain volume, it is already too late to prevent the rapid development of the disease. Thus, to decrease cost of treatment
+and increase chance of successful rehabilitation, it is becoming ever increasingly
+important to detect AD at earlier stages than what is accomplishable by the
+current state of the art. Therefore, we wish to explore whether tools of computer vision and machine learning allows for quicker detection of AD, before
+an individual shows symptoms detectable by the common screening process of
+doctors. Many studies has been conducted within the field of alzheimer, and
+all of the studies including magnetic resonance imaging (MRI) scans are stored
+in the Alzheimers’s Disease Neuroimaging Initiative (ADNI). The MRI scans
+range from an electromagnetic field of 1.5 tesla (T) to 3T. The quality of the 3T
+images is higher and the price follows this same trend, meaning that MRI electromagnetic field strength is determined mostly by funding. This, inherently,
+will introduce a bias in an algorithm trained on a dataset with MRI images
+spanning both magnetic field strengths, resulting in images with different levels
+of detail.
 
 \subsection{Incentive of the Project}
+The scope of this project will be to train a classifier on MRI images to predict AD as well as training a cycle-generative adversarial network (cycleGAN)
+to construct 1.5T images from 3T images in order to have more usable, and
+hopefully unbiased, data. Thereby, the model will have more available training
+data leading to a more successful classifier which will be able to aid doctors and
+humans in need all around the world. This project will also aim to determine
+possible bias introduced in the model, if any, and discuss how a classifier can be
+implemented as a tool for doctors, how this might benefit AD prevention and
+treatment cost and the possible ethical scenarios that might be at play.
+\\\\
+The project will revolve around the possibility to predict Alzheimers with tools of ML at an
+earlier stage than previously possible. Furthermore, this will be analyzed the lens of below questions.
+
+\begin{itemize}
+	\item[\textbf{i}] Can a cycleGAN be trained to map between the following domains: 1.5T and 3T MRI
+	images? Does the data constructed by the cycleGAN then prove useful for classification?
+	
+	\item[\textbf{ii}] How effective is the prediction model in predicting whether a patient has
+	alzheimer’s disease? And can the cyclGAN data remove previous demonstrated bias from the model?
+	
+	\item[\textbf{iii}] Will the cycleGAN have any societal and economic impacts
+	given the success of the prediction model?
+	
+\end{itemize}
 
 \subsection{State of the art}
 % Statens kunst
@@ -525,6 +565,7 @@ The script \texttt{utils.py} and \texttt{dataset.py} are not as important to the
 
 \subsection{Safe AI}
 
+\subsection{Economic Incentive of a good classification model}
 
 
 \section{Conclusion}\label{conclusion}
@@ -536,7 +577,7 @@ The script \texttt{utils.py} and \texttt{dataset.py} are not as important to the
 
 \subsection{Pseudo Code}
 
-\subsection{Bash script}
+\subsection{Shell scripts}
 
 
 
@@ -581,7 +622,7 @@ The script \texttt{utils.py} and \texttt{dataset.py} are not as important to the
 		
 		\bibitem{cheng} Cheng, Danni "CNNs based multi-modality classification for AD diagnosis", 2017 10th International Congress on Image and Signal Processing, BioMedical Engineering and Informatics (CISP-BMEI) 
 		
-		\bibitem{yudong} Zhang, Yudong et al. "ClassiØcation of Alzheimer Disease Based on Structural Magnetic
+		\bibitem{yudong} Zhang, Yudong et al. "C	lassification of Alzheimer Disease Based on Structural Magnetic
 		Resonance Imaging by Kernel Support Vector Machine Decision Tree", Progress In Electromagnetics Research, Vol. 144, 171-184, 2014
 		
 	\end{thebibliography}
