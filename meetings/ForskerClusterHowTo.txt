@@ -1,0 +1,26 @@
+Detajleret guide:
+	https://itswiki.compute.dtu.dk/index.php/GPU_Cluster
+
+Skriv brugernavn og adgangskode:
+	ssh USER@thinlinc.compute.dtu.dk
+Log ind på en specifik "cluster machine":
+	ssh theia			eller
+	ssh mnemosyne/phoebe/themis/oceanus/hyperion/coeus/cronus/crius/iapetus
+Gå til arbejdssti:
+	cd /dtu-compute/ADNIbias/AlzPred_Oskar_Anders/
+Start screen (så processen kan køre i baggrunden):
+	screen	
+aktivér conda environment:
+	source AlzPred_env/bin/activate
+Find tilgængelige GPUer:
+	gpustat
+Kør python-script på den ledige GPU:
+	CUDA_VISIBLE_DEVICES=2 python3 test.py
+
+
+Guide til screen
+	screen for at starte screenen
+	ctrl+a d til at detache screen
+	screen -r til at komme tilbage
+	screen -r [NUMMER] hvis man har flere åbne screens
+	Man skal lukke hver screen med exit inde på selve screenen, når man er færdig med dem
