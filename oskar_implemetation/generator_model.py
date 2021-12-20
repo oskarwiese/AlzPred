@@ -7,10 +7,15 @@ class ConvBlock(nn.Module):
     def __init__(self, in_channels, out_channels, down = True, use_act =  True, **kwargs):
         super().__init__()
 
+        if down:
+            layers = [nn.Conv2d(in_channels, out_channels, padding_mode='reflect', **kwargs)]
+        else:
+            #layers = [nn.Conv2d(in_channels, out_channels, **kwargs)]
+            #layers = [nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True)]
+            layers = [nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True), nn.Conv2d(in_channels, out_channels, **kwargs)]
+            #layers = [nn.ConvTranspose2d(in_channels, out_channels, **kwargs)]
         self.conv = nn.Sequential(
-            nn.Conv2d(in_channels, out_channels, padding_mode='reflect', **kwargs)
-            if down
-            else nn.ConvTranspose2d(in_channels, out_channels, **kwargs),
+            *layers,
             nn.InstanceNorm2d(out_channels),
             nn.ReLU(inplace = True) if use_act else nn.Identity() # Identity just passes through and doesn't do anything to input
         )
@@ -48,8 +53,8 @@ class Generator(nn.Module):
         
         self.up_blocks = nn.ModuleList(
             [
-                ConvBlock(num_features * 4, num_features * 2, down = False, kernel_size = 3, stride = 2, padding = 1, output_padding = 1),
-                ConvBlock(num_features * 2, num_features    , down = False, kernel_size = 3, stride = 2, padding = 1, output_padding = 1),
+                ConvBlock(num_features * 4, num_features * 2, down = False, kernel_size = 3, stride = 1, padding = 1),
+                ConvBlock(num_features * 2, num_features    , down = False, kernel_size = 3, stride = 1, padding = 1),
             ]
         )
 
@@ -69,7 +74,7 @@ def test():
     img_size = 256
     x = torch.randn((1, img_channel, img_size, img_size))
     gen = Generator(img_channel, 9)
-    #print(gen)
+    print(gen)
     print(gen(x).shape)
 
 if __name__ == '__main__':
