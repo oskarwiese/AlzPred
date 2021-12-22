@@ -6,7 +6,6 @@
 \newcommand{\so}[2]{{#1}\mathrm{e}{#2}}
 % \geometry{top=1cm}
 %\usepackage{cleveref}
-\usepackage{subcaption}
 \usepackage{hyperref}
 \usepackage{array}
 \usepackage{amsmath}
@@ -25,6 +24,7 @@
 \usepackage{color}
 \usepackage{booktabs}
 \usepackage{makecell}
+\usepackage{multicol}
 \definecolor{green}{rgb}{0.67, 0.88, 0.69}
 \definecolor{red}{rgb}{1.0, 0.44, 0.37}
 \newcommand\MyBoxgreen[2]{
@@ -42,15 +42,15 @@
 	}%
 }
 
-\captionsetup{labelfont=bf}
-\def\fix{\hskip\fontdimen2\font\relax}
-\lstset{
-	basicstyle=\ttfamily,
-	keywordstyle=\bfseries,
-	showstringspaces=false,
-	morekeywords={def, for, return, if, else},
-	xleftmargin=-3.0cm
-}
+%\captionsetup{labelfont=bf}
+%\def\fix{\hskip\fontdimen2\font\relax}
+%\lstset{
+%	basicstyle=\ttfamily,
+%	keywordstyle=\bfseries,
+%	showstringspaces=false,
+%	morekeywords={def, for, return, if, else},
+%	xleftmargin=-3.0cm
+%}
 \hypersetup{
 	colorlinks=true,
 	linkcolor=blue,
@@ -58,8 +58,6 @@
 	urlcolor=cyan,
 }
 \usepackage{nccmath}
-\usepackage{multicol}
-%\usepackage{subfig}
 \usepackage{graphicx}
 %\usepackage{algorithmic}
 %\usepackage{program}
@@ -95,9 +93,10 @@
 	%	To conclude, the COMPAS data and algorithm was more biased than first hinted at by ProPublica, as race, sex and age have been discriminated against to a huge degree, both in the data and in the classifier. The bias was corrected using equal opportunity and lead with it a surprisingly low dwindling of accuracy, which shows that not correcting for bias is nonsensical. Bias correction should be enforced and used in the entire field of AI to ensure the best fairness and general application of ML models. More studies on the subject need to surface, and enforcement needs to be applied in the field to make sure that bias has in fact been removed or attempted to be removed. If the future of AI and ML keeps going like it has so far, bias will never be truly removed, and the ugly roots of racism and sexism found in many cultures will resurface. As seen all over the world as of the summer of 2020, discrimination will not be tolerated and unenforced models with poor or no bias correction will result in response from society, peaceful or otherwise.
 	
 \end{abstract}
-{	
-	\hypersetup{linkcolor=black}
-	\tableofcontents \newpage
+{
+\hypersetup{linkcolor=black}
+\tableofcontents 
+\newpage
 }
 
 \section{Introduction} \label{indledning}
@@ -178,7 +177,7 @@ Basaia et al. achieved the highest measured accuracy on the ADNI1 data with a CN
 
 The data used in this project is from Alzheimer's Disease Neurosurgical Initiative (ADNI). This initiative unites researchers with study data to investigate and define the progression of Alzheimer's Disease (AD). 
 ADNI collects, validate and utilize data including magnetic resonance imaging (MRI), positron emission tomography (PET), genetics, cognitive tests, cerebrospinal fluid biomarkers (CSF) and blood biomarkers as predictors of the disease \cite{adni}.
-More specifically, this project will only use MRI data from ADNI1 and ADNI2. 
+More specifically, this project will only use MRI data from ADNI 1. 
 Which was launched in October 24 2004. Originally this project was designed to find more ac curate biomarkers for the early detection of AD.
 The ADNI 1 project analyzed more than a thousand different brain scans from three different subject groups, namely, subjects with mild cognitive impairment (MCI), subjects with early AD and control subjects \cite{adni1}. 
 
@@ -262,7 +261,6 @@ In this project, a MNI305 transformation has been applied by resampling the orig
 
 % Indtilvidere skriver om advanced registration, talairach space, etc. her
 
-%TODO tilføj sektion om shellscripts og struktur af mapper
 
 \subsubsection{Data Augmentation}
 % Hvis vi vælger at bruge augmentation
@@ -273,7 +271,7 @@ In this project, a MNI305 transformation has been applied by resampling the orig
 \subsection{Visualization of Data}
 % Slices of img, preview 
 This section aims to give a visulaization of the preprocessed data.
-% Norm.mgz
+
 
 \subsection{Ethicality of Data}
 % Quick rant about GDPR
@@ -310,7 +308,22 @@ In general, GANs can be seen as two different complex neural networks competing 
 
 
 \subsubsection{Loss}
+For implementing the loss functions necessary to get a proper GAN going, we first need to define some nomenclature. We assume that sample images are sampled from $x \sim p_{\text {data}}(x)$. The discriminator $D(x)$ outputs a value between zero and one determining whether $x$ is real or fake. The generator takes random noise $z \sim p_{\text {data}}(z)$ and returns a fake sample. The loss function for the discriminator is given as shown below.
 
+\[\begin{aligned}
+	\mathcal{L}\left(G, D, X, Z\right)_D &=\frac{1}{2} \mathbb{E}_{x \sim p_{x}}[1-D(x)] \\
+	&+\frac{1}{2} \mathbb{E}_{z \sim p_{z}}[D(G(z))] \\
+\end{aligned}\]
+Here, the first term simply forces the discriminator to try to return large values when the samples are real. As the discriminator output approaches 1, the loss approaches 0. The second term is slightly more complicated. The generated image $G(z)$ is given to the discriminator, and the goal of the discriminator is to catch that this is in fact a fake image. Thus, lower discriminator values on the fake image leads to less loss and as the discriminator output approaches 0, this term of the loss also approaches 0.
+
+Now for the generator loss, as we can see below.
+
+\[\mathcal{L}\left(G, D, X, Z\right)_G=-1 \cdot \log \sigma\left(D(G(Z))\right)\]
+
+This loss is equivalent to the BCE loss with logits, where the weights are all set to be equal. The $\sigma$ term is the sigmoid function. This loss function basically states that the generator gets a large loss when the discriminator gets tricked into thinking that the generated image is real. This is due to the fact that a low probability of it being a real image leads to a high loss and vica versa \cite{bcewithlogits}.
+
+\subsection{Specifics}
+In this section, other more specific details for the implementation of a GAN will be examined. This includes activation functions, hyperparameters and hyperparameter search and optimizers.
 
 \subsection{CycleGAN}
 The GAN allowed for new images in a specific category to be created based on random noise. The next upgrade would be to be able to go from one category to another and back again. This is exactly the problem a cycleGAN aims to fix, which makes it perfect for this paper, since we aim to go from 3T images to 1.5T images. Going back is not as important in this case, but could prove useful for other purposes. The cycleGAN generally works by implementing two generator networks, each generating one category based on an image from the other category, and two discriminator networks, each predicting the probability of the input image actually being from the original category. This architecture is explained and showcased further in figure \ref{fig:cycleganarchitecture} and \ref{fig:cycleganarchitecture2} below.
@@ -408,7 +421,7 @@ Unlike in a standard GAN generator, where a random image from a latent space is 
 %TODO: Make illustration of actual model layout
 
 \subsubsection{Objective Functions (Losses)}
-For this section, a number of notations will be introduced. Since the goal is to map between the two domains $X$ and $Y$, we introduce $G : X \rightarrow Y$ and $F : Y \rightarrow X$. Furthermore, $y \sim p_{\text {dau }}(y)$ and $x \sim p_{\text {data }}(x)$ refer to the distributions of each domain and $x$ and $y$ refer to samples from each domain. Lastly, the discriminators for each domain are given by $D_X$ and $D_Y$.
+For this section, a number of notations will be introduced. Since the goal is to map between the two domains $X$ and $Y$, we introduce $G : X \rightarrow Y$ and $F : Y \rightarrow X$. Furthermore, $y \sim p_{\text {data}}(y)$ and $x \sim p_{\text {data }}(x)$ refer to the distributions of each domain and $x$ and $y$ refer to samples from each domain. Lastly, the discriminators for each domain are given by $D_X$ and $D_Y$.
 
 This section will focus on how the objective functions are constructed to ensure the correct result from the discriminators and generators. In general, the losses are separated into three categories: adversarial losses, cycle-consistency losses and identity losses. 
 
@@ -491,22 +504,56 @@ A table of the used hyperparameters and their values in this project in given be
 		%& Train-test split         &&&&& & $0.8/0.2$& \\
 	\end{tabular}
 \end{table} 
-The batch size, learning rate, $lambda_{cyc}$ and betas were set to the same value as in the original CycleGAN paper, as this turned out to be efficacious on ADNI images too. Most notably, the number of epochs has been drastically reduced (from 200 in the original paper to 10). This is due to the fact that the training data used in this project is much more plentiful than originally used to train the first CycleGAN in the paper. This means that we can get away with using vastly fewer epochs. The weight $lambda_{iden}$ was set to zero in this paper. This is because RGB images have not been used in this project and color integrity is therefore not important in the generator output.
+The batch size, learning rate, $\lambda_{cyc}$ and betas were set to the same value as in the original CycleGAN paper, as this turned out to be efficacious on ADNI images too. Most notably, the number of epochs has been drastically reduced (from 200 in the original paper to 10). This is due to the fact that the training data used in this project is much more plentiful than originally used to train the first CycleGAN in the paper. This means that we can get away with using vastly fewer epochs. The weight $\lambda_{iden}$ was set to zero in this paper. This is because RGB images have not been used in this project and color integrity is therefore not important in the generator output.
 
 The discriminator and generator convolution depths were chosen to match those used in the original CycleGAN paper. It is self-explanatory that using other images (RGB, non-square, different dimension) would require changing the architecture of input and output dimensions of all four models while also ensuring that the kernel size, stride and padding of the convolutional layers are setup correctly. This can be double checked by using $output\_dim = n - k + p + 1$, where $n$ is the image dimension, $k$ is kernel size and $p$ is padding.
 
-\subsubsection{cycleGAN for mapping between 1.5T to 3T (ANDET NAVN)}
-Two different methods for removing bias in the original classifier "CITE KAMILLA" will be implemented in this project. More specifically to investigate whether the mapping between the 1.5T and 3T domain can be used to remove bias in a classifier the following approaches will be demonstrated.
+\subsubsection{Troubleshooting}%TODO: Skal måske faktisk stå i results???
+Since implementing a cycleGAN requires implementing four different neural networks, the hyperparameter search and minutia of the model can be difficult to get right. A known problem is cycleGAN only training until they reach a local minimum \cite{ganlocalminimum}. Another is the issue of getting noisy black and white squares in black-and-white images, sometimes referred to as checkerboard noise. One of the first models that was trained on the MRI ADNI images turned out to contain a version of this checkerboard noise. The source of the noise turned out to be an uneven sampling of pixels in earlier layers to newer layers when doing the upsampling (also known as transpose convolution or deconvolution). Mismatches between the kernel size and the stride as well as bad upscaling can cause some areas of the upsampled image to contain information from more pixels than others. This is a critical cause of the recognizable checkerboard noise \cite{checkerboard}. An illustration of how the flaw gets made can be seen below. images generated from the flawed cycleGAN can also be seen in illustration \ref{fig:troubleshoota}. Here, it is clear that white squares are surrounded by black squares all over the image, worsening the general image quality.
 
-\subsubsection{cycleGAN: XY-, XZ-, and YZ-Planes } 
-One of the approaches to map between the 1.5T and 3T domain was to train three different cycleGANs on three different planes, namely the: XY-, XZ- and YZ-Planes, to reconstruct the original 3D image. For the training data one dimension is held constant, thus 256 images are constructed for each dimension, X,Y and Z. All the images where the sum of the pixel values are equal to zero are removed, ensuring that images in the training dataset is are not all black. Each of these cycleGAN will be referred to as: \texttt{cycleGAN\_XY}, \texttt{cycleGAN\_XZ} and \texttt{cycleGAN\_YZ}, where the not mentioned dimension is the one held constant. 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{imgs/deconvolution_mismatch}
+	\caption{When the kernel size is not divisible by the stride, the image gets higher intensity in some areas than others leading to a checkerboard pattern. Shown here is a deconvolution using kernel size of 3 and stride of 2. Figure courtesy of \cite{checkerboard}.}
+	\label{fig:deconvolutionmismatch}
+\end{figure}
+Solving this problem in practice first required separating upsampling from convolution. This works since the more intensity between pixels is split between multiple pixels. Doing this in practice involved switching every deconvolution layer except the last one from \texttt{nn.ConvTranspose2d(in\_channels, out\_channels, **kwargs)} to first \texttt{nn.Upsample(scale\_factor=2, mode='bilinear', align\_corners=True)} and then \texttt{nn.Conv2d(in\_channels, out\_channels, **kwargs)}. In a nutshell, instead of running a transpose convolution, an upsampling is perform to double the size of the image using bilinear interpolation and then a standard convolution is performed. This not only solves most of the checkerboard issues but also ensures that the model is able to learn from the decoding, since (\texttt{nn.Conv2d} and \texttt{nn.ConvTranspose2d} have trainable kernels while \texttt{nn.Upsample} does not) \cite{learnableKernel}. After implementing this functionality, the generated images now look like shown in illustration \ref{fig:troubleshootb}. We now see that most of the checkerboard artifacts are gone, though some vertical and horizontal lines still persist.
 
-\subsubsection{cycleGAN: sliced 3D image }
+The slight lines in the generated images after using bilinear interpolation for upsampling are not nearly as problematic but are still unfortunate as a final output. To solve this, we implemented a kernel size that was divisible by the stride in the deconvolution layers, as mentioned in the previous paragraph. This should make the kernel spread information from each pixel more evenly between new pixels and supply a less grainy final image \cite{checkerboard}. In illustration \ref{fig:troubleshootc}, most of the noise has finally been removed and no lines persist in the image.
 
-The second approach is to train one unified cycleGAN on all of the slices from the XY, XZ and YZ planes dependently.
- 
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.475\linewidth]{imgs/1.5T_MRI_artifact}%
+		\hfill
+		\includegraphics[width=0.475\linewidth]{imgs/3T_MRI_artifact}
+		\caption{1.5T and 3T respectively YZ MRI images from the preliminary run.}
+		\label{fig:troubleshoota}
+	\end{subfigure}
+	\vskip\baselineskip
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.475\linewidth]{imgs/vertical_noise_example}%
+		\hfill
+		\includegraphics[width=0.475\linewidth]{imgs/horizontal_noise_example}
+		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been implemented in upsampling.}
+		\label{fig:troubleshootb}
+	\end{subfigure}
+	\vskip\baselineskip
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.475\linewidth]{imgs/vertical_noise_example}%
+		\hfill
+		\includegraphics[width=0.475\linewidth]{imgs/horizontal_noise_example}
+		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
+		\label{fig:troubleshootc}
+	\end{subfigure}
+	\caption{Comparison of troubleshooting efforts from the different methods of decoding in the generators.}
+\end{figure}
 
-\subsubsection{Classifier - OSKAR} 
+
+\subsubsection{Classifier}
 
 
 \subsection{Reproducibility}\label{repro}
@@ -529,7 +576,7 @@ Furthermore, the versions of the packages used in the project are given in the t
 			& albumentations& & & & & & & $1.1.0$  & \\ \bottomrule
 		\end{tabular}
 	\end{center}
-\end{table}1
+\end{table}
 \noindent Since randomness plays a large roll in implementing deep learning architectures, random seeds have been set in order to ensure equivalent results for every run of the notebook. The seed number was set to 42 and was used for the python seed \texttt{random.seed}, the numpy seed \texttt{np.random.seed} and the pytorch seeds \texttt{torch.manual\_seed} \texttt{torch.cuda.manual\_seed}
 \texttt{torch.cuda.manual\_seed\_all} and were set before any processes were run in any of the scrips used.
 
@@ -562,12 +609,6 @@ The script \texttt{utils.py} and \texttt{dataset.py} are not as important to the
 
 \section{Results}\label{results}
 
-\subsection{cycleGAN}
-
-%TODO insert loss curves and show results for mapping 
-
-%
-
 
 
 
@@ -584,35 +625,6 @@ The script \texttt{utils.py} and \texttt{dataset.py} are not as important to the
 \subsection{Safe AI}
 
 \subsection{Economic Incentive of a good classification model}
-One could ask the question of what societal and economic implications a good classification model within this field study could imply. This section aims to estimate the outcome of implementing such a classifier into the society of Denmark. This will give an insight into whether continuing to study in this field would make sense for the sake of societal impact. The danish 2025 dementia plan has the following goals:
-
-\begin{itemize}
-	\item Denmark needs 98 dementia friendly communes
-	\item 80 \% of people with dementia needs a specific diagnosis 
-	\item Reduce the amount of anti-psychotic medicine with 50 \% in year 2025
-\end{itemize}
-\noindent
-One of the relevant key focus areas include early detection and quality treatment which can be aided by the deep learning models. An average patient with dementia cost approximately $ 51000 \ \texttt{DKK / year}$:
-
-%\texttt{\begin{table}
-%	\item Practice sector: 3900 DKK
-%	\item Hospital sector somatics: 33500 DKK 
-%	\item Hospital psychiatry: 4000 DKK
-%	\item Medicine: 9700 DKK 
-%\end{table}}
-
-\begin{table}[H]
-	\begin{tabular}{ll}
-		Practice sector   &\ \ 3900  DKK  \\
-		Hospital sector somatics  & 33500 DKK \\
-		Hospital psychiatry  &  \ \ 4000  DKK  \\
-		Medicine & \ \ 9700  DKK 
-	\end{tabular}
-\end{table}
- 
-In Denmark around $ 85000-90000 $ people live with a dementia disease. Around 50000 of these cases are Alzheimer. Every year around $ 8000 $ new cases are detected and in 2040 the expected amount of people with dementia above 60 years old is $ 125000 $ to $ 150000 $. This amount to Denmark spending $ 4.59 $ Billion DKK / year on Alzheimer Patients to $ 7.65 $ Billion DKK / year. \footnote{!NB Not taking inflation into consideration for the outlined numbers} These numbers do not take healthcare personal, researchers and other variable costs into consideration. Moreover, 65\% to 85\% of all inhabitants in eldercare has a dementia disease. The cost of informal care time ranges between $ 5.0 $ to $ 6.9 $ hours daily. Furthermore, the daily cost was estimated to range between $ 1190 - 1658 $ DKK / day for primary caregivers\footnote{A primary caregiver can range from everything from a nurse, family member etc.} and $ 171 - 253 $ DKK / day for secondary caregivers. The cost for Denmark amounts to $ 18 $ Billion DKK / year, on eldercare alone. The total cost of dementia related diseases in Denmark is estimated to be 20 Billion DKK / year.  \cite{Alzheimerforeningen} \cite{informal_care} Thus, a screening to detect Alzheimer before a patient showing symptoms can be a way to both drive down cost of the danish society, but also optimize life expectancy and quality for the citizens of Denmark.
- 
-% TODO: inkluder syge plejerske
 
 
 \section{Conclusion}\label{conclusion}
@@ -672,9 +684,13 @@ In Denmark around $ 85000-90000 $ people live with a dementia disease. Around 50
 		\bibitem{yudong} Zhang, Yudong et al. "C	lassification of Alzheimer Disease Based on Structural Magnetic
 		Resonance Imaging by Kernel Support Vector Machine Decision Tree", Progress In Electromagnetics Research, Vol. 144, 171-184, 2014
 		
-		\bibitem{Alzheimerforeningen} Alzheimer.dk "Fakta om demens": \url{https://www.alzheimer.dk/viden-om-demens/fakta-om-demens/}, last visited at 22nd December, 2021
+		\bibitem{bcewithlogits} Paszke, A et al. "PyTorch: An Imperative Style, High-Performance Deep Learning Library", Curran Associates, Inc., 2019, https://pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html
 		
-		\bibitem{informal_care} Jakobsen, Marie et al. "Costs of Informal Care for People Suffering from Dementia: Evidence from a Danish Survey"
+		\bibitem{ganlocalminimum} Bansal, Aayush et al. "Recycle-GAN: Unsupervised Video Retargeting", Carnegie Mellon University, 2018, https://arxiv.org/pdf/1808.05174.pdf
+		
+		\bibitem{checkerboard} Odena, et al., "Deconvolution and Checkerboard Artifacts", Distill, 2016. http://doi.org/10.23915/distill.00003
+		
+		\bibitem{learnableKernel} Neda et al., "torch.nn.ConvTranspose2d vs torch.nn.Upsample", PyTorch, 2018. https://discuss.pytorch.org/t/torch-nn-convtranspose2d-vs-torch-nn-upsample/30574/7
 		
 	\end{thebibliography}
 	
