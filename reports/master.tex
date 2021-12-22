@@ -626,6 +626,35 @@ The script \texttt{utils.py} and \texttt{dataset.py} are not as important to the
 
 \subsection{Economic Incentive of a good classification model}
 
+One could ask the question of what societal and economic implications a good classification model within this field study could imply. This section aims to estimate the outcome of implementing such a classifier into the society of Denmark. This will give an insight into whether continuing to study in this field would make sense for the sake of societal impact. The danish 2025 dementia plan has the following goals:
+
+\begin{itemize}
+	\item Denmark needs 98 dementia friendly communes
+	\item 80 \% of people with dementia needs a specific diagnosis 
+	\item Reduce the amount of anti-psychotic medicine with 50 \% in year 2025
+\end{itemize}
+\noindent
+One of the relevant key focus areas include early detection and quality treatment which can be aided by the deep learning models. An average patient with dementia cost approximately $ 51000 \ \texttt{DKK / year}$:
+
+%\texttt{\begin{table}
+		%	\item Practice sector: 3900 DKK
+		%	\item Hospital sector somatics: 33500 DKK 
+		%	\item Hospital psychiatry: 4000 DKK
+		%	\item Medicine: 9700 DKK 
+		%\end{table}}
+		
+		\begin{table}[H]
+			\begin{tabular}{ll}
+				Practice sector   &\ \ 3900  DKK  \\
+				Hospital sector somatics  & 33500 DKK \\
+				Hospital psychiatry  &  \ \ 4000  DKK  \\
+				Medicine & \ \ 9700  DKK 
+			\end{tabular}
+		\end{table}
+		
+		In Denmark around $ 85000-90000 $ people live with a dementia disease. Around 50000 of these cases are Alzheimer. Every year around $ 8000 $ new cases are detected and in 2040 the expected amount of people with dementia above 60 years old is $ 125000 $ to $ 150000 $. This amount to Denmark spending $ 4.59 $ Billion DKK / year on Alzheimer Patients to $ 7.65 $ Billion DKK / year. \footnote{!NB Not taking inflation into consideration for the outlined numbers} These numbers do not take healthcare personal, researchers and other variable costs into consideration. Moreover, 65\% to 85\% of all inhabitants in eldercare has a dementia disease. The cost of informal care time ranges between $ 5.0 $ to $ 6.9 $ hours daily. Furthermore, the daily cost was estimated to range between $ 1190 - 1658 $ DKK / day for primary caregivers\footnote{A primary caregiver can range from everything from a nurse, family member etc.} and $ 171 - 253 $ DKK / day for secondary caregivers. The cost for Denmark amounts to $ 18 $ Billion DKK / year, on eldercare alone. The total cost of dementia related diseases in Denmark is estimated to be 20 Billion DKK / year.  \cite{Alzheimerforeningen} \cite{informal_care} Thus, a screening to detect Alzheimer before a patient showing symptoms can be a way to both drive down cost of the danish society, but also optimize life expectancy and quality for the citizens of Denmark.
+		
+		% TODO: inkluder syge plejerske
 
 \section{Conclusion}\label{conclusion}
 
@@ -691,6 +720,11 @@ The script \texttt{utils.py} and \texttt{dataset.py} are not as important to the
 		\bibitem{checkerboard} Odena, et al., "Deconvolution and Checkerboard Artifacts", Distill, 2016. http://doi.org/10.23915/distill.00003
 		
 		\bibitem{learnableKernel} Neda et al., "torch.nn.ConvTranspose2d vs torch.nn.Upsample", PyTorch, 2018. https://discuss.pytorch.org/t/torch-nn-convtranspose2d-vs-torch-nn-upsample/30574/7
+		
+		\bibitem{Alzheimerforeningen} Alzheimer.dk "Fakta om demens": \url{https://www.alzheimer.dk/viden-om-demens/fakta-om-demens/}, last visited at 22nd December, 2021
+		
+		\bibitem{informal_care} Jakobsen, Marie et al. "Costs of Informal Care for People Suffering from Dementia: Evidence from a Danish Survey"
+		
 		
 	\end{thebibliography}
 	
