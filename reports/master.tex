@@ -6,7 +6,6 @@
 \newcommand{\so}[2]{{#1}\mathrm{e}{#2}}
 % \geometry{top=1cm}
 %\usepackage{cleveref}
-\usepackage{subcaption}
 \usepackage{hyperref}
 \usepackage{array}
 \usepackage{amsmath}
@@ -25,6 +24,7 @@
 \usepackage{color}
 \usepackage{booktabs}
 \usepackage{makecell}
+\usepackage{multicol}
 \definecolor{green}{rgb}{0.67, 0.88, 0.69}
 \definecolor{red}{rgb}{1.0, 0.44, 0.37}
 \newcommand\MyBoxgreen[2]{
@@ -42,15 +42,15 @@
 	}%
 }
 
-\captionsetup{labelfont=bf}
-\def\fix{\hskip\fontdimen2\font\relax}
-\lstset{
-	basicstyle=\ttfamily,
-	keywordstyle=\bfseries,
-	showstringspaces=false,
-	morekeywords={def, for, return, if, else},
-	xleftmargin=-3.0cm
-}
+%\captionsetup{labelfont=bf}
+%\def\fix{\hskip\fontdimen2\font\relax}
+%\lstset{
+%	basicstyle=\ttfamily,
+%	keywordstyle=\bfseries,
+%	showstringspaces=false,
+%	morekeywords={def, for, return, if, else},
+%	xleftmargin=-3.0cm
+%}
 \hypersetup{
 	colorlinks=true,
 	linkcolor=blue,
@@ -58,8 +58,6 @@
 	urlcolor=cyan,
 }
 \usepackage{nccmath}
-\usepackage{multicol}
-%\usepackage{subfig}
 \usepackage{graphicx}
 %\usepackage{algorithmic}
 %\usepackage{program}
@@ -95,9 +93,10 @@
 	%	To conclude, the COMPAS data and algorithm was more biased than first hinted at by ProPublica, as race, sex and age have been discriminated against to a huge degree, both in the data and in the classifier. The bias was corrected using equal opportunity and lead with it a surprisingly low dwindling of accuracy, which shows that not correcting for bias is nonsensical. Bias correction should be enforced and used in the entire field of AI to ensure the best fairness and general application of ML models. More studies on the subject need to surface, and enforcement needs to be applied in the field to make sure that bias has in fact been removed or attempted to be removed. If the future of AI and ML keeps going like it has so far, bias will never be truly removed, and the ugly roots of racism and sexism found in many cultures will resurface. As seen all over the world as of the summer of 2020, discrimination will not be tolerated and unenforced models with poor or no bias correction will result in response from society, peaceful or otherwise.
 	
 \end{abstract}
-{	
-	\hypersetup{linkcolor=black}
-	\tableofcontents \newpage
+{
+\hypersetup{linkcolor=black}
+\tableofcontents 
+\newpage
 }
 
 \section{Introduction} \label{indledning}
@@ -509,6 +508,51 @@ The batch size, learning rate, $\lambda_{cyc}$ and betas were set to the same va
 
 The discriminator and generator convolution depths were chosen to match those used in the original CycleGAN paper. It is self-explanatory that using other images (RGB, non-square, different dimension) would require changing the architecture of input and output dimensions of all four models while also ensuring that the kernel size, stride and padding of the convolutional layers are setup correctly. This can be double checked by using $output\_dim = n - k + p + 1$, where $n$ is the image dimension, $k$ is kernel size and $p$ is padding.
 
+\subsubsection{Troubleshooting}%TODO: Skal måske faktisk stå i results???
+Since implementing a cycleGAN requires implementing four different neural networks, the hyperparameter search and minutia of the model can be difficult to get right. A known problem is cycleGAN only training until they reach a local minimum \cite{ganlocalminimum}. Another is the issue of getting noisy black and white squares in black-and-white images, sometimes referred to as checkerboard noise. One of the first models that was trained on the MRI ADNI images turned out to contain a version of this checkerboard noise. The source of the noise turned out to be an uneven sampling of pixels in earlier layers to newer layers when doing the upsampling (also known as transpose convolution or deconvolution). Mismatches between the kernel size and the stride as well as bad upscaling can cause some areas of the upsampled image to contain information from more pixels than others. This is a critical cause of the recognizable checkerboard noise \cite{checkerboard}. An illustration of how the flaw gets made can be seen below. images generated from the flawed cycleGAN can also be seen in illustration \ref{fig:troubleshoota}. Here, it is clear that white squares are surrounded by black squares all over the image, worsening the general image quality.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{imgs/deconvolution_mismatch}
+	\caption{When the kernel size is not divisible by the stride, the image gets higher intensity in some areas than others leading to a checkerboard pattern. Shown here is a deconvolution using kernel size of 3 and stride of 2. Figure courtesy of \cite{checkerboard}.}
+	\label{fig:deconvolutionmismatch}
+\end{figure}
+Solving this problem in practice first required separating upsampling from convolution. This works since the more intensity between pixels is split between multiple pixels. Doing this in practice involved switching every deconvolution layer except the last one from \texttt{nn.ConvTranspose2d(in\_channels, out\_channels, **kwargs)} to first \texttt{nn.Upsample(scale\_factor=2, mode='bilinear', align\_corners=True)} and then \texttt{nn.Conv2d(in\_channels, out\_channels, **kwargs)}. In a nutshell, instead of running a transpose convolution, an upsampling is perform to double the size of the image using bilinear interpolation and then a standard convolution is performed. This not only solves most of the checkerboard issues but also ensures that the model is able to learn from the decoding, since (\texttt{nn.Conv2d} and \texttt{nn.ConvTranspose2d} have trainable kernels while \texttt{nn.Upsample} does not) \cite{learnableKernel}. After implementing this functionality, the generated images now look like shown in illustration \ref{fig:troubleshootb}. We now see that most of the checkerboard artifacts are gone, though some vertical and horizontal lines still persist.
+
+The slight lines in the generated images after using bilinear interpolation for upsampling are not nearly as problematic but are still unfortunate as a final output. To solve this, we implemented a kernel size that was divisible by the stride in the deconvolution layers, as mentioned in the previous paragraph. This should make the kernel spread information from each pixel more evenly between new pixels and supply a less grainy final image \cite{checkerboard}. In illustration \ref{fig:troubleshootc}, most of the noise has finally been removed and no lines persist in the image.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.475\linewidth]{imgs/1.5T_MRI_artifact}%
+		\hfill
+		\includegraphics[width=0.475\linewidth]{imgs/3T_MRI_artifact}
+		\caption{1.5T and 3T respectively YZ MRI images from the preliminary run.}
+		\label{fig:troubleshoota}
+	\end{subfigure}
+	\vskip\baselineskip
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.475\linewidth]{imgs/vertical_noise_example}%
+		\hfill
+		\includegraphics[width=0.475\linewidth]{imgs/horizontal_noise_example}
+		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been implemented in upsampling.}
+		\label{fig:troubleshootb}
+	\end{subfigure}
+	\vskip\baselineskip
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.475\linewidth]{imgs/vertical_noise_example}%
+		\hfill
+		\includegraphics[width=0.475\linewidth]{imgs/horizontal_noise_example}
+		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
+		\label{fig:troubleshootc}
+	\end{subfigure}
+	\caption{Comparison of troubleshooting efforts from the different methods of decoding in the generators.}
+\end{figure}
+
+
 \subsubsection{Classifier}
 
 
@@ -641,6 +685,12 @@ The script \texttt{utils.py} and \texttt{dataset.py} are not as important to the
 		Resonance Imaging by Kernel Support Vector Machine Decision Tree", Progress In Electromagnetics Research, Vol. 144, 171-184, 2014
 		
 		\bibitem{bcewithlogits} Paszke, A et al. "PyTorch: An Imperative Style, High-Performance Deep Learning Library", Curran Associates, Inc., 2019, https://pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html
+		
+		\bibitem{ganlocalminimum} Bansal, Aayush et al. "Recycle-GAN: Unsupervised Video Retargeting", Carnegie Mellon University, 2018, https://arxiv.org/pdf/1808.05174.pdf
+		
+		\bibitem{checkerboard} Odena, et al., "Deconvolution and Checkerboard Artifacts", Distill, 2016. http://doi.org/10.23915/distill.00003
+		
+		\bibitem{learnableKernel} Neda et al., "torch.nn.ConvTranspose2d vs torch.nn.Upsample", PyTorch, 2018. https://discuss.pytorch.org/t/torch-nn-convtranspose2d-vs-torch-nn-upsample/30574/7
 		
 	\end{thebibliography}
 	
