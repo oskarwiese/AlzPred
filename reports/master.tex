@@ -178,7 +178,7 @@ Basaia et al. achieved the highest measured accuracy on the ADNI1 data with a CN
 
 The data used in this project is from Alzheimer's Disease Neurosurgical Initiative (ADNI). This initiative unites researchers with study data to investigate and define the progression of Alzheimer's Disease (AD). 
 ADNI collects, validate and utilize data including magnetic resonance imaging (MRI), positron emission tomography (PET), genetics, cognitive tests, cerebrospinal fluid biomarkers (CSF) and blood biomarkers as predictors of the disease \cite{adni}.
-More specifically, this project will only use MRI data from ADNI 1. 
+More specifically, this project will only use MRI data from ADNI1 and ADNI2. 
 Which was launched in October 24 2004. Originally this project was designed to find more ac curate biomarkers for the early detection of AD.
 The ADNI 1 project analyzed more than a thousand different brain scans from three different subject groups, namely, subjects with mild cognitive impairment (MCI), subjects with early AD and control subjects \cite{adni1}. 
 
@@ -262,6 +262,7 @@ In this project, a MNI305 transformation has been applied by resampling the orig
 
 % Indtilvidere skriver om advanced registration, talairach space, etc. her
 
+%TODO tilføj sektion om shellscripts og struktur af mapper
 
 \subsubsection{Data Augmentation}
 % Hvis vi vælger at bruge augmentation
@@ -272,7 +273,7 @@ In this project, a MNI305 transformation has been applied by resampling the orig
 \subsection{Visualization of Data}
 % Slices of img, preview 
 This section aims to give a visulaization of the preprocessed data.
-
+% Norm.mgz
 
 \subsection{Ethicality of Data}
 % Quick rant about GDPR
@@ -494,7 +495,18 @@ The batch size, learning rate, $lambda_{cyc}$ and betas were set to the same val
 
 The discriminator and generator convolution depths were chosen to match those used in the original CycleGAN paper. It is self-explanatory that using other images (RGB, non-square, different dimension) would require changing the architecture of input and output dimensions of all four models while also ensuring that the kernel size, stride and padding of the convolutional layers are setup correctly. This can be double checked by using $output\_dim = n - k + p + 1$, where $n$ is the image dimension, $k$ is kernel size and $p$ is padding.
 
-\subsubsection{Classifier}
+\subsubsection{cycleGAN for mapping between 1.5T to 3T (ANDET NAVN)}
+Two different methods for removing bias in the original classifier "CITE KAMILLA" will be implemented in this project. More specifically to investigate whether the mapping between the 1.5T and 3T domain can be used to remove bias in a classifier the following approaches will be demonstrated.
+
+\subsubsection{cycleGAN: XY-, XZ-, and YZ-Planes } 
+One of the approaches to map between the 1.5T and 3T domain was to train three different cycleGANs on three different planes, namely the: XY-, XZ- and YZ-Planes, to reconstruct the original 3D image. For the training data one dimension is held constant, thus 256 images are constructed for each dimension, X,Y and Z. All the images where the sum of the pixel values are equal to zero are removed, ensuring that images in the training dataset is are not all black. Each of these cycleGAN will be referred to as: \texttt{cycleGAN\_XY}, \texttt{cycleGAN\_XZ} and \texttt{cycleGAN\_YZ}, where the not mentioned dimension is the one held constant. 
+
+\subsubsection{cycleGAN: sliced 3D image }
+
+The second approach is to train one unified cycleGAN on all of the slices from the XY, XZ and YZ planes dependently.
+ 
+
+\subsubsection{Classifier - OSKAR} 
 
 
 \subsection{Reproducibility}\label{repro}
@@ -517,7 +529,7 @@ Furthermore, the versions of the packages used in the project are given in the t
 			& albumentations& & & & & & & $1.1.0$  & \\ \bottomrule
 		\end{tabular}
 	\end{center}
-\end{table}
+\end{table}1
 \noindent Since randomness plays a large roll in implementing deep learning architectures, random seeds have been set in order to ensure equivalent results for every run of the notebook. The seed number was set to 42 and was used for the python seed \texttt{random.seed}, the numpy seed \texttt{np.random.seed} and the pytorch seeds \texttt{torch.manual\_seed} \texttt{torch.cuda.manual\_seed}
 \texttt{torch.cuda.manual\_seed\_all} and were set before any processes were run in any of the scrips used.
 
@@ -550,6 +562,12 @@ The script \texttt{utils.py} and \texttt{dataset.py} are not as important to the
 
 \section{Results}\label{results}
 
+\subsection{cycleGAN}
+
+%TODO insert loss curves and show results for mapping 
+
+%
+
 
 
 
@@ -566,6 +584,35 @@ The script \texttt{utils.py} and \texttt{dataset.py} are not as important to the
 \subsection{Safe AI}
 
 \subsection{Economic Incentive of a good classification model}
+One could ask the question of what societal and economic implications a good classification model within this field study could imply. This section aims to estimate the outcome of implementing such a classifier into the society of Denmark. This will give an insight into whether continuing to study in this field would make sense for the sake of societal impact. The danish 2025 dementia plan has the following goals:
+
+\begin{itemize}
+	\item Denmark needs 98 dementia friendly communes
+	\item 80 \% of people with dementia needs a specific diagnosis 
+	\item Reduce the amount of anti-psychotic medicine with 50 \% in year 2025
+\end{itemize}
+\noindent
+One of the relevant key focus areas include early detection and quality treatment which can be aided by the deep learning models. An average patient with dementia cost approximately $ 51000 \ \texttt{DKK / year}$:
+
+%\texttt{\begin{table}
+%	\item Practice sector: 3900 DKK
+%	\item Hospital sector somatics: 33500 DKK 
+%	\item Hospital psychiatry: 4000 DKK
+%	\item Medicine: 9700 DKK 
+%\end{table}}
+
+\begin{table}[H]
+	\begin{tabular}{ll}
+		Practice sector   &\ \ 3900  DKK  \\
+		Hospital sector somatics  & 33500 DKK \\
+		Hospital psychiatry  &  \ \ 4000  DKK  \\
+		Medicine & \ \ 9700  DKK 
+	\end{tabular}
+\end{table}
+ 
+In Denmark around $ 85000-90000 $ people live with a dementia disease. Around 50000 of these cases are Alzheimer. Every year around $ 8000 $ new cases are detected and in 2040 the expected amount of people with dementia above 60 years old is $ 125000 $ to $ 150000 $. This amount to Denmark spending $ 4.59 $ Billion DKK / year on Alzheimer Patients to $ 7.65 $ Billion DKK / year. \footnote{!NB Not taking inflation into consideration for the outlined numbers} These numbers do not take healthcare personal, researchers and other variable costs into consideration. Moreover, 65\% to 85\% of all inhabitants in eldercare has a dementia disease. The cost of informal care time ranges between $ 5.0 $ to $ 6.9 $ hours daily. Furthermore, the daily cost was estimated to range between $ 1190 - 1658 $ DKK / day for primary caregivers\footnote{A primary caregiver can range from everything from a nurse, family member etc.} and $ 171 - 253 $ DKK / day for secondary caregivers. The cost for Denmark amounts to $ 18 $ Billion DKK / year, on eldercare alone. The total cost of dementia related diseases in Denmark is estimated to be 20 Billion DKK / year.  \cite{Alzheimerforeningen} \cite{informal_care} Thus, a screening to detect Alzheimer before a patient showing symptoms can be a way to both drive down cost of the danish society, but also optimize life expectancy and quality for the citizens of Denmark.
+ 
+% TODO: inkluder syge plejerske
 
 
 \section{Conclusion}\label{conclusion}
@@ -624,6 +671,10 @@ The script \texttt{utils.py} and \texttt{dataset.py} are not as important to the
 		
 		\bibitem{yudong} Zhang, Yudong et al. "C	lassification of Alzheimer Disease Based on Structural Magnetic
 		Resonance Imaging by Kernel Support Vector Machine Decision Tree", Progress In Electromagnetics Research, Vol. 144, 171-184, 2014
+		
+		\bibitem{Alzheimerforeningen} Alzheimer.dk "Fakta om demens": \url{https://www.alzheimer.dk/viden-om-demens/fakta-om-demens/}, last visited at 22nd December, 2021
+		
+		\bibitem{informal_care} Jakobsen, Marie et al. "Costs of Informal Care for People Suffering from Dementia: Evidence from a Danish Survey"
 		
 	\end{thebibliography}
 	

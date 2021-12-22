@@ -18,7 +18,7 @@ class Discriminator(nn.Module):
         super().__init__()
         self. initial = nn.Sequential(
             nn.Conv2d(in_channels, features[0], kernel_size=4, stride=2, padding=1, padding_mode='reflect'),
-            nn.LeakyReLU(0,2),
+            nn.LeakyReLU(0,2)
                                     )
         layers = []
         in_channels = features[0]
