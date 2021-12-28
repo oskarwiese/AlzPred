@@ -511,9 +511,9 @@ The batch size, learning rate, $\lambda_{cyc}$ and betas were set to the same va
 
 The discriminator and generator convolution depths were chosen to match those used in the original CycleGAN paper. It is self-explanatory that using other images (RGB, non-square, different dimension) would require changing the architecture of input and output dimensions of all four models while also ensuring that the kernel size, stride and padding of the convolutional layers are setup correctly. This can be double checked by using $output\_dim = n - k + p + 1$, where $n$ is the image dimension, $k$ is kernel size and $p$ is padding.
 
-\subsubsection{Troubleshooting}%TODO: Skal måske faktisk stå i results???
+\subsubsection{Troubleshooting}\label{troubleshooting}%TODO: Skal måske faktisk stå i results???
 % Image Issues
-Since implementing a cycleGAN requires implementing four different neural networks, the hyperparameter search and minutia of the model can be difficult to get right. A known problem is cycleGAN only training until they reach a local minimum \cite{ganlocalminimum}. Another is the issue of getting noisy black and white squares in black-and-white images, sometimes referred to as checkerboard noise. One of the first models that was trained on the MRI ADNI images turned out to contain a version of this checkerboard noise. The source of the noise turned out to be an uneven sampling of pixels in earlier layers to newer layers when doing the upsampling (also known as transpose convolution or deconvolution). Mismatches between the kernel size and the stride as well as bad upscaling can cause some areas of the upsampled image to contain information from more pixels than others. This is a critical cause of the recognizable checkerboard noise \cite{checkerboard}. An illustration of how the flaw gets made can be seen below. images generated from the flawed cycleGAN can also be seen in illustration \ref{fig:troubleshoota}. Here, it is clear that white squares are surrounded by black squares all over the image, worsening the general image quality.
+Since implementing a cycleGAN requires implementing four different neural networks, the hyperparameter search and minutia of the model can be difficult to get right. Very many issues like non-convergence, mode collapse, diminished gradients, vanishing gradients and more are well documented \cite{hard_to_train}. A known problem is cycleGAN only training until they reach a local minimum \cite{ganlocalminimum}. Another is the issue of getting noisy black and white squares in black-and-white images, sometimes referred to as checkerboard noise. One of the first models that was trained on the MRI ADNI images turned out to contain a version of this checkerboard noise. The source of the noise turned out to be an uneven sampling of pixels in earlier layers to newer layers when doing the upsampling (also known as transpose convolution or deconvolution). Mismatches between the kernel size and the stride as well as bad upscaling can cause some areas of the upsampled image to contain information from more pixels than others. This is a critical cause of the recognizable checkerboard noise \cite{checkerboard}. An illustration of how the flaw gets made can be seen below. images generated from the flawed cycleGAN can also be seen in illustration \ref{fig:troubleshoota}. Here, it is clear that white squares are surrounded by black squares all over the image, worsening the general image quality.
 
 \begin{figure}[H]
 	\centering
@@ -658,6 +658,31 @@ The script \texttt{utils.py} and \texttt{dataset.py} are not as important to the
 %TODO: https://machinelearningmastery.com/how-to-evaluate-generative-adversarial-networks/
 %Once your confidence in developing GAN models improves, both the Inception Score and the Frechet Inception Distance can be used to quantitatively summarize the quality of generated images. There is no single best and agreed upon measure, although, these two measures come close.
 
+This section will focus on showing relevant outputs of the final trained models. Results from previous, less successful models can be found in section \ref{appendix} and section \ref{troubleshooting} highlights some of largest issues during the image generation and how they were solved.
+\subsection{XY Generated Images}\label{xy_generated}
+
+
+\subsection{XZ Generated Images}\label{xz_generated}
+
+
+\subsection{YZ Generated Images}\label{yz_generated}
+
+
+\subsection{All Planes Generated Images}\label{all_generated}
+
+\subsection{Discriminator Losses}\label{disc_loss}
+
+
+\subsection{Generator Losses}\label{gen_loss}
+
+
+\subsection{Cycle-Consistency Losses}\label{cycle_loss}
+
+
+\subsection{Identity Losses}\label{iden_loss}
+
+
+
 
 \section{Discussion}\label{discussion}
 
@@ -701,14 +726,14 @@ One of the relevant key focus areas include early detection and quality treatmen
 		
 		In Denmark around $ 85000-90000 $ people live with a dementia disease. Around 50000 of these cases are Alzheimer. Every year around $ 8000 $ new cases are detected and in 2040 the expected amount of people with dementia above 60 years old is $ 125000 $ to $ 150000 $. This amount to Denmark spending $ 4.59 $ Billion DKK / year on Alzheimer Patients to $ 7.65 $ Billion DKK / year. \footnote{!NB Not taking inflation into consideration for the outlined numbers} These numbers do not take healthcare personal, researchers and other variable costs into consideration. Moreover, 65\% to 85\% of all inhabitants in eldercare has a dementia disease. The cost of informal care time ranges between $ 5.0 $ to $ 6.9 $ hours daily. Furthermore, the daily cost was estimated to range between $ 1190 - 1658 $ DKK / day for primary caregivers\footnote{A primary caregiver can range from everything from a nurse, family member etc.} and $ 171 - 253 $ DKK / day for secondary caregivers. The cost for Denmark amounts to $ 18 $ Billion DKK / year, on eldercare alone. The total cost of dementia related diseases in Denmark is estimated to be 20 Billion DKK / year.  \cite{Alzheimerforeningen} \cite{informal_care} Thus, a screening to detect Alzheimer before a patient showing symptoms can be a way to both drive down cost of the danish society, but also optimize life expectancy and quality for the citizens of Denmark.
 		
-		% TODO: inkluder syge plejerske
+		% TODO: inkluder sygeplejerske
 
 \section{Conclusion}\label{conclusion}
 
 
 
 \newpage
-\section{Appendix}
+\section{Appendix}\label{appendix}
 
 \subsection{Pseudo Code}
 
@@ -777,6 +802,8 @@ One of the relevant key focus areas include early detection and quality treatmen
 		\bibitem{mode_collapse_reddit_fix} AnvaMiba, "[Discussion] Discriminator converging to 0 loss in very few steps while training GAN.", Reddit, 2016, https://www.reddit.com/r/MachineLearning/comments/5asl74/discussion\_discriminator\_converging\_to\_0\_loss\_in/
 		
 		\bibitem{mode_collapse_github} vrao9, "Loss D goes to zero when adding a new loss to generator", Github Issues, 2019, https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/issues/626
+		
+		\bibitem{hard_to_train} Hui, Jonathan, "GAN — Why it is so hard to train Generative Adversarial Networks!", Medium, 2018, https://jonathan-hui.medium.com/gan-why-it-is-so-hard-to-train-generative-advisory-networks-819a86b3750b
 		
 	\end{thebibliography}
 	
