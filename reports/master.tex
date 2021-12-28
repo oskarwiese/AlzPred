@@ -509,6 +509,7 @@ The batch size, learning rate, $\lambda_{cyc}$ and betas were set to the same va
 The discriminator and generator convolution depths were chosen to match those used in the original CycleGAN paper. It is self-explanatory that using other images (RGB, non-square, different dimension) would require changing the architecture of input and output dimensions of all four models while also ensuring that the kernel size, stride and padding of the convolutional layers are setup correctly. This can be double checked by using $output\_dim = n - k + p + 1$, where $n$ is the image dimension, $k$ is kernel size and $p$ is padding.
 
 \subsubsection{Troubleshooting}%TODO: Skal måske faktisk stå i results???
+% Image Issues
 Since implementing a cycleGAN requires implementing four different neural networks, the hyperparameter search and minutia of the model can be difficult to get right. A known problem is cycleGAN only training until they reach a local minimum \cite{ganlocalminimum}. Another is the issue of getting noisy black and white squares in black-and-white images, sometimes referred to as checkerboard noise. One of the first models that was trained on the MRI ADNI images turned out to contain a version of this checkerboard noise. The source of the noise turned out to be an uneven sampling of pixels in earlier layers to newer layers when doing the upsampling (also known as transpose convolution or deconvolution). Mismatches between the kernel size and the stride as well as bad upscaling can cause some areas of the upsampled image to contain information from more pixels than others. This is a critical cause of the recognizable checkerboard noise \cite{checkerboard}. An illustration of how the flaw gets made can be seen below. images generated from the flawed cycleGAN can also be seen in illustration \ref{fig:troubleshoota}. Here, it is clear that white squares are surrounded by black squares all over the image, worsening the general image quality.
 
 \begin{figure}[H]
@@ -517,9 +518,9 @@ Since implementing a cycleGAN requires implementing four different neural networ
 	\caption{When the kernel size is not divisible by the stride, the image gets higher intensity in some areas than others leading to a checkerboard pattern. Shown here is a deconvolution using kernel size of 3 and stride of 2. Figure courtesy of \cite{checkerboard}.}
 	\label{fig:deconvolutionmismatch}
 \end{figure}
-Solving this problem in practice first required separating upsampling from convolution. This works since the more intensity between pixels is split between multiple pixels. Doing this in practice involved switching every deconvolution layer except the last one from \texttt{nn.ConvTranspose2d(in\_channels, out\_channels, **kwargs)} to first \texttt{nn.Upsample(scale\_factor=2, mode='bilinear', align\_corners=True)} and then \texttt{nn.Conv2d(in\_channels, out\_channels, **kwargs)}. In a nutshell, instead of running a transpose convolution, an upsampling is perform to double the size of the image using bilinear interpolation and then a standard convolution is performed. This not only solves most of the checkerboard issues but also ensures that the model is able to learn from the decoding, since (\texttt{nn.Conv2d} and \texttt{nn.ConvTranspose2d} have trainable kernels while \texttt{nn.Upsample} does not) \cite{learnableKernel}. After implementing this functionality, the generated images now look like shown in illustration \ref{fig:troubleshootb}. We now see that most of the checkerboard artifacts are gone, though some vertical and horizontal lines still persist.
+Solving this problem in practice first required separating upsampling from convolution. This works since the more intensity between pixels is split between multiple pixels. Doing this in practice involved switching every deconvolution layer except the last one from \texttt{nn.ConvTranspose2d(in\_channels, out\_channels, **kwargs)} to first \texttt{nn.Upsample(scale\_factor=2, mode='bilinear', align\_corners=True)} and then \texttt{nn.Conv2d(in\_channels, out\_channels, **kwargs)}. In a nutshell, instead of running a transpose convolution, an upsampling is perform to double the size of the image using bilinear interpolation and then a standard convolution is performed. This not only solves most of the checkerboard issues but also ensures that the model is able to learn from the decoding, since (\texttt{nn.Conv2d} and \texttt{nn.ConvTranspose2d} have trainable kernels while \texttt{nn.Upsample} does not) \cite{learnableKernel}. After implementing this functionality, the generated images now look like shown in illustration \ref{fig:troubleshootb}. We now see that most of the checkerboard artifacts are gone, though some vertical and horizontal lines still persist. A weird white void has also been generated around about half of the images for some reason.
 
-The slight lines in the generated images after using bilinear interpolation for upsampling are not nearly as problematic but are still unfortunate as a final output. To solve this, we implemented a kernel size that was divisible by the stride in the deconvolution layers, as mentioned in the previous paragraph. This should make the kernel spread information from each pixel more evenly between new pixels and supply a less grainy final image \cite{checkerboard}. In illustration \ref{fig:troubleshootc}, most of the noise has finally been removed and no lines persist in the image. The full comparison between results after each improvement has been implemented, can be seen for the same subject in figure \ref{fig:troubleshoot}.
+The slight lines in the generated images after using bilinear interpolation for upsampling are not nearly as problematic but are still unfortunate as a final output. To solve this, we implemented a kernel size that was divisible by the stride in the deconvolution layers, as mentioned in the previous paragraph. This should make the kernel spread information from each pixel more evenly between new pixels and supply a less grainy final image \cite{checkerboard}. In illustration \ref{fig:troubleshootc}, most of the noise has finally been removed and no lines persist in the image. The white voids around the brain seems to have become even more prevalent though, which also needs to be fixed. This was taken care of by replacing bilinear interpolation with nearest-neighbor interpolation. The result of replacing the interpolation can be seen in \ref{fig:troubleshootd}. It is now evident that basically no noise is left in the image, and most of the troubleshooting relating to image quality has thus subsided. The full comparison between results after each improvement has been implemented, can be seen in figure \ref{fig:troubleshoot}.
 
 \begin{figure}[H]
 	\centering
@@ -541,31 +542,52 @@ The slight lines in the generated images after using bilinear interpolation for 
 		\label{fig:troubleshootb}
 	\end{subfigure}
 	\vskip\baselineskip
-	\begin{subfigure}[b]{0.7\textwidth}
-		\centering
-		\includegraphics[width=0.475\linewidth]{imgs/1.5T_no_noise}%
-		\hfill
-		\includegraphics[width=0.475\linewidth]{imgs/3T_no_noise}
-		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
-		\label{fig:troubleshootc}
-	\end{subfigure}
-	\caption{Comparison of troubleshooting efforts from the different methods of decoding in the generators.}
-	\label{fig:troubleshoot}
 \end{figure}
-Even after the struggle of implementing all of the these changes, some challenges are still present when generating images, though at this point the severity of the problems has been significantly reduced. It turns out that in the very rare case of non-zero pixels approaching the image border, these pixels get sliced in a weird fashion, which also creates some lined artifacts. This artifact can be seen in figure \ref{fig:troubleshoot_verticals} for a random subject for each field-strength, where the above explained case manifested itself.
 
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.475\linewidth]{imgs/1.5T_border_artifact}%
+		\includegraphics[width=0.475\linewidth]{imgs/1.5T_bilinear}%
 		\hfill
-		\includegraphics[width=0.475\linewidth]{imgs/3T_border_artifact}
+		\includegraphics[width=0.475\linewidth]{imgs/3T_bilinear}
+		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
+		\label{fig:troubleshootc}
 	\end{subfigure}
-	\caption{Two generated images before training was completed (half an epoch and one and a half epochs respectively). The left image is 1.5T and the right is 3T. The image artifact occurs on the left side of the images, where a trading pattern of low-intensity and high-intensity pixels can be seen forming small vertical lines.}
-	\label{fig:troubleshoot_verticals}
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.475\linewidth]{imgs/1.5T_no_noise}
+		\hfill
+		\includegraphics[width=0.475\linewidth]{imgs/3T_no_noise}
+		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		\label{fig:troubleshootd}
+	\end{subfigure}
+	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
+	\label{fig:troubleshoot}
 \end{figure}
-Since this image artifact occurs so rarely in generated images, it has been decided that resolving this issue will be left as future work. For future reference, the problem likely transpires because of padding and not kernel size nor stride, since these hyperparameters where debugged earlier in this section. A likely cause is the padding adding extra pixels to the edges of images which means that these pixels are not as likely to learn important information in the image creation, since they are only a part of the generator network for a very short amount of time.
+Even after the struggle of implementing all of the these changes, some challenges are still present when generating images, though at this point the severity of the problems has been significantly reduced. It turns out that images that are converted from $3T$ to $1.5T$ get a coupe horizontal white lines in the top of the image. This artifact can be seen in figure \ref{fig:troubleshoot_horizontals} for a random subject for each field-strength, where the above explained case manifested itself.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.475\linewidth]{imgs/1.5T_hori1}%
+		\hfill
+		\includegraphics[width=0.475\linewidth]{imgs/1.5T_hori2}
+	\end{subfigure}
+	\caption{Two generated images before training was completed (half an epoch and one and a half epochs respectively). The left image is 1.5T and the right is 3T. The image artifact occurs only on the top of the $1.5T$ images, where a trading pattern of low-intensity and high-intensity pixels can be seen forming small horizontal lines.}
+	\label{fig:troubleshoot_horizontals}
+\end{figure}
+Since this problem seems to exist in such a small part of the images, it has been decided that resolving this issue will be left as future work. For future reference, the problem likely transpires because the combination of kernel size and stride is still not completely optimized. This means that especially areas varying between low- and high-intensity pixels will be less refined than other areas of the image. Why this error only happens at the top of the image is, for the time being, a mystery.
+\\\\
+% Mode Collapse
+Another issue entirely turned out to be that the vast number of input images all mapped to the same output image. This problem is well-known and is commonly called mode collapse. Figuring out that the models suffered from mode collapse normally required either plotting loss curves and seeing oscillations in the generator loss or sampling a number of images using different input images. In the generator models from this paper, no signs of mode collapse could be seen in the loss curves except for the discriminator constantly having very low loss. It was very evident that the generator only created one image when given multiple input images though \cite{mode_collapse_MLM}. Examples of the images used to test for mode collapse and the resulting generator output images are shown below in figure \ref{label}.
+
+%TODO: få billeder fra mode collapse
+%\begin{figure}
+%	
+%\end{figure}
+Many solution to the problem of mode collapse exist, some being much easier to implement than other. Easier solutions include
 
 \subsubsection{Classifier}
 
@@ -747,6 +769,11 @@ One of the relevant key focus areas include early detection and quality treatmen
 		
 		\bibitem{informal_care} Jakobsen, Marie et al. "Costs of Informal Care for People Suffering from Dementia: Evidence from a Danish Survey"
 		
+		\bibitem{mode_collapse_MLM} Brownlee, Jason, "How to Identify and Diagnose GAN Failure Modes", Machine Learning Mastery, 2019, https://machinelearningmastery.com/practical-guide-to-gan-failure-modes/
+		
+		\bibitem{mode_collapse_reddit_fix} AnvaMiba, "[Discussion] Discriminator converging to 0 loss in very few steps while training GAN.", Reddit, 2016, https://www.reddit.com/r/MachineLearning/comments/5asl74/discussion\_discriminator\_converging\_to\_0\_loss\_in/
+		
+		\bibitem{mode_collapse_github} vrao9, "Loss D goes to zero when adding a new loss to generator", Github Issues, 2019, https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/issues/626
 		
 	\end{thebibliography}
 	
