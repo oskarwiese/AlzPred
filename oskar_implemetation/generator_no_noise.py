@@ -10,7 +10,8 @@ class ConvBlock(nn.Module):
         if down:
             layers = [nn.Conv2d(in_channels, out_channels, padding_mode='reflect', **kwargs)]
         else:
-            layers = [nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True), nn.Conv2d(in_channels, out_channels, padding_mode='reflect', **kwargs)]
+            #layers = [nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True), nn.Conv2d(in_channels, out_channels, padding_mode='reflect', **kwargs)]
+            layers = [nn.Upsample(scale_factor=2, mode='nearest'), nn.Conv2d(in_channels, out_channels, padding_mode='reflect', **kwargs)]
             #layers = [nn.ConvTranspose2d(in_channels, out_channels, **kwargs)]
         self.conv = nn.Sequential(
             *layers,
@@ -51,12 +52,12 @@ class Generator(nn.Module):
         
         self.up_blocks = nn.ModuleList(
             [
-                ConvBlock(num_features * 4, num_features * 2, down = False, kernel_size = 4, stride = 1, padding = 2),
+                ConvBlock(num_features * 4, num_features * 2, down = False, kernel_size = 4, stride = 1, padding = 1),
                 ConvBlock(num_features * 2, num_features    , down = False, kernel_size = 4, stride = 1, padding = 1),
             ]
         )
 
-        self.last = nn.Conv2d(num_features * 1, img_channels, kernel_size = 8, stride = 1, padding = 1, padding_mode='reflect')
+        self.last = nn.Conv2d(num_features * 1, img_channels, kernel_size = 8, stride = 1, padding = 3, padding_mode='reflect')
 
     def forward(self, x):
         x = self.initial(x)
@@ -72,7 +73,7 @@ def test():
     img_size = 256
     x = torch.randn((1, img_channel, img_size, img_size))
     gen = Generator(img_channel, 9)
-    print(gen)
+    #print(gen)
     print(gen(x).shape)
 
 if __name__ == '__main__':

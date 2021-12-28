@@ -37,8 +37,8 @@ def test():
     model = Discriminator(in_channels=3)
     print(repr(model))
     preds = model(x)
-    print(f'Shape of pred is: {preds.shape} \n')
     print(f'Model: \n {preds}')
+    print(f'Shape of pred is: {preds.shape} \n')
 
 if __name__ == "__main__":
     test()

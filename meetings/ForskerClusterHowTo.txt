@@ -23,4 +23,7 @@ Guide til screen
 	ctrl+a d til at detache screen
 	screen -r til at komme tilbage
 	screen -r [NUMMER] hvis man har flere åbne screens
-	Man skal lukke hver screen med exit inde på selve screenen, når man er færdig med dem
+	Man skal lukke hver screen med ctrl+d,k,y inde på selve screenen, når man er færdig med dem
+
+	screen -S NAVN for at navngive screen
+	ctrl+a,: og sessionname NAVN for at navngive screen efter den er startet
