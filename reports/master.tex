@@ -25,43 +25,20 @@
 \usepackage{booktabs}
 \usepackage{makecell}
 \usepackage{multicol}
-\definecolor{green}{rgb}{0.67, 0.88, 0.69}
-\definecolor{red}{rgb}{1.0, 0.44, 0.37}
-\newcommand\MyBoxgreen[2]{
-	\fcolorbox{black}{green}{\lower1cm
-		\vbox to 2.4cm{\vfil
-			\hbox to 2.4cm{\hfil\parbox{1.4cm}{#1\\#2}\hfil}
-			\vfil}%
-	}%
-}
-\newcommand\MyBoxred[2]{
-	\fcolorbox{black}{red}{\lower1cm
-		\vbox to 2.4cm{\vfil
-			\hbox to 2.4cm{\hfil\parbox{1.4cm}{#1\\#2}\hfil}
-			\vfil}%
-	}%
-}
+\usepackage{nccmath}
+\usepackage{graphicx}
 
-%\captionsetup{labelfont=bf}
-%\def\fix{\hskip\fontdimen2\font\relax}
-%\lstset{
-%	basicstyle=\ttfamily,
-%	keywordstyle=\bfseries,
-%	showstringspaces=false,
-%	morekeywords={def, for, return, if, else},
-%	xleftmargin=-3.0cm
-%}
 \hypersetup{
 	colorlinks=true,
 	linkcolor=blue,
 	filecolor=magenta,      
 	urlcolor=cyan,
 }
-\usepackage{nccmath}
-\usepackage{graphicx}
-%\usepackage{algorithmic}
-%\usepackage{program}
-%\title{CycleGAN (Cyclical Generative Adversarial Network) for Field Strength Bias Removal in Alzheimer's Disease Classification Model}
+
+% Variables for result plots
+\newcommand\skipper{1.4pt}
+\newcommand\ripper{2.5pt}
+
 \title{CycleGAN for Removing Field Strength Bias in Alzheimer's Disease Classification Model}
 \author{Oskar Eiler Wiese Christensen \& Anders Henriksen \\ \texttt{\{s183917, s183904\}@dtu.dk}}
 \date{\today}
@@ -658,11 +635,34 @@ The script \texttt{utils.py} and \texttt{dataset.py} are not as important to the
 %TODO: https://machinelearningmastery.com/how-to-evaluate-generative-adversarial-networks/
 %Once your confidence in developing GAN models improves, both the Inception Score and the Frechet Inception Distance can be used to quantitatively summarize the quality of generated images. There is no single best and agreed upon measure, although, these two measures come close.
 
-This section will focus on showing relevant outputs of the final trained models. Results from previous, less successful models can be found in section \ref{appendix} and section \ref{troubleshooting} highlights some of largest issues during the image generation and how they were solved. The general goal of this section will be to first go through examples of generated images and compare and contrast them to real images, and secondly to show loss-curves for each model. Sections \ref{xy_generated}, \ref{xz_generated} and \ref{yz_generated} provide examples of generated images from the models trained on the $XY$, $XZ$ and $YZ$ respectively. Afterwards, section \ref{all_generated} will show results on every plane when a model has been trained on data from all of $XY$, $XZ$ and $YZ$. Afterwards, the next four sections will focus on the various losses. The sections \ref{disc_loss}, \ref{gen_loss}, \ref{cycle_loss} and \ref{iden_loss} will show respectively the discriminator losses, generator losses, cycle losses and identity losses from each of the four aforementioned models.
+This section will focus on showing relevant outputs of the final trained models. Results from previous, less successful models can be found in section \ref{appendix} and section \ref{troubleshooting} highlights some of largest issues during the image generation and how they were solved. The general goal of this section will be to first go through examples of generated images and compare and contrast them to real images, and secondly to show loss-curves for each model. Sections \ref{xy_generated}, \ref{xz_generated} and \ref{yz_generated} provide examples of generated images from the models trained on the $XY$, $XZ$ and $YZ$ respectively. In a slightly different manner, section \ref{training_progress} shows how training comes along after a number of steps to show what the generators learn and when. Afterwards, section \ref{all_generated} will show results on every plane when a model has been trained on data from all of $XY$, $XZ$ and $YZ$. Afterwards, the next four sections will focus on the various losses. The sections \ref{disc_loss}, \ref{gen_loss}, \ref{cycle_loss} and \ref{iden_loss} will show respectively the discriminator losses, generator losses, cycle losses and identity losses from each of the four aforementioned models.
+
+\subsection{Training Progress}\label{training_progress}
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.32\linewidth]{imgs/placeholder_idx_0}
+		\hskip\skipper
+		\includegraphics[width=0.32\linewidth]{imgs/placeholder_idx_4000}
+		\hskip\skipper
+		\includegraphics[width=0.32\linewidth]{imgs/placeholder_idx_10000}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.32\linewidth]{imgs/placeholder_idx_14000}
+		\hskip\skipper
+		\includegraphics[width=0.32\linewidth]{imgs/placeholder_idx_25000}
+		\hskip\skipper
+		\includegraphics[width=0.32\linewidth]{imgs/placeholder_idx_40000}
+	\end{subfigure}
+%	\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+%	\label{fig:troubleshootd}
+\end{figure}
 
 \subsection{XY Generated Images}\label{xy_generated}
-\newcommand\skipper{1.4pt}
-\newcommand\ripper{2.5pt}
 %TODO: Fyld ud med de rigtige billeder og skriv figurtekst
 \begin{figure}[H]
 	\centering
@@ -982,15 +982,24 @@ This section will focus on showing relevant outputs of the final trained models.
 
 \section{Discussion}\label{discussion}
 
+
+\subsection{What do the Results Show?}\label{discussionOfResults}
+
+
 \subsection{Would the Model be Efficacious in Practice?}
+
 
 \subsection{Standardization of Measuring Equipment (3T/1.5T)}
 
+
 \subsection{Improvements for Future Papers}
+
 
 \subsection{Dealing With GDPR in Personal Data}
 
+
 \subsection{Safe AI}
+
 
 \subsection{Economic Incentive of a good classification model}
 
