@@ -523,7 +523,6 @@ The slight lines in the generated images after using bilinear interpolation for 
 	\end{subfigure}
 	\vskip\baselineskip
 \end{figure}
-
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -664,6 +663,7 @@ This section will focus on showing relevant outputs of the final trained models.
 
 \subsection{XY Generated Images}\label{xy_generated}
 %TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: Her er tanken at rows eller columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -723,6 +723,7 @@ This section will focus on showing relevant outputs of the final trained models.
 
 \subsection{XZ Generated Images}\label{xz_generated}
 %TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: Her er tanken at rows eller columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -782,6 +783,7 @@ This section will focus on showing relevant outputs of the final trained models.
 
 \subsection{YZ Generated Images}\label{yz_generated}
 %TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: Her er tanken at rows eller columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -841,6 +843,7 @@ This section will focus on showing relevant outputs of the final trained models.
 
 \subsection{All Planes Generated Images}\label{all_generated}
 %TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: Her er tanken at rows eller columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -1033,6 +1036,7 @@ One of the relevant key focus areas include early detection and quality treatmen
 		
 		% TODO: inkluder sygeplejerske
 
+
 \section{Conclusion}\label{conclusion}
 
 
@@ -1040,13 +1044,223 @@ One of the relevant key focus areas include early detection and quality treatmen
 \newpage
 \section{Appendix}\label{appendix}
 
+
 \subsection{Pseudo Code}
+
 
 \subsection{Shell scripts}
 
 
+\subsection{MNIST GAN}
+%TODO: Skriv en introduktion til denne section
+
+\subsubsection{Losses}
+
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{imgs/MNIST_GAN_normal_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/MNIST_GAN_normal_losses}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been implemented in upsampling.}
+		%		\label{fig:troubleshootb}
+	\end{subfigure}
+	%	\caption{text}
+	%	\label{key}
+\end{figure}
+
+\subsubsection{Progress of Training}
+
+%TODO: skriv figurtekst
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{imgs/MNIST_GAN_normal_result_epoch_0_minibatch_500}
+	\hfill
+	\includegraphics[width=\linewidth]{imgs/MNIST_GAN_normal_result_epoch_68_minibatch_0}
+%	\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been implemented in upsampling.}
+%	\label{fig:troubleshootb}
+\end{figure}
+\begin{figure}[H]
+	\includegraphics[width=\linewidth]{imgs/MNIST_GAN_normal_result_epoch_148_minibatch_0}
+	\hfill
+	\includegraphics[width=\linewidth]{imgs/MNIST_GAN_normal_result_epoch_198_minibatch_500}
+%	\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been implemented in upsampling.}
+%	\label{fig:troubleshootb}
+\end{figure}
+
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{imgs/MNIST_GAN_normal_result_epoch_0_minibatch_500}
+	\hfill
+	\includegraphics[width=\linewidth]{imgs/MNIST_GAN_normal_result_epoch_68_minibatch_0}
+	%	\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been implemented in upsampling.}
+	%	\label{fig:troubleshootb}
+\end{figure}
+\begin{figure}[H]
+	\includegraphics[width=\linewidth]{imgs/MNIST_GAN_normal_result_epoch_148_minibatch_0}
+	\hfill
+	\includegraphics[width=\linewidth]{imgs/MNIST_GAN_normal_result_epoch_198_minibatch_500}
+	%	\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been implemented in upsampling.}
+	%	\label{fig:troubleshootb}
+\end{figure}
+
+%TODO: Sammenlign ægte og genererede MNIST-billeder i et stort grid
+
+\subsubsection{Discussion of Results}
+%TODO: Skriv om resultaterne og årsagerne til dem
 
 
+\subsection{Horse2Zebra CycleGAN}
+
+
+\subsubsection{Losses}
+
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: Tanken er at denne figure indeholder alle fire losses. Ellers kan de opdeles med hver deres figurtekst
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{imgs/placeholder_identity_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/placeholder_identity_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/placeholder_identity_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/placeholder_identity_losses}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been implemented in upsampling.}
+		%		\label{fig:troubleshootb}
+	\end{subfigure}
+	%	\caption{text}
+	%	\label{key}
+\end{figure}
+
+\subsubsection{Progress of Training}
+
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: vis hvordan billederne bliver bedre over tid og vis eksempler på heste
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		%		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
+		%		\label{fig:troubleshootc}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
+	%	\label{fig:troubleshoot}
+\end{figure}
+
+
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: vis hvordan billederne bliver bedre over tid og vis eksempler på zebraer
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		%		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
+		%		\label{fig:troubleshootc}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
+	%	\label{fig:troubleshoot}
+\end{figure}
+
+\subsubsection{Discussion of Results}
+%TODO: Skriv om resultaterne og årsagerne til dem
 
 
 \newpage
