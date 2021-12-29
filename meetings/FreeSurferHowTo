@@ -9,9 +9,10 @@ cp /dtu-compute/ADNIbias/FSstable71 . (copy the file there)
 
 chmod 755 FSstable71 (change permisssions to make it an executable)
 
+
 DO THIS EVERY TIME YOU USE FREESURFER:
 
-source FSstable71 (makes FreeSurfer accessible to you)
+source /dtu-compute/ADNIbias/FSstable71 (makes FreeSurfer accessible to you)
 
 TO CHECK THIS SETUP OR VIEW IMAGES YOU NEED TO BE IN THINLINC:
 
