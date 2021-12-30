@@ -1045,7 +1045,7 @@ One of the relevant key focus areas include early detection and quality treatmen
 \section{Appendix}\label{appendix}
 
 
-\subsection{Pseudo Code}
+\subsection{Breakdown of Code}
 
 
 \subsection{Shell scripts}
@@ -1096,6 +1096,108 @@ One of the relevant key focus areas include early detection and quality treatmen
 	\includegraphics[width=\linewidth]{imgs/MNIST_GAN_mse_result_epoch_195_minibatch_0}
 	\caption{During training, 11 random generated images have been shown at different points along the training process (epoch 3, epoch 15, epoch 86 and epoch 197). The epochs were chosen to show the most interesting behavior or the achieved best performance of the model. The last of the 12 plots depicts the discriminator prediction for the current minibatch. The red columns are generated images and green columns are real images. as such, a perfect discriminator would place every red column at 0 and every green column at 1.}
 		\label{fig:training_progress_mse}
+\end{figure}
+
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: Her er tanken at hvert andet billede skal være ægte og de andre falske fra MNIST_GAN_normal
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_bilinear}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+	\end{subfigure}
+	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
+	%	\label{fig:troubleshoot}
+\end{figure}
+
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: Her er tanken at hvert andet billede skal være ægte og de andre falske fra MNIST_GAN_mse
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_bilinear}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+	\end{subfigure}
+	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
+	%	\label{fig:troubleshoot}
 \end{figure}
 
 %TODO: Sammenlign ægte og genererede MNIST-billeder i et stort grid
