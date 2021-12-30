@@ -1098,57 +1098,6 @@ One of the relevant key focus areas include early detection and quality treatmen
 		\label{fig:training_progress_mse}
 \end{figure}
 
-%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
-%TODO: Her er tanken at hvert andet billede skal være ægte og de andre falske fra MNIST_GAN_normal
-\begin{figure}[H]
-	\centering
-	\begin{subfigure}[b]{0.7\textwidth}
-		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_bilinear}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
-	\end{subfigure}
-	\vskip\ripper
-	\begin{subfigure}[b]{0.7\textwidth}
-		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-	\end{subfigure}
-	\vskip\ripper
-	\begin{subfigure}[b]{0.7\textwidth}
-		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-	\end{subfigure}
-	\vskip\ripper
-	\begin{subfigure}[b]{0.7\textwidth}
-		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-	\end{subfigure}
-	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
-	%	\label{fig:troubleshoot}
-\end{figure}
-
 \subsubsection{Generated Images}
 %TODO: skriv figurtekst
 \begin{figure}[H]
@@ -1196,8 +1145,8 @@ One of the relevant key focus areas include early detection and quality treatmen
 		\hskip\skipper
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_fake_7}
 	\end{subfigure}
-	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
-	%	\label{fig:troubleshoot}
+	\caption{Samples of real images from the MNIST dataset of handwritten digits and generated images from the generator in the MNIST GAN using L1 loss and BCE. Column 1 and 3 show real images and column 2 and 4 show generated images.}
+	\label{fig:generated_images_MNIST_GAN_normal}
 \end{figure}
 
 %TODO: skriv figurtekst
@@ -1246,11 +1195,11 @@ One of the relevant key focus areas include early detection and quality treatmen
 		\hskip\skipper
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_fake_7}
 	\end{subfigure}
-	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
-	%	\label{fig:troubleshoot}
+	\caption{Samples of real images from the MNIST dataset of handwritten digits and generated images from the generator in the MNIST GAN using MSE loss. Column 1 and 3 show real images and column 2 and 4 show generated images.}
+	\label{fig:generated_images_MNIST_GAN_mse}
 \end{figure}
 
-%TODO: Sammenlign ægte og genererede MNIST-billeder i et stort grid
+%TODO: Vis hvor god discriminatoren er blevet
 
 \subsubsection{Discussion of Results}
 %TODO: Skriv om resultaterne og årsagerne til dem
