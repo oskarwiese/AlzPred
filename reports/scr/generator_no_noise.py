@@ -10,7 +10,7 @@ class ConvBlock(nn.Module):
         if down:
             layers = [nn.Conv2d(in_channels, out_channels, padding_mode='reflect', **kwargs)]
         else:
-            layers = [nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True), nn.Conv2d(in_channels, out_channels, padding_mode='reflect', **kwargs)]
+            layers = [nn.Upsample(scale_factor=2, mode='nearest'), nn.Conv2d(in_channels, out_channels, padding_mode='reflect', **kwargs)]
             #layers = [nn.ConvTranspose2d(in_channels, out_channels, **kwargs)]
         self.conv = nn.Sequential(
             *layers,

@@ -27,6 +27,7 @@
 \usepackage{multicol}
 \usepackage{nccmath}
 \usepackage{graphicx}
+\usepackage[utf8]{inputenc}
 
 \hypersetup{
 	colorlinks=true,
@@ -38,6 +39,37 @@
 % Variables for result plots
 \newcommand\skipper{1.4pt}
 \newcommand\ripper{2.5pt}
+
+%%%%%%% Setup for python code in latex %%%%%%%
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+
+% Custom colors
+\usepackage{color}
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+
+\usepackage{listings}
+
+% Python style for highlighting
+\newcommand\pythonstyle{\lstset{
+		language=Python,
+		basicstyle=\ttm,
+		morekeywords={self},              % Add keywords here
+		keywordstyle=\ttb\color{deepblue},
+		emph={MyClass,__init__},          % Custom highlighting
+		emphstyle=\ttb\color{deepred},    % Custom highlighting style
+		stringstyle=\color{deepgreen},
+		frame=tb,                         % Any extra options here
+		showstringspaces=false
+}}
+
+% Python for external files
+\newcommand\pythonexternal[2][]{{
+\pythonstyle
+\lstinputlisting[#1]{#2}}}
 
 \title{CycleGAN for Removing Field Strength Bias in Alzheimer's Disease Classification Model}
 \author{Oskar Eiler Wiese Christensen \& Anders Henriksen \\ \texttt{\{s183917, s183904\}@dtu.dk}}
@@ -1045,8 +1077,38 @@ One of the relevant key focus areas include early detection and quality treatmen
 \section{Appendix}\label{appendix}
 
 
-\subsection{Breakdown of Code}
+\subsection{Showcase of Code}
+In section \ref{repro}, a general overview of the scripts used in this project has been made, and a justification is made for what the scripts are relevant for. In this section, the code itself is inserted for completeness.
 
+\subsubsection{train.py}
+\pythonexternal{scr/train.py}
+
+\subsubsection{discriminator\_model}
+\pythonexternal{scr/discriminator_model.py}
+
+\subsubsection{generator\_model.py}
+\pythonexternal{scr/generator_no_noise.py}
+
+\subsubsection{utils.py}
+\pythonexternal{scr/utils.py}
+
+\subsubsection{config.py}
+\pythonexternal{scr/config.py}
+
+\subsubsection{reconstruct.py}
+\pythonexternal{scr/reconstruct.py}
+
+\subsubsection{plots.py}
+\pythonexternal{scr/plots.py}
+
+\subsubsection{dataset.py}
+\pythonexternal{scr/dataset.py}
+
+\subsubsection{train\_GAN.py}
+\pythonexternal{scr/preliminary/train_GAN.py}
+
+\subsubsection{GAN\_result.py}
+\pythonexternal{scr/preliminary/GAN_results.py}
 
 \subsection{Shell scripts}
 
