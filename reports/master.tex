@@ -326,7 +326,7 @@ In general, GANs can be seen as two different complex neural networks competing 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{"imgs/GAN architecture"}
-	\caption{The GAN architecture. The generator decodes the random noise from the latent space into a fake image. This fake imgae as well as an image from the training set is fed into the Discriminator, which encodes the data into a binary prediction of whether the image is real or fake.}
+	\caption{The GAN architecture. The generator decodes the random noise from the latent space into a fake image. This fake imgae as well as an image from the training set is fed into the Discriminator, which encodes the data into a binary prediction of whether the image is real or fake. Figure courtesy of \cite{gan_introduction_towards_datascience}.}
 	\label{fig:gan-architecture}
 \end{figure}
 
@@ -1499,9 +1499,7 @@ Even though the discriminators are not nearly as important after having trained 
 	
 %	\bibitem{cnn2} M. Macaya et al. "June 18 Black Lives Matter protests news", 2020 CNN, at \url{https://edition.cnn.com/us/live-news/black-lives-matter-protests-06-18-2020/index.html}, visited 19-06-2020
 		
-		
-		\bibitem{first} Zhu, Jun-Yan, et al. "Unpaired image-to-image translation using cycle-consistent adversarial networks." Proceedings of the IEEE international conference on computer vision. 2017.
-		
+	%%%%% <python> %%%%%
 		\bibitem{python} Van Rossum, Guido et al. "Python 3 Reference Manual". CreateSpace. 2009.
 		
 		\bibitem{python_packages} Van Rossum, Guido. "The Python Library Reference, release 3.8.2". Python Software Foundation. 2020.
@@ -1517,6 +1515,11 @@ Even though the discriminators are not nearly as important after having trained 
 		\bibitem{pil} Umesh, P. "Image Processing in Python". Citeseer. 2012.
 		
 		\bibitem{albumentations} Buslaev, Alexander. "Albumentations: Fast and Flexible Image Augmentations". Information. 2020. https://www.mdpi.com/2078-2489/11/2/125
+		
+		\bibitem{bcewithlogits} Paszke, A et al. "PyTorch: An Imperative Style, High-Performance Deep Learning Library", Curran Associates, Inc., 2019, https://pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html
+		
+		\bibitem{learnableKernel} Neda et al., "torch.nn.ConvTranspose2d vs torch.nn.Upsample", PyTorch, 2018. https://discuss.pytorch.org/t/torch-nn-convtranspose2d-vs-torch-nn-upsample/30574/7
+	%%%%% </python> %%%%%
 		
 		\bibitem{second} Burns, Jeffrey M., et al. "Reduced lean mass in early Alzheimer disease and its association with brain atrophy." Archives of neurology 67.4 (2010): 428-433.
 		
@@ -1547,17 +1550,16 @@ Even though the discriminators are not nearly as important after having trained 
 		\bibitem{yudong} Zhang, Yudong et al. "C	lassification of Alzheimer Disease Based on Structural Magnetic
 		Resonance Imaging by Kernel Support Vector Machine Decision Tree", Progress In Electromagnetics Research, Vol. 144, 171-184, 2014
 		
-		\bibitem{bcewithlogits} Paszke, A et al. "PyTorch: An Imperative Style, High-Performance Deep Learning Library", Curran Associates, Inc., 2019, https://pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html
-		
-		\bibitem{ganlocalminimum} Bansal, Aayush et al. "Recycle-GAN: Unsupervised Video Retargeting", Carnegie Mellon University, 2018, https://arxiv.org/pdf/1808.05174.pdf
-		
-		\bibitem{checkerboard} Odena, et al., "Deconvolution and Checkerboard Artifacts", Distill, 2016. http://doi.org/10.23915/distill.00003
-		
-		\bibitem{learnableKernel} Neda et al., "torch.nn.ConvTranspose2d vs torch.nn.Upsample", PyTorch, 2018. https://discuss.pytorch.org/t/torch-nn-convtranspose2d-vs-torch-nn-upsample/30574/7
-		
 		\bibitem{Alzheimerforeningen} Alzheimer.dk "Fakta om demens": \url{https://www.alzheimer.dk/viden-om-demens/fakta-om-demens/}, last visited at 22nd December, 2021
 		
 		\bibitem{informal_care} Jakobsen, Marie et al. "Costs of Informal Care for People Suffering from Dementia: Evidence from a Danish Survey"
+		
+	%%%%% <GAN and CycleGAN> %%%%%
+		\bibitem{original_cyclegan} Zhu, Jun-Yan, et al. "Unpaired image-to-image translation using cycle-consistent adversarial networks." Proceedings of the IEEE international conference on computer vision. 2017.
+		
+		\bibitem{original_gan} J. Goodfellow, Ian. "Generative Adversarial Networks". Université de Montréal. 2014. https://arxiv.org/abs/1406.2661
+		
+		\bibitem{gan_introduction_towards_datascience} Ayari, Rabeh. "Generative Adversarial Networks". Towards Data Science. 2020. https://towardsdatascience.com/generative-adversarial-networks-gans-2231c5943b11
 		
 		\bibitem{mode_collapse_MLM} Brownlee, Jason, "How to Identify and Diagnose GAN Failure Modes", Machine Learning Mastery, 2019, https://machinelearningmastery.com/practical-guide-to-gan-failure-modes/
 		
@@ -1566,6 +1568,11 @@ Even though the discriminators are not nearly as important after having trained 
 		\bibitem{mode_collapse_github} vrao9, "Loss D goes to zero when adding a new loss to generator", Github Issues, 2019, https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/issues/626
 		
 		\bibitem{hard_to_train} Hui, Jonathan, "GAN — Why it is so hard to train Generative Adversarial Networks!", Medium, 2018, https://jonathan-hui.medium.com/gan-why-it-is-so-hard-to-train-generative-advisory-networks-819a86b3750b
+		
+		\bibitem{ganlocalminimum} Bansal, Aayush et al. "Recycle-GAN: Unsupervised Video Retargeting", Carnegie Mellon University, 2018, https://arxiv.org/pdf/1808.05174.pdf
+		
+		\bibitem{checkerboard} Odena, et al., "Deconvolution and Checkerboard Artifacts", Distill, 2016. http://doi.org/10.23915/distill.00003
+	%%%%% </GAN and CycleGAN> %%%%%
 		
 	\end{thebibliography}
 	
