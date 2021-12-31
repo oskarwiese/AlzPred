@@ -25,43 +25,52 @@
 \usepackage{booktabs}
 \usepackage{makecell}
 \usepackage{multicol}
-\definecolor{green}{rgb}{0.67, 0.88, 0.69}
-\definecolor{red}{rgb}{1.0, 0.44, 0.37}
-\newcommand\MyBoxgreen[2]{
-	\fcolorbox{black}{green}{\lower1cm
-		\vbox to 2.4cm{\vfil
-			\hbox to 2.4cm{\hfil\parbox{1.4cm}{#1\\#2}\hfil}
-			\vfil}%
-	}%
-}
-\newcommand\MyBoxred[2]{
-	\fcolorbox{black}{red}{\lower1cm
-		\vbox to 2.4cm{\vfil
-			\hbox to 2.4cm{\hfil\parbox{1.4cm}{#1\\#2}\hfil}
-			\vfil}%
-	}%
-}
+\usepackage{nccmath}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
 
-%\captionsetup{labelfont=bf}
-%\def\fix{\hskip\fontdimen2\font\relax}
-%\lstset{
-%	basicstyle=\ttfamily,
-%	keywordstyle=\bfseries,
-%	showstringspaces=false,
-%	morekeywords={def, for, return, if, else},
-%	xleftmargin=-3.0cm
-%}
 \hypersetup{
 	colorlinks=true,
 	linkcolor=blue,
 	filecolor=magenta,      
 	urlcolor=cyan,
 }
-\usepackage{nccmath}
-\usepackage{graphicx}
-%\usepackage{algorithmic}
-%\usepackage{program}
-%\title{CycleGAN (Cyclical Generative Adversarial Network) for Field Strength Bias Removal in Alzheimer's Disease Classification Model}
+
+% Variables for result plots
+\newcommand\skipper{1.4pt}
+\newcommand\ripper{2.5pt}
+
+%%%%%%% Setup for python code in latex %%%%%%%
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+
+% Custom colors
+\usepackage{color}
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+
+\usepackage{listings}
+
+% Python style for highlighting
+\newcommand\pythonstyle{\lstset{
+		language=Python,
+		basicstyle=\ttm,
+		morekeywords={self},              % Add keywords here
+		keywordstyle=\ttb\color{deepblue},
+		emph={MyClass,__init__},          % Custom highlighting
+		emphstyle=\ttb\color{deepred},    % Custom highlighting style
+		stringstyle=\color{deepgreen},
+		frame=tb,                         % Any extra options here
+		showstringspaces=false
+}}
+
+% Python for external files
+\newcommand\pythonexternal[2][]{{
+\pythonstyle
+\lstinputlisting[#1]{#2}}}
+
 \title{CycleGAN for Removing Field Strength Bias in Alzheimer's Disease Classification Model}
 \author{Oskar Eiler Wiese Christensen \& Anders Henriksen \\ \texttt{\{s183917, s183904\}@dtu.dk}}
 \date{\today}
@@ -516,9 +525,9 @@ The batch size, learning rate, $\lambda_{cyc}$ and betas were set to the same va
 
 The discriminator and generator convolution depths were chosen to match those used in the original CycleGAN paper. It is self-explanatory that using other images (RGB, non-square, different dimension) would require changing the architecture of input and output dimensions of all four models while also ensuring that the kernel size, stride and padding of the convolutional layers are setup correctly. This can be double checked by using $output\_dim = n - k + p + 1$, where $n$ is the image dimension, $k$ is kernel size and $p$ is padding.
 
-\subsubsection{Troubleshooting}%TODO: Skal måske faktisk stå i results???
+\subsubsection{Troubleshooting}\label{troubleshooting}%TODO: Skal måske faktisk stå i results???
 % Image Issues
-Since implementing a cycleGAN requires implementing four different neural networks, the hyperparameter search and minutia of the model can be difficult to get right. A known problem is cycleGAN only training until they reach a local minimum \cite{ganlocalminimum}. Another is the issue of getting noisy black and white squares in black-and-white images, sometimes referred to as checkerboard noise. One of the first models that was trained on the MRI ADNI images turned out to contain a version of this checkerboard noise. The source of the noise turned out to be an uneven sampling of pixels in earlier layers to newer layers when doing the upsampling (also known as transpose convolution or deconvolution). Mismatches between the kernel size and the stride as well as bad upscaling can cause some areas of the upsampled image to contain information from more pixels than others. This is a critical cause of the recognizable checkerboard noise \cite{checkerboard}. An illustration of how the flaw gets made can be seen below. images generated from the flawed cycleGAN can also be seen in illustration \ref{fig:troubleshoota}. Here, it is clear that white squares are surrounded by black squares all over the image, worsening the general image quality.
+Since implementing a cycleGAN requires implementing four different neural networks, the hyperparameter search and minutia of the model can be difficult to get right. Very many issues like non-convergence, mode collapse, diminished gradients, vanishing gradients and more are well documented \cite{hard_to_train}. A known problem is cycleGAN only training until they reach a local minimum \cite{ganlocalminimum}. Another is the issue of getting noisy black and white squares in black-and-white images, sometimes referred to as checkerboard noise. One of the first models that was trained on the MRI ADNI images turned out to contain a version of this checkerboard noise. The source of the noise turned out to be an uneven sampling of pixels in earlier layers to newer layers when doing the upsampling (also known as transpose convolution or deconvolution). Mismatches between the kernel size and the stride as well as bad upscaling can cause some areas of the upsampled image to contain information from more pixels than others. This is a critical cause of the recognizable checkerboard noise \cite{checkerboard}. An illustration of how the flaw gets made can be seen below. images generated from the flawed cycleGAN can also be seen in illustration \ref{fig:troubleshoota}. Here, it is clear that white squares are surrounded by black squares all over the image, worsening the general image quality.
 
 \begin{figure}[H]
 	\centering
@@ -551,7 +560,6 @@ The slight lines in the generated images after using bilinear interpolation for 
 	\end{subfigure}
 	\vskip\baselineskip
 \end{figure}
-
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -595,7 +603,7 @@ Another issue entirely turned out to be that the vast number of input images all
 %\begin{figure}
 %	
 %\end{figure}
-Many solution to the problem of mode collapse exist, some being much easier to implement than other. Easier solutions include
+Many solution to the problem of mode collapse exist, some being much easier to implement than other. Easier solutions include reducing the learning rate, making separate learning rates for the discriminators and generators and only updating the discriminator if the accuracy of the discriminator in the current step is under 50\%. Harder solutions include implementing instance noise, making the generator better or making the discriminator worse. For the discriminators in this project, it turned out that it was enough to implement the accuracy check before updating the discriminators, reducing the learning rate and making separate learning rates for generators and discriminators. The others methods have been left in this section for future reference \cite{mode_collapse_reddit_fix}\cite{mode_collapse_github}. After implementing these fixes, the model was able to generate output samples from a much larger distribution, which indicates that the mode collapse has been fixed. A number of generated images can be seen in section \ref{results}.
 
 \subsubsection{Classifier}
 
@@ -663,18 +671,375 @@ The script \texttt{utils.py} and \texttt{dataset.py} are not as important to the
 %TODO: https://machinelearningmastery.com/how-to-evaluate-generative-adversarial-networks/
 %Once your confidence in developing GAN models improves, both the Inception Score and the Frechet Inception Distance can be used to quantitatively summarize the quality of generated images. There is no single best and agreed upon measure, although, these two measures come close.
 
+This section will focus on showing relevant outputs of the final trained models. Results from previous, less successful models can be found in section \ref{appendix} and section \ref{troubleshooting} highlights some of largest issues during the image generation and how they were solved. The general goal of this section will be to first go through examples of generated images and compare and contrast them to real images, and secondly to show loss-curves for each model. Sections \ref{xy_generated}, \ref{xz_generated} and \ref{yz_generated} provide examples of generated images from the models trained on the $XY$, $XZ$ and $YZ$ respectively. In a slightly different manner, section \ref{training_progress} shows how training comes along after a number of steps to show what the generators learn and when. Afterwards, section \ref{all_generated} will show results on every plane when a model has been trained on data from all of $XY$, $XZ$ and $YZ$. Afterwards, the next four sections will focus on the various losses. The sections \ref{disc_loss}, \ref{gen_loss}, \ref{cycle_loss} and \ref{iden_loss} will show respectively the discriminator losses, generator losses, cycle losses and identity losses from each of the four aforementioned models.
+
+\subsection{Training Progress}\label{training_progress}
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.32\linewidth]{imgs/placeholder_idx_0}
+		\hskip\skipper
+		\includegraphics[width=0.32\linewidth]{imgs/placeholder_idx_4000}
+		\hskip\skipper
+		\includegraphics[width=0.32\linewidth]{imgs/placeholder_idx_10000}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.32\linewidth]{imgs/placeholder_idx_14000}
+		\hskip\skipper
+		\includegraphics[width=0.32\linewidth]{imgs/placeholder_idx_25000}
+		\hskip\skipper
+		\includegraphics[width=0.32\linewidth]{imgs/placeholder_idx_40000}
+	\end{subfigure}
+%	\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+%	\label{fig:troubleshootd}
+\end{figure}
+
+\subsection{XY Generated Images}\label{xy_generated}
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: Her er tanken at rows eller columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_bilinear}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		%		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
+		%		\label{fig:troubleshootc}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
+	%	\label{fig:troubleshoot}
+\end{figure}
+
+\subsection{XZ Generated Images}\label{xz_generated}
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: Her er tanken at rows eller columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_bilinear}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		%		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
+		%		\label{fig:troubleshootc}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
+	%	\label{fig:troubleshoot}
+\end{figure}
+
+\subsection{YZ Generated Images}\label{yz_generated}
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: Her er tanken at rows eller columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_bilinear}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		%		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
+		%		\label{fig:troubleshootc}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
+	%	\label{fig:troubleshoot}
+\end{figure}
+
+\subsection{All Planes Generated Images}\label{all_generated}
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: Her er tanken at rows eller columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_bilinear}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		%		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
+		%		\label{fig:troubleshootc}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
+	%	\label{fig:troubleshoot}
+\end{figure}
+
+\subsection{Discriminator Losses}\label{disc_loss}
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{imgs/placeholder_discriminator_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/placeholder_discriminator_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/placeholder_discriminator_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/placeholder_discriminator_losses}
+%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been implemented in upsampling.}
+%		\label{fig:troubleshootb}
+	\end{subfigure}
+%	\caption{text}
+%	\label{key}
+\end{figure}
+
+\subsection{Generator Losses}\label{gen_loss}
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{imgs/placeholder_generator_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/placeholder_generator_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/placeholder_generator_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/placeholder_generator_losses}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been implemented in upsampling.}
+		%		\label{fig:troubleshootb}
+	\end{subfigure}
+	%	\caption{text}
+	%	\label{key}
+\end{figure}
+
+\subsection{Cycle-Consistency Losses}\label{cycle_loss}
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{imgs/placeholder_cycle_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/placeholder_cycle_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/placeholder_cycle_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/placeholder_cycle_losses}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been implemented in upsampling.}
+		%		\label{fig:troubleshootb}
+	\end{subfigure}
+	%	\caption{text}
+	%	\label{key}
+\end{figure}
+
+\subsection{Identity Losses}\label{iden_loss}
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{imgs/placeholder_identity_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/placeholder_identity_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/placeholder_identity_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/placeholder_identity_losses}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been implemented in upsampling.}
+		%		\label{fig:troubleshootb}
+	\end{subfigure}
+	%	\caption{text}
+	%	\label{key}
+\end{figure}
+
+
 
 \section{Discussion}\label{discussion}
 
+
+\subsection{What do the Results Show?}\label{discussionOfResults}
+
+
 \subsection{Would the Model be Efficacious in Practice?}
+
 
 \subsection{Standardization of Measuring Equipment (3T/1.5T)}
 
+
 \subsection{Improvements for Future Papers}
+
 
 \subsection{Dealing With GDPR in Personal Data}
 
+
 \subsection{Safe AI}
+
 
 \subsection{Economic Incentive of a good classification model}
 
@@ -706,22 +1071,410 @@ One of the relevant key focus areas include early detection and quality treatmen
 		
 		In Denmark around $ 85000-90000 $ people live with a dementia disease. Around 50000 of these cases are Alzheimer. Every year around $ 8000 $ new cases are detected and in 2040 the expected amount of people with dementia above 60 years old is $ 125000 $ to $ 150000 $. This amount to Denmark spending $ 4.59 $ Billion DKK / year on Alzheimer Patients to $ 7.65 $ Billion DKK / year. \footnote{!NB Not taking inflation into consideration for the outlined numbers} These numbers do not take healthcare personal, researchers and other variable costs into consideration. Moreover, 65\% to 85\% of all inhabitants in eldercare has a dementia disease. The cost of informal care time ranges between $ 5.0 $ to $ 6.9 $ hours daily. Furthermore, the daily cost was estimated to range between $ 1190 - 1658 $ DKK / day for primary caregivers\footnote{A primary caregiver can range from everything from a nurse, family member etc.} and $ 171 - 253 $ DKK / day for secondary caregivers. The cost for Denmark amounts to $ 18 $ Billion DKK / year, on eldercare alone. The total cost of dementia related diseases in Denmark is estimated to be 20 Billion DKK / year.  \cite{Alzheimerforeningen} \cite{informal_care} Thus, a screening to detect Alzheimer before a patient showing symptoms can be a way to both drive down cost of the danish society, but also optimize life expectancy and quality for the citizens of Denmark.
 		
-		% TODO: inkluder syge plejerske
+		% TODO: inkluder sygeplejerske
+
 
 \section{Conclusion}\label{conclusion}
 
 
 
 \newpage
-\section{Appendix}
+\section{Appendix}\label{appendix}
 
-\subsection{Pseudo Code}
+
+\subsection{Showcase of Code}
+%TODO: HUSK AT OPDATERE FILERNE INDE I REPORTS/SCR INDEN AFLEVERING
+%TODO: HUSK AT OPDATERE FILERNE INDE I REPORTS/SCR INDEN AFLEVERING
+%TODO: HUSK AT OPDATERE FILERNE INDE I REPORTS/SCR INDEN AFLEVERING
+%TODO: HUSK AT OPDATERE FILERNE INDE I REPORTS/SCR INDEN AFLEVERING
+In section \ref{repro}, a general overview of the scripts used in this project has been made, and a justification is made for what the scripts are relevant for. In this section, the code itself is inserted for completeness.
+
+\subsubsection{train.py}
+\pythonexternal{scr/train.py}
+
+\subsubsection{discriminator\_model}
+\pythonexternal{scr/discriminator_model.py}
+
+\subsubsection{generator\_model.py}
+\pythonexternal{scr/generator_no_noise.py}
+
+\subsubsection{utils.py}
+\pythonexternal{scr/utils.py}
+
+\subsubsection{config.py}
+\pythonexternal{scr/config.py}
+
+\subsubsection{reconstruct.py}
+\pythonexternal{scr/reconstruct.py}
+
+\subsubsection{plots.py}
+\pythonexternal{scr/plots.py}
+
+\subsubsection{dataset.py}
+\pythonexternal{scr/dataset.py}
+
+\subsubsection{train\_GAN.py}
+\pythonexternal{scr/preliminary/train_GAN.py}
+
+\subsubsection{GAN\_result.py}
+\pythonexternal{scr/preliminary/GAN_results.py}
 
 \subsection{Shell scripts}
 
 
+\subsection{MNIST GAN}\label{MNIST_GAN}
+%TODO: Skriv en introduktion til denne section
+
+\subsubsection{Losses}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.9\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{imgs/MNIST_GAN_normal_losses}
+		\phantomsubcaption
+		\label{fig:MNIST_GAN_losses_normal}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.9\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{imgs/MNIST_GAN_mse_losses}
+		\phantomsubcaption
+		\label{fig:MNIST_GAN_losses_mse}
+	\end{subfigure}
+	\caption{The losses measured two times each epoch for 200 epochs during training of the GAN on the MNIST dataset. \textbf{Top:} Training the model using L1 loss for the discriminator and BCE with logits loss for the generator. \textbf{Bottom:} Training the model using MSE loss for both models. MSE has a tendency to generally work well when training neural networks.}
+	\label{fig:MNIST_GAN_losses}
+\end{figure}
+
+\subsubsection{Progress of Training}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{imgs/MNIST_GAN_normal_result_epoch_0_minibatch_500}
+	\hfill
+	\includegraphics[width=\linewidth]{imgs/MNIST_GAN_normal_result_epoch_68_minibatch_0}
+\end{figure}
+\begin{figure}[H]
+	\includegraphics[width=\linewidth]{imgs/MNIST_GAN_normal_result_epoch_148_minibatch_0}
+	\hfill
+	\includegraphics[width=\linewidth]{imgs/MNIST_GAN_normal_result_epoch_198_minibatch_500}
+	\caption{During training, 11 random generated images have been shown at different points along the training process (epoch 2, epoch 70, epoch 150 and epoch 200). The epochs were chosen to show the most interesting behavior or the achieved best performance of the model. The last of the 12 plots depicts the discriminator prediction for the current minibatch. The red columns are generated images and green columns are real images. as such, a perfect discriminator would place every red column at 0 and every green column at 1.}
+	\label{fig:training_progress_normal}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{imgs/MNIST_GAN_mse_result_epoch_1_minibatch_0}
+	\hfill
+	\includegraphics[width=\linewidth]{imgs/MNIST_GAN_mse_result_epoch_13_minibatch_0}
+\end{figure}
+\begin{figure}[H]
+	\includegraphics[width=\linewidth]{imgs/MNIST_GAN_mse_result_epoch_84_minibatch_500}
+	\hfill
+	\includegraphics[width=\linewidth]{imgs/MNIST_GAN_mse_result_epoch_195_minibatch_0}
+	\caption{During training, 11 random generated images have been shown at different points along the training process (epoch 3, epoch 15, epoch 86 and epoch 197). The epochs were chosen to show the most interesting behavior or the achieved best performance of the model. The last of the 12 plots depicts the discriminator prediction for the current minibatch. The red columns are generated images and green columns are real images. as such, a perfect discriminator would place every red column at 0 and every green column at 1.}
+		\label{fig:training_progress_mse}
+\end{figure}
+
+\subsubsection{Generated Images}
+%TODO: skriv figurtekst
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_real_0}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_fake_0}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_real_1}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_fake_1}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_real_2}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_fake_2}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_real_3}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_fake_3}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_real_4}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_fake_4}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_real_5}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_fake_5}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_real_6}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_fake_6}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_real_7}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_fake_7}
+	\end{subfigure}
+	\caption{Samples of real images from the MNIST dataset of handwritten digits and generated images from the generator in the MNIST GAN using L1 loss and BCE. Column 1 and 3 show real images and column 2 and 4 show generated images.}
+	\label{fig:generated_images_MNIST_GAN_normal}
+\end{figure}
+
+%TODO: skriv figurtekst
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_real_0}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_fake_0}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_real_1}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_fake_1}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_real_2}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_fake_2}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_real_3}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_fake_3}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_real_4}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_fake_4}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_real_5}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_fake_5}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_real_6}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_fake_6}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_real_7}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_fake_7}
+	\end{subfigure}
+	\caption{Samples of real images from the MNIST dataset of handwritten digits and generated images from the generator in the MNIST GAN using MSE loss. Column 1 and 3 show real images and column 2 and 4 show generated images.}
+	\label{fig:generated_images_MNIST_GAN_mse}
+\end{figure}
+
+\subsubsection{Discriminator Predictions}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{\textwidth}
+		\centering
+		\includegraphics[width=0.4\linewidth]{imgs/MNIST_GAN_normal_disc_preds_0}
+		\hskip\skipper
+		\includegraphics[width=0.4\linewidth]{imgs/MNIST_GAN_normal_disc_preds_1}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{\textwidth}
+		\centering
+		\includegraphics[width=0.4\linewidth]{imgs/MNIST_GAN_normal_disc_preds_2}
+		\hskip\skipper
+		\includegraphics[width=0.4\linewidth]{imgs/MNIST_GAN_normal_disc_preds_3}
+	\end{subfigure}
+	\caption{The discriminator predictions on 20 real images from the MNIST data and 20 fake images generated by the L1 loss and BCE loss generator. The four discriminator predictions are chosen at random.}
+	\label{fig:discriminator_preds_MNIST_GAN_normal}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{\textwidth}
+		\centering
+		\includegraphics[width=0.4\linewidth]{imgs/MNIST_GAN_mse_disc_preds_0}
+		\hskip\skipper
+		\includegraphics[width=0.4\linewidth]{imgs/MNIST_GAN_mse_disc_preds_1}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{\textwidth}
+		\centering
+		\includegraphics[width=0.4\linewidth]{imgs/MNIST_GAN_mse_disc_preds_2}
+		\hskip\skipper
+		\includegraphics[width=0.4\linewidth]{imgs/MNIST_GAN_mse_disc_preds_3}
+	\end{subfigure}
+	\caption{The discriminator predictions on 20 real images from the MNIST data and 20 fake images generated by the MSE loss generator. The four discriminator predictions are chosen at random.}
+	\label{fig:discriminator_preds_MNIST_GAN_mse}
+\end{figure}
+
+\subsubsection{Discussion of Results}
+%TODO: Skriv om resultaterne og årsagerne til dem
+This sections aims to interpret the results of training a GAN to generate images from the MNIST dataset shown in section \ref{MNIST_GAN}. In the loss function plot for BCE and L1 loss GANs in figure \ref{fig:MNIST_GAN_losses_normal}, the losses do not seem to change much over time, except for the large downwards spike of the discriminator in the beginning of training. This would normally be a negative sign, signifying that the models are not learning much of anything. In the case of GANs though, the discriminator and generator are always fighting betwixt each other for the lowest possible loss. This means that a theoretical increase in one performance leads to a decrease in the performance of the other. This means that both models are actually still learning although their losses are not an indication of such. Much the same can be said for figure \ref{fig:MNIST_GAN_losses_mse}, though this figure seems to generally be more interesting. As expressed ad nauseam in the literature, a successful GAN should have losses that slowly converge towards some constant over time. This seems especially true here, since the discriminator gets higher loss while the generator gets lower loss until they arrive at pretty much the same loss. The generator generally looks to have slightly higher loss and a much larger variance of loss for each step. Some hyperparameters could thus be tuned further to allow the generator to reach a more stable point of convergence.
+
+In the next section, it is discovered how the generator learns using the two different loss functions for training. In the first row of figure \ref{fig:training_progress_normal} is shown how the Binary Cross Entropy (BCE) loss very quickly enforces background pixels to be black and the generators starts learning the general outline that is shared by multiple digits after only 1.5 epochs. Many images look to be a mix of 5 and 9 and  1 and 2 especially. In row two after 70 epochs, many of the digits have become sharp and now look only like one digit. Some small artifacts like floating pixels and disconnected parts of digits are still present, especially in the 8's, 5's and 7's. After epoch 150 in row three, the generator has now learned to connect most parts of the digits, although it still generated random small pixels at incorrect parts of the image. Finally, in row four after 200 epochs, most of the grains now seem to have been removed and only some artifacts are left in the images. This shows that even though the generator loss in figure \ref{fig:MNIST_GAN_losses_normal} was stable, the generator wass definitely still learning. Using Mean Squared Error (MSE) loss instead of BCE, it seems that the generators learns in a completely different manner based off of figure \ref{fig:training_progress_mse}. Here, row one after training 3 epochs shows that the general shape of a digit has been found, though the salt-and-pepper noise from the original gaussian-distributed noise is still present in all the images. After 15 epochs, in row two, most of the images now get generated with little to no salt-and-pepper noise, and the shape of some digits is already starting to become visible. After 86 epochs in row three, the generator seems to be in pretty much the same spot as the BCE generator was at epoch 150. The shape of singular digits is learned and only some parts of digits are disconnected. In the last epoch of the last row, virtually no noise is present and the digits look really convincing. This whole experiment seems to show that the generator using MSE seems to train faster and learn better features than the generator using BCE. 
+
+Since the images have started looking so convincing after generating them with BCE and MSE, the BCE images have been shown with original images in the figure 	\ref{fig:generated_images_MNIST_GAN_normal} to compare and contrast. Notably, the generated images in this figure are sampled by manually picking out the best 8 from a sample of 20 generated images. Comparing the real and fake images, it seems that the largest difference between the two is a number of sharp pixels at random points of the 0's, the 6 and the 5. Some of the digits also look a bit too thick compared to the real images, though this is probably due to the large number of 4's and 1's in the randomly sampled real images. Figure \ref{fig:generated_images_MNIST_GAN_mse} shows MSE generated images compared to real images. Here, we once again notice how some digits like the 3, 2 and 6 have pretty random-looking pixels poking out the side of them. These pixels are most likely more difficult to remove than the salt-and-pepper noise since real digits have a high variance, and as such, some of the floating pixels would have been placed correctly in another iteration of the same digit. Comparing the best examples of generated MSE and BCE images, the difference are very vague. The BCE model seems to have more, smaller blobs of noisy pixels at the perimeter, while the MSE generator creates images with few large noisy concentrations. Overall, the results are closely comparable. The recommendation from this paper is to train on MSE if under time-constraint. Otherwise, one model does not seem to out-perform the other.
+
+Even though the discriminators are not nearly as important after having trained the generators, the discriminator predictions on a number of images have been shown for completeness. The BCE loss model is shown in figure 	\ref{fig:discriminator_preds_MNIST_GAN_normal}. From this figure, a couple points quickly become apparent. It seems the discriminator acts in a risk-averse fashion, never predicting any probability under 0.45 or over 0.75, which is probably negative for the overall performance. This could be due to the generator becoming stronger than the generator and being more able to fool it. Meanwhile, the discriminator performance has high variance. The second figure has almost completely switched the predictions between real and false, while the first and third figure shows the discriminator experiencing more expected behavior. This variability might be a result of very low changes in loss, which do not penalize the discriminator enough for wrong predictions. A solution for this could be to scale the loss function, though this is left as future work. As for the MSE loss models, figure \ref{fig:discriminator_preds_MNIST_GAN_normal} shows much the same patterns as mentioned in the first part of the paragraph. This means that the discriminator was not benefit nor hindered from the different use of loss function. This also might indicate that a future model trained on the MNIST dataset would need to take into action a weaker generator or stronger discriminator.
+
+\subsection{Horse2Zebra CycleGAN}
 
 
+\subsubsection{Losses}
+
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: Tanken er at denne figure indeholder alle fire losses. Ellers kan de opdeles med hver deres figurtekst
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{imgs/placeholder_identity_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/placeholder_identity_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/placeholder_identity_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/placeholder_identity_losses}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been implemented in upsampling.}
+		%		\label{fig:troubleshootb}
+	\end{subfigure}
+	%	\caption{text}
+	%	\label{key}
+\end{figure}
+
+\subsubsection{Progress of Training}
+
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: vis hvordan billederne bliver bedre over tid og vis eksempler på heste
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		%		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
+		%		\label{fig:troubleshootc}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
+	%	\label{fig:troubleshoot}
+\end{figure}
+
+
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: vis hvordan billederne bliver bedre over tid og vis eksempler på zebraer
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		%		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
+		%		\label{fig:troubleshootc}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
+	%	\label{fig:troubleshoot}
+\end{figure}
+
+\subsubsection{Discussion of Results}
+%TODO: Skriv om resultaterne og årsagerne til dem
 
 
 \newpage
@@ -782,6 +1535,8 @@ One of the relevant key focus areas include early detection and quality treatmen
 		\bibitem{mode_collapse_reddit_fix} AnvaMiba, "[Discussion] Discriminator converging to 0 loss in very few steps while training GAN.", Reddit, 2016, https://www.reddit.com/r/MachineLearning/comments/5asl74/discussion\_discriminator\_converging\_to\_0\_loss\_in/
 		
 		\bibitem{mode_collapse_github} vrao9, "Loss D goes to zero when adding a new loss to generator", Github Issues, 2019, https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/issues/626
+		
+		\bibitem{hard_to_train} Hui, Jonathan, "GAN — Why it is so hard to train Generative Adversarial Networks!", Medium, 2018, https://jonathan-hui.medium.com/gan-why-it-is-so-hard-to-train-generative-advisory-networks-819a86b3750b
 		
 	\end{thebibliography}
 	

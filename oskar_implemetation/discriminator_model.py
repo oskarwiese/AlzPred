@@ -18,7 +18,7 @@ class Discriminator(nn.Module):
         super().__init__()
         self. initial = nn.Sequential(
             nn.Conv2d(in_channels, features[0], kernel_size=4, stride=2, padding=1, padding_mode='reflect'),
-            nn.LeakyReLU(0,2)
+            nn.LeakyReLU(0,2),
                                     )
         layers = []
         in_channels = features[0]
@@ -33,12 +33,11 @@ class Discriminator(nn.Module):
         return torch.sigmoid(self.model(x))
 
 def test():
-    x = torch.randn((5,3,256,256))
-    model = Discriminator(in_channels=3)
-    print(repr(model))
+    x = torch.randn((5,1,256,256))
+    model = Discriminator(in_channels=1)
     preds = model(x)
-    print(f'Model: \n {preds}')
     print(f'Shape of pred is: {preds.shape} \n')
+    print(f'Model: \n {preds}')
 
 if __name__ == "__main__":
     test()
