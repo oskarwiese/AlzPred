@@ -71,6 +71,19 @@
 \pythonstyle
 \lstinputlisting[#1]{#2}}}
 
+%%%% Define table citing %%%%
+\usepackage{letltxmacro,etoolbox}
+
+\LetLtxMacro{\originalcite}{\cite}
+\def\tablecite#1#{%
+	\def\pretablecite{#1}%
+	\tableciteaux}
+\def\tableciteaux#1{%
+	\textsuperscript{\expandafter\originalcite\pretablecite{#1}}%
+}
+\AtBeginEnvironment{table}{\let\cite\tablecite}
+
+
 \title{CycleGAN for Removing Field Strength Bias in Alzheimer's Disease Classification Model}
 \author{Oskar Eiler Wiese Christensen \& Anders Henriksen \\ \texttt{\{s183917, s183904\}@dtu.dk}}
 \date{\today}
@@ -307,7 +320,7 @@ In the original Alzheimer's disease classification paper by Camilla, a neural ne
 %TODO: Referér til de forskellige sektioner, hvor man kan finde mere om hver model.
 
 \subsection{Generative Adversarial Network}
-Since the meat and potatoes of this project is the cycleGAN, the methods and mathematical understanding behind Generative Adversarial Networks (GANs) will only be briefly explored in this section. A GAN was implemented on the MNIST dataset as a preliminary trail to help understand the basics. This implementation can be seen \href{https://github.com/oskarwiese/AlzPred/blob/main/preliminary/GAN_MNIST.ipynb}{here}. This implementation as well as this section will hopefully help to give the proper insight into the reasoning behind cycleGANs later in this section.
+Since the meat and potatoes of this project is the cycleGAN, the methods and mathematical understanding behind Generative Adversarial Networks (GANs) will only be briefly explored in this section. A GAN was implemented on the MNIST dataset as a preliminary trail to help understand the basics. This implementation can be seen in the python script \texttt{train\_GANA.py}. An older version of the same code is also accessible as a Jupyter Notebook in our GitHub repository  \href{https://github.com/oskarwiese/AlzPred/blob/main/preliminary/GAN_MNIST.ipynb}{here}. This implementation as well as this section will hopefully help to give the proper insight into the reasoning behind cycleGANs later in this section.
 
 In general, GANs can be seen as two different complex neural networks competing for the best accuracy during  the process of generating a class of pictures. In other words, the networks are adversaries in generating or classifying images, from which the source of the name becomes clear. One of the networks will be focusing on generating a fake version of images seen in a training folder, called the \textit{generator}, and the other will be trying to distinguish between real and fake images, called the \textit{discriminator}. This competition between networks leads to results much better than ever seen in ML and AI image generation, thus making a good foundation for the generation of 1.5T fMRI images from 3T. The two networds are covered in depth in the below subsections.
 \begin{figure}[H]
@@ -609,23 +622,23 @@ Many solution to the problem of mode collapse exist, some being much easier to i
 
 
 \subsection{Reproducibility}\label{repro}
-This section aims to give the reader a precise insight into how the methods of this project were implemented and how it would be possible to reproduce these results in the future. Hopefully, this will also simplify the methods. Reproducibility is an important part of writing any project or performing any research. It shows significance of the given result if it is possible for others at a later time to replicate or reproduce the results, since it validates the result of the original study and shows that it was not a fluke. All of the code is written in Python Version 3.9 and PyTorch version a%TODO find version. Gælder også de tre pakker i tabellen nedenfor
-Furthermore, the versions of the packages used in the project are given in the table below. If running any code from this project, please make sure that your packages either as new or newer than the ones specified below. All code for the project is accessible at \url{https://github.com/oskarwiese/AlzPred/tree/main/oskar_implemetation}.
+This section aims to give the reader a precise insight into how the methods of this project were implemented and how it would be possible to reproduce these results in the future. Hopefully, this will also simplify the methods. Reproducibility is an important part of writing any project or performing any research. It shows significance of the given result if it is possible for others at a later time to replicate or reproduce the results, since it validates the result of the original study and shows that it was not a fluke. By far the most used programming language in this project was Python Version 3.9 and PyTorch version a \cite{python, pytorch}. %TODO find version. Gælder også de tre pakker i tabellen nedenfor
+Furthermore, the versions of the packages used in the project are given in the table below. If running any code from this project, please make sure that your packages either as new or newer than the ones specified below. All code for the project is accessible at \url{https://github.com/oskarwiese/AlzPred/tree/main/oskar_implemetation}. The scrips have also been added to appendix section \ref{showcase_code} for completeness.
 \begin{table}[H]
 	\begin{center}
 		\begin{tabular}{l l l l l l l l l l}
 			\toprule
-			& \textbf{Package}      & & & & & & & \textbf{Version}  & \\ \midrule
+			& \textbf{Package \cite{python_packages}}      & & & & & & & \textbf{Version}  & \\ \midrule
 			& torchvision   & & & & & & & $0.10.0$ & \\
-			& pelutils      & & & & & & & $0.6.9$  & \\
+			& pelutils \cite{pelutils}      & & & & & & & $0.6.9$  & \\
 			& torch         & & & & & & & $1.9.0$  & \\
 			& tqdm          & & & & & & & $4.62.3$ & \\
-			& numpy         & & & & & & & $1.21.2$ & \\
-			& matplotlib    & & & & & & & $3.4.3$  & \\
+			& numpy \cite{numpy}        & & & & & & & $1.21.2$ & \\
+			& matplotlib \cite{matplotlib}   & & & & & & & $3.4.3$  & \\
 			& random        & & & & & & & $a$      & \\
 			& os            & & & & & & & $a$      & \\
-			& PIL           & & & & & & & $a$      & \\
-			& albumentations& & & & & & & $1.1.0$  & \\ \bottomrule
+			& PIL \cite{pil}           & & & & & & & $a$      & \\
+			& albumentations \cite{albumentations} & & & & & & & $1.1.0$  & \\ \bottomrule
 		\end{tabular}
 	\end{center}
 \end{table}
@@ -1082,7 +1095,7 @@ One of the relevant key focus areas include early detection and quality treatmen
 \section{Appendix}\label{appendix}
 
 
-\subsection{Showcase of Code}
+\subsection{Showcase of Code}\label{showcase_code}
 %TODO: HUSK AT OPDATERE FILERNE INDE I REPORTS/SCR INDEN AFLEVERING
 %TODO: HUSK AT OPDATERE FILERNE INDE I REPORTS/SCR INDEN AFLEVERING
 %TODO: HUSK AT OPDATERE FILERNE INDE I REPORTS/SCR INDEN AFLEVERING
@@ -1488,6 +1501,22 @@ Even though the discriminators are not nearly as important after having trained 
 		
 		
 		\bibitem{first} Zhu, Jun-Yan, et al. "Unpaired image-to-image translation using cycle-consistent adversarial networks." Proceedings of the IEEE international conference on computer vision. 2017.
+		
+		\bibitem{python} Van Rossum, Guido et al. "Python 3 Reference Manual". CreateSpace. 2009.
+		
+		\bibitem{python_packages} Van Rossum, Guido. "The Python Library Reference, release 3.8.2". Python Software Foundation. 2020.
+		
+		\bibitem{pytorch} Paszke, Adam et al. "PyTorch: An Imperative Style, High-Performance Deep Learning Library". Curran Associates, Inc. 2019. http://papers.neurips.cc/paper/9015-pytorch-an-imperative-style-high-performance-deep-learning-library.pdf
+		
+		\bibitem{pelutils} Laurits Schultz, Asger, Winkel Holm, Søren. "Pelutils License". Pelutils Developers. 2020. https://github.com/peleiden/pelutils/blob/master/LICENSE.txt
+		
+		\bibitem{numpy} R. Harris, Charles et al. "Array programming with NumPy". Springer Science and Business Media LLC. 2020. https://doi.org/10.1038/s41586-020-2649-2
+		
+		\bibitem{matplotlib} Hunter, J. D. "Matplotlib: A 2D graphics environment". IEEE COMPUTER SOC. 2007.
+		
+		\bibitem{pil} Umesh, P. "Image Processing in Python". Citeseer. 2012.
+		
+		\bibitem{albumentations} Buslaev, Alexander. "Albumentations: Fast and Flexible Image Augmentations". Information. 2020. https://www.mdpi.com/2078-2489/11/2/125
 		
 		\bibitem{second} Burns, Jeffrey M., et al. "Reduced lean mass in early Alzheimer disease and its association with brain atrophy." Archives of neurology 67.4 (2010): 428-433.
 		
