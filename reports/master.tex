@@ -178,7 +178,7 @@ Basaia et al. achieved the highest measured accuracy on the ADNI1 data with a CN
 The data used in this project is from Alzheimer's Disease Neurosurgical Initiative (ADNI). This initiative unites researchers with study data to investigate and define the progression of Alzheimer's Disease (AD). 
 ADNI collects, validate and utilize data including magnetic resonance imaging (MRI), positron emission tomography (PET), genetics, cognitive tests, cerebrospinal fluid biomarkers (CSF) and blood biomarkers as predictors of the disease \cite{adni}.
 More specifically, this project will only use MRI data from ADNI 1. 
-Which was launched in October 24 2004. Originally this project was designed to find more ac curate biomarkers for the early detection of AD.
+Which was launched in October 24 2004. Originally this project was designed to find more accurate biomarkers for the early detection of AD.
 The ADNI 1 project analyzed more than a thousand different brain scans from three different subject groups, namely, subjects with mild cognitive impairment (MCI), subjects with early AD and control subjects \cite{adni1}. 
 
 \subsection{Description of Data} \label{dataDescription}
@@ -198,7 +198,7 @@ unique brain scans which are used in this project.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.95\linewidth]{mymans2}
-	\caption{An example of the original image file: \texttt{001.mgz} from subject 002\_S\_0295. This is the original raw image from the MRI-scan and no processing has been done.}
+	\caption{An example of the original raw image file, from subject 002\_S\_0295. This is the original raw image from the MRI-scan and no processing has been done.}
 	\label{fig:screenshot001}
 \end{figure}
 
@@ -235,15 +235,18 @@ unique brain scans which are used in this project.
 
 \subsubsection{Data Preprocessing}
 
-In this project, the area of interest is the brain itself. 
-Therefore, we need to skullstrip the raw images.
-The skullstrip process is done by using Freesurfer Software Suite \cite{freesurfer}.
+In this project, the area of interest is the brain itself. A lot of different tools from the FreeSurfer Software Suite have been used to produce images of the brain. The brain images we used and how to obtain them will be described in the following. The raw images called \newline \texttt{
+	% ADNI1\_baseline3T\_collection/002\_S\_0413/MPR\_\_\_\_N3\_\_Scaled\_2/2006-05-19\_16\_17\_47.0 /S14782/
+ADNI\_002\_S\_0413\_MR\_MPR\_\_\_\_N3\_\_Scaled\_2\_Br\_20081001114937668\_S14782\_I118675.nii}, see figure \ref{fig:screenshot001}. The first thing that happens in the preprocessing is the motion correction. If multiple images of the source volume has been taken, then correction for motion will be done by averaging all the images.
+Next step in the preprocessing is non-parametric non-uniformn intensity Normalization (N3), which corrects for intensity non-uniformity in the MR image.
+Then the talairach transformation happens. This, computes the affine transformation from the subjects original space into the MNI395 atlas.
+Then, another normalization of the intensities in the original image is done. The itensity of all voxels are scaled so that the mean intensity of the white matter is 110 \cite{normalize}. 
+As the brain is the key area of interest the skull is stripped from the image. The skullstrip process is done by using Freesurfer Software Suite \cite{freesurfer}.
 In more depth the skull is removed by using a threshold.
 The FreeSurfer software will create files which can be used to check if too much brainmatter is removed in the process of skulstripping the raw image.
 Files which can be used to inspect this are: \texttt{brainmask.mgz, T1.mgz, brainmask.gcuts.mgz}
-
-The skulllstripped images are then normalized. 
-The images are normalized using \texttt{mri\_normalize}, which converts the white matter image values around 110 \cite{normalize}. %TODO why do we normalize? 
+Next EM (GCA) Registration is done. This computes and transforms to alugb \texttt{mri/nu.mgz} to the default GCA atlas frin FreeSurfer Home folder. Lastly, the CA Normalization happens, which outputs a normalized version of the skullstriped image. This is saved out as \texttt{mri/norm.mgz} and is going to be used as the data for each subject in this project.
+\\\\
 All human brains are different and the raw images are recorded in the subjects personal space. 
 In order to compare several brains a registration of the images has to be done to ensure they are all in the same coordinate reference system (CRS). 
 A standard CRS for the common brain is called the Tailirach space. 
@@ -251,7 +254,9 @@ Each of the raw images in the ADNI-dataset are registered to the Tailirach space
 This is done using \texttt{mri\_vol2vol} which resamples a volume into another field-of-view. 
 In this project, a MNI305 transformation has been applied by resampling the original normalized images into talairach space using \texttt{\$subject/mri/transforms/talairach.xfm} %TODO Description of the registration 
 
-\subsubsection{Data Preprocessing Script}
+\subsubsection{Preprocessing Scripts}
+
+For this project three different type of preprocessing scripts have been used. 
 
 
 
