@@ -365,14 +365,14 @@ The GAN allowed for new images in a specific category to be created based on ran
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{imgs/cyclegan_architecture}
-	\caption{This figure shows the interactions necessary for the four different networks to convert images from A to B. The input image of category A is fed directly to the discriminator and to the generator that converts images from A to B. This generates an attempted image from category B, which is fed both to the discriminator to get a prediction and to the other generator to reconvert the image to one of category A for reasons that will become apparent later in this section.}
+	\caption{This figure shows the interactions necessary for the four different networks to convert images from A to B. The input image of category A is fed directly to the discriminator and to the generator that converts images from A to B. This generates an attempted image from category B, which is fed both to the discriminator to get a prediction and to the other generator to reconvert the image to one of category A for reasons that will become apparent later in this section. Figure courtesy of \cite{model_architecture}.}
 	\label{fig:cycleganarchitecture}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{imgs/cyclegan_architecture2}
-	\caption{This figure is almost identical to figure \ref{fig:cycleganarchitecture}, though mirrored in the x and y plane. It shows the interactions necessary for the four different networks to convert images from B to A. For a basic explanation of the components involved, see the caption of figure \ref{fig:cycleganarchitecture}.}
+	\caption{This figure is almost identical to figure \ref{fig:cycleganarchitecture}, though mirrored in the x and y plane. It shows the interactions necessary for the four different networks to convert images from B to A. For a basic explanation of the components involved, see the caption of figure \ref{fig:cycleganarchitecture}. Figure courtesy of \cite{model_architecture}.}
 	\label{fig:cycleganarchitecture2}
 \end{figure}
 
@@ -389,7 +389,7 @@ Of just as much importance as the patch-GAN architecture and general model inter
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{imgs/cyclegan_discriminator_layers}
-	\caption{The primary model layout consisting of the input, layers and output. The input is the grey-scale intensity-based MRI input of size 256x256x1. The five consecutive convolutional layers each have a specified kernel size, stride and padding as noted in the figure. The output is constructed from running the patchGAN on the last layer of the model to get a 30x30x1 matrix of values between 0 and 1. The specific values and layer sizes are specifed in table \ref{discriminator_layers}}
+	\caption{The primary model layout consisting of the input, layers and output. The input is the grey-scale intensity-based MRI input of size 256x256x1. The five consecutive convolutional layers each have a specified kernel size, stride and padding as noted in the figure. The output is constructed from running the patchGAN on the last layer of the model to get a 30x30x1 matrix of values between 0 and 1. The specific values and layer sizes are specifed in table \ref{discriminator_layers}.} %TODO: find ud af hvor dette billede kommer fra. det var en powerpoint et sted.
 	\label{fig:cyclegandiscriminatorlayers}
 \end{figure}
 
@@ -418,7 +418,7 @@ Unlike in a standard GAN generator, where a random image from a latent space is 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{imgs/autoencoder}
-	\caption{The general autoencoder architecture. A kernel does convolutions to reduce and increase the image dimensions. The smaller the dimensions, the larger the feature complexity. The code between the encoder and decoder } %TODO
+	\caption{The general autoencoder architecture. A kernel does convolutions to reduce and increase the image dimensions. The smaller the dimensions, the larger the feature complexity. The code between the encoder and decoder aaa. Figure courtesy of \cite{autoencoder}.} %TODO
 	\label{fig:autoencoder}
 \end{figure}
 
@@ -426,7 +426,7 @@ Unlike in a standard GAN generator, where a random image from a latent space is 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{imgs/cyclegan_generator_layers}
-	\caption{The primary model layout consisting of the input, layers and output. The input is the grey-scale intensity-based MRI input of size 256x256x1. The five encoding and decoding convolutional layers as well as the residual blocks each have a specified kernel size, stride and padding as noted in the figure. The specific values and layer sizes are specifed in table \ref{generator_layers}}
+	\caption{The primary model layout consisting of the input, layers and output. The input is the grey-scale intensity-based MRI input of size 256x256x1. The five encoding and decoding convolutional layers as well as the residual blocks each have a specified kernel size, stride and padding as noted in the figure. The specific values and layer sizes are specifed in table \ref{generator_layers}.} %TODO: find ud af hvor dette billede kommer fra. Det var et powerpoint et sted.
 	\label{fig:cyclegangeneratorlayers}
 \end{figure}
 
@@ -622,7 +622,7 @@ Many solution to the problem of mode collapse exist, some being much easier to i
 
 
 \subsection{Reproducibility}\label{repro}
-This section aims to give the reader a precise insight into how the methods of this project were implemented and how it would be possible to reproduce these results in the future. Hopefully, this will also simplify the methods. Reproducibility is an important part of writing any project or performing any research. It shows significance of the given result if it is possible for others at a later time to replicate or reproduce the results, since it validates the result of the original study and shows that it was not a fluke. By far the most used programming language in this project was Python Version 3.9 and PyTorch version a \cite{python, pytorch}. %TODO find version. Gælder også de tre pakker i tabellen nedenfor
+This section aims to give the reader a precise insight into how the methods of this project were implemented and how it would be possible to reproduce these results in the future. Hopefully, this will also simplify the methods. Reproducibility is an important part of writing any project or performing any research. It shows significance of the given result if it is possible for others at a later time to replicate or reproduce the results, since it validates the result of the original study and shows that it was not a fluke. This section was originally adapted from out project work in 2020, so some similarities in layout and wording might occur \cite{fagproject}. By far the most used programming language in this project was Python Version 3.9 and PyTorch version a \cite{python, pytorch}. %TODO find version. Gælder også de tre pakker i tabellen nedenfor
 Furthermore, the versions of the packages used in the project are given in the table below. If running any code from this project, please make sure that your packages either as new or newer than the ones specified below. All code for the project is accessible at \url{https://github.com/oskarwiese/AlzPred/tree/main/oskar_implemetation}. The scrips have also been added to appendix section \ref{showcase_code} for completeness.
 \begin{table}[H]
 	\begin{center}
@@ -1554,7 +1554,11 @@ Even though the discriminators are not nearly as important after having trained 
 		
 		\bibitem{informal_care} Jakobsen, Marie et al. "Costs of Informal Care for People Suffering from Dementia: Evidence from a Danish Survey"
 		
+		\bibitem{fagproject} Henriksen, Anders, Christensen, Oskar. "Discrimination of Race, Age \& Gender in the COMPAS Dataset". Technical University of Denmark. 2020.
+		
 	%%%%% <GAN and CycleGAN> %%%%%
+		\bibitem{cyclegan_implementation} Persson, Aladdin. "CycleGAN implementation from scratch". YouTube. 2021.  https://www.youtube.com/watch?v=4LktBHGCNfw
+	
 		\bibitem{original_cyclegan} Zhu, Jun-Yan, et al. "Unpaired image-to-image translation using cycle-consistent adversarial networks." Proceedings of the IEEE international conference on computer vision. 2017.
 		
 		\bibitem{original_gan} J. Goodfellow, Ian. "Generative Adversarial Networks". Université de Montréal. 2014. https://arxiv.org/abs/1406.2661
@@ -1572,6 +1576,10 @@ Even though the discriminators are not nearly as important after having trained 
 		\bibitem{ganlocalminimum} Bansal, Aayush et al. "Recycle-GAN: Unsupervised Video Retargeting", Carnegie Mellon University, 2018, https://arxiv.org/pdf/1808.05174.pdf
 		
 		\bibitem{checkerboard} Odena, et al., "Deconvolution and Checkerboard Artifacts", Distill, 2016. http://doi.org/10.23915/distill.00003
+		
+		\bibitem{model_architecture} Bansal, Hardik. "Understanding and Implementing CycleGAN in TensorFlow". GitHub. https://hardikbansal.github.io/CycleGANBlog/, last visited 01/01-2022.
+		
+		\bibitem{autoencoder} Khosla, Ritwek. "Auto-Encoders for Computer Vision: An Endless world of Possibilities". Analytica Vidhya. 2021. https://www.analyticsvidhya.com/blog/2021/01/auto-encoders-for-computer-vision-an-endless-world-of-possibilities/
 	%%%%% </GAN and CycleGAN> %%%%%
 		
 	\end{thebibliography}
