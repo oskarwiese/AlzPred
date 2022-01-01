@@ -28,6 +28,12 @@
 \usepackage{nccmath}
 \usepackage{graphicx}
 \usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\lstset{basicstyle=\ttfamily,
+	showstringspaces=false,
+	commentstyle=\color{red},
+	keywordstyle=\color{blue}
+}
 
 \hypersetup{
 	colorlinks=true,
@@ -254,7 +260,7 @@ As the brain is the key area of interest the skull is stripped from the image. T
 In more depth the skull is removed by using a threshold.
 The FreeSurfer software will create files which can be used to check if too much brainmatter is removed in the process of skulstripping the raw image.
 Files which can be used to inspect this are: \texttt{brainmask.mgz, T1.mgz, brainmask.gcuts.mgz}
-Next EM (GCA) Registration is done. This computes and transforms to alugb \texttt{mri/nu.mgz} to the default GCA atlas frin FreeSurfer Home folder. Lastly, the CA Normalization happens, which outputs a normalized version of the skullstriped image. This is saved out as \texttt{mri/norm.mgz} and is going to be used as the data for each subject in this project.
+Next EM (GCA) Registration is done. This computes and transforms to alugb \texttt{mri/nu.mgz} to the default GCA atlas frin FreeSurfer Home folder. Lastly, the CA Normalization happens, which outputs a normalized version of the skullstriped image. This is saved out as \texttt{mri/norm.mgz} and is going to be used as the data for each subject in this project \cite{reckon}.
 \\\\
 All human brains are different and the raw images are recorded in the subjects personal space. 
 In order to compare several brains a registration of the images has to be done to ensure they are all in the same coordinate reference system (CRS). 
@@ -265,29 +271,135 @@ In this project, a MNI305 transformation has been applied by resampling the orig
 
 \subsubsection{Preprocessing Scripts}
 
-For this project three different type of preprocessing scripts have been used. 
+For this project two different type of preprocessing scripts have been used. These will be showed and described. The first script will apply a bunch of algorithms which are described in the previous section. Most importantly, it creates the \texttt{norm.mgz} image which is a skullstriped and normalized version of the subjects brain. The next script will create a version of \texttt{norm.mgz} in MNI305 space which is vital to be able to compare several human brains.
+
+\begin{lstlisting}[language=bash,caption={FreeSurfer Preprocessing}]
+#!/bin/bash 
+# Script to process FreeSurfer for Bachelor Project:
+# AlzPred by Anders Henriksen & Oskar Wiese
+source FSstable71
+
+cd /dtu-compute/ADNIbias/freesurfer/
+
+filename='freesurfer_log.txt'
+
+rm -f $filename
+
+touch $filename
+
+count=1
+
+SUBJECT_NAMES=$(ls /dtu-compute/ADNIbias \ 
+/ADNI1_baseline3T_collection/ | grep '_S_')
+
+echo 'Starting FreeSurfer by Mr FreeSurfer' 
+
+for f in $SUBJECT_NAMES; do
+echo 'Workin on:' >> $filename
+echo $f >> $filename
+echo $count >> $filename 
+count=`expr $count + 1`
+recon-all -motioncor -s $f -i /dtu-compute/ADNIbias/ \
+ADNI1_baseline3T_collection/$f/MPR*2/20*/S*/*.nii 
+echo 'Motion Cor done' >> $filename
+recon-all -nuintensitycor -s $f  
+echo 'Nu intensity cor done' >> $filename
+recon-all -talairach -s $f 
+echo 'Tailarach done' >> $filename
+recon-all -normalization -s $f 
+echo 'Normalization done' >> $filename
+recon-all -skullstrip -s $f     
+echo 'Skullstrip done' >> $filename
+recon-all -gcareg -s $f  
+echo 'gcareg done' >> $filename
+recon-all -canorm -s $f  
+echo 'canorm done' >> $filename
+echo '' >> $filename
+done 
+\end{lstlisting}
+
+\noindent
+The produced \texttt{norm.mgz} can be illustrated using Freeview, a FreeSurfer Software used to display and look at 3D images. From this, we can see a big difference from the original image, which is also displayed here \ref{fig:screenshot001}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\linewidth]{imgs/norm}
+	\caption{Above illustrates the \texttt{norm.mgz} for the subject \texttt{002\_S\_0413} in the subjects own space.} 
+	\label{fig:norm}
+\end{figure}
+
+The next script utilize the mri\_vol2vol command which will use advanced registration to ensure the \texttt{norm.mgz} image to be in Talirach space using the mni305.cor.template - this will allow for compatability between the different subject images and to train a cycleGAN model to reconstruct between the two tesla domains.
+
+\begin{lstlisting}[language=bash,caption={FreeSurfer mri\_vol2vol}]
+#!/bin/bash 
+# A script to create a normalized MNI305
+cd /dtu-compute/ADNIbias/freesurfer_ADNI1/
+
+source FSstable71
+
+SUBJECT_NAMES=$(ls /dtu-compute/ADNIbias/ \ 
+freesurfer_ADNI1/ | grep '_S_')
+
+for f in $SUBJECT_NAMES; do 
+	echo "Processing subject: $f"
+	mri_vol2vol --mov /dtu-compute/ADNIbias/freesurfer_ADNI1 \
+	/$f/mri/norm.mgz --targ $FREESURFER_HOME/average \
+	/mni305.cor.mgz --xfm /dtu-compute/ADNIbias \ 
+	/freesurfer_ADNI1/$f/mri/transforms/talairach.xfm --o \
+	/dtu-compute/ADNIbias/freesurfer_ADNI1/$f/norm_mni305.mgz
+done
+\end{lstlisting}
+
+\noindent
+The resulting image after the FreeSurfer preprocessing can be seen in the next figure. This image will resemble figure \ref{fig:norm}, but is in a different space where it have been aligned to MNI305 atlas. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{imgs/norm_305}
+	\caption{Above illustrates the \texttt{norm\_mni305.mgz} for the subject \texttt{002\_S\_0413} in the Tailarach space. This may look like \ref{fig:norm}, but if we were to open both of the images in same session, we can see that they cannot be displayed due to being in two different coordinate systems. } 
+	\label{fig:norm305}
+\end{figure}
 
 
 
-
-% We use skullstripped 
-% We use normalized 
-% Template mni305.cor (what does cor stand for)
-% what is in the talairach file 
-% mri_vol2vol (What does it do) 
-
-% Indtilvidere skriver om advanced registration, talairach space, etc. her
+%TODO indæst billede af norm i begge spaces
 
 
 \subsubsection{Data Augmentation}
 % Hvis vi vælger at bruge augmentation
 
-\subsection{Explanation of Data Variables}
+Besides the immense preprocessing done with the FreeSurfer Software the images are also resized, center cropped, converted to float and normalized around with a $ \mu = 0.5 $ and $ \sigma = 0.5$. Centercrop crops an image in the center, ensuring that when the image is converted to a tensor and has an arbitrary number of leading dimensions, it will be cropped correctly. Furthermore, the intensity values are normalized to avoid vanishing and exploding gradient problem when doing back propagation. 
+
+%TODO skriv pytorch augmentation her
+
+
+
+\subsection{Explanation of Subjects}
 %subj_id, age, etc. etc. - dette skal findes et sted på server eller ADNI hjemmeside 
+To get an understanding of the age distribution of the subjects used in this project and simple demographics, from figure \ref{fig:age} it can be seen, that the average overall age of subjects are 73.3 years. Furthermore, the proportion of men to women are close to 50\% making the ratio acceptable. The  potential for an inherent gender is also minimized by having the same number of samples for men and women. The data seen from the table is from ADNI1 and ADNI2 project.  
+
+\begin{table}[H]
+	\begin{tabular}{llllll}
+		& CN&\ \ AD\ \ MCI &\ \ Other &\ \ Total   \\
+		N & 698&\ \ 377\ \ 634 &\ \ 473 &\ \ 2182   \\
+		Male/Female & 300/398&\ \ 196/181\ \ 389/245 &\ \ 243/229  &\ \ 1128/1053   \\
+		Age & 75.1&\ \ 73.24\ \ 74.1 &\ \ 71.2 &\ \ 73.3   \\
+	\end{tabular}
+\end{table}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\linewidth]{imgs/age_distro}
+	\caption{A histogram of the age distribution among the subjects used in this project.} 
+	\label{fig:age}
+\end{figure}
+
+
 
 \subsection{Visualization of Data}
 % Slices of img, preview 
-This section aims to give a visulaization of the preprocessed data.
+This section aims to give a visualization of the preprocessed data.
 
 
 \subsection{Ethicality of Data}
@@ -1537,6 +1649,8 @@ Even though the discriminators are not nearly as important after having trained 
 		\bibitem{mode_collapse_github} vrao9, "Loss D goes to zero when adding a new loss to generator", Github Issues, 2019, https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/issues/626
 		
 		\bibitem{hard_to_train} Hui, Jonathan, "GAN — Why it is so hard to train Generative Adversarial Networks!", Medium, 2018, https://jonathan-hui.medium.com/gan-why-it-is-so-hard-to-train-generative-advisory-networks-819a86b3750b
+		
+		\bibitem{reckon} FreeSurfer Software Suite, \url{https://surfer.nmr.mgh.harvard.edu/fswiki/recon-all}, last visited 1st of January, 2022.
 		
 	\end{thebibliography}
 	
