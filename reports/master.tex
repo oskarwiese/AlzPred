@@ -40,6 +40,10 @@
 \newcommand\skipper{1.4pt}
 \newcommand\ripper{2.5pt}
 
+% Variables for result plots
+\newcommand\skipperer{0.45pt}
+\newcommand\ripperer{1.25pt}
+
 %%%%%%% Setup for python code in latex %%%%%%%
 % Default fixed font does not support bold face
 \DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
@@ -718,52 +722,102 @@ This section will focus on showing relevant outputs of the final trained models.
 	\centering
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_bilinear}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
 		%		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
 		%		\label{fig:troubleshootc}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
 		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
 		%		\label{fig:troubleshootd}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
 		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
 		%		\label{fig:troubleshootd}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
 		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
 		%		\label{fig:troubleshootd}
 	\end{subfigure}
@@ -778,52 +832,102 @@ This section will focus on showing relevant outputs of the final trained models.
 	\centering
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_bilinear}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
 		%		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
 		%		\label{fig:troubleshootc}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
 		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
 		%		\label{fig:troubleshootd}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
 		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
 		%		\label{fig:troubleshootd}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
 		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
 		%		\label{fig:troubleshootd}
 	\end{subfigure}
@@ -832,6 +936,226 @@ This section will focus on showing relevant outputs of the final trained models.
 \end{figure}
 
 \subsection{YZ Generated Images}\label{yz_generated}
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: Her er tanken at rows eller columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		%		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
+		%		\label{fig:troubleshootc}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
+	%	\label{fig:troubleshoot}
+\end{figure}
+
+\subsection{All Planes Generated Images}\label{all_generated}
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: Her er tanken at rows eller columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		%		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
+		%		\label{fig:troubleshootc}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
+	%	\label{fig:troubleshoot}
+\end{figure}
+
+\subsection{XY Quality Comparison}\label{xy_generated}
 %TODO: Fyld ud med de rigtige billeder og skriv figurtekst
 %TODO: Her er tanken at rows eller columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T
 \begin{figure}[H]
@@ -891,7 +1215,127 @@ This section will focus on showing relevant outputs of the final trained models.
 	%	\label{fig:troubleshoot}
 \end{figure}
 
-\subsection{All Planes Generated Images}\label{all_generated}
+\subsection{XZ Quality Comparison}\label{xz_generated}
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: Her er tanken at rows eller columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_bilinear}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		%		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
+		%		\label{fig:troubleshootc}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
+	%	\label{fig:troubleshoot}
+\end{figure}
+
+\subsection{YZ Quality Comparison}\label{yz_generated}
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: Her er tanken at rows eller columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_bilinear}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		%		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
+		%		\label{fig:troubleshootc}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
+	%	\label{fig:troubleshoot}
+\end{figure}
+
+\subsection{All Planes Quality Comparison}\label{all_generated}
 %TODO: Fyld ud med de rigtige billeder og skriv figurtekst
 %TODO: Her er tanken at rows eller columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T
 \begin{figure}[H]
