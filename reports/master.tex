@@ -46,6 +46,10 @@
 \newcommand\skipper{1.4pt}
 \newcommand\ripper{2.5pt}
 
+% Variables for result plots
+\newcommand\skipperer{0.45pt}
+\newcommand\ripperer{1.25pt}
+
 %%%%%%% Setup for python code in latex %%%%%%%
 % Default fixed font does not support bold face
 \DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
@@ -76,6 +80,19 @@
 \newcommand\pythonexternal[2][]{{
 \pythonstyle
 \lstinputlisting[#1]{#2}}}
+
+%%%% Define table citing %%%%
+\usepackage{letltxmacro,etoolbox}
+
+\LetLtxMacro{\originalcite}{\cite}
+\def\tablecite#1#{%
+	\def\pretablecite{#1}%
+	\tableciteaux}
+\def\tableciteaux#1{%
+	\textsuperscript{\expandafter\originalcite\pretablecite{#1}}%
+}
+\AtBeginEnvironment{table}{\let\cite\tablecite}
+
 
 \title{CycleGAN for Removing Field Strength Bias in Alzheimer's Disease Classification Model}
 \author{Oskar Eiler Wiese Christensen \& Anders Henriksen \\ \texttt{\{s183917, s183904\}@dtu.dk}}
@@ -419,13 +436,13 @@ In the original Alzheimer's disease classification paper by Camilla, a neural ne
 %TODO: Referér til de forskellige sektioner, hvor man kan finde mere om hver model.
 
 \subsection{Generative Adversarial Network}
-Since the meat and potatoes of this project is the cycleGAN, the methods and mathematical understanding behind Generative Adversarial Networks (GANs) will only be briefly explored in this section. A GAN was implemented on the MNIST dataset as a preliminary trail to help understand the basics. This implementation can be seen \href{https://github.com/oskarwiese/AlzPred/blob/main/preliminary/GAN_MNIST.ipynb}{here}. This implementation as well as this section will hopefully help to give the proper insight into the reasoning behind cycleGANs later in this section.
+Since the meat and potatoes of this project is the cycleGAN, the methods and mathematical understanding behind Generative Adversarial Networks (GANs) will only be briefly explored in this section. A GAN was implemented on the MNIST dataset as a preliminary trail to help understand the basics. This implementation can be seen in the python script \texttt{train\_GANA.py}. An older version of the same code is also accessible as a Jupyter Notebook in our GitHub repository  \href{https://github.com/oskarwiese/AlzPred/blob/main/preliminary/GAN_MNIST.ipynb}{here}. This implementation as well as this section will hopefully help to give the proper insight into the reasoning behind cycleGANs later in this section.
 
 In general, GANs can be seen as two different complex neural networks competing for the best accuracy during  the process of generating a class of pictures. In other words, the networks are adversaries in generating or classifying images, from which the source of the name becomes clear. One of the networks will be focusing on generating a fake version of images seen in a training folder, called the \textit{generator}, and the other will be trying to distinguish between real and fake images, called the \textit{discriminator}. This competition between networks leads to results much better than ever seen in ML and AI image generation, thus making a good foundation for the generation of 1.5T fMRI images from 3T. The two networds are covered in depth in the below subsections.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{"imgs/GAN architecture"}
-	\caption{The GAN architecture. The generator decodes the random noise from the latent space into a fake image. This fake imgae as well as an image from the training set is fed into the Discriminator, which encodes the data into a binary prediction of whether the image is real or fake.}
+	\caption{The GAN architecture. The generator decodes the random noise from the latent space into a fake image. This fake imgae as well as an image from the training set is fed into the Discriminator, which encodes the data into a binary prediction of whether the image is real or fake. Figure courtesy of \cite{gan_introduction_towards_datascience}.}
 	\label{fig:gan-architecture}
 \end{figure}
 
@@ -464,14 +481,14 @@ The GAN allowed for new images in a specific category to be created based on ran
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{imgs/cyclegan_architecture}
-	\caption{This figure shows the interactions necessary for the four different networks to convert images from A to B. The input image of category A is fed directly to the discriminator and to the generator that converts images from A to B. This generates an attempted image from category B, which is fed both to the discriminator to get a prediction and to the other generator to reconvert the image to one of category A for reasons that will become apparent later in this section.}
+	\caption{This figure shows the interactions necessary for the four different networks to convert images from A to B. The input image of category A is fed directly to the discriminator and to the generator that converts images from A to B. This generates an attempted image from category B, which is fed both to the discriminator to get a prediction and to the other generator to reconvert the image to one of category A for reasons that will become apparent later in this section. Figure courtesy of \cite{model_architecture}.}
 	\label{fig:cycleganarchitecture}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{imgs/cyclegan_architecture2}
-	\caption{This figure is almost identical to figure \ref{fig:cycleganarchitecture}, though mirrored in the x and y plane. It shows the interactions necessary for the four different networks to convert images from B to A. For a basic explanation of the components involved, see the caption of figure \ref{fig:cycleganarchitecture}.}
+	\caption{This figure is almost identical to figure \ref{fig:cycleganarchitecture}, though mirrored in the x and y plane. It shows the interactions necessary for the four different networks to convert images from B to A. For a basic explanation of the components involved, see the caption of figure \ref{fig:cycleganarchitecture}. Figure courtesy of \cite{model_architecture}.}
 	\label{fig:cycleganarchitecture2}
 \end{figure}
 
@@ -488,7 +505,7 @@ Of just as much importance as the patch-GAN architecture and general model inter
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{imgs/cyclegan_discriminator_layers}
-	\caption{The primary model layout consisting of the input, layers and output. The input is the grey-scale intensity-based MRI input of size 256x256x1. The five consecutive convolutional layers each have a specified kernel size, stride and padding as noted in the figure. The output is constructed from running the patchGAN on the last layer of the model to get a 30x30x1 matrix of values between 0 and 1. The specific values and layer sizes are specifed in table \ref{discriminator_layers}}
+	\caption{The primary model layout consisting of the input, layers and output. The input is the grey-scale intensity-based MRI input of size 256x256x1. The five consecutive convolutional layers each have a specified kernel size, stride and padding as noted in the figure. The output is constructed from running the patchGAN on the last layer of the model to get a 30x30x1 matrix of values between 0 and 1. The specific values and layer sizes are specifed in table \ref{discriminator_layers}.} %TODO: find ud af hvor dette billede kommer fra. det var en powerpoint et sted.
 	\label{fig:cyclegandiscriminatorlayers}
 \end{figure}
 
@@ -517,7 +534,7 @@ Unlike in a standard GAN generator, where a random image from a latent space is 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{imgs/autoencoder}
-	\caption{The general autoencoder architecture. A kernel does convolutions to reduce and increase the image dimensions. The smaller the dimensions, the larger the feature complexity. The code between the encoder and decoder } %TODO
+	\caption{The general autoencoder architecture. A kernel does convolutions to reduce and increase the image dimensions. The smaller the dimensions, the larger the feature complexity. The code between the encoder and decoder aaa. Figure courtesy of \cite{autoencoder}.} %TODO
 	\label{fig:autoencoder}
 \end{figure}
 
@@ -525,7 +542,7 @@ Unlike in a standard GAN generator, where a random image from a latent space is 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{imgs/cyclegan_generator_layers}
-	\caption{The primary model layout consisting of the input, layers and output. The input is the grey-scale intensity-based MRI input of size 256x256x1. The five encoding and decoding convolutional layers as well as the residual blocks each have a specified kernel size, stride and padding as noted in the figure. The specific values and layer sizes are specifed in table \ref{generator_layers}}
+	\caption{The primary model layout consisting of the input, layers and output. The input is the grey-scale intensity-based MRI input of size 256x256x1. The five encoding and decoding convolutional layers as well as the residual blocks each have a specified kernel size, stride and padding as noted in the figure. The specific values and layer sizes are specifed in table \ref{generator_layers}.} %TODO: find ud af hvor dette billede kommer fra. Det var et powerpoint et sted.
 	\label{fig:cyclegangeneratorlayers}
 \end{figure}
 
@@ -721,23 +738,23 @@ Many solution to the problem of mode collapse exist, some being much easier to i
 
 
 \subsection{Reproducibility}\label{repro}
-This section aims to give the reader a precise insight into how the methods of this project were implemented and how it would be possible to reproduce these results in the future. Hopefully, this will also simplify the methods. Reproducibility is an important part of writing any project or performing any research. It shows significance of the given result if it is possible for others at a later time to replicate or reproduce the results, since it validates the result of the original study and shows that it was not a fluke. All of the code is written in Python Version 3.9 and PyTorch version a%TODO find version. Gælder også de tre pakker i tabellen nedenfor
-Furthermore, the versions of the packages used in the project are given in the table below. If running any code from this project, please make sure that your packages either as new or newer than the ones specified below. All code for the project is accessible at \url{https://github.com/oskarwiese/AlzPred/tree/main/oskar_implemetation}.
+This section aims to give the reader a precise insight into how the methods of this project were implemented and how it would be possible to reproduce these results in the future. Hopefully, this will also simplify the methods. Reproducibility is an important part of writing any project or performing any research. It shows significance of the given result if it is possible for others at a later time to replicate or reproduce the results, since it validates the result of the original study and shows that it was not a fluke. This section was originally adapted from out project work in 2020, so some similarities in layout and wording might occur \cite{fagproject}. By far the most used programming language in this project was Python Version 3.9 and PyTorch version a \cite{python, pytorch}. %TODO find version. Gælder også de tre pakker i tabellen nedenfor
+Furthermore, the versions of the packages used in the project are given in the table below. If running any code from this project, please make sure that your packages either as new or newer than the ones specified below. All code for the project is accessible at \url{https://github.com/oskarwiese/AlzPred/tree/main/oskar_implemetation}. The scrips have also been added to appendix section \ref{showcase_code} for completeness.
 \begin{table}[H]
 	\begin{center}
 		\begin{tabular}{l l l l l l l l l l}
 			\toprule
-			& \textbf{Package}      & & & & & & & \textbf{Version}  & \\ \midrule
+			& \textbf{Package \cite{python_packages}}      & & & & & & & \textbf{Version}  & \\ \midrule
 			& torchvision   & & & & & & & $0.10.0$ & \\
-			& pelutils      & & & & & & & $0.6.9$  & \\
+			& pelutils \cite{pelutils}      & & & & & & & $0.6.9$  & \\
 			& torch         & & & & & & & $1.9.0$  & \\
 			& tqdm          & & & & & & & $4.62.3$ & \\
-			& numpy         & & & & & & & $1.21.2$ & \\
-			& matplotlib    & & & & & & & $3.4.3$  & \\
+			& numpy \cite{numpy}        & & & & & & & $1.21.2$ & \\
+			& matplotlib \cite{matplotlib}   & & & & & & & $3.4.3$  & \\
 			& random        & & & & & & & $a$      & \\
 			& os            & & & & & & & $a$      & \\
-			& PIL           & & & & & & & $a$      & \\
-			& albumentations& & & & & & & $1.1.0$  & \\ \bottomrule
+			& PIL \cite{pil}           & & & & & & & $a$      & \\
+			& albumentations \cite{albumentations} & & & & & & & $1.1.0$  & \\ \bottomrule
 		\end{tabular}
 	\end{center}
 \end{table}
@@ -817,52 +834,102 @@ This section will focus on showing relevant outputs of the final trained models.
 	\centering
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_bilinear}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
 		%		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
 		%		\label{fig:troubleshootc}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
 		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
 		%		\label{fig:troubleshootd}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
 		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
 		%		\label{fig:troubleshootd}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
 		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
 		%		\label{fig:troubleshootd}
 	\end{subfigure}
@@ -877,52 +944,102 @@ This section will focus on showing relevant outputs of the final trained models.
 	\centering
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_bilinear}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
 		%		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
 		%		\label{fig:troubleshootc}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
 		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
 		%		\label{fig:troubleshootd}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
 		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
 		%		\label{fig:troubleshootd}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
 		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
 		%		\label{fig:troubleshootd}
 	\end{subfigure}
@@ -931,6 +1048,226 @@ This section will focus on showing relevant outputs of the final trained models.
 \end{figure}
 
 \subsection{YZ Generated Images}\label{yz_generated}
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: Her er tanken at rows eller columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		%		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
+		%		\label{fig:troubleshootc}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
+	%	\label{fig:troubleshoot}
+\end{figure}
+
+\subsection{All Planes Generated Images}\label{all_generated}
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: Her er tanken at rows eller columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_bilinear}
+		%		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
+		%		\label{fig:troubleshootc}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
+	%	\label{fig:troubleshoot}
+\end{figure}
+
+\subsection{XY Quality Comparison}\label{xy_generated}
 %TODO: Fyld ud med de rigtige billeder og skriv figurtekst
 %TODO: Her er tanken at rows eller columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T
 \begin{figure}[H]
@@ -990,7 +1327,127 @@ This section will focus on showing relevant outputs of the final trained models.
 	%	\label{fig:troubleshoot}
 \end{figure}
 
-\subsection{All Planes Generated Images}\label{all_generated}
+\subsection{XZ Quality Comparison}\label{xz_generated}
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: Her er tanken at rows eller columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_bilinear}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		%		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
+		%		\label{fig:troubleshootc}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
+	%	\label{fig:troubleshoot}
+\end{figure}
+
+\subsection{YZ Quality Comparison}\label{yz_generated}
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: Her er tanken at rows eller columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_bilinear}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		%		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
+		%		\label{fig:troubleshootc}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
+		%		\label{fig:troubleshootd}
+	\end{subfigure}
+	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
+	%	\label{fig:troubleshoot}
+\end{figure}
+
+\subsection{All Planes Quality Comparison}\label{all_generated}
 %TODO: Fyld ud med de rigtige billeder og skriv figurtekst
 %TODO: Her er tanken at rows eller columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T
 \begin{figure}[H]
@@ -1194,7 +1651,7 @@ One of the relevant key focus areas include early detection and quality treatmen
 \section{Appendix}\label{appendix}
 
 
-\subsection{Showcase of Code}
+\subsection{Showcase of Code}\label{showcase_code}
 %TODO: HUSK AT OPDATERE FILERNE INDE I REPORTS/SCR INDEN AFLEVERING
 %TODO: HUSK AT OPDATERE FILERNE INDE I REPORTS/SCR INDEN AFLEVERING
 %TODO: HUSK AT OPDATERE FILERNE INDE I REPORTS/SCR INDEN AFLEVERING
@@ -1467,123 +1924,620 @@ Even though the discriminators are not nearly as important after having trained 
 \subsubsection{Progress of Training}
 
 %TODO: Fyld ud med de rigtige billeder og skriv figurtekst
-%TODO: vis hvordan billederne bliver bedre over tid og vis eksempler på heste
+%TODO: vis hvordan billederne bliver bedre over tid ved at have 15 billeder af heste i forskellige epochs. Hver 3x5 blok er én epoch
 \begin{figure}[H]
 	\centering
-	\begin{subfigure}[b]{0.7\textwidth}
+	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
-		%		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
-		%		\label{fig:troubleshootc}
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
 	\end{subfigure}
 	\vskip\ripper
-	\begin{subfigure}[b]{0.7\textwidth}
+	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
-		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
-		%		\label{fig:troubleshootd}
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
 	\end{subfigure}
 	\vskip\ripper
-	\begin{subfigure}[b]{0.7\textwidth}
+	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
-		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
-		%		\label{fig:troubleshootd}
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
 	\end{subfigure}
-	\vskip\ripper
-	\begin{subfigure}[b]{0.7\textwidth}
-		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/temp_horse}
-		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
-		%		\label{fig:troubleshootd}
-	\end{subfigure}
-	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
-	%	\label{fig:troubleshoot}
+%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
+%	\label{fig:troubleshoot}
 \end{figure}
-
 
 %TODO: Fyld ud med de rigtige billeder og skriv figurtekst
-%TODO: vis hvordan billederne bliver bedre over tid og vis eksempler på zebraer
+%TODO: vis hvordan billederne bliver bedre over tid ved at have 15 billeder af heste i forskellige epochs. Hver 3x5 blok er én epoch
 \begin{figure}[H]
 	\centering
-	\begin{subfigure}[b]{0.7\textwidth}
+	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
-		%		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
-		%		\label{fig:troubleshootc}
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
 	\end{subfigure}
 	\vskip\ripper
-	\begin{subfigure}[b]{0.7\textwidth}
+	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
-		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
-		%		\label{fig:troubleshootd}
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
 	\end{subfigure}
 	\vskip\ripper
-	\begin{subfigure}[b]{0.7\textwidth}
+	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
-		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
-		%		\label{fig:troubleshootd}
-	\end{subfigure}
-	\vskip\ripper
-	\begin{subfigure}[b]{0.7\textwidth}
-		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/temp_zebra}
-		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
-		%		\label{fig:troubleshootd}
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
 	\end{subfigure}
 	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
 	%	\label{fig:troubleshoot}
 \end{figure}
+
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: vis hvordan billederne bliver bedre over tid ved at have 15 billeder af heste i forskellige epochs. Hver 3x5 blok er én epoch
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+	\end{subfigure}
+	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
+	%	\label{fig:troubleshoot}
+\end{figure}
+
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: vis hvordan billederne bliver bedre over tid ved at have 15 billeder af heste i forskellige epochs. Hver 3x5 blok er én epoch
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+	\end{subfigure}
+	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
+	%	\label{fig:troubleshoot}
+\end{figure}
+
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: vis hvordan billederne bliver bedre over tid ved at have 15 billeder af zebraer i forskellige epochs. Hver 3x5 blok er én epoch
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+	\end{subfigure}
+	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
+	%	\label{fig:troubleshoot}
+\end{figure}
+
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: vis hvordan billederne bliver bedre over tid ved at have 15 billeder af zebraer i forskellige epochs. Hver 3x5 blok er én epoch
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+	\end{subfigure}
+	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
+	%	\label{fig:troubleshoot}
+\end{figure}
+
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: vis hvordan billederne bliver bedre over tid ved at have 15 billeder af zebraer i forskellige epochs. Hver 3x5 blok er én epoch
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+	\end{subfigure}
+	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
+	%	\label{fig:troubleshoot}
+\end{figure}
+
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: vis hvordan billederne bliver bedre over tid ved at have 15 billeder af zebraer i forskellige epochs. Hver 3x5 blok er én epoch
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.18\linewidth]{imgs/temp_zebra}
+	\end{subfigure}
+	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
+	%	\label{fig:troubleshoot}
+\end{figure}
+
+\subsubsection{Testing Cycle-Consistency}
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: Vis originalt billede i kolonne 1, transformeret billede i kolonne 2 og dobbelttransformeret billede i kolonne 2 (for heste). Kolonne 4, 5 og 6 er det samme for zebraer.
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+	\end{subfigure}
+	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
+	%	\label{fig:troubleshoot}
+\end{figure}
+
+\subsubsection{Testing Identity}
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: Vis originalt billede i kolonne 1, transformeret billede i kolonne 2 for heste. Kolonne 3, 4 er det samme for zebraer.
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+	\end{subfigure}
+	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
+	%	\label{fig:troubleshoot}
+\end{figure}
+
+
+\subsubsection{Quality Comparison to Real Images}
+%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: Vis originale heste- og zebrabilleder i kolonne 1 og 3 og genererede heste- og zebrabilleder i kolonne 2 og 4.
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\hskip\skipper
+		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+	\end{subfigure}
+	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
+	%	\label{fig:troubleshoot}
+\end{figure}
+
 
 \subsubsection{Discussion of Results}
 %TODO: Skriv om resultaterne og årsagerne til dem
@@ -1598,8 +2552,27 @@ Even though the discriminators are not nearly as important after having trained 
 	
 %	\bibitem{cnn2} M. Macaya et al. "June 18 Black Lives Matter protests news", 2020 CNN, at \url{https://edition.cnn.com/us/live-news/black-lives-matter-protests-06-18-2020/index.html}, visited 19-06-2020
 		
+	%%%%% <python> %%%%%
+		\bibitem{python} Van Rossum, Guido et al. "Python 3 Reference Manual". CreateSpace. 2009.
 		
-		\bibitem{first} Zhu, Jun-Yan, et al. "Unpaired image-to-image translation using cycle-consistent adversarial networks." Proceedings of the IEEE international conference on computer vision. 2017.
+		\bibitem{python_packages} Van Rossum, Guido. "The Python Library Reference, release 3.8.2". Python Software Foundation. 2020.
+		
+		\bibitem{pytorch} Paszke, Adam et al. "PyTorch: An Imperative Style, High-Performance Deep Learning Library". Curran Associates, Inc. 2019. http://papers.neurips.cc/paper/9015-pytorch-an-imperative-style-high-performance-deep-learning-library.pdf
+		
+		\bibitem{pelutils} Laurits Schultz, Asger, Winkel Holm, Søren. "Pelutils License". Pelutils Developers. 2020. https://github.com/peleiden/pelutils/blob/master/LICENSE.txt
+		
+		\bibitem{numpy} R. Harris, Charles et al. "Array programming with NumPy". Springer Science and Business Media LLC. 2020. https://doi.org/10.1038/s41586-020-2649-2
+		
+		\bibitem{matplotlib} Hunter, J. D. "Matplotlib: A 2D graphics environment". IEEE COMPUTER SOC. 2007.
+		
+		\bibitem{pil} Umesh, P. "Image Processing in Python". Citeseer. 2012.
+		
+		\bibitem{albumentations} Buslaev, Alexander. "Albumentations: Fast and Flexible Image Augmentations". Information. 2020. https://www.mdpi.com/2078-2489/11/2/125
+		
+		\bibitem{bcewithlogits} Paszke, A et al. "PyTorch: An Imperative Style, High-Performance Deep Learning Library", Curran Associates, Inc., 2019, https://pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html
+		
+		\bibitem{learnableKernel} Neda et al., "torch.nn.ConvTranspose2d vs torch.nn.Upsample", PyTorch, 2018. https://discuss.pytorch.org/t/torch-nn-convtranspose2d-vs-torch-nn-upsample/30574/7
+	%%%%% </python> %%%%%
 		
 		\bibitem{second} Burns, Jeffrey M., et al. "Reduced lean mass in early Alzheimer disease and its association with brain atrophy." Archives of neurology 67.4 (2010): 428-433.
 		
@@ -1630,17 +2603,20 @@ Even though the discriminators are not nearly as important after having trained 
 		\bibitem{yudong} Zhang, Yudong et al. "C	lassification of Alzheimer Disease Based on Structural Magnetic
 		Resonance Imaging by Kernel Support Vector Machine Decision Tree", Progress In Electromagnetics Research, Vol. 144, 171-184, 2014
 		
-		\bibitem{bcewithlogits} Paszke, A et al. "PyTorch: An Imperative Style, High-Performance Deep Learning Library", Curran Associates, Inc., 2019, https://pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html
-		
-		\bibitem{ganlocalminimum} Bansal, Aayush et al. "Recycle-GAN: Unsupervised Video Retargeting", Carnegie Mellon University, 2018, https://arxiv.org/pdf/1808.05174.pdf
-		
-		\bibitem{checkerboard} Odena, et al., "Deconvolution and Checkerboard Artifacts", Distill, 2016. http://doi.org/10.23915/distill.00003
-		
-		\bibitem{learnableKernel} Neda et al., "torch.nn.ConvTranspose2d vs torch.nn.Upsample", PyTorch, 2018. https://discuss.pytorch.org/t/torch-nn-convtranspose2d-vs-torch-nn-upsample/30574/7
-		
 		\bibitem{Alzheimerforeningen} Alzheimer.dk "Fakta om demens": \url{https://www.alzheimer.dk/viden-om-demens/fakta-om-demens/}, last visited at 22nd December, 2021
 		
 		\bibitem{informal_care} Jakobsen, Marie et al. "Costs of Informal Care for People Suffering from Dementia: Evidence from a Danish Survey"
+		
+		\bibitem{fagproject} Henriksen, Anders, Christensen, Oskar. "Discrimination of Race, Age \& Gender in the COMPAS Dataset". Technical University of Denmark. 2020.
+		
+	%%%%% <GAN and CycleGAN> %%%%%
+		\bibitem{cyclegan_implementation} Persson, Aladdin. "CycleGAN implementation from scratch". YouTube. 2021.  https://www.youtube.com/watch?v=4LktBHGCNfw
+	
+		\bibitem{original_cyclegan} Zhu, Jun-Yan, et al. "Unpaired image-to-image translation using cycle-consistent adversarial networks." Proceedings of the IEEE international conference on computer vision. 2017.
+		
+		\bibitem{original_gan} J. Goodfellow, Ian. "Generative Adversarial Networks". Université de Montréal. 2014. https://arxiv.org/abs/1406.2661
+		
+		\bibitem{gan_introduction_towards_datascience} Ayari, Rabeh. "Generative Adversarial Networks". Towards Data Science. 2020. https://towardsdatascience.com/generative-adversarial-networks-gans-2231c5943b11
 		
 		\bibitem{mode_collapse_MLM} Brownlee, Jason, "How to Identify and Diagnose GAN Failure Modes", Machine Learning Mastery, 2019, https://machinelearningmastery.com/practical-guide-to-gan-failure-modes/
 		
@@ -1650,7 +2626,18 @@ Even though the discriminators are not nearly as important after having trained 
 		
 		\bibitem{hard_to_train} Hui, Jonathan, "GAN — Why it is so hard to train Generative Adversarial Networks!", Medium, 2018, https://jonathan-hui.medium.com/gan-why-it-is-so-hard-to-train-generative-advisory-networks-819a86b3750b
 		
+<<<<<<< HEAD
 		\bibitem{reckon} FreeSurfer Software Suite, \url{https://surfer.nmr.mgh.harvard.edu/fswiki/recon-all}, last visited 1st of January, 2022.
+=======
+		\bibitem{ganlocalminimum} Bansal, Aayush et al. "Recycle-GAN: Unsupervised Video Retargeting", Carnegie Mellon University, 2018, https://arxiv.org/pdf/1808.05174.pdf
+		
+		\bibitem{checkerboard} Odena, et al., "Deconvolution and Checkerboard Artifacts", Distill, 2016. http://doi.org/10.23915/distill.00003
+		
+		\bibitem{model_architecture} Bansal, Hardik. "Understanding and Implementing CycleGAN in TensorFlow". GitHub. https://hardikbansal.github.io/CycleGANBlog/, last visited 01/01-2022.
+		
+		\bibitem{autoencoder} Khosla, Ritwek. "Auto-Encoders for Computer Vision: An Endless world of Possibilities". Analytica Vidhya. 2021. https://www.analyticsvidhya.com/blog/2021/01/auto-encoders-for-computer-vision-an-endless-world-of-possibilities/
+	%%%%% </GAN and CycleGAN> %%%%%
+>>>>>>> 9f16cef410a63af723f62d1a4b58a50716b2ec50
 		
 	\end{thebibliography}
 	
