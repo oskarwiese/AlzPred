@@ -34,7 +34,7 @@
 	commentstyle=\color{red},
 	keywordstyle=\color{blue},
 	breaklines=true,
-	postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+	postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}
 }
 
 \hypersetup{
@@ -71,6 +71,7 @@
 % Python style for highlighting
 \newcommand\pythonstyle{\lstset{
 		language=Python,
+		tabsize=2,
 		basicstyle=\ttm,
 		morekeywords={self},              % Add keywords here
 		keywordstyle=\ttb\color{deepblue},
@@ -78,7 +79,8 @@
 		emphstyle=\ttb\color{deepred},    % Custom highlighting style
 		stringstyle=\color{deepgreen},
 		frame=tb,                         % Any extra options here
-		showstringspaces=false
+		showstringspaces=false,
+		literate={\ \ }{{\ }}1
 }}
 
 % Python for external files
