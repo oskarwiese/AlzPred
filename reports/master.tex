@@ -42,6 +42,9 @@
 	urlcolor=cyan,
 }
 
+
+\newcommand\graybox[1]{\colorbox{lightgray}{\ttfamily #1}}
+
 % Variables for result plots
 \newcommand\skipper{1.4pt}
 \newcommand\ripper{2.5pt}
@@ -200,7 +203,23 @@ Basaia et al. achieved the highest measured accuracy on the ADNI1 data with a CN
 
 \section{Background}
 
+This section will contain relevant information in regards to understanding and reproducing the project presented. 
+
+\subsection{MRI-scan}
+%TODO simple explanation of MRI scans
+
+
+\subsection{Magnetic field strength}
+%TODO simple explanation of THE TESLAz
+
 \subsection{MNI space}
+%TODO explain the MNI space 
+Montreal Neurological Institute 305 (MNI305) is an atlas for brain mapping which was introduced by Evans et al. 1992. MNI simply got is name from where it came from. The mapping was created from 250 normal subjects that have been MRI scanned. It is a known method for normalization and is a often used industry practice for an average human brain  \cite{evans}. 
+
+The atlas was constructed in two steps. Firstly, anatomical landmarks where outlined for each subject manually. The landmarks where found using the Talairach atlas, which is a 3 dimensional coordinate system used to map several areas of the brain independently of the brain volume and shape. Secondly, each MRI volume from the patients were mapped to an average MRI, from the previous subjects, to reduce impact of order effect. The mapping was performed with whole-brain linear (9-parameter) image similarity residual and not according to Talairach's piecewise linear model \cite{collins}. 
+
+Thus, they created a space, namely, MNI305 which is used in this project. The space is useful to compare the brain of different subjects and for a deep learning model to learn meaningful feature representations of such images. 
+
 
 \section{Data} 
 %TODO Look at histogram distribution, types of images, etc etc etc etc
@@ -212,12 +231,14 @@ ADNI collects, validate and utilize data including magnetic resonance imaging (M
 More specifically, this project will use MRI data from ADNI 1 \& 2. 
 Which was launched in October 24 2004. Originally this project was designed to find more accurate biomarkers for the early detection of AD.
 The ADNI project analyzed more than a thousand different brain scans from three different subject groups, namely, subjects with mild cognitive impairment (MCI), subjects with early AD and control subjects \cite{adni1}. 
-
+\\\\
+All of the data can be downloaded here: \url{https://ida.loni.usc.edu/} \newline
+Which is a website owned by Laboratory of Neuro Imaging (LONI). The core philophosy of LONI is \blockcquote{loni}{to increase the pace of discovery in neuroscience by better understanding how the brain works when it’s healthy and what goes wrong in disease}.
 
 
 \subsection{Data Demographics}
 %subj_id, age, etc. etc. - dette skal findes et sted på server eller ADNI hjemmeside 
-To get an understanding of the age distribution of the subjects used in this project and simple demographics, from figure \ref{fig:age} it can be seen, that the average overall age of subjects are 73.3 years. Furthermore, the proportion of men to women are close to 50\% making the ratio acceptable. The  potential for an inherent gender bias is also minimized by having the same number of samples for men and women. The data seen from the table is from ADNI1 and ADNI2 project.  
+To get an understanding of the age distribution of the subjects used in this project and simple demographics, from figure \ref{fig:age} it can be seen, that the average overall age of subjects are 73.3 years. Furthermore, the proportion of men to women are close to 50\% making the ratio acceptable. The  potential for an inherent gender bias is also minimized by having the same number of samples for men and women. The data seen from the table is from ADNI1 and ADNI2 project \cite{adni} \cite{adni1} .
 
 \begin{table}[H]
 	\begin{tabular}{llllll}
@@ -452,10 +473,10 @@ An important thing to note is that all black images are discarded. Which mean th
 % Quick rant about GDPR
 
 
-\subsection{Trade off of using fMRI}
+\subsection{Trade off of using MRI}
 %TODO Talk about voxels ( a voxel and encode information about two distinct areas in the brain in same number.see: https://www.youtube.com/watch?v=6wxJ1up-E7E&list=PLIQIswOrUH6_DWy5mJlSfj6AWY0y9iUce )
 
-fMri data come off a MR-scanner in the form of volumes. These 3D images can be compared to centicubes which together form a big square, where the brain is inside. Each centicube in this image is often referred to as a voxel and each voxel contains a value that represents the intensity value in the specific area - see figure \ref{fig:voxel}. For T1 weighted or structural images this determines the boundary between gray matter \& white matter from cerebrospinal fluid. In T2 weighted images it represents more active voxels to  less active voxels. However, voxels do have certain issues i.e. a voxel can encompass information about two anatomically distinct areas. If a voxel for example encompass two different gyrus. Furthermore, it is much harder to measure structural properties such as grey matter thickness or volume, which might be important for Alzheimer classification. FreeSurfer Software can help by turning the 3D representation into a 2D representation using triangles. The points of the triangles are vertices and they are connected by an edge. Each vertex then contain measurements such as gray matter volume and thickness, area, curvature etc. These surfaces can then be inflated to visualize where fMRI activations and gray matter differences are located more precisely than the voxel representation. 
+MRI data come off a MR-scanner in the form of volumes. These 3D images can be compared to centicubes which together form a big square, where the brain is inside. Each centicube in this image is often referred to as a voxel and each voxel contains a value that represents the intensity value in the specific area - see figure \ref{fig:voxel}. For T1 weighted or structural images this determines the boundary between gray matter \& white matter from cerebrospinal fluid. In T2 weighted images it represents more active voxels to  less active voxels. However, voxels do have certain issues i.e. a voxel can encompass information about two anatomically distinct areas. If a voxel for example encompass two different gyrus. Furthermore, it is much harder to measure structural properties such as grey matter thickness or volume, which might be important for Alzheimer classification. FreeSurfer Software can help by turning the 3D representation into a 2D representation using triangles. The points of the triangles are vertices and they are connected by an edge. Each vertex then contain measurements such as gray matter volume and thickness, area, curvature etc. These surfaces can then be inflated to visualize where MRI activations and gray matter differences are located more precisely than the voxel representation. 
 
 \begin{figure}[H]
 	\centering
@@ -478,7 +499,7 @@ In the original Alzheimer's disease classification paper by Camilla, a neural ne
 \subsection{Generative Adversarial Network}
 Since the meat and potatoes of this project is the cycleGAN, the methods and mathematical understanding behind Generative Adversarial Networks (GANs) will only be briefly explored in this section. A GAN was implemented on the MNIST dataset as a preliminary trail to help understand the basics. This implementation can be seen in the python script \texttt{train\_GANA.py}. An older version of the same code is also accessible as a Jupyter Notebook in our GitHub repository  \href{https://github.com/oskarwiese/AlzPred/blob/main/preliminary/GAN_MNIST.ipynb}{here}. This implementation as well as this section will hopefully help to give the proper insight into the reasoning behind cycleGANs later in this section.
 
-In general, GANs can be seen as two different complex neural networks competing for the best accuracy during  the process of generating a class of pictures. In other words, the networks are adversaries in generating or classifying images, from which the source of the name becomes clear. One of the networks will be focusing on generating a fake version of images seen in a training folder, called the \textit{generator}, and the other will be trying to distinguish between real and fake images, called the \textit{discriminator}. This competition between networks leads to results much better than ever seen in ML and AI image generation, thus making a good foundation for the generation of 1.5T fMRI images from 3T. The two networds are covered in depth in the below subsections.
+In general, GANs can be seen as two different complex neural networks competing for the best accuracy during  the process of generating a class of pictures. In other words, the networks are adversaries in generating or classifying images, from which the source of the name becomes clear. One of the networks will be focusing on generating a fake version of images seen in a training folder, called the \textit{generator}, and the other will be trying to distinguish between real and fake images, called the \textit{discriminator}. This competition between networks leads to results much better than ever seen in ML and AI image generation, thus making a good foundation for the generation of 1.5T MRI images from 3T. The two networds are covered in depth in the below subsections.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{"imgs/GAN architecture"}
@@ -779,7 +800,7 @@ Many solution to the problem of mode collapse exist, some being much easier to i
 
 \subsection{Reproducibility}\label{repro}
 This section aims to give the reader a precise insight into how the methods of this project were implemented and how it would be possible to reproduce these results in the future. Hopefully, this will also simplify the methods. Reproducibility is an important part of writing any project or performing any research. It shows significance of the given result if it is possible for others at a later time to replicate or reproduce the results, since it validates the result of the original study and shows that it was not a fluke. This section was originally adapted from out project work in 2020, so some similarities in layout and wording might occur \cite{fagproject}. By far the most used programming language in this project was Python Version 3.9 and PyTorch version a \cite{python, pytorch}. %TODO find version. Gælder også de tre pakker i tabellen nedenfor
-Furthermore, the versions of the packages used in the project are given in the table below. If running any code from this project, please make sure that your packages either as new or newer than the ones specified below. All code for the project is accessible at \url{https://github.com/oskarwiese/AlzPred/tree/main/oskar_implemetation}. The scrips have also been added to appendix section \ref{showcase_code} for completeness.
+Furthermore, the versions of the packages used in the project are given in the table below. If running any code from this project, please make sure that your packages either as new or newer than the ones specified below. All code for the project is accessible at \url{https://github.com/oskarwiese/AlzPred/tree/main/oskar_implemetation}. The scripts have also been added to appendix section \ref{showcase_code} for completeness.
 \begin{table}[H]
 	\begin{center}
 		\begin{tabular}{l l l l l l l l l l}
@@ -798,10 +819,10 @@ Furthermore, the versions of the packages used in the project are given in the t
 		\end{tabular}
 	\end{center}
 \end{table}
-\noindent Since randomness plays a large roll in implementing deep learning architectures, random seeds have been set in order to ensure equivalent results for every run of the notebook. The seed number was set to 42 and was used for the python seed \texttt{random.seed}, the numpy seed \texttt{np.random.seed} and the pytorch seeds \texttt{torch.manual\_seed} \texttt{torch.cuda.manual\_seed}
-\texttt{torch.cuda.manual\_seed\_all} and were set before any processes were run in any of the scrips used.
+\noindent Since randomness plays a large roll in implementing deep learning architectures, random seeds have been set in order to ensure equivalent results for every run of the notebook. The seed number was set to 42 and was used for the python seed \texttt{random.seed}, the numpy seed \texttt{np.random.seed} and the pytorch seeds: \newline \texttt{torch.manual\_seed} \texttt{torch.cuda.manual\_seed}
+\texttt{torch.cuda.manual\_seed\_all}. These seeds were set before any processes run in any of the scrips used.
 
-In order to make the results as reproducible as possible, the data as well as the way the data was obtained also plays a big role. The way the data was obtained can be seen described in full detail in section \ref{dataDescription}. The data originally comes from the ADNI studies, but the data used specifically for this project was the folders \texttt{/dtu-compute/ADNIbias/freesurfer\_ADNI1} and \texttt{/dtu-compute/ADNIbias/freesurfer\_ADNI2} on the DTU HPC server.\\
+In order to make the results as reproducible as possible, the data as well as the way the data was obtained also plays a big role. The way the data was obtained can be is described in full detail in section \ref{dataDescription}. The data originally comes from the ADNI studies, but the data used specifically for this project are located in the following folders on the HPC / dtu server: \texttt{/dtu-compute/ADNIbias/freesurfer\_ADNI1} and \texttt{/dtu-compute/ADNIbias/freesurfer\_ADNI2} \footnote{All the folders can be found on the DTU HPC server with the given paths.}. \\
 
 \begin{table}[H]\label{fig:files}
 	\begin{center}
@@ -1639,7 +1660,7 @@ This section will focus on showing relevant outputs of the final trained models.
 
 
 \subsection{Standardization of Measuring Equipment (3T/1.5T)}
-%TODO 
+%TODO gør 1.5T til den nye 3T
 
 \subsection{Improvements for Future Papers}
 
@@ -1648,7 +1669,7 @@ This section will focus on showing relevant outputs of the final trained models.
 
 
 \subsection{Safe AI}
-% Er stor ting i medical imaging 
+% Er stor ting i medical imaging, gør Lars lykkelig
 
 \subsection{Economic Incentive of a good classification model}
 
@@ -2679,6 +2700,11 @@ Even though the discriminators are not nearly as important after having trained 
 
 		\bibitem{reckon} FreeSurfer Software Suite, \url{https://surfer.nmr.mgh.harvard.edu/fswiki/recon-all}, last visited 1st of January, 2022.
 		
+		\bibitem{evans} Evans, A.C., Collins, D.L., Milner, B., 1992a. An MRI-based stereotaxic atlas from 250 young normal subjects. Proc 22nd Annual Symposium, Society for Neuroscience, 18, p. 408
+		
+		\bibitem{collins} Collins, D.L., Neelin, P., Peters, T.M., Evans, A.C., 1994. Automatic 3-D intersubject reg- istration of MR volumetric data in standardized Talairach space. J. Comput. Assist. Tomogr. 18 (2), 192–205.
+		
+		\bibitem{loni} Keck School of Medicine of USC University of Southern California \url{https://www.loni.usc.edu/}, last visited 2nd of January 2022
 		
 	\end{thebibliography}
 	
