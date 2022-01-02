@@ -34,7 +34,7 @@
 	commentstyle=\color{red},
 	keywordstyle=\color{blue},
 	breaklines=true,
-	postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+	postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}
 }
 
 \hypersetup{
@@ -71,6 +71,7 @@
 % Python style for highlighting
 \newcommand\pythonstyle{\lstset{
 		language=Python,
+		tabsize=2,
 		basicstyle=\ttm,
 		morekeywords={self},              % Add keywords here
 		keywordstyle=\ttb\color{deepblue},
@@ -78,7 +79,8 @@
 		emphstyle=\ttb\color{deepred},    % Custom highlighting style
 		stringstyle=\color{deepgreen},
 		frame=tb,                         % Any extra options here
-		showstringspaces=false
+		showstringspaces=false,
+		literate={\ \ }{{\ }}1
 }}
 
 % Python for external files
@@ -446,7 +448,7 @@ Besides the immense preprocessing done with the FreeSurfer Software the images a
 
 \subsection{Visualization of Data}
 % Slices of img, preview 
-This section aims to give a visualization of the preprocessed data. This will show what image data the cycleGANs in this project utilizes in the training section. The images are being constructed by thresholding one of the following dimension: \texttt{xy, xz, yz}. This creates xy-, xz- and yz-planes which are 2D-images. If an image is converted to a numpy nd array, the slicing would amount to: \texttt{slice = np.array([:,:,z])}, where $ z \in [1,256] $. Thus, we have 256 2D images for every 3D image resulting in $ 1.152 $ million training images. The training images are brain slices, of which can be seen in fig \ref{fig:slica_xy}, \ref{fig:slica_xz} and \ref{fig:slica_yz} \footnote{NB! The images in figures are from randomly selected slices and do not match on the 1.5T to 3T}. Three of the cycleGANs in this project will be trained on xy, xz and yz planes respectively. Lastly, a model will also be trained on random slices from the three planes. All the slices are created using the \texttt{create\_imgs.py} python script which utilizes numpy and multiprocessing. The script can be seen in appendix here: %TODO indsæt create_imgs.py script i appendix
+This section aims to give a visualization of the preprocessed data. This will show what image data the cycleGANs in this project utilizes in the training section. The images are being constructed by thresholding one of the following dimension: \texttt{xy, xz, yz}. This creates xy-, xz- and yz-planes which are 2D-images. If an image is converted to a numpy nd array, the slicing would amount to: \texttt{slice = np.array([:,:,z])}, where $ z \in [1,256] $. Thus, we have 256 2D images for every 3D image resulting in $ 1.152 $ million training images. The training images are brain slices, of which can be seen in fig \ref{fig:slica_xy}, \ref{fig:slica_xz} and \ref{fig:slica_yz} \footnote{NB! The images in figures are from randomly selected slices and do not match on the 1.5T to 3T}. Three of the cycleGANs in this project will be trained on xy, xz and yz planes respectively. Lastly, a model will also be trained on random slices from the three planes. All the slices are created using the \texttt{create\_imgs\_1.5T.py} and \texttt{create\_imgs\_3T.py} python scripts which utilizes numpy and multiprocessing. The scripts can be seen in the appendix in section \ref{create_imgs_1.5T} and \ref{create_imgs_3T}.
 An important thing to note is that all black images are discarded. Which mean that there is some pixel value different from zero in the images that are used to train the cycleGAN. This is partly due to reducing the raw amount of training data, but also due to the fact that we do not need a cycleGAN to translate complete black images from 3T to 1.5T domain vice versa hence the arbitrariness. 
 
 \begin{figure}[H]
@@ -1759,6 +1761,15 @@ In section \ref{repro}, a general overview of the scripts used in this project h
 
 \subsubsection{GAN\_result.py}
 \pythonexternal{scr/preliminary/GAN_results.py}
+
+\subsubsection{horse2zebra\_results.py}
+\pythonexternal{scr/horse2zebra_results.py}
+
+\subsubsection{create\_imgs\_3T.py}
+\pythonexternal{scr/create_imgs_3T.py}
+
+\subsubsection{create\_imgs\_1.5T.py}
+\pythonexternal{scr/create_imgs_1.5T.py}
 
 \subsection{Shell scripts}
 
