@@ -29,6 +29,7 @@
 \usepackage{graphicx}
 \usepackage[utf8]{inputenc}
 \usepackage{xcolor}
+\usepackage[htt]{hyphenat}
 \lstset{basicstyle=\ttfamily,
 	showstringspaces=false,
 	commentstyle=\color{red},
@@ -501,15 +502,12 @@ MRI data come off a MR-scanner in the form of volumes. These 3D images can be co
 
 
 \section{Methods}
-% Short description of all methods
-\subsection{Neural Network for Alzheimer's Disease Classification}
+This section introduces which technical background has been used in the duration of this project as well as which types of models have been trained. Section \ref{camillas_model} introduces the classification network used to find and analyze the bias present in using both 1.5T and 3T MRI images for analyzes. Section \ref{gan} and \ref{cyclegan} consider the intuition and mathematical theory behind implementing GAN's and cycleGAN's. The GAN has been trained on the MNIST hand-drawn digit dataset as a preliminary introduction to GAN's. The results of training this model is found in \ref{MNIST_GAN}. As for the cycleGAN, five total models have been implemented on various datasets. One of these models was trained on the horse2zebra dataset used in the original cycleGAN paper\cite{original_cyclegan} as another preliminary experiment and an introduction to cycleGAN's. The result of this preliminary run is located in \ref{horse2zebra_cyclegan}. The four other models have been trained on different variations of the MRI \texttt{nii}-files mentioned above. One has been trained on slices from the $x$-axis (YZ), another from the $y$-axis (XZ), yet another on the $z$-axis (XY). The last model has been trained on all (all) of these images simultaneously. The goal was to test the best approach for reconstructing 1.5T images from 3T images, and to see if the all-model could hold up to the quality of the other models. The specifics about training variables, hyperparameters, etc. are located in section \ref{model_specifics}. Since these models are not easy to train\cite{hard_to_train}, section \ref{troubleshooting} relays multiple issues along the training progress and how they were eventually fixed. Lastly, section \ref{reproducibility} discusses what has been done to ensure reproducible results.
+
+\subsection{Neural Network for Alzheimer's Disease Classification} \label{camillas_model}
 In the original Alzheimer's disease classification paper by Camilla, a neural network was used to determine whether each patient had AD. Since this model was full of bias when used on the original data, we used this same model to compare and contrast if the below methods succeeded in removing the most prominent biases from the model. The model was implemented as a PyTorch neural network with 12 convolution layers using ReLU as activation function between each layer. This was followed by a fully connected layer with sigmoid activation to output the probability of each class (sick or healthy). A much more detailed breakthrough of the general project and architecture of the neural network can be seen in \cite{CamillaKandidat}.
 
-\subsection{Model Overview}
-%TODO: Hvilke modeller har vi brugt til hvad? Hvor mange cycleGANs har vi trænet?
-%TODO: Referér til de forskellige sektioner, hvor man kan finde mere om hver model.
-
-\subsection{Generative Adversarial Network}
+\subsection{Generative Adversarial Network}\label{gan}
 Since the meat and potatoes of this project is the cycleGAN, the methods and mathematical understanding behind Generative Adversarial Networks (GANs) will only be briefly explored in this section. A GAN was implemented on the MNIST dataset as a preliminary trail to help understand the basics. This implementation can be seen in the python script \texttt{train\_GANA.py}. An older version of the same code is also accessible as a Jupyter Notebook in our GitHub repository  \href{https://github.com/oskarwiese/AlzPred/blob/main/preliminary/GAN_MNIST.ipynb}{here}. This implementation as well as this section will hopefully help to give the proper insight into the reasoning behind cycleGANs later in this section.
 
 In general, GANs can be seen as two different complex neural networks competing for the best accuracy during  the process of generating a class of pictures. In other words, the networks are adversaries in generating or classifying images, from which the source of the name becomes clear. One of the networks will be focusing on generating a fake version of images seen in a training folder, called the \textit{generator}, and the other will be trying to distinguish between real and fake images, called the \textit{discriminator}. This competition between networks leads to results much better than ever seen in ML and AI image generation, thus making a good foundation for the generation of 1.5T MRI images from 3T. The two networds are covered in depth in the below subsections.
@@ -542,10 +540,8 @@ Now for the generator loss, as we can see below.
 
 This loss is equivalent to the BCE loss with logits, where the weights are all set to be equal. The $\sigma$ term is the sigmoid function. This loss function basically states that the generator gets a large loss when the discriminator gets tricked into thinking that the generated image is real. This is due to the fact that a low probability of it being a real image leads to a high loss and vica versa \cite{bcewithlogits}.
 
-\subsection{Specifics}
-In this section, other more specific details for the implementation of a GAN will be examined. This includes activation functions, hyperparameters and hyperparameter search and optimizers.
 
-\subsection{CycleGAN}
+\subsection{CycleGAN}\label{cyclegan}
 The GAN allowed for new images in a specific category to be created based on random noise. The next upgrade would be to be able to go from one category to another and back again. This is exactly the problem a cycleGAN aims to fix, which makes it perfect for this paper, since we aim to go from 3T images to 1.5T images. Going back is not as important in this case, but could prove useful for other purposes. The cycleGAN generally works by implementing two generator networks, each generating one category based on an image from the other category, and two discriminator networks, each predicting the probability of the input image actually being from the original category. This architecture is explained and showcased further in figure \ref{fig:cycleganarchitecture} and \ref{fig:cycleganarchitecture2} below.
 % TODO: Vigtigt at komme ind på original paper
 % F: X -> Y samt G: Y -> X
@@ -811,7 +807,11 @@ Many solution to the problem of mode collapse exist, some being much easier to i
 \subsubsection{Classifier}
 
 
-\subsection{Reproducibility}\label{repro}
+\subsection{Specifics}\label{model_specifics}
+In this section, other more specific details for the implementation of a GAN will be examined. This includes activation functions, hyperparameters and hyperparameter search and optimizers.
+
+
+\subsection{Reproducibility}\label{reproducibility}
 This section aims to give the reader a precise insight into how the methods of this project were implemented and how it would be possible to reproduce these results in the future. Hopefully, this will also simplify the methods. Reproducibility is an important part of writing any project or performing any research. It shows significance of the given result if it is possible for others at a later time to replicate or reproduce the results, since it validates the result of the original study and shows that it was not a fluke. This section was originally adapted from out project work in 2020, so some similarities in layout and wording might occur \cite{fagproject}. By far the most used programming language in this project was Python Version 3.9 and PyTorch version a \cite{python, pytorch}. %TODO find version. Gælder også de tre pakker i tabellen nedenfor
 Furthermore, the versions of the packages used in the project are given in the table below. If running any code from this project, please make sure that your packages either as new or newer than the ones specified below. All code for the project is accessible at \url{https://github.com/oskarwiese/AlzPred/tree/main/oskar_implemetation}. The scripts have also been added to appendix section \ref{showcase_code} for completeness.
 \begin{table}[H]
@@ -1730,7 +1730,7 @@ One of the relevant key focus areas include early detection and quality treatmen
 %TODO: HUSK AT OPDATERE FILERNE INDE I REPORTS/SCR INDEN AFLEVERING
 %TODO: HUSK AT OPDATERE FILERNE INDE I REPORTS/SCR INDEN AFLEVERING
 %TODO: HUSK AT OPDATERE FILERNE INDE I REPORTS/SCR INDEN AFLEVERING
-In section \ref{repro}, a general overview of the scripts used in this project has been made, and a justification is made for what the scripts are relevant for. In this section, the code itself is inserted for completeness.
+In section \ref{reproducibility}, a general overview of the scripts used in this project has been made, and a justification is made for what the scripts are relevant for. In this section, the code itself is inserted for completeness.
 
 \subsubsection{train.py}
 \pythonexternal{scr/train.py}
@@ -1979,7 +1979,7 @@ Since the images have started looking so convincing after generating them with B
 
 Even though the discriminators are not nearly as important after having trained the generators, the discriminator predictions on a number of images have been shown for completeness. The BCE loss model is shown in figure 	\ref{fig:discriminator_preds_MNIST_GAN_normal}. From this figure, a couple points quickly become apparent. It seems the discriminator acts in a risk-averse fashion, never predicting any probability under 0.45 or over 0.75, which is probably negative for the overall performance. This could be due to the generator becoming stronger than the generator and being more able to fool it. Meanwhile, the discriminator performance has high variance. The second figure has almost completely switched the predictions between real and false, while the first and third figure shows the discriminator experiencing more expected behavior. This variability might be a result of very low changes in loss, which do not penalize the discriminator enough for wrong predictions. A solution for this could be to scale the loss function, though this is left as future work. As for the MSE loss models, figure \ref{fig:discriminator_preds_MNIST_GAN_normal} shows much the same patterns as mentioned in the first part of the paragraph. This means that the discriminator was not benefit nor hindered from the different use of loss function. This also might indicate that a future model trained on the MNIST dataset would need to take into action a weaker generator or stronger discriminator.
 
-\subsection{Horse2Zebra CycleGAN}
+\subsection{Horse2Zebra CycleGAN}\label{horse2zebra_cyclegan}
 
 
 \subsubsection{Losses}
