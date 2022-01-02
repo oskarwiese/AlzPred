@@ -209,16 +209,40 @@ Basaia et al. achieved the highest measured accuracy on the ADNI1 data with a CN
 
 The data used in this project is from Alzheimer's Disease Neurosurgical Initiative (ADNI). This initiative unites researchers with study data to investigate and define the progression of Alzheimer's Disease (AD). 
 ADNI collects, validate and utilize data including magnetic resonance imaging (MRI), positron emission tomography (PET), genetics, cognitive tests, cerebrospinal fluid biomarkers (CSF) and blood biomarkers as predictors of the disease \cite{adni}.
-More specifically, this project will only use MRI data from ADNI 1. 
+More specifically, this project will use MRI data from ADNI 1 \& 2. 
 Which was launched in October 24 2004. Originally this project was designed to find more accurate biomarkers for the early detection of AD.
-The ADNI 1 project analyzed more than a thousand different brain scans from three different subject groups, namely, subjects with mild cognitive impairment (MCI), subjects with early AD and control subjects \cite{adni1}. 
+The ADNI project analyzed more than a thousand different brain scans from three different subject groups, namely, subjects with mild cognitive impairment (MCI), subjects with early AD and control subjects \cite{adni1}. 
+
+
+
+\subsection{Data Demographics}
+%subj_id, age, etc. etc. - dette skal findes et sted på server eller ADNI hjemmeside 
+To get an understanding of the age distribution of the subjects used in this project and simple demographics, from figure \ref{fig:age} it can be seen, that the average overall age of subjects are 73.3 years. Furthermore, the proportion of men to women are close to 50\% making the ratio acceptable. The  potential for an inherent gender bias is also minimized by having the same number of samples for men and women. The data seen from the table is from ADNI1 and ADNI2 project.  
+
+\begin{table}[H]
+	\begin{tabular}{llllll}
+		& CN&\ \ AD\ \ MCI &\ \ Other &\ \ Total   \\
+		N & 698&\ \ 377\ \ 634 &\ \ 473 &\ \ 2182   \\
+		Male/Female & 300/398&\ \ 196/181\ \ 389/245 &\ \ 243/229  &\ \ 1128/1053   \\
+		Age & 75.1&\ \ 73.24\ \ 74.1 &\ \ 71.2 &\ \ 73.3   \\
+	\end{tabular}
+\end{table}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\linewidth]{imgs/age_distro}
+	\caption{A histogram of the age distribution among the subjects used in this project.} 
+	\label{fig:age}
+\end{figure}
+
 
 \subsection{Description of Data} \label{dataDescription}
 
 %Description of how images(raw) obtained from patients, number of images, type of subjects  
 
-The images from the ADNI 1 dataset are from both different subjects and a plethora of studies around the world. 
-Each of the patients have multiple scans throughout the span of the ADNI 1 project, however, we only use the baseline scan, which is the subjects first MRI-scan. 
+The images from the ADNI dataset are from both different subjects and a plethora of studies around the world. 
+Each of the patients have multiple scans throughout the span of the ADNI project, however, we only use the baseline scan, which is the subjects first MRI-scan. 
 The MRI-scans are three dimensional images of the subjects brain. 
 The original image is in a \texttt{.mgz} file format which is a compressed mgh file. 
 This file format can store 3D-images, such as NifT1 files, which is 3-dimensional images of the brain. 
@@ -385,45 +409,61 @@ The resulting image after the FreeSurfer preprocessing can be seen in the next f
 \subsubsection{Data Augmentation}
 % Hvis vi vælger at bruge augmentation
 
-Besides the immense preprocessing done with the FreeSurfer Software the images are also resized, center cropped, converted to float and normalized around with a $ \mu = 0.5 $ and $ \sigma = 0.5$. Centercrop crops an image in the center, ensuring that when the image is converted to a tensor and has an arbitrary number of leading dimensions, it will be cropped correctly. Furthermore, the intensity values are normalized to avoid vanishing and exploding gradient problem when doing back propagation. 
-
-%TODO skriv pytorch augmentation her
-
-
-
-\subsection{Explanation of Subjects}
-%subj_id, age, etc. etc. - dette skal findes et sted på server eller ADNI hjemmeside 
-To get an understanding of the age distribution of the subjects used in this project and simple demographics, from figure \ref{fig:age} it can be seen, that the average overall age of subjects are 73.3 years. Furthermore, the proportion of men to women are close to 50\% making the ratio acceptable. The  potential for an inherent gender is also minimized by having the same number of samples for men and women. The data seen from the table is from ADNI1 and ADNI2 project.  
-
-\begin{table}[H]
-	\begin{tabular}{llllll}
-		& CN&\ \ AD\ \ MCI &\ \ Other &\ \ Total   \\
-		N & 698&\ \ 377\ \ 634 &\ \ 473 &\ \ 2182   \\
-		Male/Female & 300/398&\ \ 196/181\ \ 389/245 &\ \ 243/229  &\ \ 1128/1053   \\
-		Age & 75.1&\ \ 73.24\ \ 74.1 &\ \ 71.2 &\ \ 73.3   \\
-	\end{tabular}
-\end{table}
-
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.9\linewidth]{imgs/age_distro}
-	\caption{A histogram of the age distribution among the subjects used in this project.} 
-	\label{fig:age}
-\end{figure}
-
+Besides the immense preprocessing done with the FreeSurfer Software the images are also resized, center cropped, converted to float and normalized with a $ \mu = 0.5 $ and $ \sigma = 0.5$. Centercrop crops an image in the center, ensuring that when the image is converted to a tensor and has an arbitrary number of leading dimensions, it will be cropped correctly. Furthermore, the intensity values are normalized to avoid vanishing and exploding gradient problem when doing back propagation. 
 
 
 \subsection{Visualization of Data}
 % Slices of img, preview 
-This section aims to give a visualization of the preprocessed data.
+This section aims to give a visualization of the preprocessed data. This will show what image data the cycleGANs in this project utilizes in the training section. The images are being constructed by thresholding one of the following dimension: \texttt{xy, xz, yz}. This creates xy-, xz- and yz-planes which are 2D-images. If an image is converted to a numpy nd array, the slicing would amount to: \texttt{slice = np.array([:,:,z])}, where $ z \in [1,256] $. Thus, we have 256 2D images for every 3D image resulting in $ 1.152 $ million training images. The training images are brain slices, of which can be seen in fig \ref{fig:slica_xy}, \ref{fig:slica_xz} and \ref{fig:slica_yz} \footnote{NB! The images in figures are from randomly selected slices and do not match on the 1.5T to 3T}. Three of the cycleGANs in this project will be trained on xy, xz and yz planes respectively. Lastly, a model will also be trained on random slices from the three planes. All the slices are created using the \texttt{create\_imgs.py} python script which utilizes numpy and multiprocessing. The script can be seen in appendix here: %TODO indsæt create_imgs.py script i appendix
+An important thing to note is that all black images are discarded. Which mean that there is some pixel value different from zero in the images that are used to train the cycleGAN. This is partly due to reducing the raw amount of training data, but also due to the fact that we do not need a cycleGAN to translate complete black images from 3T to 1.5T domain vice versa hence the arbitrariness. 
 
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.475\linewidth]{imgs/xy_15T}%
+		\hfill
+		\includegraphics[width=0.475\linewidth]{imgs/xy_3T}
+		\caption{1.5T (left) and 3T (right) respectively XY MRI Planes from subject 002\_S\_6695 and 009\_S\_4359}
+		\label{fig:slica_xy}
+	\end{subfigure}
+		\vskip\baselineskip
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.475\linewidth]{imgs/002_S_0413_xz_1.5T}%
+		\hfill
+		\includegraphics[width=0.475\linewidth]{imgs/002_S_4171_xz_3T}
+		\caption{1.5T and 3T respectively XZ MRI Planes from subject 002\_S\_0413 and 002\_S\_4171}
+		\label{fig:slica_xz}
+	\end{subfigure}
+	\vskip\baselineskip
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.475\linewidth]{imgs/002_S_0413_yz_15T}%
+		\hfill
+		\includegraphics[width=0.475\linewidth]{imgs/002_S_4171_yz_3T}
+		\caption{1.5T and 3T respectively YZ MRI Plane from subject 002\_S\_4171 and 002\_S\_0413.}
+		\label{fig:slica_yz}
+	\end{subfigure}
+	\vskip\baselineskip
+\end{figure}
 
 \subsection{Ethicality of Data}
 % Quick rant about GDPR
 
+
 \subsection{Trade off of using fMRI}
 %TODO Talk about voxels ( a voxel and encode information about two distinct areas in the brain in same number.see: https://www.youtube.com/watch?v=6wxJ1up-E7E&list=PLIQIswOrUH6_DWy5mJlSfj6AWY0y9iUce )
+
+fMri data come off a MR-scanner in the form of volumes. These 3D images can be compared to centicubes which together form a big square, where the brain is inside. Each centicube in this image is often referred to as a voxel and each voxel contains a value that represents the intensity value in the specific area - see figure \ref{fig:voxel}. For T1 weighted or structural images this determines the boundary between gray matter \& white matter from cerebrospinal fluid. In T2 weighted images it represents more active voxels to  less active voxels. However, voxels do have certain issues i.e. a voxel can encompass information about two anatomically distinct areas. If a voxel for example encompass two different gyrus. Furthermore, it is much harder to measure structural properties such as grey matter thickness or volume, which might be important for Alzheimer classification. FreeSurfer Software can help by turning the 3D representation into a 2D representation using triangles. The points of the triangles are vertices and they are connected by an edge. Each vertex then contain measurements such as gray matter volume and thickness, area, curvature etc. These surfaces can then be inflated to visualize where fMRI activations and gray matter differences are located more precisely than the voxel representation. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\linewidth]{imgs/voxel}
+	\caption{A cube that represent the grid in which the subject brain is. Each voxel will contain information about the intensity of the area. This representation is prone to loss since one voxel can contain information about multiple areas of the brain.}
+	\label{fig:voxel}
+\end{figure}
+
 
 
 \section{Methods}
