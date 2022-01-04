@@ -13,6 +13,7 @@ import torchvision.transforms as transforms
 from IPython import display
 import matplotlib.pylab as plt
 from pelutils import logger as log
+from torchsummary import summary
 
 sys.path.append("/dtu-compute/ADNIbias/AlzPred_Oskar_Anders/git_code/AlzPred/oskar_implemetation")
 from utils import save_checkpoint
@@ -149,75 +150,79 @@ if __name__ == "__main__":
 
             d_fake = d(x_fake)
             d_real = d(x_real)
-            label_f = torch.zeros(d_fake.size(0)).unsqueeze(1).float().to(device)
-            label_t = torch.ones(d_real.size(0)).unsqueeze(1).float().to(device)
-            #Update discriminator
+            # summary(g, (2848, 100))
+            summary(d, (28, 28))
+            break
+        break
+        #     label_f = torch.zeros(d_fake.size(0)).unsqueeze(1).float().to(device)
+        #     label_t = torch.ones(d_real.size(0)).unsqueeze(1).float().to(device)
+        #     #Update discriminator
             
-            d.zero_grad()
+        #     d.zero_grad()
             
-            loser = nn.MSELoss()
-            # loser = nn.L1Loss()
+        #     loser = nn.MSELoss()
+        #     # loser = nn.L1Loss()
             
-            real_loss = loser(d(x_real), label_t)
-            fake_loss = loser(d(x_fake), label_f )
+        #     real_loss = loser(d(x_real), label_t)
+        #     fake_loss = loser(d(x_fake), label_f )
             
-            d_loss = real_loss + fake_loss
-            d_loss.backward( retain_graph = True )
-            d_opt.step()
+        #     d_loss = real_loss + fake_loss
+        #     d_loss.backward( retain_graph = True )
+        #     d_opt.step()
 
-            #Update generator
-            g.zero_grad()
-            loss_gen = nn.MSELoss()
-            # loss_gen = nn.BCEWithLogitsLoss()
+        #     #Update generator
+        #     g.zero_grad()
+        #     loss_gen = nn.MSELoss()
+        #     # loss_gen = nn.BCEWithLogitsLoss()
             
-            g_loss = loss_gen(d(x_fake), label_t ) 
-            g_loss.backward( retain_graph = True )
-            g_opt.step()
+        #     g_loss = loss_gen(d(x_fake), label_t ) 
+        #     g_loss.backward( retain_graph = True )
+        #     g_opt.step()
             
-            assert(not np.isnan(d_loss.item()))
-            #Plot results for some minibatches
-            plot_every = 500
-            if minibatch_no % plot_every == 0:
-                with torch.no_grad():
-                    P = discriminator_final_layer(d(x_fake))
-                    for k in range(11):
-                        x_fake_k = x_fake[k].cpu().squeeze()/2+.5
-                        subplots[k].imshow(x_fake_k, cmap='gray')
-                        subplots[k].set_title('d(x)=%.2f' % P[k])
-                        subplots[k].axis('off')
-                    z = torch.randn(batch_size, 100).to(device)
-                    H1 = discriminator_final_layer(d(g(z))).cpu()
-                    H2 = discriminator_final_layer(d(x_real)).cpu()
-                    plot_min = min(H1.min(), H2.min()).item()
-                    plot_max = max(H1.max(), H2.max()).item()
-                    subplots[-1].cla()
-                    subplots[-1].hist(H1.squeeze(), color = ["red" for val in range(len(H1.squeeze()))], label='fake', range=(plot_min, plot_max), alpha=0.5)
-                    subplots[-1].hist(H2.squeeze(), color = ["green" for val in range(len(H1.squeeze()))], label='real', range=(plot_min, plot_max), alpha=0.5)
-                    subplots[-1].legend()
-                    subplots[-1].set_xlabel('Probability of being real')
-                    subplots[-1].set_title('Discriminator loss: %.2f' % d_loss.item())
+        #     assert(not np.isnan(d_loss.item()))
+        #     #Plot results for some minibatches
+        #     plot_every = 500
+        #     if minibatch_no % plot_every == 0:
+        #         with torch.no_grad():
+        #             P = discriminator_final_layer(d(x_fake))
+        #             for k in range(11):
+        #                 x_fake_k = x_fake[k].cpu().squeeze()/2+.5
+        #                 subplots[k].imshow(x_fake_k, cmap='gray')
+        #                 subplots[k].set_title('d(x)=%.2f' % P[k])
+        #                 subplots[k].axis('off')
+        #             z = torch.randn(batch_size, 100).to(device)
+        #             H1 = discriminator_final_layer(d(g(z))).cpu()
+        #             H2 = discriminator_final_layer(d(x_real)).cpu()
+        #             plot_min = min(H1.min(), H2.min()).item()
+        #             plot_max = max(H1.max(), H2.max()).item()
+        #             subplots[-1].cla()
+        #             subplots[-1].hist(H1.squeeze(), color = ["red" for val in range(len(H1.squeeze()))], label='fake', range=(plot_min, plot_max), alpha=0.5)
+        #             subplots[-1].hist(H2.squeeze(), color = ["green" for val in range(len(H1.squeeze()))], label='real', range=(plot_min, plot_max), alpha=0.5)
+        #             subplots[-1].legend()
+        #             subplots[-1].set_xlabel('Probability of being real')
+        #             subplots[-1].set_title('Discriminator loss: %.2f' % d_loss.item())
                     
-                    title = 'Epoch {e} - minibatch {n}/{d}'.format(e=epoch+1, n=minibatch_no, d=len(train_loader))
-                    plt.gcf().suptitle(title, fontsize=20)
-                    display.display(plt.gcf())
-                    plt.savefig(f'/dtu-compute/ADNIbias/AlzPred_Oskar_Anders/git_code/AlzPred/preliminary/plots/result_epoch_{epoch}_minibatch_{minibatch_no}.png')
-                    display.clear_output(wait=True)
+        #             title = 'Epoch {e} - minibatch {n}/{d}'.format(e=epoch+1, n=minibatch_no, d=len(train_loader))
+        #             plt.gcf().suptitle(title, fontsize=20)
+        #             display.display(plt.gcf())
+        #             plt.savefig(f'/dtu-compute/ADNIbias/AlzPred_Oskar_Anders/git_code/AlzPred/preliminary/plots/result_epoch_{epoch}_minibatch_{minibatch_no}.png')
+        #             display.clear_output(wait=True)
                 
-                log.log(f'Running batch {minibatch_no} took: {time.time() - iteration_time:.2f} seconds\n')
-                log.log(f'G_loss epoch_{epoch} batch_{minibatch_no}: {g_loss}\n\n\n')
-                log.log(f'D_loss epoch_{epoch} batch_{minibatch_no}: {d_loss}\n\n\n')
+        #         log.log(f'Running batch {minibatch_no} took: {time.time() - iteration_time:.2f} seconds\n')
+        #         log.log(f'G_loss epoch_{epoch} batch_{minibatch_no}: {g_loss}\n\n\n')
+        #         log.log(f'D_loss epoch_{epoch} batch_{minibatch_no}: {d_loss}\n\n\n')
 
-                d_losses.append(float(d_loss))
-                g_losses.append(float(g_loss))
-                increments.append(increment)
-                plot_loss(increments, g_losses, d_losses, path = f'/dtu-compute/ADNIbias/AlzPred_Oskar_Anders/git_code/AlzPred/preliminary/plots/losses.png', label1 = "Generator Loss", label2 = "Discriminator Loss", title = "GAN General Losses", ylabel = "Loss")
+        #         d_losses.append(float(d_loss))
+        #         g_losses.append(float(g_loss))
+        #         increments.append(increment)
+        #         plot_loss(increments, g_losses, d_losses, path = f'/dtu-compute/ADNIbias/AlzPred_Oskar_Anders/git_code/AlzPred/preliminary/plots/losses.png', label1 = "Generator Loss", label2 = "Discriminator Loss", title = "GAN General Losses", ylabel = "Loss")
 
-                increment += 1 * plot_every
+        #         increment += 1 * plot_every
 
-        log.log(f'Running epoch {epoch} took: {time.time() - start:.2f} seconds \n')
+        # log.log(f'Running epoch {epoch} took: {time.time() - start:.2f} seconds \n')
         
-        if epoch % 20 == 0:
-            save_checkpoint(g, g_opt, filename = f"/dtu-compute/ADNIbias/AlzPred_Oskar_Anders/git_code/AlzPred/preliminary/models/generator_epoch_{epoch}.pth.tar")
-            save_checkpoint(d, d_opt, filename = f"/dtu-compute/ADNIbias/AlzPred_Oskar_Anders/git_code/AlzPred/preliminary/models/discriminator_epoch_{epoch}.pth.tar")
+        # if epoch % 20 == 0:
+        #     save_checkpoint(g, g_opt, filename = f"/dtu-compute/ADNIbias/AlzPred_Oskar_Anders/git_code/AlzPred/preliminary/models/generator_epoch_{epoch}.pth.tar")
+        #     save_checkpoint(d, d_opt, filename = f"/dtu-compute/ADNIbias/AlzPred_Oskar_Anders/git_code/AlzPred/preliminary/models/discriminator_epoch_{epoch}.pth.tar")
         
                     

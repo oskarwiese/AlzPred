@@ -566,6 +566,35 @@ To generate the image, a \texttt{(batch\_size, 100)} vector of gaussian distribu
 	\label{tab:gan_generator}
 \end{table}
 
+%TODO: Lav en tabel over det tortale antal parametre.
+%----------------------------------------------------------------
+%Layer (type)               Output Shape         Param #
+%================================================================
+%Linear-1           [-1, 2848, 2848]         287,648
+%BatchNorm1d-2           [-1, 2848, 2848]           5,696
+%LeakyReLU-3           [-1, 2848, 2848]               0
+%Linear-4           [-1, 2848, 2848]       8,113,952
+%BatchNorm1d-5           [-1, 2848, 2848]           5,696
+%LeakyReLU-6           [-1, 2848, 2848]               0
+%Linear-7           [-1, 2848, 2848]       8,113,952
+%BatchNorm1d-8           [-1, 2848, 2848]           5,696
+%LeakyReLU-9           [-1, 2848, 2848]               0
+%Linear-10           [-1, 2848, 2848]       8,113,952
+%BatchNorm1d-11           [-1, 2848, 2848]           5,696
+%LeakyReLU-12           [-1, 2848, 2848]               0
+%Linear-13            [-1, 2848, 784]       2,233,616
+%Tanh-14            [-1, 2848, 784]               0
+%================================================================
+%Total params: 26,885,904
+%Trainable params: 26,885,904
+%Non-trainable params: 0
+%----------------------------------------------------------------
+%Input size (MB): 1.09
+%Forward/backward pass size (MB): 776.66
+%Params size (MB): 102.56
+%Estimated Total Size (MB): 880.31
+%----------------------------------------------------------------
+
 The general flow of learning in the generator is the following. First, random noise is fed to the generator as input. The generator uses this input to produce an image as output. This output is then fed to the discriminator as input. Afterwards, the discriminator outputs a prediction of whether the image is real or fake. The loss from this prediction is calculated and backpropagated through both models. This gives the gradients which are used only for updating the generator for better image generation in next step. \cite{developers.google_generator}
 
 \subsubsection{Discriminator}
@@ -576,25 +605,57 @@ The discriminator, like any other classifier, can take as input whatever size an
 	\centering
 	\begin{tabular}{lll}\toprule
 		Layer                 & Activation Size & Value \\ \midrule
-		Input                 & 100             &       \\
-		linear layer          & 2848            &       \\
-		BatchNorm1d           & 2848            & 2848  \\
-		LeakyReLU             & 2848            & 0.2   \\
-		linear layer          & 2848            &       \\
-		BatchNorm1d           & 2848            & 2848  \\
-		LeakyReLU             & 2848            & 0.2   \\
-		linear layer          & 2848            &       \\
-		BatchNorm1d           & 2848            & 2848  \\
-		LeakyReLU             & 2848            & 0.2   \\
-		linear layer          & 2848            &       \\
-		BatchNorm1d           & 2848            & 2848  \\
-		LeakyReLU             & 2848            & 0.2   \\
-		linear layer          & 28x28           &       \\
-		Tanh                  & 28x28           & NA   \\ \bottomrule
+		Input                 & 28x28           &       \\
+		linear layer          & 32x32           &       \\
+		Dropout               & 32x32           & 0.15  \\
+		LeakyReLU             & 32x32           & 0.2   \\
+		linear layer          & 2048            &       \\
+		Dropout               & 2048            & 0.15  \\
+		LeakyReLU             & 2048            & 0.2   \\
+		linear layer          & 32x32           &       \\
+		Dropout               & 32x32           & 0.15  \\
+		LeakyReLU             & 32x32           & 0.2   \\
+		linear layer          & 512             &       \\
+		Dropout               & 512             & 0.15  \\
+		LeakyReLU             & 512             & 0.2   \\
+		linear layer          & 16x16           &       \\
+		Dropout               & 16x16           & 0.15  \\
+		linear layer          & 1               &       \\
+		Sigmoid               & 1               & NA    \\ \bottomrule
 	\end{tabular}
 	\caption{All layers used in the final generator.}
-	\label{tab:gan_generator}
+	\label{tab:gan_discriminator}
 \end{table}
+
+%TODO: Lav tabel over antal parametre i modellen.
+%----------------------------------------------------------------
+%Layer (type)               Output Shape         Param #
+%================================================================
+%Linear-1                 [-1, 1024]         803,840
+%Dropout-2                 [-1, 1024]               0
+%LeakyReLU-3                 [-1, 1024]               0
+%Linear-4                 [-1, 2048]       2,099,200
+%Dropout-5                 [-1, 2048]               0
+%LeakyReLU-6                 [-1, 2048]               0
+%Linear-7                 [-1, 1024]       2,098,176
+%Dropout-8                 [-1, 1024]               0
+%LeakyReLU-9                 [-1, 1024]               0
+%Linear-10                  [-1, 512]         524,800
+%Dropout-11                  [-1, 512]               0
+%LeakyReLU-12                  [-1, 512]               0
+%Linear-13                  [-1, 256]         131,328
+%Dropout-14                  [-1, 256]               0
+%Linear-15                    [-1, 1]             257
+%================================================================
+%Total params: 5,657,601
+%Trainable params: 5,657,601
+%Non-trainable params: 0
+%----------------------------------------------------------------
+%Input size (MB): 0.00
+%Forward/backward pass size (MB): 0.11
+%Params size (MB): 21.58
+%Estimated Total Size (MB): 21.69
+%----------------------------------------------------------------
 
 Regarding the learning of the discriminator, the flow is used in which one real and one fake image is given as input. This gives the discriminator examples of both positive and negative examples during training, which it tries to classify as real or fake. The discriminator performance is found using a loss function and this loss quantifies how well the discriminator predicted the validity of the images. This loss is high if the model classifies real images as fake or visa versa. Then, the discriminator weights are updated by backpropagating the loss thoughout the discriminator network. The generator weights are not updated in this step, as it needs to stay constant while generation examples of training images \cite{developers.google_discriminator, developers.google_training}.
 
@@ -657,28 +718,55 @@ Not shown in the figure is the actions taken between each layer. These include
 \begin{table}[H]
 	\centering
 	\begin{tabular}{lll}\toprule
-		Layer                 & Activation Size & Value \\ \midrule
-		Input                 & 1x28x28         &       \\
-		linear layer          & 1x32x32         &       \\
-		Dropout               & 1x32x32         & 0.15  \\
-		LeakyReLU             & 1x32x32         & 0.2   \\
-		linear layer          & 1x2048          &       \\
-		Dropout               & 1x2048          & 0.15  \\
-		LeakyReLU             & 1x2048          & 0.2   \\
-		linear layer          & 1x32x32         &       \\
-		Dropout               & 1x32x32         & 0.15  \\
-		LeakyReLU             & 1x32x32         & 0.2   \\
-		linear layer          & 1x512           &       \\
-		Dropout               & 1x512           & 0.15  \\
-		LeakyReLU             & 1x512           & 0.2   \\
-		linear layer          & 1x16x16         &       \\
-		Dropout               & 1x16x16         & 0.15  \\
-		linear layer          & 1               &       \\
-		Sigmoid               & 1               & NA    \\ \bottomrule
+		Layer                         & Activation Size & Value \\ \midrule
+		Input                         & 3x256x256       &       \\
+		64x4x4 conv, stride 2, pad 1  & 64x128x128      &       \\
+		LeakyReLU                     & 64x128x128      & 0.2   \\
+		128x4x4 conv, stride 2, pad 1 & 64x64x64        &       \\
+		InstanceNorm2d                & 64x64x64        & 64    \\
+		LeakyReLU                     & 64x64x64        & 0.2   \\
+		256x4x4 conv, stride 2, pad 1 & 64x32x32        &       \\
+		InstanceNorm2d                & 64x32x32        & 64    \\
+		LeakyReLU                     & 64x32x32        & 0.2   \\
+		512x4x4 conv, stride 1, pad 1 & 64x31x31        &       \\
+		InstanceNorm2d                & 64x31x31        & 64    \\
+		LeakyReLU                     & 64x31x31        & 0.2   \\
+		1x4x4 conv, stride 1, pad 1   & 1x30x30         &       \\
+		Sigmoid                       & 1x30x30         & NA    \\ \bottomrule
 	\end{tabular}
-	\caption{All layers used in the final generator.}
-	\label{tab:gan_discriminator}
+	\caption{The convolutions, stride and padding of each layer in the discriminators. The values used in the activation functions and instance normalization as well as when they are used in the network have also been shown. The activation shape channels are equal to the output\_shape of each layer and the height and width are calculated using the formula from article \protect\cite{calculate_activation_shape}.}
+	\label{tab:discriminator_layers}
 \end{table}
+
+%TODO: Make table showing the total number of parameters
+%----------------------------------------------------------------
+%Layer (type)               Output Shape         Param #
+%================================================================
+%Conv2d-1         [-1, 64, 128, 128]           1,088
+%LeakyReLU-2         [-1, 64, 128, 128]               0
+%Conv2d-3          [-1, 128, 64, 64]         131,200
+%InstanceNorm2d-4          [-1, 128, 64, 64]               0
+%LeakyReLU-5          [-1, 128, 64, 64]               0
+%Block-6          [-1, 128, 64, 64]               0
+%Conv2d-7          [-1, 256, 32, 32]         524,544
+%InstanceNorm2d-8          [-1, 256, 32, 32]               0
+%LeakyReLU-9          [-1, 256, 32, 32]               0
+%Block-10          [-1, 256, 32, 32]               0
+%Conv2d-11          [-1, 512, 31, 31]       2,097,664
+%InstanceNorm2d-12          [-1, 512, 31, 31]               0
+%LeakyReLU-13          [-1, 512, 31, 31]               0
+%Block-14          [-1, 512, 31, 31]               0
+%Conv2d-15            [-1, 1, 30, 30]           8,193
+%================================================================
+%Total params: 2,762,689
+%Trainable params: 2,762,689
+%Non-trainable params: 0
+%----------------------------------------------------------------
+%Input size (MB): 0.25
+%Forward/backward pass size (MB): 55.02
+%Params size (MB): 10.54
+%Estimated Total Size (MB): 65.81
+%----------------------------------------------------------------
 
 \subsubsection{Generator in a cycleGAN}
 %TODO: Convolutional neural network
@@ -706,31 +794,146 @@ Unlike in a standard GAN generator, where a random image from a latent space is 
 	\begin{tabular}{lll}\toprule
 		Layer                                            & Activation Size & Value       \\ \midrule
 		Input                                            & 3x256x256       &             \\
-		64x7x7 conv, stride 1, pad 3                     & 64x256x256      &             \\
-		ReLU                                             &                 & inplace=True\\
-		128x3x3 conv, stride 2, pad 1                    & 128x128x128     &             \\
-		InstanceNorm2d                                   &                 & 128         \\
-		ReLU                                             &                 & inplace=True\\
-		256x3x3 conv, stride 2, pad 1                    & 256x64x64       &             \\
-		InstanceNorm2d                                   &                 & 256         \\
-		ReLU                                             &                 & inplace=True\\
-		9 residual blocks with relu and instancenorm     & 256x64x64       &             \\
-		Upsample                                         &                 & 2,bilinear  \\   
-		128x4x4 Conv2d stride 1, pad 2                   & 128x128x128     &             \\
-		InstanceNorm2d                                   &                 & 128         \\
-		ReLU                                             &                 & inplace=True\\
-		Upsample                                         &                 & 2,bilinear  \\   
-		64x4x4 Conv2d stride 2, pad 1                    & 64x256x256      &             \\
-		InstanceNorm2d                                   &                 & 64          \\
-		ReLU                                             &                 & inplace=True\\
+		64x6x6 conv, stride 1, pad 3                     & 64x257x257      &             \\
+		ReLU                                             & 64x257x257      & inplace=True\\
+		128x3x3 conv, stride 2, pad 1                    & 128x129x129     &             \\
+		InstanceNorm2d                                   & 128x129x129     & 128         \\
+		ReLU                                             & 128x129x129     & inplace=True\\
+		256x3x3 conv, stride 2, pad 1                    & 256x65x65       &             \\
+		InstanceNorm2d                                   & 256x65x65       & 256         \\
+		ReLU                                             & 256x65x65       & inplace=True\\
+		9 residual blocks with relu and instancenorm     & 256x65x65       &             \\
+		Upsample                                         & 256x130x130     & 2,bilinear  \\   
+		128x4x4 Conv2d stride 1, pad 2                   & 128x131x131     &             \\
+		InstanceNorm2d                                   & 128x131x131     & 128         \\
+		ReLU                                             & 128x131x131     & inplace=True\\
+		Upsample                                         & 128x262x262     & 2,bilinear  \\   
+		64x4x4 Conv2d stride 1, pad 1                    & 64x261x261      &             \\
+		InstanceNorm2d                                   & 64x261x261      & 64          \\
+		ReLU                                             & 64x261x261      & inplace=True\\
 		3x8x8 conv, stride 1, pad 1                      & 3x256x256       &             \\
-		Tanh                                             &                 & NA          \\ \bottomrule
+		Tanh                                             & 3x256x256       & NA          \\ \bottomrule
 	\end{tabular}
-	\caption{The convolutions, stride and padding of each layer in the generators. The values used in the activation functions and instance normalization as well as when they are used in the network have also been shown. }
+	\caption{The convolutions, stride and padding of each layer in the generators. The values used in the activation functions and instance normalization as well as when they are used in the network have also been shown. The activation shape channels are equal to the output\_shape of each layer and the height and width are calculated using the formula from article \protect\cite{calculate_activation_shape}.}
 	\label{tab:generator_layers}
 \end{table}
 
-%TODO: Make illustration of actual model layout
+%TODO: Make table showing the total number of parameters
+%----------------------------------------------------------------
+%Layer (type)               Output Shape         Param #
+%================================================================
+%Conv2d-1         [-1, 64, 257, 257]           6,976
+%ReLU-2         [-1, 64, 257, 257]               0
+%Conv2d-3        [-1, 128, 129, 129]          73,856
+%InstanceNorm2d-4        [-1, 128, 129, 129]               0
+%ReLU-5        [-1, 128, 129, 129]               0
+%ConvBlock-6        [-1, 128, 129, 129]               0
+%Conv2d-7          [-1, 256, 65, 65]         295,168
+%InstanceNorm2d-8          [-1, 256, 65, 65]               0
+%ReLU-9          [-1, 256, 65, 65]               0
+%ConvBlock-10          [-1, 256, 65, 65]               0
+%Conv2d-11          [-1, 256, 65, 65]         590,080
+%InstanceNorm2d-12          [-1, 256, 65, 65]               0
+%ReLU-13          [-1, 256, 65, 65]               0
+%ConvBlock-14          [-1, 256, 65, 65]               0
+%Conv2d-15          [-1, 256, 65, 65]         590,080
+%InstanceNorm2d-16          [-1, 256, 65, 65]               0
+%Identity-17          [-1, 256, 65, 65]               0
+%ConvBlock-18          [-1, 256, 65, 65]               0
+%ResidualBlock-19          [-1, 256, 65, 65]               0
+%Conv2d-20          [-1, 256, 65, 65]         590,080
+%InstanceNorm2d-21          [-1, 256, 65, 65]               0
+%ReLU-22          [-1, 256, 65, 65]               0
+%ConvBlock-23          [-1, 256, 65, 65]               0
+%Conv2d-24          [-1, 256, 65, 65]         590,080
+%InstanceNorm2d-25          [-1, 256, 65, 65]               0
+%Identity-26          [-1, 256, 65, 65]               0
+%ConvBlock-27          [-1, 256, 65, 65]               0
+%ResidualBlock-28          [-1, 256, 65, 65]               0
+%Conv2d-29          [-1, 256, 65, 65]         590,080
+%InstanceNorm2d-30          [-1, 256, 65, 65]               0
+%ReLU-31          [-1, 256, 65, 65]               0
+%ConvBlock-32          [-1, 256, 65, 65]               0
+%Conv2d-33          [-1, 256, 65, 65]         590,080
+%InstanceNorm2d-34          [-1, 256, 65, 65]               0
+%Identity-35          [-1, 256, 65, 65]               0
+%ConvBlock-36          [-1, 256, 65, 65]               0
+%ResidualBlock-37          [-1, 256, 65, 65]               0
+%Conv2d-38          [-1, 256, 65, 65]         590,080
+%InstanceNorm2d-39          [-1, 256, 65, 65]               0
+%ReLU-40          [-1, 256, 65, 65]               0
+%ConvBlock-41          [-1, 256, 65, 65]               0
+%Conv2d-42          [-1, 256, 65, 65]         590,080
+%InstanceNorm2d-43          [-1, 256, 65, 65]               0
+%Identity-44          [-1, 256, 65, 65]               0
+%ConvBlock-45          [-1, 256, 65, 65]               0
+%ResidualBlock-46          [-1, 256, 65, 65]               0
+%Conv2d-47          [-1, 256, 65, 65]         590,080
+%InstanceNorm2d-48          [-1, 256, 65, 65]               0
+%ReLU-49          [-1, 256, 65, 65]               0
+%ConvBlock-50          [-1, 256, 65, 65]               0
+%Conv2d-51          [-1, 256, 65, 65]         590,080
+%InstanceNorm2d-52          [-1, 256, 65, 65]               0
+%Identity-53          [-1, 256, 65, 65]               0
+%ConvBlock-54          [-1, 256, 65, 65]               0
+%ResidualBlock-55          [-1, 256, 65, 65]               0
+%Conv2d-56          [-1, 256, 65, 65]         590,080
+%InstanceNorm2d-57          [-1, 256, 65, 65]               0
+%ReLU-58          [-1, 256, 65, 65]               0
+%ConvBlock-59          [-1, 256, 65, 65]               0
+%Conv2d-60          [-1, 256, 65, 65]         590,080
+%InstanceNorm2d-61          [-1, 256, 65, 65]               0
+%Identity-62          [-1, 256, 65, 65]               0
+%ConvBlock-63          [-1, 256, 65, 65]               0
+%ResidualBlock-64          [-1, 256, 65, 65]               0
+%Conv2d-65          [-1, 256, 65, 65]         590,080
+%InstanceNorm2d-66          [-1, 256, 65, 65]               0
+%ReLU-67          [-1, 256, 65, 65]               0
+%ConvBlock-68          [-1, 256, 65, 65]               0
+%Conv2d-69          [-1, 256, 65, 65]         590,080
+%InstanceNorm2d-70          [-1, 256, 65, 65]               0
+%Identity-71          [-1, 256, 65, 65]               0
+%ConvBlock-72          [-1, 256, 65, 65]               0
+%ResidualBlock-73          [-1, 256, 65, 65]               0
+%Conv2d-74          [-1, 256, 65, 65]         590,080
+%InstanceNorm2d-75          [-1, 256, 65, 65]               0
+%ReLU-76          [-1, 256, 65, 65]               0
+%ConvBlock-77          [-1, 256, 65, 65]               0
+%Conv2d-78          [-1, 256, 65, 65]         590,080
+%InstanceNorm2d-79          [-1, 256, 65, 65]               0
+%Identity-80          [-1, 256, 65, 65]               0
+%ConvBlock-81          [-1, 256, 65, 65]               0
+%ResidualBlock-82          [-1, 256, 65, 65]               0
+%Conv2d-83          [-1, 256, 65, 65]         590,080
+%InstanceNorm2d-84          [-1, 256, 65, 65]               0
+%ReLU-85          [-1, 256, 65, 65]               0
+%ConvBlock-86          [-1, 256, 65, 65]               0
+%Conv2d-87          [-1, 256, 65, 65]         590,080
+%InstanceNorm2d-88          [-1, 256, 65, 65]               0
+%Identity-89          [-1, 256, 65, 65]               0
+%ConvBlock-90          [-1, 256, 65, 65]               0
+%ResidualBlock-91          [-1, 256, 65, 65]               0
+%Upsample-92        [-1, 256, 130, 130]               0
+%Conv2d-93        [-1, 128, 131, 131]         524,416
+%InstanceNorm2d-94        [-1, 128, 131, 131]               0
+%ReLU-95        [-1, 128, 131, 131]               0
+%ConvBlock-96        [-1, 128, 131, 131]               0
+%Upsample-97        [-1, 128, 262, 262]               0
+%Conv2d-98         [-1, 64, 261, 261]         131,136
+%InstanceNorm2d-99         [-1, 64, 261, 261]               0
+%ReLU-100         [-1, 64, 261, 261]               0
+%ConvBlock-101         [-1, 64, 261, 261]               0
+%Conv2d-102          [-1, 3, 256, 256]          12,291
+%================================================================
+%Total params: 11,665,283
+%Trainable params: 11,665,283
+%Non-trainable params: 0
+%----------------------------------------------------------------
+%Input size (MB): 0.75
+%Forward/backward pass size (MB): 1132.55
+%Params size (MB): 44.50
+%Estimated Total Size (MB): 1177.80
+%----------------------------------------------------------------
 
 \subsubsection{Objective Functions (Losses)}
 For this section, a number of notations will be introduced. Since the goal is to map between the two domains $X$ and $Y$, we introduce $G : X \rightarrow Y$ and $F : Y \rightarrow X$. Furthermore, $y \sim p_{\text {data}}(y)$ and $x \sim p_{\text {data }}(x)$ refer to the distributions of each domain and $x$ and $y$ refer to samples from each domain. Lastly, the discriminators for each domain are given by $D_X$ and $D_Y$.
@@ -2853,6 +3056,8 @@ As can be seen from the safe AI principles most of them do not apply to the curr
 		\bibitem{pathmind_gen_disc_architecture} Nicholson, Chris. "A Beginner's Guide to Generative Adversarial Networks (GANs)". Pathmind. 2020. https://wiki.pathmind.com/generative-adversarial-network-gan.
 		
 		\bibitem{cyclegan_figures} Hannemose, Morten. "CycleGAN walktrough". Technical University of Denmark. 2019. http://summer-school-gan.compute.dtu.dk/3CycleGanWalkthrough.pdf.
+		
+		\bibitem{calculate_activation_shape} Ding, Yan. "Calculating Parameters of Convolutional and Fully Connected Layers with Keras". Medium. 2020. https://dingyan89.medium.com/calculating-parameters-of-convolutional-and-fully-connected-layers-with-keras-186590df36c6.
 	%%%%% </GAN and CycleGAN> %%%%%
 
 		\bibitem{reckon} FreeSurfer Software Suite, \url{https://surfer.nmr.mgh.harvard.edu/fswiki/recon-all}, last visited 1st of January, 2022.
