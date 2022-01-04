@@ -658,22 +658,24 @@ Unlike in a standard GAN generator, where a random image from a latent space is 
 		64x7x7 conv, stride 1, pad 3                     & 64x256x256      &             \\
 		ReLU                                             &                 & inplace=True\\
 		128x3x3 conv, stride 2, pad 1                    & 128x128x128     &             \\
-		InstanceNorm2D                                   &                 & 128         \\
+		InstanceNorm2d                                   &                 & 128         \\
 		ReLU                                             &                 & inplace=True\\
 		256x3x3 conv, stride 2, pad 1                    & 256x64x64       &             \\
-		InstanceNorm2D                                   &                 & 256         \\
+		InstanceNorm2d                                   &                 & 256         \\
 		ReLU                                             &                 & inplace=True\\
 		9 residual blocks with relu and instancenorm     & 256x64x64       &             \\
-		128x3x3 convTranspose, stride 2, pad 1, outpad 1 & 128x128x128     &             \\
-		InstanceNorm2D                                   &                 & 128         \\
+		Upsample                                         &                 & 2,bilinear  \\   
+		128x4x4 Conv2d stride 1, pad 2                   & 128x128x128     &             \\
+		InstanceNorm2d                                   &                 & 128         \\
 		ReLU                                             &                 & inplace=True\\
-		64x3x3 convTranspose, stride 2, pad 1, outpad 1  & 64x256x256      &             \\
-		InstanceNorm2D                                   &                 & 64          \\
+		Upsample                                         &                 & 2,bilinear  \\   
+		64x4x4 Conv2d stride 2, pad 1                    & 64x256x256      &             \\
+		InstanceNorm2d                                   &                 & 64          \\
 		ReLU                                             &                 & inplace=True\\
 		3x8x8 conv, stride 1, pad 1                      & 3x256x256       &             \\
 		Tanh                                             &                 & NA          \\ \bottomrule
 	\end{tabular}
-	\caption{The convolutions, stride and padding of each layer in the generators. The values used in the activation functions and instance normalization as well as when they are used in the network have also been shown.}
+	\caption{The convolutions, stride and padding of each layer in the generators. The values used in the activation functions and instance normalization as well as when they are used in the network have also been shown. }
 \end{table}
 
 %TODO: Make illustration of actual model layout
