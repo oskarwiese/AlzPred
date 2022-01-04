@@ -526,9 +526,9 @@ This section introduces which technical background has been used in the duration
 In the original Alzheimer's disease classification paper by Camilla, a neural network was used to determine whether each patient had AD. Since this model was full of bias when used on the original data, we used this same model to compare and contrast if the below methods succeeded in removing the most prominent biases from the model. The model was implemented as a PyTorch neural network with 12 convolution layers using ReLU as activation function between each layer. This was followed by a fully connected layer with sigmoid activation to output the probability of each class (sick or healthy). A much more detailed breakthrough of the general project and architecture of the neural network can be seen in \cite{CamillaKandidat}.
 
 \subsection{Generative Adversarial Network}\label{gan}
-Since the meat and potatoes of this project is the cycleGAN, the methods and mathematical understanding behind Generative Adversarial Networks (GANs) will only be briefly explored in this section. A GAN was implemented on the MNIST dataset as a preliminary trail to help understand the basics. This implementation can be seen in the python script \texttt{train\_GANA.py}. An older version of the same code is also accessible as a Jupyter Notebook in our GitHub repository  \href{https://github.com/oskarwiese/AlzPred/blob/main/preliminary/GAN_MNIST.ipynb}{here}. This implementation as well as this section will hopefully help to give the proper insight into the reasoning behind cycleGANs later in this section.
+Since the meat and potatoes of this project is the cycleGAN, the methods and mathematical understanding behind Generative Adversarial Networks (GANs) will only be briefly explored in this section. A GAN was implemented on the MNIST dataset as a preliminary trail to help understand the basics. This implementation can be seen in the python script \texttt{train\_GAN.py}. An older version of the same code is also accessible as a Jupyter Notebook in our GitHub repository  \href{https://github.com/oskarwiese/AlzPred/blob/main/preliminary/GAN_MNIST.ipynb}{here}. This implementation as well as this section will hopefully help to give the proper insight into the reasoning and intuition behind cycleGANs later in this section.
 
-In general, GANs can be seen as two different complex neural networks competing for the best accuracy during  the process of generating a class of pictures. In other words, the networks are adversaries in generating or classifying images, from which the source of the name becomes clear. One of the networks will be focusing on generating a fake version of images seen in a training folder, called the \textit{generator}, and the other will be trying to distinguish between real and fake images, called the \textit{discriminator}. This competition between networks leads to results much better than ever seen in ML and AI image generation, thus making a good foundation for the generation of 1.5T MRI images from 3T. The two networds are covered in depth in the below subsections.
+In general, GANs can be seen as two different complex neural networks competing for the best accuracy during  the process of generating a class of pictures. In other words, the networks are adversaries in generating or classifying images, from which the source of the name becomes clear. One of the networks will be focusing on generating a fake version of images seen in a training folder, called the \textit{generator}, and the other will be trying to distinguish between real and fake images, called the \textit{discriminator}. This competition between networks leads to results much better than ever seen in ML and AI image generation, thus making a good foundation for the generation of 1.5T MRI images from 3T. The two networks are covered in depth in the below subsections.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{"imgs/GAN architecture"}
@@ -538,10 +538,19 @@ In general, GANs can be seen as two different complex neural networks competing 
 
 
 \subsubsection{Generator}
+The generator is the most important part of the GAN, since it is responsible for actually generating convincing images. Though making a neural network generate real images is a difficult task to say the least. For that reason, instead of asking the generator to generate 28x28 hand-written digits by comparing the generator output to real digits using some objective function, the output of the generator is instead fed to the discriminator, which predicts if the generated image is real or not. If the discriminator is tricked by the generator, then the generator deserves a low loss for having made a "real" image (in practice, the generator and discriminator both start off unoptimized, so it takes many steps for real images to emerge.). This is conceptually a much easier problem to solve, since the generator learns what is necessary to fool the discriminator instead of what characterizes a hand-written digit \cite{developers.google_generator}.
 
+To generate the image, a \texttt{(batch\_size, 100)} vector of gaussian distributed noise is given as input, and the output is an image of dimension \texttt{(batch\_size, 1, 28, 28)}, since the image is black-white. The layers in-between consist of five linear layers. All layers but the last one have batch normalization and leaky ReLU with $x$ set to $0.2$. The last layers uses hyperbolic tangent as activation function. The last layer is reshaped from $28^2$ to \texttt{(batch\_size, 1, 28, 28)} to get a proper image as output. \cite{pathmind_gen_disc_architecture}. %TODO: Find en god måde at vise denne arkitektur
+
+The general flow of learning in the generator is the following. First, random noise is fed to the generator as input. The generator uses this input to produce an image as output. This output is then fed to the discriminator as input. Afterwards, the discriminator outputs a prediction of whether the image is real or fake. The loss from this prediction is calculated and backpropagated through both models. This gives the gradients which are used only for updating the generator for better image generation in next step. \cite{developers.google_generator}
 
 \subsubsection{Discriminator}
+The discriminator is not nearly as important as the generator, though it still plays a very large role in generating likely images. If the discriminator did not do a good job predicting real images, the discriminator loss would not reflect accurately whether the generator did a good job creating plausible images. Thus, the generator would never converge towards a lower loss. Thus, the discriminator has to improve at approximately the same rate as the generator. This is luckily not too difficult to achieve since the discriminator is a simple classifier \cite{developers.google_discriminator, developers.google_training}.
 
+The discriminator, like any other classifier, can take as input whatever size and shape of data, as long as the architecture compensates for this change of data. For the case of predicting authenticity of MNIST hand-written digits, the entire \texttt{(batch\_size, 1, 28, 28)} image is given as input. As output, a \texttt{(batch\_size, 1)} vector is given. This vector is equivalent to the discriminator outputting a real or fake value for each image in the batch (0 being fake and 1 being real). The model contains six linear layers with an architecture made to be that of an autoencoder (see figure \ref{fig:autoencoder}). This means that the two first layers create deep features with lower dimension and the next four layers broaden the dimensions again while lowering the depth. Dropout with probability 0.15 is used to avoid overfitting and too fast learning, while leaky-ReLU is used for the first four layers. The sigmoid is used for the last layer to get output values between 0 and 1, such that they mimic probability of the input image being real \cite{pathmind_gen_disc_architecture}.
+%TODO: Find en god måde at vise denne arkitektur
+
+Regarding the learning of the discriminator, the flow is used in which one real and one fake image is given as input. This gives the discriminator examples of both positive and negative examples during training, which it tries to classify as real or fake. The discriminator performance is found using a loss function and this loss quantifies how well the discriminator predicted the validity of the images. This loss is high if the model classifies real images as fake or visa versa. Then, the discriminator weights are updated by backpropagating the loss thoughout the discriminator network. The generator weights are not updated in this step, as it needs to stay constant while generation examples of training images \cite{developers.google_discriminator, developers.google_training}.
 
 \subsubsection{Loss}
 For implementing the loss functions necessary to get a proper GAN going, we first need to define some nomenclature. We assume that sample images are sampled from $x \sim p_{\text {data}}(x)$. The discriminator $D(x)$ outputs a value between zero and one determining whether $x$ is real or fake. The generator takes random noise $z \sim p_{\text {data}}(z)$ and returns a fake sample. The loss function for the discriminator is given as shown below.
@@ -601,19 +610,25 @@ Not shown in the figure is the actions taken between each layer. These include
 
 \begin{table}[H]\label{discriminator_layers}
 	\centering
-	\begin{tabular}{lr}\toprule
-		Layer                         & Activation Size \\ \midrule
-		Input                         & 3x256x256       \\
-		64x4x4 conv, stride 2, pad 1  & 64x128x128      \\
-		128x4x4 conv, stride 2, pad 1 & 128x64x64       \\
-		256x4x4 conv, stride 2, pad 1 & 256x32x32       \\
-		512x4x4 conv, stride 1, pad 1 & 512x31x31       \\
-		1x4x4 conv, stride 1, pad 1   & 1x30x30         \\ \bottomrule
+	\begin{tabular}{lll}\toprule
+		Layer                         & Activation Size & Value \\ \midrule
+		Input                         & 3x256x256       &       \\
+		64x4x4 conv, stride 2, pad 1  & 64x128x128      &       \\
+		LeakyReLU                     &                 & 0.2   \\
+		128x4x4 conv, stride 2, pad 1 & 128x64x64       &       \\
+		InstanceNorm2D                &                 & 128   \\
+		LeakyReLU                     &                 & 0.2   \\
+		256x4x4 conv, stride 2, pad 1 & 256x32x32       &       \\
+		InstanceNorm2D                &                 & 256   \\
+		LeakyReLU                     &                 & 0.2   \\
+		512x4x4 conv, stride 1, pad 1 & 512x31x31       &       \\
+		InstanceNorm2D                &                 & 512   \\
+		LeakyReLU                     &                 & 0.2   \\
+		1x4x4 conv, stride 1, pad 1   & 1x30x30         &       \\
+		Sigmoid                       &                 & NA    \\ \bottomrule
 	\end{tabular}
-	\caption{The convolutions, stride and padding of each layer in the discriminators.}
+	\caption{The convolutions, stride and padding of each layer in the discriminators. The values used in the activation functions and instance normalization as well as when they are used in the network have also been shown.}
 \end{table}
-
-%TODO: Make illustration of actual model layout
 
 \subsubsection{Generator in a cycleGAN}
 %TODO: Convolutional neural network
@@ -638,18 +653,30 @@ Unlike in a standard GAN generator, where a random image from a latent space is 
 %TODO: Explain components (norm and activation layers, convolutions, relu etc)
 \begin{table}[H]\label{generator_layers}
 	\centering
-	\begin{tabular}{lr}\toprule
-		Layer                                            & Activation Size \\ \midrule
-		Input                                            & 3x256x256       \\
-		64x7x7 conv, stride 1, pad 3                     & 64x256x256      \\
-		128x3x3 conv, stride 2, pad 1                    & 128x128x128     \\
-		256x3x3 conv, stride 2, pad 1                    & 256x64x64       \\
-		9 residual blocks                                & 256x64x64       \\
-		128x3x3 convTranspose, stride 2, pad 1, outpad 1 & 128x128x128     \\
-		64x3x3 convTranspose, stride 2, pad 1, outpad 1  & 64x256x256      \\
-		3x7x7 conv, stride 1, pad 3                      & 3x256x256       \\ \bottomrule
+	\begin{tabular}{lll}\toprule
+		Layer                                            & Activation Size & Value       \\ \midrule
+		Input                                            & 3x256x256       &             \\
+		64x7x7 conv, stride 1, pad 3                     & 64x256x256      &             \\
+		ReLU                                             &                 & inplace=True\\
+		128x3x3 conv, stride 2, pad 1                    & 128x128x128     &             \\
+		InstanceNorm2d                                   &                 & 128         \\
+		ReLU                                             &                 & inplace=True\\
+		256x3x3 conv, stride 2, pad 1                    & 256x64x64       &             \\
+		InstanceNorm2d                                   &                 & 256         \\
+		ReLU                                             &                 & inplace=True\\
+		9 residual blocks with relu and instancenorm     & 256x64x64       &             \\
+		Upsample                                         &                 & 2,bilinear  \\   
+		128x4x4 Conv2d stride 1, pad 2                   & 128x128x128     &             \\
+		InstanceNorm2d                                   &                 & 128         \\
+		ReLU                                             &                 & inplace=True\\
+		Upsample                                         &                 & 2,bilinear  \\   
+		64x4x4 Conv2d stride 2, pad 1                    & 64x256x256      &             \\
+		InstanceNorm2d                                   &                 & 64          \\
+		ReLU                                             &                 & inplace=True\\
+		3x8x8 conv, stride 1, pad 1                      & 3x256x256       &             \\
+		Tanh                                             &                 & NA          \\ \bottomrule
 	\end{tabular}
-	\caption{The convolutions, stride and padding of each layer in the generators.}
+	\caption{The convolutions, stride and padding of each layer in the generators. The values used in the activation functions and instance normalization as well as when they are used in the network have also been shown. }
 \end{table}
 
 %TODO: Make illustration of actual model layout
@@ -2765,6 +2792,14 @@ As can be seen from the safe AI principles most of them do not apply to the curr
 		\bibitem{model_architecture} Bansal, Hardik. "Understanding and Implementing CycleGAN in TensorFlow". GitHub. https://hardikbansal.github.io/CycleGANBlog/, last visited 01/01-2022.
 		
 		\bibitem{autoencoder} Khosla, Ritwek. "Auto-Encoders for Computer Vision: An Endless world of Possibilities". Analytica Vidhya. 2021. https://www.analyticsvidhya.com/blog/2021/01/auto-encoders-for-computer-vision-an-endless-world-of-possibilities/
+		
+		\bibitem{developers.google_generator} https://developers.google.com/machine-learning/gan/generator %TODO Find ud af hvordan man citer developers.google.com
+		
+		\bibitem{developers.google_discriminator} https://developers.google.com/machine-learning/gan/discriminator %TODO Find ud af hvordan man citer developers.google.com
+		
+		\bibitem{developers.google_training} https://developers.google.com/machine-learning/gan/training %TODO Find ud af hvordan man citer developers.google.com
+		
+		\bibitem{pathmind_gen_disc_architecture} Nicholson, Chris. "A Beginner's Guide to Generative Adversarial Networks (GANs)". Pathmind. 2020. https://wiki.pathmind.com/generative-adversarial-network-gan.
 	%%%%% </GAN and CycleGAN> %%%%%
 
 		\bibitem{reckon} FreeSurfer Software Suite, \url{https://surfer.nmr.mgh.harvard.edu/fswiki/recon-all}, last visited 1st of January, 2022.
