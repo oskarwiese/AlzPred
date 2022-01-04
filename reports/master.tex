@@ -609,19 +609,25 @@ Not shown in the figure is the actions taken between each layer. These include
 
 \begin{table}[H]\label{discriminator_layers}
 	\centering
-	\begin{tabular}{lr}\toprule
-		Layer                         & Activation Size \\ \midrule
-		Input                         & 3x256x256       \\
-		64x4x4 conv, stride 2, pad 1  & 64x128x128      \\
-		128x4x4 conv, stride 2, pad 1 & 128x64x64       \\
-		256x4x4 conv, stride 2, pad 1 & 256x32x32       \\
-		512x4x4 conv, stride 1, pad 1 & 512x31x31       \\
-		1x4x4 conv, stride 1, pad 1   & 1x30x30         \\ \bottomrule
+	\begin{tabular}{lll}\toprule
+		Layer                         & Activation Size & Value \\ \midrule
+		Input                         & 3x256x256       &       \\
+		64x4x4 conv, stride 2, pad 1  & 64x128x128      &       \\
+		LeakyReLU                     &                 & 0.2   \\
+		128x4x4 conv, stride 2, pad 1 & 128x64x64       &       \\
+		InstanceNorm2D                &                 & 128   \\
+		LeakyReLU                     &                 & 0.2   \\
+		256x4x4 conv, stride 2, pad 1 & 256x32x32       &       \\
+		InstanceNorm2D                &                 & 256   \\
+		LeakyReLU                     &                 & 0.2   \\
+		512x4x4 conv, stride 1, pad 1 & 512x31x31       &       \\
+		InstanceNorm2D                &                 & 512   \\
+		LeakyReLU                     &                 & 0.2   \\
+		1x4x4 conv, stride 1, pad 1   & 1x30x30         &       \\
+		Sigmoid                       &                 & NA    \\ \bottomrule
 	\end{tabular}
-	\caption{The convolutions, stride and padding of each layer in the discriminators.}
+	\caption{The convolutions, stride and padding of each layer in the discriminators. The values used in the activation functions and instance normalization as well as when they are used in the network have also been shown.}
 \end{table}
-
-%TODO: Make illustration of actual model layout
 
 \subsubsection{Generator in a cycleGAN}
 %TODO: Convolutional neural network
@@ -646,18 +652,28 @@ Unlike in a standard GAN generator, where a random image from a latent space is 
 %TODO: Explain components (norm and activation layers, convolutions, relu etc)
 \begin{table}[H]\label{generator_layers}
 	\centering
-	\begin{tabular}{lr}\toprule
-		Layer                                            & Activation Size \\ \midrule
-		Input                                            & 3x256x256       \\
-		64x7x7 conv, stride 1, pad 3                     & 64x256x256      \\
-		128x3x3 conv, stride 2, pad 1                    & 128x128x128     \\
-		256x3x3 conv, stride 2, pad 1                    & 256x64x64       \\
-		9 residual blocks                                & 256x64x64       \\
-		128x3x3 convTranspose, stride 2, pad 1, outpad 1 & 128x128x128     \\
-		64x3x3 convTranspose, stride 2, pad 1, outpad 1  & 64x256x256      \\
-		3x7x7 conv, stride 1, pad 3                      & 3x256x256       \\ \bottomrule
+	\begin{tabular}{lll}\toprule
+		Layer                                            & Activation Size & Value       \\ \midrule
+		Input                                            & 3x256x256       &             \\
+		64x7x7 conv, stride 1, pad 3                     & 64x256x256      &             \\
+		ReLU                                             &                 & inplace=True\\
+		128x3x3 conv, stride 2, pad 1                    & 128x128x128     &             \\
+		InstanceNorm2D                                   &                 & 128         \\
+		ReLU                                             &                 & inplace=True\\
+		256x3x3 conv, stride 2, pad 1                    & 256x64x64       &             \\
+		InstanceNorm2D                                   &                 & 256         \\
+		ReLU                                             &                 & inplace=True\\
+		9 residual blocks with relu and instancenorm     & 256x64x64       &             \\
+		128x3x3 convTranspose, stride 2, pad 1, outpad 1 & 128x128x128     &             \\
+		InstanceNorm2D                                   &                 & 128         \\
+		ReLU                                             &                 & inplace=True\\
+		64x3x3 convTranspose, stride 2, pad 1, outpad 1  & 64x256x256      &             \\
+		InstanceNorm2D                                   &                 & 64          \\
+		ReLU                                             &                 & inplace=True\\
+		3x8x8 conv, stride 1, pad 1                      & 3x256x256       &             \\
+		Tanh                                             &                 & NA          \\ \bottomrule
 	\end{tabular}
-	\caption{The convolutions, stride and padding of each layer in the generators.}
+	\caption{The convolutions, stride and padding of each layer in the generators. The values used in the activation functions and instance normalization as well as when they are used in the network have also been shown.}
 \end{table}
 
 %TODO: Make illustration of actual model layout
