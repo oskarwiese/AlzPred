@@ -187,13 +187,14 @@ earlier stage than previously possible. Furthermore, this will be analyzed the l
 	
 \end{itemize}
 
-\subsection{State of the art}
+\subsection{State of the art}\label{statens_kunst}
 % Statens kunst
 In recent years there have been many attempts to both classify and detect Alzheimer Disease (AD). Many different approaches to this classification problem has been taken. However, as computers get better and the field of machine learning and deep learning grows, an arsenal of new methods to predict and classify Alzheimer's disease at early stages have been proposed in the latter years. This section aims to highlight some of finest work within this field of study, demonstrating the current stage and methods used to approach the classification problem. 
 \\\\
 \noindent
 A novel approach was proposed by Zhang et al. in 2014, using kernel support vector machine decision tree. In this study, they use basic preprocessing as well as principle component analysis for feature extraction. On the basics of these feature the kernel support vector machine decision tree (kSVM-DT) was constructed. The proposed model has an 80\% classification accuracy. Furthermore, the computation of classifying a subject is relatively fast, taking 0.022 seconds \cite{yudong}. 
 \\\\
+%
 %%%% e. The results show that the proposed kSVM-DT
 %achieves 80% classiØcation accuracy, better than 74% of the method without kernel. Besides, the PSO
 %exceeds the random selection method in choosing the parameters of the classiØer. The computation
@@ -1698,9 +1699,6 @@ This section will focus on showing relevant outputs of the final trained models.
 \subsection{Dealing With GDPR in Personal Data}
 
 
-\subsection{Safe AI}
-% Er stor ting i medical imaging, gør Lars lykkelig
-
 \subsection{Economic Incentive of a good classification model}
 
 One could ask the question of what societal and economic implications a good classification model within this field study could imply. This section aims to estimate the outcome of implementing such a classifier into the society of Denmark. This will give an insight into whether continuing to study in this field would make sense for the sake of societal impact. The danish 2025 dementia plan has the following goals:
@@ -1711,7 +1709,7 @@ One could ask the question of what societal and economic implications a good cla
 	\item Reduce the amount of anti-psychotic medicine with 50 \% in year 2025
 \end{itemize}
 \noindent
-One of the relevant key focus areas include early detection and quality treatment which can be aided by the deep learning models. An average patient with dementia cost approximately $ 51000 \ \texttt{DKK / year}$:
+One of the relevant key focus areas include early detection of dementia which can be aided by deep learning models such as a classifier described in section \ref{statens_kunst}, also consult \cite{yudong} \cite{suk_and_shen_1} \cite{suk_and_shen_2} \cite{cheng} \cite{neuro}. An average patient with dementia cost approximately $ 51000 \ \texttt{DKK / year}$:
 
 %\texttt{\begin{table}
 		%	\item Practice sector: 3900 DKK
@@ -1729,10 +1727,41 @@ One of the relevant key focus areas include early detection and quality treatmen
 			\end{tabular}
 		\end{table}
 		
-		In Denmark around $ 85000-90000 $ people live with a dementia disease. Around 50000 of these cases are Alzheimer. Every year around $ 8000 $ new cases are detected and in 2040 the expected amount of people with dementia above 60 years old is $ 125000 $ to $ 150000 $. This amount to Denmark spending $ 4.59 $ Billion DKK / year on Alzheimer Patients to $ 7.65 $ Billion DKK / year. \footnote{!NB Not taking inflation into consideration for the outlined numbers} These numbers do not take healthcare personal, researchers and other variable costs into consideration. Moreover, 65\% to 85\% of all inhabitants in eldercare has a dementia disease. The cost of informal care time ranges between $ 5.0 $ to $ 6.9 $ hours daily. Furthermore, the daily cost was estimated to range between $ 1190 - 1658 $ DKK / day for primary caregivers\footnote{A primary caregiver can range from everything from a nurse, family member etc.} and $ 171 - 253 $ DKK / day for secondary caregivers. The cost for Denmark amounts to $ 18 $ Billion DKK / year, on eldercare alone. The total cost of dementia related diseases in Denmark is estimated to be 20 Billion DKK / year.  \cite{Alzheimerforeningen} \cite{informal_care} Thus, a screening to detect Alzheimer before a patient showing symptoms can be a way to both drive down cost of the danish society, but also optimize life expectancy and quality for the citizens of Denmark.
+		In Denmark around $ 85000-90000 $ people live with a dementia disease. Around 50000 of these cases are Alzheimer. Every year around $ 8000 $ new cases are detected and in 2040 the expected amount of people with dementia above 60 years old is $ 125000 $ to $ 150000 $. This amount to Denmark spending $ 4.59 $ Billion DKK / year on Alzheimer Patients to $ 7.65 $ Billion DKK / year \footnote{!NB Not taking inflation into consideration for the outlined numbers}. These numbers do not take healthcare personal, researchers and other variable costs into consideration. Moreover, 65\% to 85\% of all inhabitants in eldercare has a dementia disease. The cost of informal care time ranges between $ 5.0 $ to $ 6.9 $ hours daily. Furthermore, the daily cost was estimated to range between $ 1190 - 1658 $ DKK / day for primary caregivers\footnote{A primary caregiver can range from everything from a nurse, family member etc.} and $ 171 - 253 $ DKK / day for secondary caregivers. The cost for Denmark amounts to $ 18 $ Billion DKK / year, on eldercare alone. The total cost of dementia related diseases in Denmark is estimated to be 20 Billion DKK / year.  \cite{Alzheimerforeningen} \cite{informal_care} Thus, a screening to detect Alzheimer before a patient is showing symptoms can be a way to both drive down cost of the danish society, but also optimize life expectancy and quality for the citizens of Denmark.
 		
 		% TODO: inkluder sygeplejerske
 		%TODO 25000 MRI in use see https://en.wikipedia.org/wiki/Magnetic_resonance_imaging
+
+\subsection{Safe AI}
+% Er stor ting i medical imaging, gør Lars lykkelig
+
+The principles of safe artificial intelligence (AI) build on a set of rules which the constructed models will have to obey in order to be safe to use on a societal scale. When dealing with models such as the classifier or cycleGANs presented in this project the ethical concerns for potential misuse or hidden biases are very important due to the effects an implementation can have on society. Trust between the prediction of a model and the predicted individual is thus key for success. The very first steps of achieving this trust is both by delivering a good service from the machine learning industry and bringing the topic to life in a public discussion in society. The Ministry of Foreign Affairs of Denmark has contributed to just that in collaboration with the Technical University of Denmark (DTU). The outcome of safe AI is machine learning models with democratic values and control mechanisms. Trust from the user point of view is very important for the whole research of AI. If individuals in society do not trust the developers behind them their data will not be available to further research and enhance the models. This will result in big companies, such as Amazon, Facebook, Google etc., not being able to further develop the technology \cite{larsk}. The safe AI principles are presented below:
+
+\begin{table}[H]
+	\hspace*{-2cm}
+	\begin{tabular}{l  l  l l l  l  l}
+		\toprule
+		\textbf{Safe AI }                & & & & & & \textbf{Explanation} \\ \midrule
+		is secure                     & & & & & & Test of verified software and hardware, adversarials \\
+		is open-source                & & & & & & Methods, code, hardware, check and evolution         \\
+		is self-conscious             & & & & & & Understands own role                                 \\
+		is secretive                  & & & & & & Privacy by design                                    \\
+		has calibrated values      & & & & & & Debug for stereotypes, biases                        \\
+		is accountable             & & & & & & Transparent, communicating, "right to explanation"   \\
+		understands social relations& & & & & & Understands user's knowledge graph                   \\
+		understands power          & & & & & & Digital self-defense                                 \\
+		generates trust            & & & & & & Use in public relations                              \\ \bottomrule
+	\end{tabular}
+\end{table} 
+
+\noindent
+As can be seen from the safe AI principles most of them do not apply to the current technology. Is self-conscious, is accountable, understands social relations, understands power and generates trust are all principles for the perhaps distant future. However, principles such as secure, open-source and has calibrated values are more relevant both for the models presented in this project, but also for the present time and the stage in which machine learning models are at today. Calibrated values include debugging for biases and stereotypes. A bias seen from previous studies was the effect of 3T images vs. 1.5T images, but biases could also be more harmful. This include gender bias, age bias, racial bias and a plethora more of different biases. If a model such as the one presented in this project will classify Alzheimer patients before they develop symptoms then the patients need to trust the prediction and the developers need to ensure fairness and calibrated values.
+
+
+\subsection{Regulations}
+
+% A section about needed regulations for society in order to adopt machine learning models into indutry.
+
 
 \section{Conclusion}\label{conclusion}
 
@@ -2752,6 +2781,8 @@ One of the relevant key focus areas include early detection and quality treatmen
 		\bibitem{mri2} Callaghan, McRobbie, Donald et al. "MRI from Picture to Proton", Cambridge University Press, 15. feb. 2007
 		
 		\bibitem{wiki} Magnetic resonance imaging \url{https://en.wikipedia.org/wiki/Magnetic_resonance_imaging}, last visited 2nd January 2022
+		
+		\bibitem{larsk} Ministry of Foreign Affairs of Denmark, "Denmark Paves the Way for the Implementation of Trust by Design", 25.03.2019, \url{https://investindk.com/insights/denmark-paves-the-way-for-implementation-of-trust-by-design}, visited 2nd January 2022
 		
 	\end{thebibliography}
 	
