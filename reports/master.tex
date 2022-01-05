@@ -665,56 +665,29 @@ Not shown in the figure is the actions taken between each layer. These include
 
 \begin{table}[H]
 	\centering
-	\begin{tabular}{lll}\toprule
-		Layer                         & Activation Size & Value \\ \midrule
-		Input                         & 3x256x256       &       \\
-		64x4x4 conv, stride 2, pad 1  & 64x128x128      &       \\
-		LeakyReLU                     & 64x128x128      & 0.2   \\
-		128x4x4 conv, stride 2, pad 1 & 64x64x64        &       \\
-		InstanceNorm2d                & 64x64x64        & 64    \\
-		LeakyReLU                     & 64x64x64        & 0.2   \\
-		256x4x4 conv, stride 2, pad 1 & 64x32x32        &       \\
-		InstanceNorm2d                & 64x32x32        & 64    \\
-		LeakyReLU                     & 64x32x32        & 0.2   \\
-		512x4x4 conv, stride 1, pad 1 & 64x31x31        &       \\
-		InstanceNorm2d                & 64x31x31        & 64    \\
-		LeakyReLU                     & 64x31x31        & 0.2   \\
-		1x4x4 conv, stride 1, pad 1   & 1x30x30         &       \\
-		Sigmoid                       & 1x30x30         & NA    \\ \bottomrule
+	\begin{tabular}{llll}\toprule
+		Layer                         & Activation Size & Value & \# Parameters \\ \midrule
+		Input                         & 3x256x256       &       & 0             \\
+		64x4x4 conv, stride 2, pad 1  & 64x128x128      &       & 1,088         \\
+		LeakyReLU                     & 64x128x128      & 0.2   & 0             \\
+		128x4x4 conv, stride 2, pad 1 & 128x64x64       &       & 131,200       \\
+		InstanceNorm2d                & 128x64x64       & 64    & 0             \\
+		LeakyReLU                     & 128x64x64       & 0.2   & 0             \\
+		256x4x4 conv, stride 2, pad 1 & 256x32x32       &       & 524,544       \\
+		InstanceNorm2d                & 256x32x32       & 64    & 0             \\
+		LeakyReLU                     & 256x32x32       & 0.2   & 0             \\
+		512x4x4 conv, stride 1, pad 1 & 512x31x31       &       & 2,097,664     \\
+		InstanceNorm2d                & 512x31x31       & 64    & 0             \\
+		LeakyReLU                     & 512x31x31       & 0.2   & 0             \\
+		1x4x4 conv, stride 1, pad 1   & 1x30x30         &       & 8,193         \\
+		Sigmoid                       & 1x30x30         & NA    & 0             \\
+		                              &                 &       &               \\
+		\textbf{Total Parameters}     &                 &       & 2,762,689     \\
+		\textbf{Trainable Parameters} &                 &       & 2,762,689     \\ \bottomrule
 	\end{tabular}
 	\caption{The convolutions, stride and padding of each layer in the discriminators. The values used in the activation functions and instance normalization as well as when they are used in the network have also been shown. The activation shape channels are equal to the output\_shape of each layer and the height and width are calculated using the formula from article \protect\cite{calculate_activation_shape}.}
 	\label{tab:discriminator_layers}
 \end{table}
-
-%TODO: Make table showing the total number of parameters
-%----------------------------------------------------------------
-%Layer (type)               Output Shape         Param #
-%================================================================
-%Conv2d-1         [-1, 64, 128, 128]           1,088
-%LeakyReLU-2         [-1, 64, 128, 128]               0
-%Conv2d-3          [-1, 128, 64, 64]         131,200
-%InstanceNorm2d-4          [-1, 128, 64, 64]               0
-%LeakyReLU-5          [-1, 128, 64, 64]               0
-%Block-6          [-1, 128, 64, 64]               0
-%Conv2d-7          [-1, 256, 32, 32]         524,544
-%InstanceNorm2d-8          [-1, 256, 32, 32]               0
-%LeakyReLU-9          [-1, 256, 32, 32]               0
-%Block-10          [-1, 256, 32, 32]               0
-%Conv2d-11          [-1, 512, 31, 31]       2,097,664
-%InstanceNorm2d-12          [-1, 512, 31, 31]               0
-%LeakyReLU-13          [-1, 512, 31, 31]               0
-%Block-14          [-1, 512, 31, 31]               0
-%Conv2d-15            [-1, 1, 30, 30]           8,193
-%================================================================
-%Total params: 2,762,689
-%Trainable params: 2,762,689
-%Non-trainable params: 0
-%----------------------------------------------------------------
-%Input size (MB): 0.25
-%Forward/backward pass size (MB): 55.02
-%Params size (MB): 10.54
-%Estimated Total Size (MB): 65.81
-%----------------------------------------------------------------
 
 \subsubsection{Generator in a cycleGAN}
 %TODO: Convolutional neural network
@@ -738,150 +711,36 @@ Unlike in a standard GAN generator, where a random image from a latent space is 
 
 %TODO: Explain components (norm and activation layers, convolutions, relu etc)
 \begin{table}[H]
-	\centering
-	\begin{tabular}{lll}\toprule
-		Layer                                            & Activation Size & Value       \\ \midrule
-		Input                                            & 3x256x256       &             \\
-		64x6x6 conv, stride 1, pad 3                     & 64x257x257      &             \\
-		ReLU                                             & 64x257x257      & inplace=True\\
-		128x3x3 conv, stride 2, pad 1                    & 128x129x129     &             \\
-		InstanceNorm2d                                   & 128x129x129     & 128         \\
-		ReLU                                             & 128x129x129     & inplace=True\\
-		256x3x3 conv, stride 2, pad 1                    & 256x65x65       &             \\
-		InstanceNorm2d                                   & 256x65x65       & 256         \\
-		ReLU                                             & 256x65x65       & inplace=True\\
-		9 residual blocks with relu and instancenorm     & 256x65x65       &             \\
-		Upsample                                         & 256x130x130     & 2,bilinear  \\   
-		128x4x4 Conv2d stride 1, pad 2                   & 128x131x131     &             \\
-		InstanceNorm2d                                   & 128x131x131     & 128         \\
-		ReLU                                             & 128x131x131     & inplace=True\\
-		Upsample                                         & 128x262x262     & 2,bilinear  \\   
-		64x4x4 Conv2d stride 1, pad 1                    & 64x261x261      &             \\
-		InstanceNorm2d                                   & 64x261x261      & 64          \\
-		ReLU                                             & 64x261x261      & inplace=True\\
-		3x8x8 conv, stride 1, pad 1                      & 3x256x256       &             \\
-		Tanh                                             & 3x256x256       & NA          \\ \bottomrule
+	\hspace*{-2cm}
+	\begin{tabular}{llll}\toprule
+		Layer                                       & Activation Size& Value       & \# Parameters \\ \midrule
+		Input                                       & 3x256x256      &             & 0             \\
+		64x6x6 conv, stride 1, pad 3                & 64x257x257     &             & 6,976         \\
+		ReLU                                        & 64x257x257     & inplace=True& 0             \\
+		128x3x3 conv, stride 2, pad 1               & 128x129x129    &             & 73,856        \\
+		InstanceNorm2d                              & 128x129x129    & 128         & 0             \\
+		ReLU                                        & 128x129x129    & inplace=True& 0             \\
+		256x3x3 conv, stride 2, pad 1               & 256x65x65      &             & 295,168       \\
+		InstanceNorm2d                              & 256x65x65      & 256         & 0             \\
+		ReLU                                        & 256x65x65      & inplace=True& 0             \\
+		9 residual blocks with relu and instancenorm& 256x65x65      &             & 10,621,440    \\
+		Upsample                                    & 256x130x130    & 2,bilinear  & 0             \\   
+		128x4x4 Conv2d stride 1, pad 2              & 128x131x131    &             & 524,416       \\
+		InstanceNorm2d                              & 128x131x131    & 128         & 0             \\
+		ReLU                                        & 128x131x131    & inplace=True& 0             \\
+		Upsample                                    & 128x262x262    & 2,bilinear  & 0             \\   
+		64x4x4 Conv2d stride 1, pad 1               & 64x261x261     &             & 131,136       \\
+		InstanceNorm2d                              & 64x261x261     & 64          & 0             \\
+		ReLU                                        & 64x261x261     & inplace=True& 0             \\
+		3x8x8 conv, stride 1, pad 1                 & 3x256x256      &             & 12,291        \\
+		Tanh                                        & 3x256x256      & NA          & 0             \\
+		                                            &                &             &               \\
+		\textbf{Total Parameters}                   &                &             & 11,665,283    \\
+		\textbf{Trainable Parameters}               &                &             & 11,665,283    \\ \bottomrule
 	\end{tabular}
 	\caption{The convolutions, stride and padding of each layer in the generators. The values used in the activation functions and instance normalization as well as when they are used in the network have also been shown. The activation shape channels are equal to the output\_shape of each layer and the height and width are calculated using the formula from article \protect\cite{calculate_activation_shape}.}
 	\label{tab:generator_layers}
 \end{table}
-
-%TODO: Make table showing the total number of parameters
-%----------------------------------------------------------------
-%Layer (type)               Output Shape         Param #
-%================================================================
-%Conv2d-1         [-1, 64, 257, 257]           6,976
-%ReLU-2         [-1, 64, 257, 257]               0
-%Conv2d-3        [-1, 128, 129, 129]          73,856
-%InstanceNorm2d-4        [-1, 128, 129, 129]               0
-%ReLU-5        [-1, 128, 129, 129]               0
-%ConvBlock-6        [-1, 128, 129, 129]               0
-%Conv2d-7          [-1, 256, 65, 65]         295,168
-%InstanceNorm2d-8          [-1, 256, 65, 65]               0
-%ReLU-9          [-1, 256, 65, 65]               0
-%ConvBlock-10          [-1, 256, 65, 65]               0
-%Conv2d-11          [-1, 256, 65, 65]         590,080
-%InstanceNorm2d-12          [-1, 256, 65, 65]               0
-%ReLU-13          [-1, 256, 65, 65]               0
-%ConvBlock-14          [-1, 256, 65, 65]               0
-%Conv2d-15          [-1, 256, 65, 65]         590,080
-%InstanceNorm2d-16          [-1, 256, 65, 65]               0
-%Identity-17          [-1, 256, 65, 65]               0
-%ConvBlock-18          [-1, 256, 65, 65]               0
-%ResidualBlock-19          [-1, 256, 65, 65]               0
-%Conv2d-20          [-1, 256, 65, 65]         590,080
-%InstanceNorm2d-21          [-1, 256, 65, 65]               0
-%ReLU-22          [-1, 256, 65, 65]               0
-%ConvBlock-23          [-1, 256, 65, 65]               0
-%Conv2d-24          [-1, 256, 65, 65]         590,080
-%InstanceNorm2d-25          [-1, 256, 65, 65]               0
-%Identity-26          [-1, 256, 65, 65]               0
-%ConvBlock-27          [-1, 256, 65, 65]               0
-%ResidualBlock-28          [-1, 256, 65, 65]               0
-%Conv2d-29          [-1, 256, 65, 65]         590,080
-%InstanceNorm2d-30          [-1, 256, 65, 65]               0
-%ReLU-31          [-1, 256, 65, 65]               0
-%ConvBlock-32          [-1, 256, 65, 65]               0
-%Conv2d-33          [-1, 256, 65, 65]         590,080
-%InstanceNorm2d-34          [-1, 256, 65, 65]               0
-%Identity-35          [-1, 256, 65, 65]               0
-%ConvBlock-36          [-1, 256, 65, 65]               0
-%ResidualBlock-37          [-1, 256, 65, 65]               0
-%Conv2d-38          [-1, 256, 65, 65]         590,080
-%InstanceNorm2d-39          [-1, 256, 65, 65]               0
-%ReLU-40          [-1, 256, 65, 65]               0
-%ConvBlock-41          [-1, 256, 65, 65]               0
-%Conv2d-42          [-1, 256, 65, 65]         590,080
-%InstanceNorm2d-43          [-1, 256, 65, 65]               0
-%Identity-44          [-1, 256, 65, 65]               0
-%ConvBlock-45          [-1, 256, 65, 65]               0
-%ResidualBlock-46          [-1, 256, 65, 65]               0
-%Conv2d-47          [-1, 256, 65, 65]         590,080
-%InstanceNorm2d-48          [-1, 256, 65, 65]               0
-%ReLU-49          [-1, 256, 65, 65]               0
-%ConvBlock-50          [-1, 256, 65, 65]               0
-%Conv2d-51          [-1, 256, 65, 65]         590,080
-%InstanceNorm2d-52          [-1, 256, 65, 65]               0
-%Identity-53          [-1, 256, 65, 65]               0
-%ConvBlock-54          [-1, 256, 65, 65]               0
-%ResidualBlock-55          [-1, 256, 65, 65]               0
-%Conv2d-56          [-1, 256, 65, 65]         590,080
-%InstanceNorm2d-57          [-1, 256, 65, 65]               0
-%ReLU-58          [-1, 256, 65, 65]               0
-%ConvBlock-59          [-1, 256, 65, 65]               0
-%Conv2d-60          [-1, 256, 65, 65]         590,080
-%InstanceNorm2d-61          [-1, 256, 65, 65]               0
-%Identity-62          [-1, 256, 65, 65]               0
-%ConvBlock-63          [-1, 256, 65, 65]               0
-%ResidualBlock-64          [-1, 256, 65, 65]               0
-%Conv2d-65          [-1, 256, 65, 65]         590,080
-%InstanceNorm2d-66          [-1, 256, 65, 65]               0
-%ReLU-67          [-1, 256, 65, 65]               0
-%ConvBlock-68          [-1, 256, 65, 65]               0
-%Conv2d-69          [-1, 256, 65, 65]         590,080
-%InstanceNorm2d-70          [-1, 256, 65, 65]               0
-%Identity-71          [-1, 256, 65, 65]               0
-%ConvBlock-72          [-1, 256, 65, 65]               0
-%ResidualBlock-73          [-1, 256, 65, 65]               0
-%Conv2d-74          [-1, 256, 65, 65]         590,080
-%InstanceNorm2d-75          [-1, 256, 65, 65]               0
-%ReLU-76          [-1, 256, 65, 65]               0
-%ConvBlock-77          [-1, 256, 65, 65]               0
-%Conv2d-78          [-1, 256, 65, 65]         590,080
-%InstanceNorm2d-79          [-1, 256, 65, 65]               0
-%Identity-80          [-1, 256, 65, 65]               0
-%ConvBlock-81          [-1, 256, 65, 65]               0
-%ResidualBlock-82          [-1, 256, 65, 65]               0
-%Conv2d-83          [-1, 256, 65, 65]         590,080
-%InstanceNorm2d-84          [-1, 256, 65, 65]               0
-%ReLU-85          [-1, 256, 65, 65]               0
-%ConvBlock-86          [-1, 256, 65, 65]               0
-%Conv2d-87          [-1, 256, 65, 65]         590,080
-%InstanceNorm2d-88          [-1, 256, 65, 65]               0
-%Identity-89          [-1, 256, 65, 65]               0
-%ConvBlock-90          [-1, 256, 65, 65]               0
-%ResidualBlock-91          [-1, 256, 65, 65]               0
-%Upsample-92        [-1, 256, 130, 130]               0
-%Conv2d-93        [-1, 128, 131, 131]         524,416
-%InstanceNorm2d-94        [-1, 128, 131, 131]               0
-%ReLU-95        [-1, 128, 131, 131]               0
-%ConvBlock-96        [-1, 128, 131, 131]               0
-%Upsample-97        [-1, 128, 262, 262]               0
-%Conv2d-98         [-1, 64, 261, 261]         131,136
-%InstanceNorm2d-99         [-1, 64, 261, 261]               0
-%ReLU-100         [-1, 64, 261, 261]               0
-%ConvBlock-101         [-1, 64, 261, 261]               0
-%Conv2d-102          [-1, 3, 256, 256]          12,291
-%================================================================
-%Total params: 11,665,283
-%Trainable params: 11,665,283
-%Non-trainable params: 0
-%----------------------------------------------------------------
-%Input size (MB): 0.75
-%Forward/backward pass size (MB): 1132.55
-%Params size (MB): 44.50
-%Estimated Total Size (MB): 1177.80
-%----------------------------------------------------------------
 
 \subsubsection{Objective Functions (Losses)}
 For this section, a number of notations will be introduced. Since the goal is to map between the two domains $X$ and $Y$, we introduce $G : X \rightarrow Y$ and $F : Y \rightarrow X$. Furthermore, $y \sim p_{\text {data}}(y)$ and $x \sim p_{\text {data }}(x)$ refer to the distributions of each domain and $x$ and $y$ refer to samples from each domain. Lastly, the discriminators for each domain are given by $D_X$ and $D_Y$.
