@@ -6,6 +6,7 @@
 \newcommand{\so}[2]{{#1}\mathrm{e}{#2}}
 % \geometry{top=1cm}
 %\usepackage{cleveref}
+\usepackage{tablefootnote}
 \usepackage{hyperref}
 \usepackage{array}
 \usepackage{amsmath}
@@ -2008,7 +2009,7 @@ One of the relevant key focus areas include early detection of dementia which ca
 			\end{tabular}
 		\end{table}
 		
-		In Denmark around $ 85000-90000 $ people live with a dementia disease. Around 50000 of these cases are Alzheimer. Every year around $ 8000 $ new cases are detected and in 2040 the expected amount of people with dementia above 60 years old is $ 125000 $ to $ 150000 $. This amount to Denmark spending $ 4.59 $ Billion DKK / year on Alzheimer Patients to $ 7.65 $ Billion DKK / year \footnote{!NB Not taking inflation into consideration for the outlined numbers}. These numbers do not take healthcare personal, researchers and other variable costs into consideration. Moreover, 65\% to 85\% of all inhabitants in eldercare has a dementia disease. The cost of informal care time ranges between $ 5.0 $ to $ 6.9 $ hours daily. Furthermore, the daily cost was estimated to range between $ 1190 - 1658 $ DKK / day for primary caregivers\footnote{A primary caregiver can range from everything from a nurse, family member etc.} and $ 171 - 253 $ DKK / day for secondary caregivers. The cost for Denmark amounts to $ 18 $ Billion DKK / year, on eldercare alone. The total cost of dementia related diseases in Denmark is estimated to be 20 Billion DKK / year.  \cite{Alzheimerforeningen} \cite{informal_care} Thus, a screening to detect Alzheimer before a patient is showing symptoms can be a way to both drive down cost of the danish society, but also optimize life expectancy and quality for the citizens of Denmark.
+		In Denmark around $ 85000-90000 $ people live with a dementia disease. Around 50000 of these cases are Alzheimer. Every year around $ 8000 $ new cases are detected and in 2040 the expected amount of people with dementia above 60 years old is $ 125000 $ to $ 150000 $. This amount to Denmark spending $ 4.59 $ Billion DKK / year on Alzheimer Patients to $ 7.65 $ Billion DKK / year \footnote{!NB Not taking inflation into consideration for the outlined numbers}. These numbers do not take healthcare personal, researchers and other variable costs into consideration. Moreover, 65\% to 85\% of all inhabitants in eldercare has a dementia disease. The cost of informal care time ranges between $ 5.0 $ to $ 6.9 $ hours daily. Furthermore, the daily cost was estimated to range between $ 1190 - 1658 $ DKK / day for primary caregivers\footnote{A primary caregiver can range from everything from a nurse, family member etc.} and $ 171 - 253 $ DKK / day for secondary caregivers. The cost for Denmark amounts to $ 18 $ Billion DKK / year, on eldercare alone. The total cost of dementia related diseases in Denmark is estimated to be 20 Billion DKK / year \cite{Alzheimerforeningen} \cite{informal_care}. Thus, a screening to detect Alzheimer before a patient is showing symptoms can be a way to both drive down cost of the danish society, but also optimize life expectancy and quality for the citizens of Denmark.
 		
 		% TODO: inkluder sygeplejerske
 		%TODO 25000 MRI in use see https://en.wikipedia.org/wiki/Magnetic_resonance_imaging
@@ -2022,7 +2023,7 @@ The principles of safe artificial intelligence (AI) build on a set of rules whic
 	\hspace*{-2cm}
 	\begin{tabular}{l  l  l l l  l  l}
 		\toprule
-		\textbf{Safe AI }                & & & & & & \textbf{Explanation} \\ \midrule
+		\textbf{Safe AI \protect\tablefootnote{Table was also presented in previous work, see \cite{fagproject}}}                & & & & & & \textbf{Explanation} \\ \midrule
 		is secure                     & & & & & & Test of verified software and hardware, adversarials \\
 		is open-source                & & & & & & Methods, code, hardware, check and evolution         \\
 		is self-conscious             & & & & & & Understands own role                                 \\
@@ -2040,8 +2041,17 @@ As can be seen from the safe AI principles most of them do not apply to the curr
 
 
 \subsection{Regulations}
-
 % A section about needed regulations for society in order to adopt machine learning models into indutry.
+Due to the rapid advancements of AI in recent years laws and regulations have not been implemented to avoid potential abuse. 
+A technology which is often referred to as a black box tool where even the developers of AI are not able to explain why certain predictions are made. 
+With models being trained on historical data and undoubtedly inheriting bias this study calls for the need for regulations of models with the intend of being implemented into society. 
+To illustrate why there is a need for AI regulations a hypothetical example will be presented.
+
+Imagine a classifier which can predict lounge cancer in very early stages from screening of patients. This is already achieved by Raponi et al. \cite{raponi} with a prediction accuracy of 78\%. If the classifier performed a prediction accuracy of ~90\% it would have the possibility to be an advanced tool for doctors or even replacing doctors in the screening. However, despite the 90\% prediction, developers with a malicious intent could have programmed the model to always classify healthy lounges for certain ages, minorities or genders, thus discriminating certain groups. Furthermore, this would leave individuals with severe damage or even death in worst cases. In practice, this would have little no consequences since there are not regulations or laws to prevent this from happening in the code. This does not only apply to the field of medicine, but to all machine learning models being implemented into society. 
+\\\\
+By default this is not an easy problem or area of technology to create laws and regulations for since many demonstrated models are being used presently, i.e. facial recognition on our phone, email filtering algorithms, Facebook adds, Google adds and much more. In conclusion, we need to both look at the current models in place and the potential future machine learning models. A stepping stone could be to create a third party organ which work as a confidential code reviewer handing out certificates to AI models which comply with the decided regulations and or laws for the country / society in which the models is being implemented. The third party organ would moreover have to track back through the already implemented models to ensure the regulations.
+
+The regulations should be build upon the safe AI principles, but should also include notions of fairness to ensure no groups are being discriminated. Therefore, we propose that a council consisting of experts within the domains of machine learning and the industries in which machine learning is used as well as civil individuals should decide on key parameters which can be used to build the regulations themselves to inspire trust, transparency and safety for the future. 
 
 
 \section{Conclusion}\label{conclusion}
@@ -3076,6 +3086,9 @@ As can be seen from the safe AI principles most of them do not apply to the curr
 		\bibitem{wiki} Magnetic resonance imaging \url{https://en.wikipedia.org/wiki/Magnetic_resonance_imaging}, last visited 2nd January 2022
 		
 		\bibitem{larsk} Ministry of Foreign Affairs of Denmark, "Denmark Paves the Way for the Implementation of Trust by Design", 25.03.2019, \url{https://investindk.com/insights/denmark-paves-the-way-for-implementation-of-trust-by-design}, visited 2nd January 2022
+		
+		\bibitem{raponi} Raponi, Mitch et al. "MicroRNA Classifiers for Predicting Prognosis of Squamous Cell Lung Cancer", Published July 2009
+		
 		
 	\end{thebibliography}
 	
