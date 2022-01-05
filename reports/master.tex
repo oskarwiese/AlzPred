@@ -544,56 +544,30 @@ To generate the image, a \texttt{(batch\_size, 100)} vector of gaussian distribu
 
 \begin{table}[H]
 	\centering
-	\begin{tabular}{lll}\toprule
-		Layer                 & Activation Size & Value \\ \midrule
-		Input                 & 100             &       \\
-		linear layer          & 2848            &       \\
-		BatchNorm1d           & 2848            & 2848  \\
-		LeakyReLU             & 2848            & 0.2   \\
-		linear layer          & 2848            &       \\
-		BatchNorm1d           & 2848            & 2848  \\
-		LeakyReLU             & 2848            & 0.2   \\
-		linear layer          & 2848            &       \\
-		BatchNorm1d           & 2848            & 2848  \\
-		LeakyReLU             & 2848            & 0.2   \\
-		linear layer          & 2848            &       \\
-		BatchNorm1d           & 2848            & 2848  \\
-		LeakyReLU             & 2848            & 0.2   \\
-		linear layer          & 28x28           &       \\
-		Tanh                  & 28x28           & NA   \\ \bottomrule
+	\begin{tabular}{llll}\toprule
+		Layer                        & Activation Size & Value & \# Parameters\\ \midrule
+		Input                        & 100             &       & 0            \\
+		linear layer                 & 2848            &       & 287,648      \\
+		BatchNorm1d                  & 2848            & 2848  & 5,696        \\
+		LeakyReLU                    & 2848            & 0.2   & 0            \\
+		linear layer                 & 2848            &       & 8,113,952    \\
+		BatchNorm1d                  & 2848            & 2848  & 5,696        \\
+		LeakyReLU                    & 2848            & 0.2   & 0            \\
+		linear layer                 & 2848            &       & 8,113,952    \\
+		BatchNorm1d                  & 2848            & 2848  & 5,696        \\
+		LeakyReLU                    & 2848            & 0.2   & 0            \\
+		linear layer                 & 2848            &       & 8,113,952    \\
+		BatchNorm1d                  & 2848            & 2848  & 5,696        \\
+		LeakyReLU                    & 2848            & 0.2   & 0            \\
+		linear layer                 & 28x28           &       & 2,233,616    \\
+		Tanh                         & 28x28           & NA    & 0            \\
+		                             &                 &       &              \\
+		\textbf{Total Parameters}    &                 &       & 26,885,904   \\
+		\textbf{Trainable Parameters}&                 &       & 26,885,904   \\  \bottomrule
 	\end{tabular}
 	\caption{All layers used in the final generator.}
 	\label{tab:gan_generator}
 \end{table}
-
-%TODO: Lav en tabel over det tortale antal parametre.
-%----------------------------------------------------------------
-%Layer (type)               Output Shape         Param #
-%================================================================
-%Linear-1           [-1, 2848, 2848]         287,648
-%BatchNorm1d-2           [-1, 2848, 2848]           5,696
-%LeakyReLU-3           [-1, 2848, 2848]               0
-%Linear-4           [-1, 2848, 2848]       8,113,952
-%BatchNorm1d-5           [-1, 2848, 2848]           5,696
-%LeakyReLU-6           [-1, 2848, 2848]               0
-%Linear-7           [-1, 2848, 2848]       8,113,952
-%BatchNorm1d-8           [-1, 2848, 2848]           5,696
-%LeakyReLU-9           [-1, 2848, 2848]               0
-%Linear-10           [-1, 2848, 2848]       8,113,952
-%BatchNorm1d-11           [-1, 2848, 2848]           5,696
-%LeakyReLU-12           [-1, 2848, 2848]               0
-%Linear-13            [-1, 2848, 784]       2,233,616
-%Tanh-14            [-1, 2848, 784]               0
-%================================================================
-%Total params: 26,885,904
-%Trainable params: 26,885,904
-%Non-trainable params: 0
-%----------------------------------------------------------------
-%Input size (MB): 1.09
-%Forward/backward pass size (MB): 776.66
-%Params size (MB): 102.56
-%Estimated Total Size (MB): 880.31
-%----------------------------------------------------------------
 
 The general flow of learning in the generator is the following. First, random noise is fed to the generator as input. The generator uses this input to produce an image as output. This output is then fed to the discriminator as input. Afterwards, the discriminator outputs a prediction of whether the image is real or fake. The loss from this prediction is calculated and backpropagated through both models. This gives the gradients which are used only for updating the generator for better image generation in next step. \cite{developers.google_generator}
 
