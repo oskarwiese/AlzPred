@@ -969,6 +969,10 @@ The script \texttt{config.py} is very short but extremely important for the gene
 The script \texttt{utils.py} and \texttt{dataset.py} are not as important to the general workflow and are much easier to understand. \texttt{utils.py} simply implements functions that save and load a checkpoint (current model and optimizer states) such that training can easily be stopped or the best model can be saved. Functions are also saved to plot the loss curves and add seeds to everything, so randomness does not provide difficulty. \texttt{dataset.py} does all the data preprocessing.
 
 \section{Results}\label{results}
+%TODO: NÅR VI TRÆKKER GROUND TRUTH OG GENERERET BILLEDE FRA HINANDEN SKAL DE MÅSKE REGISTRERES TIL SAMME SPACE FØRST
+
+
+
 %TODO: Hvordan vurderer vi, hvor godt vi har klaret os?
 %TODO: Indsæt de bedste genererede billeder fra 1.5T og 3T
 %TODO: Indsæt loss-kurve
@@ -1448,180 +1452,258 @@ This section will focus on showing relevant outputs of the final trained models.
 \end{figure}
 
 \subsection{XY Quality Comparison}\label{xy_generated}
-%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: skriv figurtekst
 %TODO: Her er tanken at rows eller columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_bilinear}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xy_3_GT}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/XY_model_136_S_0196_xy_1.5}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xy_1.5_GT}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
-		%		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
-		%		\label{fig:troubleshootc}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/XY_model_136_S_0196_xy_3}
+		%		\caption{136_S_0196}
+		%		\label{}
 	\end{subfigure}
 	\vskip\ripper
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xz_3_GT}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/XY_model_136_S_0196_xz_1.5}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xz_1.5_GT}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
-		%		\label{fig:troubleshootd}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/XY_model_136_S_0196_xz_3}
+		%		\caption{136_S_0196}
+		%		\label{}
 	\end{subfigure}
 	\vskip\ripper
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_yz_3_GT}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/XY_model_136_S_0196_yz_1.5}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_yz_1.5_GT}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
-		%		\label{fig:troubleshootd}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/XY_model_136_S_0196_yz_3}
+		%		\caption{136_S_0196}
+		%		\label{}
 	\end{subfigure}
 	\vskip\ripper
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xy_3_GT}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/XY_model_082_S_0469_xy_1.5}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xy_1.5_GT}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
-		%		\label{fig:troubleshootd}
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/XY_model_082_S_0469_xy_3}
+		%		\caption{082_S_0469}
+		%		\label{}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xz_3_GT}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/XY_model_082_S_0469_xz_1.5}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xz_1.5_GT}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/XY_model_082_S_0469_xz_3}
+		%		\caption{082_S_0469}
+		%		\label{}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_yz_3_GT}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/XY_model_082_S_0469_yz_1.5}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_yz_1.5_GT}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/XY_model_082_S_0469_yz_3}
+		%		\caption{082_S_0469}
+		%		\label{}
 	\end{subfigure}
 	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
 	%	\label{fig:troubleshoot}
 \end{figure}
 
 \subsection{XZ Quality Comparison}\label{xz_generated}
-%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
-%TODO: Her er tanken at rows eller columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T
+%TODO: skriv figurtekst
+%TODO: Her er tanken at columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T. Rows er two forskellige subjects i hver plane.
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_bilinear}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xy_3_GT}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/XZ_model_136_S_0196_xy_1.5}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xy_1.5_GT}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
-		%		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
-		%		\label{fig:troubleshootc}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/XZ_model_136_S_0196_xy_3}
+		%		\caption{136_S_0196}
+		%		\label{}
 	\end{subfigure}
 	\vskip\ripper
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xz_3_GT}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/XZ_model_136_S_0196_xz_1.5}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xz_1.5_GT}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
-		%		\label{fig:troubleshootd}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/XZ_model_136_S_0196_xz_3}
+		%		\caption{136_S_0196}
+		%		\label{}
 	\end{subfigure}
 	\vskip\ripper
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_yz_3_GT}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/XZ_model_136_S_0196_yz_1.5}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_yz_1.5_GT}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
-		%		\label{fig:troubleshootd}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/XZ_model_136_S_0196_yz_3}
+		%		\caption{136_S_0196}
+		%		\label{}
 	\end{subfigure}
 	\vskip\ripper
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xy_3_GT}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/XZ_model_082_S_0469_xy_1.5}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xy_1.5_GT}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
-		%		\label{fig:troubleshootd}
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/XZ_model_082_S_0469_xy_3}
+		%		\caption{082_S_0469}
+		%		\label{}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xz_3_GT}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/XZ_model_082_S_0469_xz_1.5}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xz_1.5_GT}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/XZ_model_082_S_0469_xz_3}
+		%		\caption{082_S_0469}
+		%		\label{}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_yz_3_GT}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/XZ_model_082_S_0469_yz_1.5}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_yz_1.5_GT}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/XZ_model_082_S_0469_yz_3}
+		%		\caption{082_S_0469}
+		%		\label{}
 	\end{subfigure}
 	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
 	%	\label{fig:troubleshoot}
 \end{figure}
 
 \subsection{YZ Quality Comparison}\label{yz_generated}
-%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
-%TODO: Her er tanken at rows eller columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T
+%TODO: skriv figurtekst
+%TODO: Her er tanken at columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T. Rows er two forskellige subjects i hver plane.
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_bilinear}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xy_3_GT}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/YZ_model_136_S_0196_xy_1.5}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xy_1.5_GT}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
-		%		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
-		%		\label{fig:troubleshootc}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/YZ_model_136_S_0196_xy_3}
+		%		\caption{136_S_0196}
+		%		\label{}
 	\end{subfigure}
 	\vskip\ripper
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xz_3_GT}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/YZ_model_136_S_0196_xz_1.5}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xz_1.5_GT}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
-		%		\label{fig:troubleshootd}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/YZ_model_136_S_0196_xz_3}
+		%		\caption{136_S_0196}
+		%		\label{}
 	\end{subfigure}
 	\vskip\ripper
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_yz_3_GT}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/YZ_model_136_S_0196_yz_1.5}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_yz_1.5_GT}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
-		%		\label{fig:troubleshootd}
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/YZ_model_136_S_0196_yz_3}
+		%		\caption{136_S_0196}
+		%		\label{}
 	\end{subfigure}
 	\vskip\ripper
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xy_3_GT}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/YZ_model_082_S_0469_xy_1.5}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xy_1.5_GT}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
-		%		\label{fig:troubleshootd}
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/YZ_model_082_S_0469_xy_3}
+		%		\caption{082_S_0469}
+		%		\label{}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xz_3_GT}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/YZ_model_082_S_0469_xz_1.5}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xz_1.5_GT}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/YZ_model_082_S_0469_xz_3}
+		%		\caption{082_S_0469}
+		%		\label{}
+	\end{subfigure}
+	\vskip\ripper
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_yz_3_GT}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/YZ_model_082_S_0469_yz_1.5}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_yz_1.5_GT}
+		\hskip\skipper
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/YZ_model_082_S_0469_yz_3}
+		%		\caption{082_S_0469}
+		%		\label{}
 	\end{subfigure}
 	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
 	%	\label{fig:troubleshoot}
