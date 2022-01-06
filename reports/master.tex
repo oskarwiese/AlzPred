@@ -146,7 +146,7 @@
 \section{Introduction} \label{indledning}
 % Indeholde purpose / formål med projekt
 %TODO skal skrives om 
-Alzheimer’s Disease (AD) is a disease which in the year 2021 affected an
+Alzheimer’s Disease (AD) is a disease which, in the year 2021, affected an
 estimated 5.8 million people aged 65 years or older in America alone. By the
 time an individual shows early symptoms of AD, whether by a screening test
 or a physical measurement of the brain volume, it is already too late to prevent the rapid development of the disease. Thus, to decrease cost of treatment
@@ -154,27 +154,23 @@ and increase chance of successful rehabilitation, it is becoming ever increasing
 important to detect AD at earlier stages than what is accomplishable by the
 current state of the art. Therefore, we wish to explore whether tools of computer vision and machine learning allows for quicker detection of AD, before
 an individual shows symptoms detectable by the common screening process of
-doctors. Many studies has been conducted within the field of alzheimer, and
-all of the studies including magnetic resonance imaging (MRI) scans are stored
+doctors. Many studies has been conducted within the field of alzheimer. The ones where using magnetic resonance imaging (MRI) scans are stored
 in the Alzheimers’s Disease Neuroimaging Initiative (ADNI). The MRI scans
 range from an electromagnetic field of 1.5 tesla (T) to 3T. The quality of the 3T
-images is higher and the price follows this same trend, meaning that MRI electromagnetic field strength is determined mostly by funding. This, inherently,
-will introduce a bias in an algorithm trained on a dataset with MRI images
+images is higher and the price follows this same trend, meaning that MRI electromagnetic field strength is determined mostly by funding. This could, inherently, introduce a bias in an algorithm trained on a dataset with MRI images
 spanning both magnetic field strengths, resulting in images with different levels
 of detail.
 
 \subsection{Incentive of the Project}
+%TODO: SKal der mere vægt på at gøre 3T til 1.5T-billeder?
 The scope of this project will be to train a classifier on MRI images to predict AD as well as training a cycle-generative adversarial network (cycleGAN)
-to construct 1.5T images from 3T images in order to have more usable, and
+to construct 1.5T images from 3T images in order to construct more usable, and
 hopefully unbiased, data. Thereby, the model will have more available training
-data leading to a more successful classifier which will be able to aid doctors and
-humans in need all around the world. This project will also aim to determine
-possible bias introduced in the model, if any, and discuss how a classifier can be
-implemented as a tool for doctors, how this might benefit AD prevention and
+data, which should lead to a more generalizable classifier, which will be able to aid doctors and humans in need all around the world. This project will also aim to determine possible bias introduced in the model, and discuss how a classifier can be implemented as a tool for doctors, how this might benefit AD prevention and
 treatment cost and the possible ethical scenarios that might be at play.
 \\\\
 The project will revolve around the possibility to predict Alzheimers with tools of ML at an
-earlier stage than previously possible. Furthermore, this will be analyzed the lens of below questions.
+earlier stage than previously possible. Furthermore, the questions below will be researched in detail.
 
 \begin{itemize}
 	\item[\textbf{i}] Can a cycleGAN be trained to map between the following domains: 1.5T and 3T MRI
@@ -190,10 +186,10 @@ earlier stage than previously possible. Furthermore, this will be analyzed the l
 
 \subsection{State of the art}\label{statens_kunst}
 % Statens kunst
-In recent years there have been many attempts to both classify and detect Alzheimer Disease (AD). Many different approaches to this classification problem has been taken. However, as computers get better and the field of machine learning and deep learning grows, an arsenal of new methods to predict and classify Alzheimer's disease at early stages have been proposed in the latter years. This section aims to highlight some of finest work within this field of study, demonstrating the current stage and methods used to approach the classification problem. 
+In recent years there have been many attempts to both classify and detect Alzheimer Disease (AD). Many different approaches to this classification problem has been taken. However, as computers get better and the field of machine learning and deep learning grows, an arsenal of new methods to predict and classify Alzheimer's disease at early stages have been proposed as of late. This section aims to highlight some of finest work within this field of study, demonstrating the current stage and methods used to approach the classification problem. 
 \\\\
 \noindent
-A novel approach was proposed by Zhang et al. in 2014, using kernel support vector machine decision tree. In this study, they use basic preprocessing as well as principle component analysis for feature extraction. On the basics of these feature the kernel support vector machine decision tree (kSVM-DT) was constructed. The proposed model has an 80\% classification accuracy. Furthermore, the computation of classifying a subject is relatively fast, taking 0.022 seconds \cite{yudong}. 
+A novel approach was proposed by Zhang et al. in 2014, using kernel support vector machine decision trees (kSVM-DT). In this study, they use basic preprocessing as well as principle component analysis for feature extraction. On the basis of these extracted features, the kSVM-DT was constructed. The proposed model has an 80\% classification accuracy. Furthermore, the computation of classifying a subject is relatively fast, taking 0.022 seconds \cite{yudong}. 
 \\\\
 %
 %%%% e. The results show that the proposed kSVM-DT
@@ -201,11 +197,11 @@ A novel approach was proposed by Zhang et al. in 2014, using kernel support vect
 %exceeds the random selection method in choosing the parameters of the classiØer. The computation
 %time to predict a new patient is only 0.022 s.
 %TODO Et andet paper her om biomarkers måske?
-Another approach was taken by Suk and Shen using a stacked auto-encoder. Their method was different from previous methods which focused mainly on low-level features such as gray matter tissue volumes from MRI. A stacked auto-encoder can represent complicated features such as non-linear relationships. Combining the low-level features with latent information they created a robust model for classification achiving 95.9\% accuracy and  75.8\% prediction accuracy of MCI to AD conversion \cite{suk_and_shen_1}. In 2015, the work was extended and they achieved an accuracy of  98.8\% for AD/CN classification and 83.7\% accuracy for prediction of MCI to AD conversion. This was done with greedy layer-wise pre-training and fine-tuning of the deep learning model \cite{suk_and_shen_2}.
+Another approach was taken by Suk and Shen using a stacked auto-encoder. Their method was different from previous methods which focused mainly on low-level features such as gray matter tissue volumes from MRI. A stacked auto-encoder can represent complicated features such as non-linear relationships. Combining the low-level features with latent information, they created a robust model for classification achiving 95.9\% accuracy and 75.8\% prediction accuracy of MCI to AD conversion \cite{suk_and_shen_1}. In 2015, the work was extended and they achieved an accuracy of  98.8\% for AD/CN classification and 83.7\% accuracy for prediction of MCI to AD conversion. This was done with greedy layer-wise pre-training and fine-tuning of the deep learning model \cite{suk_and_shen_2}.
 \\\\
 Recently, convolutional neural networks (CNN) have been showing promising results for AD prediction. In general CNNs have been a widely implemented method within the field of image recognition. Cheng et al. proposes to construct multi-level CNNs to gradually learn and combine the multi-modality features for AD classification using MRI and PET images. An accuracy of 89.6\% was achieved using this method. \cite{cheng}
 
-Basaia et al. achieved the highest measured accuracy on the ADNI1 data with a CNN classifier. The highest rate achieved was 99\%. Thus, concluding that CNNs serves as a powerful method for Alzheimer diagnostic. Furthermore, the model demonstrated good predictions with no prior feature engineering nor variability of imaging protocols and Basaia et al. concludes, that it is likely to be a generalizable model to unseen patient data \cite{neuro}. 
+Basaia et al. achieved the highest measured accuracy on the ADNI1 data with a CNN classifier. The highest rate achieved was 99\%. Thus, concluding that CNNs serves as a powerful method for Alzheimer diagnostics. Furthermore, the model demonstrated good predictions with no prior feature engineering nor variability of imaging protocols, and Basaia et al. concludes that it is likely to be a generalizable model to unseen patient data \cite{neuro}. 
 
 \subsection{Contributions}
 
@@ -213,24 +209,26 @@ This report aim to give an approachable account of the possibility to use cycleG
 
 \begin{itemize}
 	\item Illustrations which show an overview of the data in the different parts of the preprocessing pipeline. What does it look like? How is it done?
-
-	\item Four different cycleGANs will be presented, both through text and mathematical definition, and implemented in order to show the effect of the model as a bias corrections tool and to see how efficacious in mapping between the domains the cycleGAN actually is.
+	
+	\item A GAN will be provided in a Jupyter Notebook for easy access. Furthermore, an equivalent model has been run and the results and discussion are added to the appendix of this paper. This aims to give the reader important insight into the mathematical intuition behind the GAN.
+	
+	\item Five different cycleGANs will be presented, both through text and mathematical definition, and implemented in order to show the effect of the model as a bias corrections tool and to see how efficacious the cycleGAN actually is in mapping between the domains.
 	
 	\item To put the other contributions into a real-world context, an ethical and societal discussion of the cycleGAN and a classifier will be carried out. 
 	
-	\item Code for the preprocessing, the implementation of the cycleGANs as well as a section on reproducibility will be provided in the interest of making the results of this paper both as replicable and as reliable as possible. The section on reproducibility supplies the reader with the used seeds, packages, versions of these packages and a thorough explanation of the code used in the present project.
+	\item Code for the preprocessing, the implementation of the cycleGANs as well as a section on reproducibility will be provided in the interest of making the results of this paper both as replicable and as reliable as possible. The section on reproducibility supplies the reader with the used seeds, packages, versions of packages and a thorough explanation of the code used in the project.
 \end{itemize}
 \noindent
-The general goal of the contributions given above is to create a model which can remove previously demonstrated biases. Furthermore, the report also aims to give an overview of the implication of a successful cycleGAN within the Alzheimer and medical research area. The economic incentives, societal impact and ethical considerations will all be touched upon throughout the report. 
+The general goal of the contributions given above is to create a model which can remove previously demonstrated biases. Furthermore, the report also aims to give an overview of the implication of a successful cycleGAN within the Alzheimer and medical research area. The economic incentives, societal impact and ethical considerations will all be touched upon in the discussion of this paper. 
 
 \section{Background}
 
 This section will contain relevant information in regards to understanding and reproducing the project presented. 
 %TODO: referér til hver subsection
 
-\subsection{Magnetic Resonance Imagine (MRI)}
+\subsection{Magnetic Resonance Imaging (MRI)}
 %TODO simple explanation of MRI scans
-Magnetic resonance imaging (MRI) is a technique developed through the 1970s and 1980s. The scanner itself can be seen on figure \ref{fig:mriscanner}. In simplicity a MRI-scanner works by inducing a magnetic field to patient. The magnetic field will then excite the atoms within an area of the subjects brain. The resulting signal is then measured by the scanner \cite{mri}.  
+Magnetic resonance imaging (MRI) is a technique developed through the 1970s and 1980s. The scanner itself can be seen on figure \ref{fig:mriscanner}. In simple terms, an MRI-scanner works by inducing a magnetic field to patient. The magnetic field will then excite the atoms within an area of the subject's brain. The resulting signal is then measured by the scanner \cite{mri}.  
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{imgs/mri_scanner}
@@ -242,15 +240,16 @@ MRI was originally called nuclear magnetic resonance imaging, but was later read
 
 \subsection{Magnetic field strength}
 %TODO simple explanation of THE TESLAz
-It is inherently import to understand the underlying concept and difference of the magnetic field strength of the MRI scanner in use. In this project we use two type of images: 1.5T and 3T images. The T refers to Tesla which is a unit in which the strength of a magnetic field can be measured. The stronger the magnetic resonance is the more detailed the MRI is. The strength of the magnetic field can be thought of as the resolution of a normal RGB image. The 3T images are also constructed with more expensive machines and are not available in all countries nor hospitals around the world. This amplifies and calls for a method to translate between these domains. 
+It is inherently import to understand the underlying concept and difference of the magnetic field strength of the MRI scanner in use. In this project we use two type of images: 1.5T and 3T images. The T, referring to Tesla, is a unit in which the strength of a magnetic field can be measured. The stronger the magnetic resonance, the more detailed the MRI image. The strength of the magnetic field can be thought of as reducing the amount of noise in the image and adding more clarity. Thus this is like increasing the resolution of a normal RGB image. The 3T images are also constructed with more expensive machines and are not available in all countries nor hospitals around the world. This amplifies the need for a method to translate between these domains. 
 
 \subsection{MNI space}
 %TODO explain the MNI space 
-Montreal Neurological Institute 305 (MNI305) is an atlas for brain mapping which was introduced by Evans et al. 1992. MNI simply got is name from where it came from. The mapping was created from 250 normal subjects that have been MRI scanned. It is a known method for normalization and is a often used industry practice for an average human brain  \cite{evans}. 
+Montreal Neurological Institute 305 (MNI305) is an atlas for brain mapping which was introduced by Evans et al. 1992. MNI simply got is name from where it came from. The mapping was created from 250 normal subjects that have been MRI scanned. It is a known method for normalization and is an often used industry practice for an average human brain  \cite{evans}. 
 
-The atlas was constructed in two steps. Firstly, anatomical landmarks where outlined for each subject manually. The landmarks where found using the Talairach atlas, which is a 3 dimensional coordinate system used to map several areas of the brain independently of the brain volume and shape. Secondly, each MRI volume from the patients were mapped to an average MRI, from the previous subjects, to reduce impact of order effect. The mapping was performed with whole-brain linear (9-parameter) image similarity residual and not according to Talairach's piecewise linear model \cite{collins}. 
+The atlas was constructed in two steps. Firstly, anatomical landmarks were outlined for each subject manually. The landmarks were found using the Talairach atlas, which is a 3 dimensional coordinate system used to map several areas of the brain, independently of the brain volume and shape. Secondly, each MRI volume from the patients were mapped to an average MRI from the previous subjects, to reduce impact of order effect. %TODO: Hvad er order effect?
+The mapping was performed with whole-brain linear (9-parameter) image similarity residual and not according to Talairach's piecewise linear model \cite{collins}. 
 
-Thus, they created a space, namely, MNI305 which is used in this project. The space is useful to compare the brain of different subjects and for a deep learning model to learn meaningful feature representations of such images. 
+Thus, they created a space, namely the MNI305 space, which is used in this project. The space is useful to compare the brain of different subjects and for a deep learning model to learn meaningful feature representations of such images. 
 
 
 \section{Data} 
@@ -260,18 +259,17 @@ Thus, they created a space, namely, MNI305 which is used in this project. The sp
 
 
 The data used in this project is from Alzheimer's Disease Neurosurgical Initiative (ADNI). This initiative unites researchers with study data to investigate and define the progression of Alzheimer's Disease (AD). 
-ADNI collects, validate and utilize data including magnetic resonance imaging (MRI), positron emission tomography (PET), genetics, cognitive tests, cerebrospinal fluid biomarkers (CSF) and blood biomarkers as predictors of the disease \cite{adni}.
-More specifically, this project will use MRI data from ADNI 1 \& 2. 
-Which was launched in October 24 2004. Originally this project was designed to find more accurate biomarkers for the early detection of AD.
+ADNI collects, validates and utilizes data, including magnetic resonance imaging (MRI), positron emission tomography (PET), genetics, cognitive tests, cerebrospinal fluid biomarkers (CSF) and blood biomarkers as predictors of the disease \cite{adni}.
+More specifically, this project will use MRI data from ADNI 1 \& 2, which was launched in October 24 2004. Originally this project was designed to find more accurate biomarkers for the early detection of AD.
 The ADNI project analyzed more than a thousand different brain scans from three different subject groups, namely, subjects with mild cognitive impairment (MCI), subjects with early AD and control subjects \cite{adni1}. 
 \\\\
-All of the data can be downloaded here: \url{https://ida.loni.usc.edu/} \newline
-Which is a website owned by Laboratory of Neuro Imaging (LONI). The core philophosy of LONI is \blockcquote{loni}{to increase the pace of discovery in neuroscience by better understanding how the brain works when it’s healthy and what goes wrong in disease}.
+All of the data used from the ADNI database can be downloaded here: \url{https://ida.loni.usc.edu/} \newline
+This website is owned by Laboratory of Neuro Imaging (LONI). The core philosophy of LONI is \blockcquote{loni}{to increase the pace of discovery in neuroscience by better understanding of how the brain works when it’s healthy and what goes wrong in disease}.
 
 
 \subsection{Data Demographics}
 %subj_id, age, etc. etc. - dette skal findes et sted på server eller ADNI hjemmeside 
-To get an understanding of the age distribution of the subjects used in this project and simple demographics, from figure \ref{fig:age} it can be seen, that the average overall age of subjects are 73.3 years. Furthermore, the proportion of men to women are close to 50\% making the ratio acceptable. The  potential for an inherent gender bias is also minimized by having the same number of samples for men and women. The data seen from the table is from ADNI1 and ADNI2 project \cite{adni} \cite{adni1} .
+To get an understanding of the simple demographics like age and gender distribution of the subjects used in this project, the figure and table below have been constructed. From figure \ref{fig:age}, it can be seen that the average overall age of subjects is 73.3 years. Furthermore, the proportion of men to women is close to 50\%. The potential for an inherent gender bias is thus low considering the ratio of men to women is almost equal.
 
 \begin{table}[H]
 	\begin{tabular}{llllll}
@@ -286,7 +284,7 @@ To get an understanding of the age distribution of the subjects used in this pro
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.9\linewidth]{imgs/age_distro}
-	\caption{A histogram of the age distribution among the subjects used in this project.} 
+	\caption{A histogram of the age distribution among the subjects in ADNI1 and ADNI2 \cite{adni,adni1}.}
 	\label{fig:age}
 \end{figure}
 
@@ -295,15 +293,14 @@ To get an understanding of the age distribution of the subjects used in this pro
 
 %Description of how images(raw) obtained from patients, number of images, type of subjects  
 
-The images from the ADNI dataset are from both different subjects and a plethora of studies around the world. 
+The images from the ADNI dataset are from both different subjects and a plethora of studies around the world.
 Each of the patients have multiple scans throughout the span of the ADNI project, however, we only use the baseline scan, which is the subjects first MRI-scan. 
 The MRI-scans are three dimensional images of the subjects brain. 
 The original image is in a \texttt{.mgz} file format which is a compressed mgh file. 
 This file format can store 3D-images, such as NifT1 files, which is 3-dimensional images of the brain. 
 %The fourth dimension contains metadata about the specific image such as subject\_id, gender, age etc.
-The raw images stems from the original analysis from 2004 and on wards. 
-There are in total 1562 %TODO perhaps more perhaps less?
-unique brain scans which are used in this project.
+The raw images stems from the original analysis from 2004 and onwards. There are in total 1562 %TODO perhaps more perhaps less? 
+unique brain scans, all of which are used in this project.
 
 \begin{figure}[H]
 	\centering
@@ -345,28 +342,29 @@ unique brain scans which are used in this project.
 
 \subsubsection{Data Preprocessing}
 
-In this project, the area of interest is the brain itself. A lot of different tools from the FreeSurfer Software Suite have been used to produce images of the brain. The brain images we used and how to obtain them will be described in the following. The raw images called \newline \texttt{
+In this project, the area of interest is the brain itself. A lot of different tools from the FreeSurfer Software Suite have been used to produce images of the brain. The brain images we used and how to obtain them will be described in the following. The raw image is called \newline \texttt{
 	% ADNI1\_baseline3T\_collection/002\_S\_0413/MPR\_\_\_\_N3\_\_Scaled\_2/2006-05-19\_16\_17\_47.0 /S14782/
-ADNI\_002\_S\_0413\_MR\_MPR\_\_\_\_N3\_\_Scaled\_2\_Br\_20081001114937668\_S14782\_I118675.nii}, see figure \ref{fig:screenshot001}. The first thing that happens in the preprocessing is the motion correction. If multiple images of the source volume has been taken, then correction for motion will be done by averaging all the images.
-Next step in the preprocessing is non-parametric non-uniformn intensity Normalization (N3), which corrects for intensity non-uniformity in the MR image.
-Then the talairach transformation happens. This, computes the affine transformation from the subjects original space into the MNI395 atlas.
+ADNI\_002\_S\_0413\_MR\_MPR\_\_\_\_N3\_\_Scaled\_2\_Br\_20081001114937668\_S14782\_I118675.nii} and is shown in figure \ref{fig:screenshot001}. The first thing that happens in the preprocessing is motion correction. If multiple images of the source volume has been taken, then correction for motion will be done by averaging all the images.
+Next step in the preprocessing is non-parametric non-uniform intensity Normalization (N3), which corrects for intensity non-uniformity in the MRI image.
+Then, the talairach transformation is applied. This computes the affine transformation from the subject's original space into the MNI395 atlas.
 Then, another normalization of the intensities in the original image is done. The itensity of all voxels are scaled so that the mean intensity of the white matter is 110 \cite{normalize}. 
-As the brain is the key area of interest the skull is stripped from the image. The skullstrip process is done by using Freesurfer Software Suite \cite{freesurfer}.
-In more depth the skull is removed by using a threshold.
-The FreeSurfer software will create files which can be used to check if too much brainmatter is removed in the process of skulstripping the raw image.
-Files which can be used to inspect this are: \texttt{brainmask.mgz, T1.mgz, brainmask.gcuts.mgz}
-Next EM (GCA) Registration is done. This computes and transforms to alugb \texttt{mri/nu.mgz} to the default GCA atlas frin FreeSurfer Home folder. Lastly, the CA Normalization happens, which outputs a normalized version of the skullstriped image. This is saved out as \texttt{mri/norm.mgz} and is going to be used as the data for each subject in this project \cite{reckon}.
+As the brain is the key area of interest as mentioned earlier, the skull is stripped from the image. The skull-stripping process is done by using Freesurfer Software Suite \cite{freesurfer}.
+More thoroughly, the skull is removed by using a threshold.
+The FreeSurfer software will create files which can be used to check if too much brain matter is removed in the process of skull-stripping the raw image.
+Files which can be used to inspect this include \texttt{brainmask.mgz, T1.mgz} and \texttt{brainmask.gcuts.mgz}.
+Now, EM (GCA) Registration is done. This computes and transforms to alugb %TODO: hva?
+\texttt{mri/nu.mgz} to the default GCA atlas from the FreeSurfer Home folder. Lastly, the CA Normalization happens, which outputs a normalized version of the skull-stripped image. This is saved as \texttt{mri/norm.mgz} and is going to be used as the data for each subject in this project \cite{reckon}.
 \\\\
-All human brains are different and the raw images are recorded in the subjects personal space. 
-In order to compare several brains a registration of the images has to be done to ensure they are all in the same coordinate reference system (CRS). 
+All human brains are different and the raw images are recorded in the subject's personal space. 
+In order to compare several brains, a registration of the images has to be done to ensure they are all in the same coordinate reference system (CRS). 
 A standard CRS for the common brain is called the Tailirach space. 
 Each of the raw images in the ADNI-dataset are registered to the Tailirach space using the \texttt{mni305.cor} template from FreeSurfer. 
-This is done using \texttt{mri\_vol2vol} which resamples a volume into another field-of-view. 
+This is done using \texttt{mri\_vol2vol}, which resamples a volume into another CRS. 
 In this project, a MNI305 transformation has been applied by resampling the original normalized images into talairach space using \texttt{\$subject/mri/transforms/talairach.xfm} %TODO Description of the registration 
 
 \subsubsection{Preprocessing Scripts}
-
-For this project two different type of preprocessing scripts have been used. These will be showed and described. The first script will apply a bunch of algorithms which are described in the previous section. Most importantly, it creates the \texttt{norm.mgz} image which is a skullstriped and normalized version of the subjects brain. The next script will create a version of \texttt{norm.mgz} in MNI305 space which is vital to be able to compare several human brains.
+%TODO: Det ville være federe at have i methods eller appendix måske
+For this project two different type of preprocessing scripts have been used. These will be shown and described. The first script will apply the many preprocessing algorithms described in the previous section. Most importantly, it creates the \texttt{norm.mgz} image, which, as mentioned earlier, is a skull-stripped and normalized version of the subject's brain. The next script will create a version of \texttt{norm.mgz} in the MNI305 space, which is vital to be able to compare several different people's brains.
 
 \begin{lstlisting}[language=bash,caption={FreeSurfer Preprocessing}]
 #!/bin/bash 
@@ -414,16 +412,16 @@ done
 \end{lstlisting}
 
 \noindent
-The produced \texttt{norm.mgz} can be illustrated using Freeview, a FreeSurfer Software used to display and look at 3D images. From this, we can see a big difference from the original image, which is also displayed here \ref{fig:screenshot001}.
+The produced \texttt{norm.mgz} can be illustrated using Freeview, a FreeSurfer Software used to display and examine 3D images. Displaying the new \texttt{norm.mgz} file, a big difference can be seen between the image before processing in figure \ref{fig:screenshot001} and after processing in figure \ref{fig:norm}.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.9\linewidth]{imgs/norm}
-	\caption{Above illustrates the \texttt{norm.mgz} for the subject \texttt{002\_S\_0413} in the subjects own space.} 
+	\caption{Above illustrates the \texttt{norm.mgz} for the subject \texttt{002\_S\_0413} in the subject's own normalized space.} 
 	\label{fig:norm}
 \end{figure}
 
-The next script utilize the mri\_vol2vol command which will use advanced registration to ensure the \texttt{norm.mgz} image to be in Talirach space using the mni305.cor.template - this will allow for compatability between the different subject images and to train a cycleGAN model to reconstruct between the two tesla domains.
+The next script utilizes the \texttt{mri\_vol2vol} command, which will use advanced registration to ensure the \texttt{norm.mgz} image is in Talirach space using the mni305.cor.template - this will allow for both compatability between the different subject images and opportunity to train a cycleGAN model to transfer between the two tesla domains.
 
 \begin{lstlisting}[language=bash,caption={FreeSurfer mri\_vol2vol}]
 #!/bin/bash 
@@ -446,12 +444,12 @@ done
 \end{lstlisting}
 
 \noindent
-The resulting image after the FreeSurfer preprocessing can be seen in the next figure. This image will resemble figure \ref{fig:norm}, but is in a different space where it have been aligned to MNI305 atlas. 
+The resulting image after the FreeSurfer preprocessing is shown in figure \ref{fig:norm305}. This image will resemble figure \ref{fig:norm}, but is in a different space, where it has been aligned to the MNI305 atlas. 
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{imgs/norm_305}
-	\caption{Above illustrates the \texttt{norm\_mni305.mgz} for the subject \texttt{002\_S\_0413} in the Tailarach space. This may look like \ref{fig:norm}, but if we were to open both of the images in same session, we can see that they cannot be displayed due to being in two different coordinate systems. } 
+	\caption{The \texttt{norm\_mni305.mgz} for the subject \texttt{002\_S\_0413} in the Tailarach space.} 
 	\label{fig:norm305}
 \end{figure}
 
@@ -463,14 +461,15 @@ The resulting image after the FreeSurfer preprocessing can be seen in the next f
 \subsubsection{Data Augmentation}
 % Hvis vi vælger at bruge augmentation
 
-Besides the immense preprocessing done with the FreeSurfer Software the images are also resized, center cropped, converted to float and normalized with a $ \mu = 0.5 $ and $ \sigma = 0.5$. Centercrop crops an image in the center, ensuring that when the image is converted to a tensor and has an arbitrary number of leading dimensions, it will be cropped correctly. Furthermore, the intensity values are normalized to avoid vanishing and exploding gradient problem when doing back propagation. 
+Besides the immense preprocessing done with the FreeSurfer Software Suite, the images are also resized, center cropped, converted to float and normalized with a $ \mu = 0.5 $ and $ \sigma = 0.5$. Centercrop crops an image in the center, ensuring that when the image is converted to a tensor and has an arbitrary number of leading dimensions, it will be cropped correctly. Furthermore, the intensity values are normalized to avoid the vanishing and exploding gradient problem when doing backpropagation.
 
 
 \subsection{Visualization of Data}
 % Slices of img, preview 
-This section aims to give a visualization of the preprocessed data. This will show what image data the cycleGANs in this project utilizes in the training section. The images are being constructed by thresholding one of the following dimension: \texttt{xy, xz, yz}. This creates xy-, xz- and yz-planes which are 2D-images. If an image is converted to a numpy nd array, the slicing would amount to: \texttt{slice = np.array([:,:,z])}, where $ z \in [1,256] $. Thus, we have 256 2D images for every 3D image resulting in $ 1.152 $ million training images. The training images are brain slices, of which can be seen in fig \ref{fig:slica_xy}, \ref{fig:slica_xz} and \ref{fig:slica_yz} \footnote{NB! The images in figures are from randomly selected slices and do not match on the 1.5T to 3T}. Three of the cycleGANs in this project will be trained on xy, xz and yz planes respectively. Lastly, a model will also be trained on random slices from the three planes. All the slices are created using the \texttt{create\_imgs\_1.5T.py} and \texttt{create\_imgs\_3T.py} python scripts which utilizes numpy and multiprocessing. The scripts can be seen in the appendix in section \ref{create_imgs_1.5T} and \ref{create_imgs_3T}.
-An important thing to note is that all black images are discarded. Which mean that there is some pixel value different from zero in the images that are used to train the cycleGAN. This is partly due to reducing the raw amount of training data, but also due to the fact that we do not need a cycleGAN to translate complete black images from 3T to 1.5T domain vice versa hence the arbitrariness. 
+This section aims to give a visualization of the preprocessed data. This will show what image data the cycleGANs in this project utilizes when training. The images are being constructed by thresholding one of the following dimension: \texttt{xy, xz, yz}. This creates xy-, xz- and yz-planes, which are 2D-images. If an image is converted to a numpy nd array, the slicing would amount to: \texttt{slice = np.array([:,:,z])}, where $ z \in [1,256] $. Thus, we have 256 2D images for every 3D image resulting in $ 1.152 $ million training images when perform this transformation for every subject used for training. The training images are brain slices, which can be seen in the figures \ref{fig:slica_xy}, \ref{fig:slica_xz} and \ref{fig:slica_yz} \footnote{The images in figures are from randomly selected slices and do not match on the 1.5T to 3T}. Three of the cycleGANs in this project will be trained on xy, xz and yz planes respectively. Lastly, a model will also be trained on the slices from all three planes. All the slices are created using the \texttt{create\_imgs\_1.5T.py} and \texttt{create\_imgs\_3T.py} python scripts which utilizes numpy and multiprocessing. The scripts can be seen in the appendix in section \ref{create_imgs_1.5T} and \ref{create_imgs_3T}.
+An important thing to note is that all black images are discarded. This means only slices with at least one pixel value different from zero are used to train the cycleGAN. This is partly a way to reduce the raw amount of training data, but it is also done because a cycleGAN would never need to learn to translate completely black images from 3T to 1.5T and vice versa, since the black slices can be removed from the image before conversion and reinserted afterwards.
 
+%TODO: Nævn noget om denne figur, den ankommer meget pludseligt
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -509,7 +508,7 @@ An important thing to note is that all black images are discarded. Which mean th
 \subsection{Trade off of using MRI}
 %TODO Talk about voxels ( a voxel and encode information about two distinct areas in the brain in same number.see: https://www.youtube.com/watch?v=6wxJ1up-E7E&list=PLIQIswOrUH6_DWy5mJlSfj6AWY0y9iUce )
 
-MRI data come off a MR-scanner in the form of volumes. These 3D images can be compared to centicubes which together form a big square, where the brain is inside. Each centicube in this image is often referred to as a voxel and each voxel contains a value that represents the intensity value in the specific area - see figure \ref{fig:voxel}. For T1 weighted or structural images this determines the boundary between gray matter \& white matter from cerebrospinal fluid. In T2 weighted images it represents more active voxels to  less active voxels. However, voxels do have certain issues i.e. a voxel can encompass information about two anatomically distinct areas. If a voxel for example encompass two different gyrus. Furthermore, it is much harder to measure structural properties such as grey matter thickness or volume, which might be important for Alzheimer classification. FreeSurfer Software can help by turning the 3D representation into a 2D representation using triangles. The points of the triangles are vertices and they are connected by an edge. Each vertex then contain measurements such as gray matter volume and thickness, area, curvature etc. These surfaces can then be inflated to visualize where MRI activations and gray matter differences are located more precisely than the voxel representation. 
+MRI data is constructed from an MR-scanner in the form of volumes. These 3D images can be compared to centicubes, which together form a big square, where the brain is inside. Each centicube in this image is often referred to as a voxel, and each voxel contains a value that represents the intensity value in the specific area - see figure \ref{fig:voxel}. For T1 weighted or structural images, this determines the boundary between gray matter \& white matter from cerebrospinal fluid. In T2 weighted images, it represents more active voxels to  less active voxels. However, voxels do have certain issues e.g. a voxel can encompass information about two anatomically distinct areas, like if a voxel encompasses two different gyri. Furthermore, it is hard to measure structural properties such as grey matter thickness or volume, which might be important for Alzheimer classification. FreeSurfer Software can help by turning the 3D representation into a 2D representation using triangles. The points of the triangles are vertices and they are connected by an edge. Each vertex then contain measurements such as gray matter volume and thickness, area, curvature etc. These surfaces can then be inflated to visualize where MRI activations and gray matter differences are located more precisely than the voxel representation would have allowed for. 
 
 \begin{figure}[H]
 	\centering
@@ -1964,8 +1963,7 @@ The regulations should be build upon the safe AI principles, but should also inc
 \newpage
 \section{Appendix}\label{appendix}
 %TODO: Skriv måske en introduktion til sektionen og dens undersektioner
-%\texttt{\texttt{
-%
+
 %\subsection{Showcase of Code}\label{showcase_code}
 %%TODO: HUSK AT OPDATERE FILERNE INDE I REPORTS/SCR INDEN AFLEVERING
 %%TODO: HUSK AT OPDATERE FILERNE INDE I REPORTS/SCR INDEN AFLEVERING
@@ -2231,13 +2229,13 @@ The regulations should be build upon the safe AI principles, but should also inc
 %	\centering
 %	\begin{subfigure}[b]{0.8\textwidth}
 %		\centering
-%		\includegraphics[width=\linewidth]{imgs/placeholder_identity_losses}
+%		\includegraphics[width=\linewidth]{imgs/horse2zebra_generator_losses}
 %		\hfill
-%		\includegraphics[width=\linewidth]{imgs/placeholder_identity_losses}
+%		\includegraphics[width=\linewidth]{imgs/horse2zebra_discriminator_losses}
 %		\hfill
-%		\includegraphics[width=\linewidth]{imgs/placeholder_identity_losses}
+%		\includegraphics[width=\linewidth]{imgs/horse2zebra_cycle_losses}
 %		\hfill
-%		\includegraphics[width=\linewidth]{imgs/placeholder_identity_losses}
+%		\includegraphics[width=\linewidth]{imgs/horse2zebra_identity_losses}
 %		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been implemented in upsampling.}
 %		%		\label{fig:troubleshootb}
 %	\end{subfigure}
@@ -2788,79 +2786,79 @@ The regulations should be build upon the safe AI principles, but should also inc
 %\end{figure}
 %
 %
-%\subsubsection{Quality Comparison to Real Images}
-%%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
-%%TODO: Vis originale heste- og zebrabilleder i kolonne 1 og 3 og genererede heste- og zebrabilleder i kolonne 2 og 4.
-%\begin{figure}[H]
-%	\centering
-%	\begin{subfigure}[b]{0.8\textwidth}
-%		\centering
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%	\end{subfigure}
-%	\vskip\ripper
-%	\begin{subfigure}[b]{0.8\textwidth}
-%		\centering
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%	\end{subfigure}
-%	\vskip\ripper
-%	\begin{subfigure}[b]{0.8\textwidth}
-%		\centering
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%	\end{subfigure}
-%	\vskip\ripper
-%	\begin{subfigure}[b]{0.8\textwidth}
-%		\centering
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%	\end{subfigure}
-%	\vskip\ripper
-%	\begin{subfigure}[b]{0.8\textwidth}
-%		\centering
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%	\end{subfigure}
-%	\vskip\ripper
-%	\begin{subfigure}[b]{0.8\textwidth}
-%		\centering
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%	\end{subfigure}
-%	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
-%	%	\label{fig:troubleshoot}
-%\end{figure}
+%%\subsubsection{Quality Comparison to Real Images}
+%%%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%%%TODO: Vis originale heste- og zebrabilleder i kolonne 1 og 3 og genererede heste- og zebrabilleder i kolonne 2 og 4.
+%%\begin{figure}[H]
+%%	\centering
+%%	\begin{subfigure}[b]{0.8\textwidth}
+%%		\centering
+%%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+%%		\hskip\skipper
+%%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+%%		\hskip\skipper
+%%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+%%		\hskip\skipper
+%%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+%%	\end{subfigure}
+%%	\vskip\ripper
+%%	\begin{subfigure}[b]{0.8\textwidth}
+%%		\centering
+%%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+%%		\hskip\skipper
+%%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+%%		\hskip\skipper
+%%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+%%		\hskip\skipper
+%%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+%%	\end{subfigure}
+%%	\vskip\ripper
+%%	\begin{subfigure}[b]{0.8\textwidth}
+%%		\centering
+%%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+%%		\hskip\skipper
+%%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+%%		\hskip\skipper
+%%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+%%		\hskip\skipper
+%%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+%%	\end{subfigure}
+%%	\vskip\ripper
+%%	\begin{subfigure}[b]{0.8\textwidth}
+%%		\centering
+%%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+%%		\hskip\skipper
+%%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+%%		\hskip\skipper
+%%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+%%		\hskip\skipper
+%%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+%%	\end{subfigure}
+%%	\vskip\ripper
+%%	\begin{subfigure}[b]{0.8\textwidth}
+%%		\centering
+%%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+%%		\hskip\skipper
+%%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+%%		\hskip\skipper
+%%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+%%		\hskip\skipper
+%%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+%%	\end{subfigure}
+%%	\vskip\ripper
+%%	\begin{subfigure}[b]{0.8\textwidth}
+%%		\centering
+%%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+%%		\hskip\skipper
+%%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
+%%		\hskip\skipper
+%%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+%%		\hskip\skipper
+%%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+%%	\end{subfigure}
+%%	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
+%%	%	\label{fig:troubleshoot}
+%%\end{figure}
 %
 %
 %\subsubsection{Discussion of Results}
