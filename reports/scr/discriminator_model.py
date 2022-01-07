@@ -1,5 +1,6 @@
 import torch 
 import torch.nn as nn
+from torchsummary import summary
 
 
 class Block(nn.Module):
@@ -38,6 +39,7 @@ def test():
     preds = model(x)
     print(f'Shape of pred is: {preds.shape} \n')
     print(f'Model: \n {preds}')
+    print(summary(model, (1, 256, 256)))
 
 if __name__ == "__main__":
     test()

@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 from torch.nn.modules import padding
 from torch.nn.modules.conv import Conv2d 
-from torchsummary import summary
 
 class ConvBlock(nn.Module):
     def __init__(self, in_channels, out_channels, down = True, use_act =  True, **kwargs):
@@ -72,10 +71,9 @@ def test():
     img_channel = 3
     img_size = 256
     x = torch.randn((1, img_channel, img_size, img_size))
-    gen = Generator(img_channel, num_features = 64, num_residuals=9)
+    gen = Generator(img_channel, 9)
     print(gen)
     print(gen(x).shape)
-    summary(gen, (img_channel, img_size, img_size))
 
 if __name__ == '__main__':
     test()

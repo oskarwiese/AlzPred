@@ -1,0 +1,28 @@
+Næste møde er mandag kl 12
+
+TODOS FRA SIDSTE GANG:
+Få kørt XY, XZ, YZ, ALL, horse2zebra og startet på classifier
+Skriv næsten hele rapporten
+sæt resultater ind for alt der har kørt
+
+
+SPØRGSMÅL:
+Hvor meget arbejde skal vi komme i at få classifieren til at virke godt?
+
+Er det et dårligt tegn, at billederne fra MRI cyclegannen ser så ens ud med deres input?
+
+
+
+KOMMENTARER:
+
+
+
+TODOS TIL NÆSTE GANG:
+Træk billeder fra hinanden og se billedet med forkselle
+Tjek RMSE loss mellem en masse af billederne og se om den relative forksel bliver lavere, hvis man bruger genererede billeder i stedet for ægte billeder
+
+Gør classifieren langt mere simpel
+Lav en classifier til at den originale træningsdata for 1.5 og 3
+Lav endnu en classifier til generedede billeder, så vi kan undersøge om t-sne billederne har mindre bias
+
+
