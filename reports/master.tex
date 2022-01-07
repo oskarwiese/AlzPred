@@ -1347,93 +1347,39 @@ This section will focus on showing relevant outputs of the final trained models.
 
 \subsection{XY RMSE Calculations}
 %TODO:
-%TODO: Dette skal være tabel over RMSE-værdier og deres forskelle mellem 1.5GT-3GT mod 1.5generated-3GT for xy-modellen.
+%TODO: Dette skal være tabel over gennemsnitlige RMSE-værdier og geometric accuracies for alle modellerne.
 %TODO:
 \begin{table}[H]
 	\begin{center}
-		\begin{tabular}{l l l l l l l l l l}
+		\begin{tabular}{l l l l l l}
 			\toprule
-			& \textbf{Package \cite{python_packages}}      & & & & & & & \textbf{Version}  & \\ \midrule
-			& torchvision   & & & & & & & $0.10.0$ & \\
-			& pelutils \cite{pelutils}      & & & & & & & $0.6.9$  & \\
-			& torch         & & & & & & & $1.9.0$  & \\
-			& tqdm          & & & & & & & $4.62.3$ & \\
-			& numpy \cite{numpy}        & & & & & & & $1.21.2$ & \\
-			& matplotlib \cite{matplotlib}   & & & & & & & $3.4.3$  & \\
-			& random        & & & & & & & $a$      & \\
-			& os            & & & & & & & $a$      & \\
-			& PIL \cite{pil}           & & & & & & & $a$      & \\
-			& albumentations \cite{albumentations} & & & & & & & $1.1.0$  & \\ \bottomrule
+			& \textbf{Model} & \textbf{Avg. Orig.} & \textbf{Avg. Gen.} & \textbf{Avg. Diff.} & \\ \midrule
+			&                        \multicolumn{4}{c}{\textbf{RMSE}}                          & \\
+			&XY                & $1.5344$            & $1.0253$           & $0.5090$            & \\
+			&XZ                &                     &                    &                     & \\
+			&YZ                &                     &                    &                     & \\
+			&ALL               &                     &                    &                     & \\
+			 \bottomrule
 		\end{tabular}
+		\caption{}
+		\label{tab:metrics}
 	\end{center}
 \end{table}
 
-\subsection{XZ RMSE Calculations}
-%TODO:
-%TODO: Dette skal være tabel over RMSE-værdier og deres forskelle mellem 1.5GT-3GT mod 1.5generated-3GT for xz-modellen.
-%TODO:
 \begin{table}[H]
 	\begin{center}
-		\begin{tabular}{l l l l l l l l l l}
+		\begin{tabular}{l l l l l}
 			\toprule
-			& \textbf{Package \cite{python_packages}}      & & & & & & & \textbf{Version}  & \\ \midrule
-			& torchvision   & & & & & & & $0.10.0$ & \\
-			& pelutils \cite{pelutils}      & & & & & & & $0.6.9$  & \\
-			& torch         & & & & & & & $1.9.0$  & \\
-			& tqdm          & & & & & & & $4.62.3$ & \\
-			& numpy \cite{numpy}        & & & & & & & $1.21.2$ & \\
-			& matplotlib \cite{matplotlib}   & & & & & & & $3.4.3$  & \\
-			& random        & & & & & & & $a$      & \\
-			& os            & & & & & & & $a$      & \\
-			& PIL \cite{pil}           & & & & & & & $a$      & \\
-			& albumentations \cite{albumentations} & & & & & & & $1.1.0$  & \\ \bottomrule
+			& \textbf{Model}   & \textbf{Avg. Pixels} & \textbf{Avg. Norm}  & \\ \midrule
+			&      \multicolumn{3}{c}{\textbf{Geometric Accuracy}}          & \\
+			&XY                & 14678174.659         & 0.8749              & \\
+			&XZ                &                      &                     & \\
+			&YZ                &                      &                     & \\
+			&ALL               &                      &                     & \\
+			\bottomrule
 		\end{tabular}
-	\end{center}
-\end{table}
-
-\subsection{YZ RMSE Calculations}
-%TODO:
-%TODO: Dette skal være tabel over RMSE-værdier og deres forskelle mellem 1.5GT-3GT mod 1.5generated-3GT for yz-modellen.
-%TODO:
-\begin{table}[H]
-	\begin{center}
-		\begin{tabular}{l l l l l l l l l l}
-			\toprule
-			& \textbf{Package \cite{python_packages}}      & & & & & & & \textbf{Version}  & \\ \midrule
-			& torchvision   & & & & & & & $0.10.0$ & \\
-			& pelutils \cite{pelutils}      & & & & & & & $0.6.9$  & \\
-			& torch         & & & & & & & $1.9.0$  & \\
-			& tqdm          & & & & & & & $4.62.3$ & \\
-			& numpy \cite{numpy}        & & & & & & & $1.21.2$ & \\
-			& matplotlib \cite{matplotlib}   & & & & & & & $3.4.3$  & \\
-			& random        & & & & & & & $a$      & \\
-			& os            & & & & & & & $a$      & \\
-			& PIL \cite{pil}           & & & & & & & $a$      & \\
-			& albumentations \cite{albumentations} & & & & & & & $1.1.0$  & \\ \bottomrule
-		\end{tabular}
-	\end{center}
-\end{table}
-
-\subsection{ALL RMSE Calculations}
-%TODO:
-%TODO: Dette skal være tabel over RMSE-værdier og deres forskelle mellem 1.5GT-3GT mod 1.5generated-3GT for all-modellen.
-%TODO:
-\begin{table}[H]
-	\begin{center}
-		\begin{tabular}{l l l l l l l l l l}
-			\toprule
-			& \textbf{Package \cite{python_packages}}      & & & & & & & \textbf{Version}  & \\ \midrule
-			& torchvision   & & & & & & & $0.10.0$ & \\
-			& pelutils \cite{pelutils}      & & & & & & & $0.6.9$  & \\
-			& torch         & & & & & & & $1.9.0$  & \\
-			& tqdm          & & & & & & & $4.62.3$ & \\
-			& numpy \cite{numpy}        & & & & & & & $1.21.2$ & \\
-			& matplotlib \cite{matplotlib}   & & & & & & & $3.4.3$  & \\
-			& random        & & & & & & & $a$      & \\
-			& os            & & & & & & & $a$      & \\
-			& PIL \cite{pil}           & & & & & & & $a$      & \\
-			& albumentations \cite{albumentations} & & & & & & & $1.1.0$  & \\ \bottomrule
-		\end{tabular}
+		\caption{}
+		\label{tab:metrics}
 	\end{center}
 \end{table}
 
