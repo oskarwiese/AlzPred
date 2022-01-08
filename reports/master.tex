@@ -1435,8 +1435,8 @@ This section will focus on showing relevant outputs of the final trained models.
 			& \textbf{Model} & \textbf{Avg. Orig.} & \textbf{Avg. Gen.} & \textbf{Avg. Diff.} & \\ \midrule
 			&                        \multicolumn{4}{c}{\textbf{RMSE}}                          & \\
 			&XY                & $1.5344$            & $1.0253$           & $0.5090$            & \\
-			&XZ                & $1.5344$            &            &                     & \\
-			&YZ                &                     &                    &                     & \\
+			&XZ                & $1.5344$            & $1.1691$           & $0.3653$            & \\
+			&YZ                & $1.5344$            & $1.0311$           & $0.5033$                    & \\
 			&ALL               &                     &                    &                     & \\
 			 \bottomrule
 		\end{tabular}
@@ -1451,9 +1451,9 @@ This section will focus on showing relevant outputs of the final trained models.
 			\toprule
 			& \textbf{Model}   & \textbf{Avg. Pixels} & \textbf{Avg. Norm}  & \\ \midrule
 			&      \multicolumn{3}{c}{\textbf{Geometric Accuracy}}          & \\
-			&XY                & 14678174.659         & 0.8749              & \\
-			&XZ                &                      &                     & \\
-			&YZ                &                      &                     & \\
+			&XY                & $14678174.659$       & $0.8749$            & \\
+			&XZ                & $14603704.886$       & $0.8704$            & \\
+			&YZ                & $14593826.818$       & $0.8699$            & \\
 			&ALL               &                      &                     & \\
 			\bottomrule
 		\end{tabular}
@@ -2013,14 +2013,20 @@ Even though the discriminators are not nearly as important after having trained 
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{imgs/horse2zebra_generator_losses}
+		\phantomsubcaption
+		\label{fig:horse2zebra_generator_loss}
 		\hfill
 		\includegraphics[width=\linewidth]{imgs/horse2zebra_discriminator_losses}
+		\phantomsubcaption
+		\label{fig:horse2zebra_discriminator_loss}
 		\hfill
 		\includegraphics[width=\linewidth]{imgs/horse2zebra_cycle_losses}
+		\phantomsubcaption
+		\label{fig:horse2zebra_cycle_loss}
 		\hfill
 		\includegraphics[width=\linewidth]{imgs/horse2zebra_identity_losses}
-		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been implemented in upsampling.}
-		%		\label{fig:troubleshootb}
+		\phantomsubcaption
+		\label{fig:horse2zebra_identity_loss}
 	\end{subfigure}
 	\caption{Respectively, the generator, discriminator, cycle-consistency and identity losses. The model was run for 140 epochs, since this was the maximum amount of epochs the model was allowed to run on the HPC.}
 	\label{fig:horse2zebra_losses}
