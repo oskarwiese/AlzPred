@@ -1356,7 +1356,7 @@ This section will focus on showing relevant outputs of the final trained models.
 			& \textbf{Model} & \textbf{Avg. Orig.} & \textbf{Avg. Gen.} & \textbf{Avg. Diff.} & \\ \midrule
 			&                        \multicolumn{4}{c}{\textbf{RMSE}}                          & \\
 			&XY                & $1.5344$            & $1.0253$           & $0.5090$            & \\
-			&XZ                &                     &                    &                     & \\
+			&XZ                & $1.5344$            &            &                     & \\
 			&YZ                &                     &                    &                     & \\
 			&ALL               &                     &                    &                     & \\
 			 \bottomrule
@@ -1926,9 +1926,6 @@ Even though the discriminators are not nearly as important after having trained 
 
 
 \subsubsection{Losses}
-
-%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
-%TODO: Tanken er at denne figure indeholder alle fire losses. Ellers kan de opdeles med hver deres figurtekst
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.8\textwidth}
@@ -1943,13 +1940,11 @@ Even though the discriminators are not nearly as important after having trained 
 		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been implemented in upsampling.}
 		%		\label{fig:troubleshootb}
 	\end{subfigure}
-	%	\caption{text}
-	%	\label{key}
+	\caption{Respectively, the generator, discriminator, cycle-consistency and identity losses. The model was run for 140 epochs, since this was the maximum amount of epochs the model was allowed to run on the HPC.}
+	\label{fig:horse2zebra_losses}
 \end{figure}
 
 \subsubsection{Progress of Generating Horses}
-
-%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.8\textwidth}
@@ -2016,14 +2011,12 @@ Even though the discriminators are not nearly as important after having trained 
 		\hskip\skipper
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/59_140_fake_b}
 	\end{subfigure}
-	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
-	%	\label{fig:troubleshoot}
+	\caption{Progress of training the horse2zebra cyclegan. The rows represent unique images and the columns show the generator output after $0$, $20$, $40$, $60$, and $140$ epochs. Since training converges over time, it has been deemed more interesting to look at the first epochs than the ones later in training. The subjects in this figure are used throughout the rest of this section, and have been chosen as the best generated images in a set of 40 images.}
+	\label{fig:horse2zebra_progress_horse}
 \end{figure}
 
 
 \subsubsection{Progress of Generating Zebras}
-
-%TODO: Skriv figurtekst
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.8\textwidth}
@@ -2090,14 +2083,12 @@ Even though the discriminators are not nearly as important after having trained 
 		\hskip\skipper
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/51_140_fake_a}
 	\end{subfigure}
-	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
-	%	\label{fig:troubleshoot}
+	\caption{Like in the above figure, this figure shows the progress of training the horse2zebra cyclegan after $0$, $20$, $40$, $60$, and $140$ epochs. The subjects in this figure are used throughout the rest of this section, and have been chosen as the best generated images in a set of 40 images.}
+	\label{fig:horse2zebra_progress_zebra}
 \end{figure}
 
 
 \subsubsection{Testing Cycle-Consistency}
-%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
-%TODO: Vis originalt billede i kolonne 1, transformeret billede i kolonne 2 og dobbelttransformeret billede i kolonne 2 (for heste). Kolonne 4, 5 og 6 er det samme for zebraer.
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.8\textwidth}
@@ -2107,7 +2098,7 @@ Even though the discriminators are not nearly as important after having trained 
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/a-b/1_fake_b}
 		\hskip\skipperer
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/a-b/1_fake_a}
-		\hskip\skipper
+		\hskip2.8pt
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/b-a/22_real_a}
 		\hskip\skipperer
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/b-a/22_fake_b}
@@ -2122,7 +2113,7 @@ Even though the discriminators are not nearly as important after having trained 
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/a-b/5_fake_b}
 		\hskip\skipperer
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/a-b/5_fake_a}
-		\hskip\skipper
+		\hskip2.8pt
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/b-a/31_real_a}
 		\hskip\skipperer
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/b-a/31_fake_b}
@@ -2137,7 +2128,7 @@ Even though the discriminators are not nearly as important after having trained 
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/a-b/23_fake_b}
 		\hskip\skipperer
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/a-b/23_fake_a}
-		\hskip\skipper
+		\hskip2.8pt
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/b-a/33_real_a}
 		\hskip\skipperer
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/b-a/33_fake_b}
@@ -2152,7 +2143,7 @@ Even though the discriminators are not nearly as important after having trained 
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/a-b/40_fake_b}
 		\hskip\skipperer
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/a-b/40_fake_a}
-		\hskip\skipper
+		\hskip2.8pt
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/b-a/40_real_a}
 		\hskip\skipperer
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/b-a/40_fake_b}
@@ -2167,154 +2158,77 @@ Even though the discriminators are not nearly as important after having trained 
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/a-b/59_fake_b}
 		\hskip\skipperer
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/a-b/59_fake_a}
-		\hskip\skipper
+		\hskip2.8pt
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/b-a/51_real_a}
 		\hskip\skipperer
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/b-a/51_fake_b}
 		\hskip\skipperer
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/b-a/51_fake_a}
 	\end{subfigure}
-	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
-	%	\label{fig:troubleshoot}
+	\caption{Images reconstructed by running the chosen sample images through the horse2zebra CycleGAN. The first column contains the original image, second image shows the generator having converted the image the the opposite class and the third image contains the cycle-consistency image, where the original class is reconstructed from the second image. This aims to show how well the CycleGAN generates images and converts them back again. \textbf{Right three columns:} Horses converted to zebras and back to horses again. \textbf{Left three columns:} Zebras converted to horses and back.}
+	\label{fig:norse2zebra_cycle_consistency}
 \end{figure}
 
 \subsubsection{Testing Identity}
-%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
-%TODO: Vis originalt billede i kolonne 1, transformeret billede i kolonne 2 for heste. Kolonne 3, 4 er det samme for zebraer.
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/1_140_real_a}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/1_140_fake_a}
-		\hskip\skipper
+		\hskip2.8pt
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/22_140_real_b}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/22_140_fake_b}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/5_140_real_a}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/5_140_fake_a}
-		\hskip\skipper
+		\hskip2.8pt
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/31_140_real_b}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/31_140_fake_b}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/23_140_real_a}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/23_140_fake_a}
-		\hskip\skipper
+		\hskip2.8pt
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/33_140_real_b}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/33_140_fake_b}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/40_140_real_a}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/40_140_fake_a}
-		\hskip\skipper
+		\hskip2.8pt
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/40_140_real_b}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/40_140_fake_b}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/59_140_real_a}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/59_140_fake_a}
-		\hskip\skipper
+		\hskip2.8pt
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/51_140_real_b}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/51_140_fake_b}
 	\end{subfigure}
-	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
-	%	\label{fig:troubleshoot}
+	\caption{Images run through the "wrong" model such that horses are generated from horses and zebras are generated from zebras to analyze how well the model avoids modifying images that are already part of the target class. The first column of each class contains the real image and the second column shows the generated image after applying the generator that generates the same class. \textbf{Right two columns:} A horse image generated into a horse image. \textbf{Left two columns:} A zebra image generated to zebra image.}
+	\label{fig:horse2zebra_identity}
 \end{figure}
-
-
-%\subsubsection{Quality Comparison to Real Images}
-%%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
-%%TODO: Vis originale heste- og zebrabilleder i kolonne 1 og 3 og genererede heste- og zebrabilleder i kolonne 2 og 4.
-%\begin{figure}[H]
-%	\centering
-%	\begin{subfigure}[b]{0.8\textwidth}
-%		\centering
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%	\end{subfigure}
-%	\vskip\ripper
-%	\begin{subfigure}[b]{0.8\textwidth}
-%		\centering
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%	\end{subfigure}
-%	\vskip\ripper
-%	\begin{subfigure}[b]{0.8\textwidth}
-%		\centering
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%	\end{subfigure}
-%	\vskip\ripper
-%	\begin{subfigure}[b]{0.8\textwidth}
-%		\centering
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%	\end{subfigure}
-%	\vskip\ripper
-%	\begin{subfigure}[b]{0.8\textwidth}
-%		\centering
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%	\end{subfigure}
-%	\vskip\ripper
-%	\begin{subfigure}[b]{0.8\textwidth}
-%		\centering
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%	\end{subfigure}
-%	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
-%	%	\label{fig:troubleshoot}
-%\end{figure}
 
 
 \subsubsection{Discussion of Results}
