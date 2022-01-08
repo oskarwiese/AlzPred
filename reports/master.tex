@@ -527,9 +527,7 @@ MRI data is constructed from an MR-scanner in the form of volumes. These 3D imag
 This section introduces what technical background has been used in the duration of this project as well as which types of models have been trained. Section \ref{camillas_model} introduces the classification network used to find and analyze the bias present in using both 1.5T and 3T MRI images for analysis. Section \ref{gan} and \ref{cyclegan} consider the intuition and mathematical theory behind implementing GAN's and cycleGAN's. The GAN has been trained on the MNIST hand-drawn digit dataset as a preliminary introduction to GAN's. The results of training this model is found in section \ref{MNIST_GAN}. As for the cycleGAN, five total models have been implemented on various datasets. One of these models was trained on the horse2zebra dataset used in the original cycleGAN paper \cite{original_cyclegan} as another preliminary experiment and as an introduction to cycleGANs. The result of this preliminary run is located in section \ref{horse2zebra_cyclegan}. The four other models have been trained on different variations of the MRI \texttt{nii}-files %TODO: Er det det de hedder?
  mentioned above. One has been trained on slices from the $x$-axis (YZ), another from the $y$-axis (XZ), yet another on the $z$-axis (XY). The last model has been trained on all (all) of these images simultaneously. The goal was to test the best approach for reconstructing 1.5T images from 3T images, and to see if the all-model could hold up to the quality of the other models. The specifics about training variables, hyperparameters, etc. are located in section \ref{model_specifics}. Since these models are not easy to train \cite{hard_to_train}, section \ref{troubleshooting} relays multiple issues along the training process and how they were eventually fixed. Lastly, section \ref{reproducibility} discusses what has been done to ensure reproducible results.
 
-\subsection{Neural Network for Alzheimer's Disease Classification} \label{camillas_model}
-%TODO: Endten mere info eller smid det hele i classifier-sektionen.
-In the original Alzheimer's disease classification paper by Camilla, a neural network was used to determine whether each patient had AD. Since this model was full of bias when used on the original data, we used this same model to compare and contrast if the below methods succeeded in removing the most prominent biases from the model. The model was implemented as a PyTorch neural network with 12 convolution layers using ReLU as activation function between each layer. This was followed by a fully connected layer with sigmoid activation to output the probability of each class (sick or healthy). A much more detailed breakthrough of the general project and architecture of the neural network can be seen in \cite{CamillaKandidat}.
+
 
 \subsection{Generative Adversarial Network}\label{gan}
 Since the meat and potatoes of this project is the cycleGAN, the methods and mathematical understanding behind Generative Adversarial Networks (GANs) are important to grasp before diving deep into the theory of cycleGANs. A GAN was implemented on the MNIST dataset as a preliminary trail to help understand the basics. This implementation can be seen in the python script \texttt{train\_GAN.py}. An older version of the same code is also accessible as a Jupyter Notebook in our GitHub repository  \href{https://github.com/oskarwiese/AlzPred/blob/main/preliminary/GAN_MNIST.ipynb}{here}. This implementation in collaboration with this section will hopefully help to give the proper insight into the reasoning and intuition behind cycleGANs later in this section.
@@ -907,8 +905,89 @@ Another issue entirely turned out to be that the vast number of input images all
 
 Many solution to the problem of mode collapse exist, some being much easier to implement than other. Easier solutions include reducing the learning rate, making separate learning rates for the discriminators and generators and only updating the discriminator if the accuracy of the discriminator in the current step is under 50\%. Harder solutions include implementing instance noise, making the generator better or making the discriminator worse. For the discriminators in this project, it turned out that it was enough to implement the accuracy check before updating the discriminators, reducing the learning rate and making separate learning rates for generators and discriminators. The others methods have been left in this section for future reference \cite{mode_collapse_reddit_fix}\cite{mode_collapse_github}. After implementing these fixes, the model was able to generate output samples from a much larger distribution, which indicates that the mode collapse has been fixed. A number of generated images can be seen in section \ref{results}.
 
-\subsubsection{Classifier}
+\subsection{Classifier}
 %TODO: Skriv sektion om classifier. Overvej om første subsection skal med herned
+
+In order to investigate whether a cycleGAN can be used to remove bias from a classifier, this project will introduce a CNN (Convolutional Neural Network), inspired heavily by Basai et al. and Camilla Kergel \cite{CamillaKandidat} \cite{neuro}. This section will present the architecture of the CNN, the used hyper parameters as well as some highlighted differences from the other papers.
+
+\subsubsection{Neural Network for Alzheimer's Disease Classification} \label{camillas_model}
+%TODO: Endten mere info eller smid det hele i classifier-sektionen.
+In recent work with Alzheimer's disease classification by Camilla, a neural network was used to determine whether each patient had AD. Since this model was full of bias when used on the original data, we used a very similar model to compare and contrast if the above described methods succeeds in removing the most prominent biases from the model, namely, the difference between 1.5T and 3T images. The model was implemented as a PyTorch neural network with 6 convolution layers using ReLU as activation function between each layer. This was followed by a fully connected layer with sigmoid activation to output the probability of each class (sick or healthy).  \cite{CamillaKandidat}.
+
+\subsubsection{Deep Neural Network Model}
+
+	%TODO introduce layers
+	The implemented netowrk is a convolutional neural network (CNN) which is a special type of deep neural network. The name stems from the most important operation in the network which is convolutions. In short, a convolution is the process of convolving a kernel with the image. An example of convolutions and a simple step in the convolution between an image named input and a horizontal Sobel filter can be seen in figure \ref{fig:convolution}.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth, trim={0 0 69cm 0},clip]{imgs/convolution}
+		\caption{Here the input is an image with dimensions 6x6, corresponding to 36 pixels. The kernel is a famous filter called the Sobel filter and is used for edge detection. In this case it is simply a 3x3 matrix: 
+			\[ \text{Kernel} = \begin{bmatrix}
+				-1 & -2 & -1 & \\ 0 & 0 & 0 &  \\
+				1 & 2 & 1
+			\end{bmatrix}  \] 
+		One convolution corresponds to multiplying the matrix with every possible space in the 6x6 input image. The stride in this example is one, which refers to how the kernel is moved across the image. If no padding is applied to the input image the dimension of the output image after the convolution will be smaller. In this example the image will shrink from 6x6 to 4x4. To be put simply the kernel is slid across the width and height of the input and the dot products between the input and kernel are computed at every spatial position. \cite{cnn_paper} }
+		\label{fig:convolution}
+	\end{figure}
+	
+	The kernels in a convolutional neural network are learnable parameters. The dimension of the kernels are smaller than the input, which in turn will reduce the dimension of the input image. All padding are set to zero, which also can be seen in the source code %TODO ref soruce.  
+	In this project the three main type of layers in the network model are:
+
+	\begin{itemize}
+	\item Convolutional Layers 
+	\item ReLU to ensure non-linearity 
+	\item Classification in terms of Fully Connected Layers
+	\end{itemize}
+	
+	The classifier in this project is trained on 80\& of the available data and is tested on the last 20 \%. As for hyperparameters consult following table.
+	
+	\begin{table}[H]\label{hyperparams}
+		\centering
+		\begin{tabular}{l l l l l l l l l}
+			\toprule
+			& \textbf{Hyperparameter}           &&&&& & \textbf{Value}    & \\ \midrule
+			& Train-test split         &&&&& & $0.8/0.2$& \\
+			& Dropout $[p]$            &&&&& & $0.15$    & \\ 
+			& Learning rate $[\alpha]$ &&&&& & $0.0001$  & \\ 
+			& Epochs                   &&&&& & $400$    & \\  \bottomrule
+		\end{tabular}
+	\end{table}
+	
+	
+	 The optimization algorithm used in the classifier is Adaptive Moment Estimation (Adam). This optimizer utilize adaptive learning rate and step size based on the momentum. The activation function used is the rectified linear unit (ReLU), which is defined as $ y = \text{max}(0,x) $. ReLU will ensure non-linearity in the model making the parameters more expressible and making the model more generalizable and robust. Sigmoid is used on the last layer to ensure that the output value is a vector between zero and one. Cross-entropy loss is used as the cost function and punishes the model if the prediction is far from the label \cite {dl}. The loss can be calculated as:
+	 
+	\begin{equation*}\label{key}
+		L\left(\boldsymbol{y}_{i}, \hat{\boldsymbol{y}}_{i}\right) = -(\mathbf y \log (\mathbf {\hat y})+(1-\mathbf  y) \log (1-\mathbf {\hat y}))
+	\end{equation*}
+
+	Following table will outline the architecture of the model: 
+	
+	
+	%TODO memory handling
+	
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{l l l l l l l l l}
+			\toprule
+			& \textbf{Layer \& Type}           &&&&& & \textbf{In channel, Out channel, Kernel Size, Stride}    & \\ \midrule
+			& Layer1: Conv3d        &&&&& & (1, 32, 3, 1)& \\
+			& Layer2: Conv3d        &&&&& & (32, 64, 3, 2)& \\
+			& Layer3: Conv3d        &&&&& & (64, 128, 3, 1)& \\
+			& Layer4: Conv3d        &&&&& & (128, 256, 3, 2)& \\
+			& Layer5: Conv3d        &&&&& & (256, 512, 5, 1)& \\
+			& Layer6: Conv3d        &&&&& & (512, 1024, 3, 2)& \\
+			\toprule
+			&       &&&&& & \textbf{In channel, Out channel}  & \\ \midrule
+			& Layer7: Linear        &&&&& & (4415488, 128)& \\
+			& Layer8: Relu        &&&&& & & \\
+			& Layer9: LayerNorm        &&&&& & (128,128) & \\
+			& Layer10: Dropout        &&&&& & & \\
+			& Layer11: Linear        &&&&& & (128, 2)& \\
+		\end{tabular}
+	\end{table}
+
+	\subsubsection{Memory handling}
 
 \subsection{Specifics}\label{model_specifics}
 %TODO: Skriv resten af denne sektion
@@ -1957,6 +2036,9 @@ By default this is not an easy problem or area of technology to create laws and 
 
 The regulations should be build upon the safe AI principles, but should also include notions of fairness to ensure no groups are being discriminated. Therefore, we propose that a council consisting of experts within the domains of machine learning and the industries in which machine learning is used as well as civil individuals should decide on key parameters which can be used to build the regulations themselves to inspire trust, transparency and safety for the future. 
 
+\section{Future work}
+
+%TODO write about training classifier with different cycleGAN models xz yz, all models. Experiment with larger data sets or even artificially generated brains --> the wet original GAN dream 
 
 \section{Conclusion}\label{conclusion}
 
@@ -2992,7 +3074,11 @@ Even though the discriminators are not nearly as important after having trained 
 		
 		\bibitem{raponi} Raponi, Mitch et al. "MicroRNA Classifiers for Predicting Prognosis of Squamous Cell Lung Cancer", Published July 2009
 		
+		\bibitem{cnn_paper} Liu, Jun et al. "Computer Vision for Human–Machine Interaction" Computer Vision and Pattern Recognition 2018, Pages 127-145
 		
+		\bibitem{dl} Goodfellow-et-al-2016. Deep Learning, MIT Press in 2016.
+		
+			
 	\end{thebibliography}
 	
 	
