@@ -932,8 +932,9 @@ The first evaluation metric, visual inspection, is also the most obvious one. By
 \subsubsection{Root-Mean-Square Error}\label{rmse}
 Another way to show how closely the generated image matches the real one is to calculate the root-mean-square error between every pixel in the two images. This is done by applying
 \begin{equation}
-	RMSE = \sqrt{\frac{1}{n}\Sigma_{i=1}^{n}{\Big(\frac{d_i -f_i}{\sigma_i}\Big)^2}}
+	RMSE = \sqrt{\frac{1}{n}\Sigma_{i=1}^{n}{\Big(y_i - \hat{y}_i\Big)^2}}\cite{sklearn.metrics.root_mean_square_error}
 \end{equation}
+where $n$ is the total number of pixels, $y_i$ is the real image and $\hat{y}_i$ is the fake image. Only calculating this value for one set of images would not give much info, so instead, RMSE has been found for two sets of images. Between the two ground 1.5T and 3T ground truth images and between the 1.5T and generated 1.5T images. This allows for an easy method of comparison, since a smaller difference between the generated and ground truth image than between the ground truth set would mean that the model has, to some extent, learned to replicate the patterns seen in 1.5T images.
 
 \subsubsection{Geometric Accuracy}\label{geometric_accuracy}
 
@@ -3336,35 +3337,37 @@ Even though the discriminators are not nearly as important after having trained 
 		
 		\bibitem{python_packages} Van Rossum, Guido. "The Python Library Reference, release 3.8.2". Python Software Foundation. 2020.
 		
-		\bibitem{pytorch} Paszke, Adam et al. "PyTorch: An Imperative Style, High-Performance Deep Learning Library". Curran Associates, Inc. 2019. http://papers.neurips.cc/paper/9015-pytorch-an-imperative-style-high-performance-deep-learning-library.pdf
+		\bibitem{pytorch} Paszke, Adam et al. "PyTorch: An Imperative Style, High-Performance Deep Learning Library". Curran Associates, Inc. 2019. \url{http://papers.neurips.cc/paper/9015-pytorch-an-imperative-style-high-performance-deep-learning-library.pdf}
 		
-		\bibitem{pelutils} Laurits Schultz, Asger, Winkel Holm, Søren. "Pelutils License". Pelutils Developers. 2020. https://github.com/peleiden/pelutils/blob/master/LICENSE.txt
+		\bibitem{pelutils} Laurits Schultz, Asger, Winkel Holm, Søren. "Pelutils License". Pelutils Developers. 2020. \url{https://github.com/peleiden/pelutils/blob/master/LICENSE.txt}
 		
-		\bibitem{numpy} R. Harris, Charles et al. "Array programming with NumPy". Springer Science and Business Media LLC. 2020. https://doi.org/10.1038/s41586-020-2649-2
+		\bibitem{numpy} R. Harris, Charles et al. "Array programming with NumPy". Springer Science and Business Media LLC. 2020. \url{https://doi.org/10.1038/s41586-020-2649-2}
 		
 		\bibitem{matplotlib} Hunter, J. D. "Matplotlib: A 2D graphics environment". IEEE COMPUTER SOC. 2007.
 		
 		\bibitem{pil} Umesh, P. "Image Processing in Python". Citeseer. 2012.
 		
-		\bibitem{albumentations} Buslaev, Alexander. "Albumentations: Fast and Flexible Image Augmentations". Information. 2020. https://www.mdpi.com/2078-2489/11/2/125
+		\bibitem{albumentations} Buslaev, Alexander. "Albumentations: Fast and Flexible Image Augmentations". Information. 2020. \url{https://www.mdpi.com/2078-2489/11/2/125}
 		
-		\bibitem{ipython} Pérez, Fernando et al. "IPython: A System for Interactive Scientific Computing, Computing in Science and Engineering", , vol. 9, no. 3, pp. 21-29. 2007. https://ieeexplore.ieee.org/document/4160251
+		\bibitem{ipython} Pérez, Fernando et al. "IPython: A System for Interactive Scientific Computing, Computing in Science and Engineering", , vol. 9, no. 3, pp. 21-29. 2007. \url{https://ieeexplore.ieee.org/document/4160251}
 		
-		\bibitem{nipy} Gorgolewski, Krzysztof et al. "NIPY: an open library and development framework for FMRI data analysis". 2016. https://www.researchgate.net/publication/238805751\_NIPY\_an\_open\_library\_and\_development\_framework\_for\_FMRI\_data\_analysis.
+		\bibitem{nipy} Gorgolewski, Krzysztof et al. "NIPY: an open library and development framework for FMRI data analysis". 2016. \url{https://www.researchgate.net/publication/238805751\_NIPY\_an\_open\_library\_and\_development\_framework\_for\_FMRI\_data\_analysis}.
 		
 		\bibitem{pandas} McKinney, Wes et al. "Data structures for statistical computing in python". Austin TX. 2010.
 		
-		\bibitem{pip-chill} Bánffy, Ricardo. "PIP Chill - Make requirements with only the packages you need". pypi. 2021. https://pypi.org/project/pip-chill/
+		\bibitem{pip-chill} Bánffy, Ricardo. "PIP Chill - Make requirements with only the packages you need". pypi. 2021. \url{https://pypi.org/project/pip-chill/}
 		
-		\bibitem{torchio} Pérez-García, Fernando et al. "TorchIO: A Python library for efficient loading, preprocessing, augmentation and patch-based sampling of medical images in deep learning". Elsevier BV. 2021. https://arxiv.org/abs/2003.04696.		
+		\bibitem{torchio} Pérez-García, Fernando et al. "TorchIO: A Python library for efficient loading, preprocessing, augmentation and patch-based sampling of medical images in deep learning". Elsevier BV. 2021. \url{https://arxiv.org/abs/2003.04696}.	
 		
-		\bibitem{torchsummary}  Yep, Tyler. "torch-summary". pypi. 2020. https://pypi.org/project/torch-summary/
+		\bibitem{torchsummary}  Yep, Tyler. "torch-summary". pypi. 2020. \url{https://pypi.org/project/torch-summary/}
 		
-		\bibitem{torchvision} Marcel, Sébastien et al. "Torchvision the machine-vision package of torch". Proceedings of the 18th ACM international conference on Multimedia. 2010. https://dl.acm.org/doi/10.1145/1873951.1874254
+		\bibitem{torchvision} Marcel, Sébastien et al. "Torchvision the machine-vision package of torch". Proceedings of the 18th ACM international conference on Multimedia. 2010. \url{https://dl.acm.org/doi/10.1145/1873951.1874254}
 		
-		\bibitem{bcewithlogits} Paszke, A et al. "PyTorch: An Imperative Style, High-Performance Deep Learning Library", Curran Associates, Inc., 2019, https://pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html
+		\bibitem{sklearn} Pedregosa, F et al. "Scikit-learn: Machine Learning in Python". Journal of Machine Learning Research. 2011. \url{https://scikit-learn.org/stable/modules/model_evaluation.html#mean-squared-error}
 		
-		\bibitem{learnableKernel} Neda et al., "torch.nn.ConvTranspose2d vs torch.nn.Upsample", PyTorch, 2018. https://discuss.pytorch.org/t/torch-nn-convtranspose2d-vs-torch-nn-upsample/30574/7
+		\bibitem{bcewithlogits} Paszke, A et al. "PyTorch: An Imperative Style, High-Performance Deep Learning Library", Curran Associates, Inc., 2019, \url{https://pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html}
+		
+		\bibitem{learnableKernel} Neda et al., "torch.nn.ConvTranspose2d vs torch.nn.Upsample", PyTorch, 2018. \url{https://discuss.pytorch.org/t/torch-nn-convtranspose2d-vs-torch-nn-upsample/30574/7}
 	%%%%% </python> %%%%%
 		
 		\bibitem{second} Burns, Jeffrey M., et al. "Reduced lean mass in early Alzheimer disease and its association with brain atrophy." Archives of neurology 67.4 (2010): 428-433.
@@ -3403,43 +3406,43 @@ Even though the discriminators are not nearly as important after having trained 
 		\bibitem{fagproject} Henriksen, Anders, Christensen, Oskar. "Discrimination of Race, Age \& Gender in the COMPAS Dataset". Technical University of Denmark. 2020.
 		
 	%%%%% <GAN and CycleGAN> %%%%%
-		\bibitem{cyclegan_implementation} Persson, Aladdin. "CycleGAN implementation from scratch". YouTube. 2021.  https://www.youtube.com/watch?v=4LktBHGCNfw
+		\bibitem{cyclegan_implementation} Persson, Aladdin. "CycleGAN implementation from scratch". YouTube. 2021.  \url{https://www.youtube.com/watch?v=4LktBHGCNfw}
 	
 		\bibitem{original_cyclegan} Zhu, Jun-Yan, et al. "Unpaired image-to-image translation using cycle-consistent adversarial networks." Proceedings of the IEEE international conference on computer vision. 2017.
 		
-		\bibitem{original_gan} J. Goodfellow, Ian. "Generative Adversarial Networks". Université de Montréal. 2014. https://arxiv.org/abs/1406.2661
+		\bibitem{original_gan} J. Goodfellow, Ian. "Generative Adversarial Networks". Université de Montréal. 2014. \url{https://arxiv.org/abs/1406.2661}
 		
-		\bibitem{gan_introduction_towards_datascience} Ayari, Rabeh. "Generative Adversarial Networks". Towards Data Science. 2020. https://towardsdatascience.com/generative-adversarial-networks-gans-2231c5943b11
+		\bibitem{gan_introduction_towards_datascience} Ayari, Rabeh. "Generative Adversarial Networks". Towards Data Science. 2020. \url{https://towardsdatascience.com/generative-adversarial-networks-gans-2231c5943b11}
 		
-		\bibitem{mode_collapse_MLM} Brownlee, Jason, "How to Identify and Diagnose GAN Failure Modes", Machine Learning Mastery, 2019, https://machinelearningmastery.com/practical-guide-to-gan-failure-modes/
+		\bibitem{mode_collapse_MLM} Brownlee, Jason, "How to Identify and Diagnose GAN Failure Modes", Machine Learning Mastery, 2019, \url{https://machinelearningmastery.com/practical-guide-to-gan-failure-modes/}
 		
-		\bibitem{mode_collapse_reddit_fix} AnvaMiba, "[Discussion] Discriminator converging to 0 loss in very few steps while training GAN.", Reddit, 2016, https://www.reddit.com/r/MachineLearning/comments/5asl74/discussion\_discriminator\_converging\_to\_0\_loss\_in/
+		\bibitem{mode_collapse_reddit_fix} AnvaMiba, "[Discussion] Discriminator converging to 0 loss in very few steps while training GAN.", Reddit, 2016, \url{https://www.reddit.com/r/MachineLearning/comments/5asl74/discussion\_discriminator\_converging\_to\_0\_loss\_in/}
 		
-		\bibitem{mode_collapse_github} vrao9, "Loss D goes to zero when adding a new loss to generator", Github Issues, 2019, https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/issues/626
+		\bibitem{mode_collapse_github} vrao9, "Loss D goes to zero when adding a new loss to generator", Github Issues, 2019, \url{https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/issues/626}
 		
-		\bibitem{hard_to_train} Hui, Jonathan, "GAN — Why it is so hard to train Generative Adversarial Networks!", Medium, 2018, https://jonathan-hui.medium.com/gan-why-it-is-so-hard-to-train-generative-advisory-networks-819a86b3750b
+		\bibitem{hard_to_train} Hui, Jonathan, "GAN — Why it is so hard to train Generative Adversarial Networks!", Medium, 2018, \url{https://jonathan-hui.medium.com/gan-why-it-is-so-hard-to-train-generative-advisory-networks-819a86b3750b}
 		
 		\bibitem{reckon} FreeSurfer Software Suite, \url{https://surfer.nmr.mgh.harvard.edu/fswiki/recon-all}, last visited 1st of January, 2022.
 
-		\bibitem{ganlocalminimum} Bansal, Aayush et al. "Recycle-GAN: Unsupervised Video Retargeting", Carnegie Mellon University, 2018, https://arxiv.org/pdf/1808.05174.pdf
+		\bibitem{ganlocalminimum} Bansal, Aayush et al. "Recycle-GAN: Unsupervised Video Retargeting", Carnegie Mellon University, 2018, \url{https://arxiv.org/pdf/1808.05174.pdf}
 		
-		\bibitem{checkerboard} Odena, et al., "Deconvolution and Checkerboard Artifacts", Distill, 2016. http://doi.org/10.23915/distill.00003
+		\bibitem{checkerboard} Odena, et al., "Deconvolution and Checkerboard Artifacts", Distill, 2016. \url{http://doi.org/10.23915/distill.00003}
 		
-		\bibitem{model_architecture} Bansal, Hardik. "Understanding and Implementing CycleGAN in TensorFlow". GitHub. https://hardikbansal.github.io/CycleGANBlog/, last visited 01/01-2022.
+		\bibitem{model_architecture} Bansal, Hardik. "Understanding and Implementing CycleGAN in TensorFlow". GitHub. \url{https://hardikbansal.github.io/CycleGANBlog/, last visited 01/01-2022}.
 		
-		\bibitem{autoencoder} Khosla, Ritwek. "Auto-Encoders for Computer Vision: An Endless world of Possibilities". Analytica Vidhya. 2021. https://www.analyticsvidhya.com/blog/2021/01/auto-encoders-for-computer-vision-an-endless-world-of-possibilities/
+		\bibitem{autoencoder} Khosla, Ritwek. "Auto-Encoders for Computer Vision: An Endless world of Possibilities". Analytica Vidhya. 2021. \url{https://www.analyticsvidhya.com/blog/2021/01/auto-encoders-for-computer-vision-an-endless-world-of-possibilities/}
 		
-		\bibitem{developers.google_generator} https://developers.google.com/machine-learning/gan/generator %TODO Find ud af hvordan man citer developers.google.com
+		\bibitem{developers.google_generator} \url{https://developers.google.com/machine-learning/gan/generator} %TODO Find ud af hvordan man citer developers.google.com
 		
-		\bibitem{developers.google_discriminator} https://developers.google.com/machine-learning/gan/discriminator %TODO Find ud af hvordan man citer developers.google.com
+		\bibitem{developers.google_discriminator} \url{https://developers.google.com/machine-learning/gan/discriminator} %TODO Find ud af hvordan man citer developers.google.com
 		
-		\bibitem{developers.google_training} https://developers.google.com/machine-learning/gan/training %TODO Find ud af hvordan man citer developers.google.com
+		\bibitem{developers.google_training} \url{https://developers.google.com/machine-learning/gan/training} %TODO Find ud af hvordan man citer developers.google.com
 		
-		\bibitem{pathmind_gen_disc_architecture} Nicholson, Chris. "A Beginner's Guide to Generative Adversarial Networks (GANs)". Pathmind. 2020. https://wiki.pathmind.com/generative-adversarial-network-gan.
+		\bibitem{pathmind_gen_disc_architecture} Nicholson, Chris. "A Beginner's Guide to Generative Adversarial Networks (GANs)". Pathmind. 2020. \url{https://wiki.pathmind.com/generative-adversarial-network-gan}.
 		
-		\bibitem{cyclegan_figures} Hannemose, Morten. "CycleGAN walktrough". Technical University of Denmark. 2019. http://summer-school-gan.compute.dtu.dk/3CycleGanWalkthrough.pdf.
+		\bibitem{cyclegan_figures} Hannemose, Morten. "CycleGAN walktrough". Technical University of Denmark. 2019. \url{http://summer-school-gan.compute.dtu.dk/3CycleGanWalkthrough.pdf}.
 		
-		\bibitem{calculate_activation_shape} Ding, Yan. "Calculating Parameters of Convolutional and Fully Connected Layers with Keras". Medium. 2020. https://dingyan89.medium.com/calculating-parameters-of-convolutional-and-fully-connected-layers-with-keras-186590df36c6.
+		\bibitem{calculate_activation_shape} Ding, Yan. "Calculating Parameters of Convolutional and Fully Connected Layers with Keras". Medium. 2020. \url{https://dingyan89.medium.com/calculating-parameters-of-convolutional-and-fully-connected-layers-with-keras-186590df36c6}.
 	%%%%% </GAN and CycleGAN> %%%%%
 
 		\bibitem{reckon} FreeSurfer Software Suite, \url{https://surfer.nmr.mgh.harvard.edu/fswiki/recon-all}, last visited 1st of January, 2022.
