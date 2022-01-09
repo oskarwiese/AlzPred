@@ -802,24 +802,45 @@ A table of the used hyperparameters and their values in this project in given be
 	\centering
 	\begin{tabular}{l l l l l l l l l}
 		\toprule
-		& \textbf{Hyperparameter}           &&&&& & \textbf{Value}   & \\ \midrule
-		& \multicolumn{7}{c}{\textbf{General}}          & \\
-		& Batch size              &&&&& & $1$           & \\
-		& Learning rate [$\alpha$]&&&&& & $1e-5$        & \\
-		& $\lambda_{iden}$        &&&&& & $0$           & \\
-		& $\lambda_{cyc}$         &&&&& & $10$          & \\
-		%& Number of workers      &&&&& & $4$           & \\
-		& Number of epochs        &&&&& & $10$          & \\
-		& Betas                   &&&&& & $(0.5, 0.999)$& \\
-		& \multicolumn{7}{c}{\textbf{Discriminator}}    & \\
-		& input dimension         &&&&& & $1x256x256$   & \\
-		& Conv depths             &&&&& & $\left[3, 64, 128, 256, 512\right]$& \\
-		& Output dimension        &&&&& & $1x30x30$     & \\
-		& Leaky-ReLU activation   &&&&& & $0.2$         & \\
-		& \multicolumn{7}{c}{\textbf{Generator}}        & \\
-		& Input dimension         &&&&& & $1x256x256$   & \\
-		& Conv depths             &&&&& & $\left[64, 128, 256, 128, 64\right]$              & \\
-		& Output dimension        &&&&& & $1x256x256$   & \\ \bottomrule
+		& \textbf{Hyperparameter}     &&&&& & \textbf{Value}   & \\ \midrule
+		& \multicolumn{7}{c}{\textbf{General}}              & \\
+		& Batch size                  &&&&& & $1$           & \\
+		& $\lambda_{iden}$            &&&&& & $1$           & \\
+		& $\lambda_{cyc}$             &&&&& & $10$          & \\
+		& Optimizer                   &&&&& & Adam          & \\
+		& Betas                       &&&&& & $(0.5, 0.999)$& \\
+		&                             &&&&& &               & \\
+		& \multicolumn{7}{c}{Discriminator}                 & \\
+		& input dimension             &&&&& & $1x256x256$   & \\
+		& Conv depths                 &&&&& & $\left[3, 64, 128, 256, 512\right]$& \\
+		& Output dimension            &&&&& & $1x30x30$     & \\
+		& Leaky-ReLU activation       &&&&& & $0.2$         & \\
+		&                             &&&&& &               & \\
+		& \multicolumn{7}{c}{Generator}                     & \\
+		& Input dimension             &&&&& & $1x256x256$   & \\
+		& Conv depths                 &&&&& & $\left[64, 128, 256, 128, 64\right]$              & \\
+		& Output dimension            &&&&& & $1x256x256$   & \\
+		&                             &&&&& &               & \\ 
+		& \multicolumn{7}{c}{\textbf{XY Model}}             & \\
+		& Discriminator learning rate &&&&& & $5e-8$        & \\
+		& Generator learning rate     &&&&& & $1e-7$        & \\
+		& Number of epochs            &&&&& & $1.5$         & \\
+		&                             &&&&& &               & \\
+		& \multicolumn{7}{c}{\textbf{XZ Model}}             & \\
+		& Discriminator learning rate &&&&& & $5e-8$        & \\
+		& Generator learning rate     &&&&& & $1e-7$        & \\
+		& Number of epochs            &&&&& & $2$           & \\
+		&                             &&&&& &               & \\
+		& \multicolumn{7}{c}{\textbf{YZ Model}}             & \\
+		& Discriminator learning rate &&&&& & $1e-7$        & \\
+		& Generator learning rate     &&&&& & $1e-7$        & \\
+		& Number of epochs            &&&&& & $1.4$         & \\
+		&                             &&&&& &               & \\
+		& \multicolumn{7}{c}{\textbf{ALL Model}}            & \\
+		& Discriminator learning rate &&&&& & $7e-8$        & \\
+		& Generator learning rate     &&&&& & $1e-7$        & \\
+		& Number of epochs            &&&&& & $0.5$         & \\		
+		\bottomrule
 		%& Train-test split         &&&&& & $0.8/0.2$& \\
 	\end{tabular}
 \end{table} 
