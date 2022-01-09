@@ -30,6 +30,7 @@
 \usepackage{graphicx}
 \usepackage[utf8]{inputenc}
 \usepackage{xcolor}
+\usepackage{dsfont}
 \usepackage[htt]{hyphenat}
 \lstset{basicstyle=\ttfamily,
 	showstringspaces=false,
@@ -59,6 +60,8 @@
 
 \newcommand\bigskipx{2.1pt}
 \newcommand\bigskipy{3.75pt}
+
+\newcommand{\1}[1]{\mathds{1}\left[#1\right]}
 
 %%%%%%% Setup for python code in latex %%%%%%%
 % Default fixed font does not support bold face
@@ -929,6 +932,9 @@ To be able to properly evaluate whether the CycleGAN models have learned to effe
 \subsubsection{Visual Inspection}\label{visual_inspection}
 The first evaluation metric, visual inspection, is also the most obvious one. By showing the generated images in a figure next to the ground truth, it is possible to firstly evaluate if the generated image even looks like a brain and secondly if the generated image looks like the brain it is supposed to be mapping towards. This seemingly simple metric might be the most important one, since the first step toward generating convincing brains is to make them convincing to humans.
 
+\subsubsection{image Subtraction}\label{image_subtraction}
+A second visual way to visually inspect the images is to subtract images from each other and look at the resulting edge images. This allows for inspection of where the two images either agree or do not agree. In this report, image subtraction has been used between the ground truth 1.5T and ground truth 3T images as well as between the ground truth 1.5T and generated 1.5T images. This allows for comparison between how well the generated 1.5T image and the ground truth 3T images fit onto the 1.5T ground truth image. Images that are closer to matching will have fewer high-intensity pixels and a generally darker image. The hope is thus that the subtracted image containing the generated image has lower intensity than the ground truth image.
+
 \subsubsection{Root-Mean-Square Error}\label{rmse}
 Another way to show how closely the generated image matches the real one is to calculate the root-mean-square error between every pixel in the two images. This is done by applying
 \begin{equation}
@@ -937,10 +943,13 @@ Another way to show how closely the generated image matches the real one is to c
 where $n$ is the total number of pixels, $y_i$ is the real image and $\hat{y}_i$ is the fake image. Only calculating this value for one set of images would not give much info, so instead, RMSE has been found for two sets of images. Between the two ground 1.5T and 3T ground truth images and between the 1.5T and generated 1.5T images. This allows for an easy method of comparison, since a smaller difference between the generated and ground truth image than between the ground truth set would mean that the model has, to some extent, learned to replicate the patterns seen in 1.5T images.
 
 \subsubsection{Geometric Accuracy}\label{geometric_accuracy}
+The geometric accuracy, like the root-mean-square error, is another more precise metric for determining how close two image are to matching. As an accuracy measure, this method calculates how high a percentage of two images contain the same pixel by doing a pixel-wise comparison.
 
-
-\subsubsection{image Subtraction}\label{image_subtraction}
-
+\begin{equation}
+	\textrm{Geometric accuracy} = \frac{\Sigma_{i=1}^{n}\mathds{1}}{n}, \qquad
+	  \mathds{1}=\begin{cases} 1, & \text{if $y_i = \hat{y}_i$}.\\ 0, & \text{otherwise}.\end{cases}
+\end{equation}
+Here, $n$ is the total number of pixels that will be compared in the image. This accuracy measure accomplishes much the same as other accuracy measures in that it show how often the model gets a pixel exactly right. As such, a higher accuracy means that the model is more successful in creating the real 1.5T image. It is only possible to calculate this metric on the image data because the values have been rounded to \texttt{uint8} integer values. Otherwise the pixel values would never be equal and the accuracy would be 0.
 
 
 \subsection{Classifier}
