@@ -57,6 +57,9 @@
 \newcommand\skipperer{0.45pt}
 \newcommand\ripperer{1.25pt}
 
+\newcommand\bigskipx{2.1pt}
+\newcommand\bigskipy{3.75pt}
+
 %%%%%%% Setup for python code in latex %%%%%%%
 % Default fixed font does not support bold face
 \DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
@@ -412,11 +415,7 @@ done
 \end{lstlisting}
 
 \noindent
-<<<<<<< HEAD
-The produced \texttt{norm.mgz} can be illustrated using Freeview, a FreeSurfer Software used to display and look at 3D images. From this, we can see a big difference from the original image, which is also displayed on figure \ref{fig:screenshot001}.
-=======
 The produced \texttt{norm.mgz} can be illustrated using Freeview, a FreeSurfer Software used to display and examine 3D images. Displaying the new \texttt{norm.mgz} file, a big difference can be seen between the image before processing in figure \ref{fig:screenshot001} and after processing in figure \ref{fig:norm}.
->>>>>>> b89c94831004862ebb955ddb8b0175db8012c587
 
 \begin{figure}[H]
 	\centering
@@ -842,6 +841,7 @@ Solving this problem in practice first required separating upsampling from convo
 
 The slight lines in the generated images after using bilinear interpolation for upsampling are not nearly as problematic but are still unfortunate as a final output. To solve this, we implemented a kernel size that was divisible by the stride in the deconvolution layers, as was mentioned as a solution in the previous paragraph. This should make the kernel spread information from each pixel more evenly between new pixels and supply a less grainy final image \cite{checkerboard}. In illustration \ref{fig:troubleshootc}, most of the noise has finally been removed and no lines persist in the image. The white voids around the brain seems to have become even more prevalent though, which also needs to be fixed. This was taken care of by replacing bilinear interpolation with nearest-neighbor interpolation. The result of replacing the interpolation can be seen in \ref{fig:troubleshootd}. It is now evident that basically no noise is left in the image, and most of the troubleshooting relating to image quality has thus subsided. The full comparison between results after each improvement has been implemented, can be seen in figure \ref{fig:troubleshoot}.
 
+%TODO: Disse skal nok være en del mindre
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -1589,76 +1589,76 @@ This section will focus on showing relevant outputs of the final trained models.
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xy_3_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/XY_model_136_S_0196_xy_1.5}
-		\hskip\skipper
+		\hskip\bigskipx
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xy_1.5_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/XY_model_136_S_0196_xy_3}
 		%		\caption{136_S_0196}
 		%		\label{}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xz_3_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/XY_model_136_S_0196_xz_1.5}
-		\hskip\skipper
+		\hskip\bigskipx
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xz_1.5_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/XY_model_136_S_0196_xz_3}
 		%		\caption{136_S_0196}
 		%		\label{}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_yz_3_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/XY_model_136_S_0196_yz_1.5}
-		\hskip\skipper
+		\hskip\bigskipx
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_yz_1.5_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/XY_model_136_S_0196_yz_3}
 		%		\caption{136_S_0196}
 		%		\label{}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\bigskipy
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xy_3_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/XY_model_082_S_0469_xy_1.5}
-		\hskip\skipper
+		\hskip\bigskipx
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xy_1.5_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/XY_model_082_S_0469_xy_3}
 		%		\caption{082_S_0469}
 		%		\label{}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xz_3_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/XY_model_082_S_0469_xz_1.5}
-		\hskip\skipper
+		\hskip\bigskipx
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xz_1.5_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/XY_model_082_S_0469_xz_3}
 		%		\caption{082_S_0469}
 		%		\label{}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_yz_3_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/XY_model_082_S_0469_yz_1.5}
-		\hskip\skipper
+		\hskip\bigskipx
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_yz_1.5_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/XY_model_082_S_0469_yz_3}
 		%		\caption{082_S_0469}
 		%		\label{}
@@ -1675,76 +1675,76 @@ This section will focus on showing relevant outputs of the final trained models.
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xy_3_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/XZ_model_136_S_0196_xy_1.5}
-		\hskip\skipper
+		\hskip\bigskipx
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xy_1.5_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/XZ_model_136_S_0196_xy_3}
 		%		\caption{136_S_0196}
 		%		\label{}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xz_3_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/XZ_model_136_S_0196_xz_1.5}
-		\hskip\skipper
+		\hskip\bigskipx
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xz_1.5_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/XZ_model_136_S_0196_xz_3}
 		%		\caption{136_S_0196}
 		%		\label{}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_yz_3_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/XZ_model_136_S_0196_yz_1.5}
-		\hskip\skipper
+		\hskip\bigskipx
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_yz_1.5_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/XZ_model_136_S_0196_yz_3}
 		%		\caption{136_S_0196}
 		%		\label{}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\bigskipy
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xy_3_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/XZ_model_082_S_0469_xy_1.5}
-		\hskip\skipper
+		\hskip\bigskipx
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xy_1.5_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/XZ_model_082_S_0469_xy_3}
 		%		\caption{082_S_0469}
 		%		\label{}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xz_3_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/XZ_model_082_S_0469_xz_1.5}
-		\hskip\skipper
+		\hskip\bigskipx
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xz_1.5_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/XZ_model_082_S_0469_xz_3}
 		%		\caption{082_S_0469}
 		%		\label{}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_yz_3_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/XZ_model_082_S_0469_yz_1.5}
-		\hskip\skipper
+		\hskip\bigskipx
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_yz_1.5_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/XZ_model_082_S_0469_yz_3}
 		%		\caption{082_S_0469}
 		%		\label{}
@@ -1761,76 +1761,76 @@ This section will focus on showing relevant outputs of the final trained models.
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xy_3_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/YZ_model_136_S_0196_xy_1.5}
-		\hskip\skipper
+		\hskip\bigskipx
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xy_1.5_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/YZ_model_136_S_0196_xy_3}
 		%		\caption{136_S_0196}
 		%		\label{}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xz_3_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/YZ_model_136_S_0196_xz_1.5}
-		\hskip\skipper
+		\hskip\bigskipx
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xz_1.5_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/YZ_model_136_S_0196_xz_3}
 		%		\caption{136_S_0196}
 		%		\label{}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_yz_3_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/YZ_model_136_S_0196_yz_1.5}
-		\hskip\skipper
+		\hskip\bigskipx
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_yz_1.5_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/YZ_model_136_S_0196_yz_3}
 		%		\caption{136_S_0196}
 		%		\label{}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\bigskipy
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xy_3_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/YZ_model_082_S_0469_xy_1.5}
-		\hskip\skipper
+		\hskip\bigskipx
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xy_1.5_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/YZ_model_082_S_0469_xy_3}
 		%		\caption{082_S_0469}
 		%		\label{}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xz_3_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/YZ_model_082_S_0469_xz_1.5}
-		\hskip\skipper
+		\hskip\bigskipx
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xz_1.5_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/YZ_model_082_S_0469_xz_3}
 		%		\caption{082_S_0469}
 		%		\label{}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_yz_3_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/YZ_model_082_S_0469_yz_1.5}
-		\hskip\skipper
+		\hskip\bigskipx
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_yz_1.5_GT}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/YZ_model_082_S_0469_yz_3}
 		%		\caption{082_S_0469}
 		%		\label{}
@@ -1840,58 +1840,249 @@ This section will focus on showing relevant outputs of the final trained models.
 \end{figure}
 
 \subsection{All Planes Quality Comparison}\label{all_generated}
+%TODO: Der skal være en figur her med de genererede all_billeder
+
+
+\subsection{XY RMSE Calculations}
+%TODO:
+%TODO: Dette skal være tabel over gennemsnitlige RMSE-værdier og geometric accuracies for alle modellerne.
+%TODO:
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{l l l l l l}
+			\toprule
+			& \textbf{Model} & \textbf{Avg. Orig.} & \textbf{Avg. Gen.} & \textbf{Avg. Diff.} & \\ \midrule
+			&                        \multicolumn{4}{c}{\textbf{RMSE}}                          & \\
+			&XY                & $1.5344$            & $1.0253$           & $0.5090$            & \\
+			&XZ                & $1.5344$            & $1.1691$           & $0.3653$            & \\
+			&YZ                & $1.5344$            & $1.0311$           & $0.5033$                    & \\
+			&ALL               &                     &                    &                     & \\
+			 \bottomrule
+		\end{tabular}
+		\caption{}
+		\label{tab:metrics}
+	\end{center}
+\end{table}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{l l l l l}
+			\toprule
+			& \textbf{Model}   & \textbf{Avg. Pixels} & \textbf{Avg. Norm}  & \\ \midrule
+			&      \multicolumn{3}{c}{\textbf{Geometric Accuracy}}          & \\
+			&XY                & $14678174.659$       & $0.8749$            & \\
+			&XZ                & $14603704.886$       & $0.8704$            & \\
+			&YZ                & $14593826.818$       & $0.8699$            & \\
+			&ALL               &                      &                     & \\
+			\bottomrule
+		\end{tabular}
+		\caption{}
+		\label{tab:metrics}
+	\end{center}
+\end{table}
+
+\subsection{XY Subtracted Images}\label{xy_subtracted_images}
+%TODO: Skriv figurtekst
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/002_S_0559_xy_gts_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/082_S_0469_xy_gts_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/136_S_0196_xy_gts_comparison}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/002_S_0559_xy_1.5_1.5gen_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/002_S_0559_xy_1.5_1.5gen_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/136_S_0196_xy_1.5_1.5gen_comparison}
+	\end{subfigure}
+	\vskip\bigskipy
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/002_S_0559_xz_gts_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/082_S_0469_xz_gts_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/136_S_0196_xz_gts_comparison}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/002_S_0559_xz_1.5_1.5gen_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/002_S_0559_xz_1.5_1.5gen_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/136_S_0196_xz_1.5_1.5gen_comparison}
+	\end{subfigure}
+	\vskip\bigskipy
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/002_S_0559_yz_gts_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/082_S_0469_yz_gts_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/136_S_0196_yz_gts_comparison}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/002_S_0559_yz_1.5_1.5gen_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/002_S_0559_yz_1.5_1.5gen_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/136_S_0196_yz_1.5_1.5gen_comparison}
+	\end{subfigure}
+	\caption{}
+	\label{}
+\end{figure}
+
+\subsection{XZ Subtracted Images}\label{xz_subtracted_images}
+%TODO: Skriv figurtekst
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/002_S_0559_xy_gts_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/082_S_0469_xy_gts_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/136_S_0196_xy_gts_comparison}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/002_S_0559_xy_1.5_1.5gen_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/002_S_0559_xy_1.5_1.5gen_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/136_S_0196_xy_1.5_1.5gen_comparison}
+	\end{subfigure}
+	\vskip\bigskipy
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/002_S_0559_xz_gts_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/082_S_0469_xz_gts_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/136_S_0196_xz_gts_comparison}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/002_S_0559_xz_1.5_1.5gen_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/002_S_0559_xz_1.5_1.5gen_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/136_S_0196_xz_1.5_1.5gen_comparison}
+	\end{subfigure}
+	\vskip\bigskipy
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/002_S_0559_yz_gts_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/082_S_0469_yz_gts_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/136_S_0196_yz_gts_comparison}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/002_S_0559_yz_1.5_1.5gen_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/002_S_0559_yz_1.5_1.5gen_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/136_S_0196_yz_1.5_1.5gen_comparison}
+	\end{subfigure}
+	\caption{}
+	\label{}
+\end{figure}
+
+\subsection{YZ Subtracted Images}\label{yz_subtracted_images}
+%TODO: Skriv figurtekst
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/002_S_0559_xy_gts_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/082_S_0469_xy_gts_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/136_S_0196_xy_gts_comparison}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/002_S_0559_xy_1.5_1.5gen_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/002_S_0559_xy_1.5_1.5gen_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/136_S_0196_xy_1.5_1.5gen_comparison}
+	\end{subfigure}
+	\vskip\bigskipy
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/002_S_0559_xz_gts_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/082_S_0469_xz_gts_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/136_S_0196_xz_gts_comparison}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/002_S_0559_xz_1.5_1.5gen_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/002_S_0559_xz_1.5_1.5gen_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/136_S_0196_xz_1.5_1.5gen_comparison}
+	\end{subfigure}
+	\vskip\bigskipy
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/002_S_0559_yz_gts_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/082_S_0469_yz_gts_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/136_S_0196_yz_gts_comparison}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/002_S_0559_yz_1.5_1.5gen_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/002_S_0559_yz_1.5_1.5gen_comparison}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/136_S_0196_yz_1.5_1.5gen_comparison}
+	\end{subfigure}
+	\caption{}
+	\label{}
+\end{figure}
+
+\subsection{ALL Subtracted Images}\label{all_subtracted_images}
 %TODO: Fyld ud med de rigtige billeder og skriv figurtekst
 %TODO: Her er tanken at rows eller columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_bilinear}
+		\includegraphics[width=0.30\linewidth]{imgs/1.5T_bilinear}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_bilinear}
+		\includegraphics[width=0.30\linewidth]{imgs/3T_bilinear}
 		%		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
 		%		\label{fig:troubleshootc}
 	\end{subfigure}
 	\vskip\ripper
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
+		\includegraphics[width=0.30\linewidth]{imgs/1.5T_no_noise}
 		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
-		%		\label{fig:troubleshootd}
-	\end{subfigure}
-	\vskip\ripper
-	\begin{subfigure}[b]{0.7\textwidth}
-		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
-		%		\label{fig:troubleshootd}
-	\end{subfigure}
-	\vskip\ripper
-	\begin{subfigure}[b]{0.7\textwidth}
-		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/1.5T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.22\linewidth]{imgs/3T_no_noise}
+		\includegraphics[width=0.30\linewidth]{imgs/3T_no_noise}
 		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
 		%		\label{fig:troubleshootd}
 	\end{subfigure}
@@ -2193,44 +2384,44 @@ In section \ref{reproducibility}, a general overview of the scripts used in this
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_real_0}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_fake_0}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_real_1}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_fake_1}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_real_2}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_fake_2}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_real_3}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_fake_3}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_real_4}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_fake_4}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_real_5}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_fake_5}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_real_6}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_fake_6}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_real_7}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_normal_fake_7}
 	\end{subfigure}
 	\caption{Samples of real images from the MNIST dataset of handwritten digits and generated images from the generator in the MNIST GAN using L1 loss and BCE. Column 1 and 3 show real images and column 2 and 4 show generated images.}
@@ -2243,44 +2434,44 @@ In section \ref{reproducibility}, a general overview of the scripts used in this
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_real_0}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_fake_0}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_real_1}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_fake_1}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_real_2}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_fake_2}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_real_3}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_fake_3}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_real_4}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_fake_4}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_real_5}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_fake_5}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_real_6}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_fake_6}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_real_7}
-		\hskip\skipper
+		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/MNIST_GAN_mse_fake_7}
 	\end{subfigure}
 	\caption{Samples of real images from the MNIST dataset of handwritten digits and generated images from the generator in the MNIST GAN using MSE loss. Column 1 and 3 show real images and column 2 and 4 show generated images.}
@@ -2349,14 +2540,20 @@ Even though the discriminators are not nearly as important after having trained 
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{imgs/horse2zebra_generator_losses}
+		\phantomsubcaption
+		\label{fig:horse2zebra_generator_loss}
 		\hfill
 		\includegraphics[width=\linewidth]{imgs/horse2zebra_discriminator_losses}
+		\phantomsubcaption
+		\label{fig:horse2zebra_discriminator_loss}
 		\hfill
 		\includegraphics[width=\linewidth]{imgs/horse2zebra_cycle_losses}
+		\phantomsubcaption
+		\label{fig:horse2zebra_cycle_loss}
 		\hfill
 		\includegraphics[width=\linewidth]{imgs/horse2zebra_identity_losses}
-		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been implemented in upsampling.}
-		%		\label{fig:troubleshootb}
+		\phantomsubcaption
+		\label{fig:horse2zebra_identity_loss}
 	\end{subfigure}
 	%	\caption{text}
 	%	\label{key}
@@ -2370,44 +2567,70 @@ Even though the discriminators are not nearly as important after having trained 
 	\centering
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/1_0_fake_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/1_20_fake_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/1_40_fake_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/1_60_fake_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/1_140_fake_b}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/5_0_fake_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/5_20_fake_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/5_40_fake_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/5_60_fake_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/5_140_fake_b}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/23_0_fake_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/23_20_fake_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/23_40_fake_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/23_60_fake_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/23_140_fake_b}
 	\end{subfigure}
-%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
-%	\label{fig:troubleshoot}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/40_0_fake_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/40_20_fake_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/40_40_fake_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/40_60_fake_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/40_140_fake_b}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/59_0_fake_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/59_20_fake_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/59_40_fake_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/59_60_fake_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/59_140_fake_b}
+	\end{subfigure}
+	\caption{Progress of training the horse2zebra cyclegan. The rows represent unique images and the columns show the generator output after $0$, $20$, $40$, $60$, and $140$ epochs. Since training converges over time, it has been deemed more interesting to look at the first epochs than the ones later in training. The subjects in this figure are used throughout the rest of this section, and have been chosen as the best generated images in a set of 40 images.}
+	\label{fig:horse2zebra_progress_horse}
 \end{figure}
 
 %TODO: Fyld ud med de rigtige billeder og skriv figurtekst
@@ -2416,44 +2639,70 @@ Even though the discriminators are not nearly as important after having trained 
 	\centering
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/22_0_fake_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/22_20_fake_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/22_40_fake_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/22_60_fake_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/22_140_fake_a}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/31_0_fake_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/31_20_fake_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/31_40_fake_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/31_60_fake_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/31_140_fake_a}
 	\end{subfigure}
-	\vskip\ripper
+	\vskip\ripperer
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.18\linewidth]{imgs/temp_horse}
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/33_0_fake_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/33_20_fake_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/33_40_fake_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/33_60_fake_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/33_140_fake_a}
 	\end{subfigure}
-	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
-	%	\label{fig:troubleshoot}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/40_0_fake_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/40_20_fake_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/40_40_fake_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/40_60_fake_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/40_140_fake_a}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/51_0_fake_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/51_20_fake_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/51_40_fake_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/51_60_fake_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/progress/51_140_fake_a}
+	\end{subfigure}
+	\caption{Like in the above figure, this figure shows the progress of training the horse2zebra cyclegan after $0$, $20$, $40$, $60$, and $140$ epochs. The subjects in this figure are used throughout the rest of this section, and have been chosen as the best generated images in a set of 40 images.}
+	\label{fig:horse2zebra_progress_zebra}
 \end{figure}
 
 %TODO: Fyld ud med de rigtige billeder og skriv figurtekst
@@ -2739,77 +2988,77 @@ Even though the discriminators are not nearly as important after having trained 
 	\centering
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/a-b/1_real_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/a-b/1_fake_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/a-b/1_fake_a}
+		\hskip\bigskipx
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/b-a/22_real_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/b-a/22_fake_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/b-a/22_fake_a}
 	\end{subfigure}
 	\vskip\ripper
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/a-b/5_real_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/a-b/5_fake_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/a-b/5_fake_a}
+		\hskip\bigskipx
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/b-a/31_real_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/b-a/31_fake_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/b-a/31_fake_a}
 	\end{subfigure}
 	\vskip\ripper
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/a-b/23_real_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/a-b/23_fake_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/a-b/23_fake_a}
+		\hskip\bigskipx
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/b-a/33_real_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/b-a/33_fake_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/b-a/33_fake_a}
 	\end{subfigure}
 	\vskip\ripper
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/a-b/40_real_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/a-b/40_fake_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/a-b/40_fake_a}
+		\hskip\bigskipx
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/b-a/40_real_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/b-a/40_fake_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/b-a/40_fake_a}
 	\end{subfigure}
 	\vskip\ripper
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/a-b/59_real_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/a-b/59_fake_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/a-b/59_fake_a}
+		\hskip\bigskipx
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/b-a/51_real_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/b-a/51_fake_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/b-a/51_fake_a}
 	\end{subfigure}
 	\vskip\ripper
 	\begin{subfigure}[b]{0.8\textwidth}
@@ -2837,57 +3086,57 @@ Even though the discriminators are not nearly as important after having trained 
 	\centering
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/1_140_real_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/1_140_fake_a}
+		\hskip\bigskipx
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/22_140_real_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/22_140_fake_b}
 	\end{subfigure}
 	\vskip\ripper
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/5_140_real_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/5_140_fake_a}
+		\hskip\bigskipx
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/31_140_real_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/31_140_fake_b}
 	\end{subfigure}
 	\vskip\ripper
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/23_140_real_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/23_140_fake_a}
+		\hskip\bigskipx
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/33_140_real_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/33_140_fake_b}
 	\end{subfigure}
 	\vskip\ripper
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/40_140_real_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/40_140_fake_a}
+		\hskip\bigskipx
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/40_140_real_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/40_140_fake_b}
 	\end{subfigure}
 	\vskip\ripper
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/59_140_real_a}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/59_140_fake_a}
+		\hskip\bigskipx
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/51_140_real_b}
+		\hskip\skipperer
+		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/51_140_fake_b}
 	\end{subfigure}
 	\vskip\ripper
 	\begin{subfigure}[b]{0.8\textwidth}
