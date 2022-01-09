@@ -187,7 +187,7 @@ earlier stage than previously possible. Furthermore, the questions below will be
 	
 \end{itemize}
 
-\subsection{State of the art}\label{statens_kunst}
+\subsection{State of the Art}\label{statens_kunst}
 % Statens kunst
 In recent years there have been many attempts to both classify and detect Alzheimer Disease (AD). Many different approaches to this classification problem has been taken. However, as computers get better and the field of machine learning and deep learning grows, an arsenal of new methods to predict and classify Alzheimer's disease at early stages have been proposed as of late. This section aims to highlight some of finest work within this field of study, demonstrating the current stage and methods used to approach the classification problem. 
 \\\\
@@ -241,11 +241,11 @@ Magnetic resonance imaging (MRI) is a technique developed through the 1970s and 
 
 MRI was originally called nuclear magnetic resonance imaging, but was later readopted as MRI due to \textit{"nuclear"} having negative associations with the field of research \cite{wiki} \cite{mri2}.
 
-\subsection{Magnetic field strength}
+\subsection{Magnetic Field Strength}
 %TODO simple explanation of THE TESLAz
 It is inherently import to understand the underlying concept and difference of the magnetic field strength of the MRI scanner in use. In this project we use two type of images: 1.5T and 3T images. The T, referring to Tesla, is a unit in which the strength of a magnetic field can be measured. The stronger the magnetic resonance, the more detailed the MRI image. The strength of the magnetic field can be thought of as reducing the amount of noise in the image and adding more clarity. Thus this is like increasing the resolution of a normal RGB image. The 3T images are also constructed with more expensive machines and are not available in all countries nor hospitals around the world. This amplifies the need for a method to translate between these domains. 
 
-\subsection{MNI space}
+\subsection{MNI Space}
 %TODO explain the MNI space 
 Montreal Neurological Institute 305 (MNI305) is an atlas for brain mapping which was introduced by Evans et al. 1992. MNI simply got is name from where it came from. The mapping was created from 250 normal subjects that have been MRI scanned. It is a known method for normalization and is an often used industry practice for an average human brain  \cite{evans}. 
 
@@ -508,7 +508,7 @@ An important thing to note is that all black images are discarded. This means on
 % Quick rant about GDPR
 
 
-\subsection{Trade off of using MRI}
+\subsection{Trade off of Using MRI}
 %TODO Talk about voxels ( a voxel and encode information about two distinct areas in the brain in same number.see: https://www.youtube.com/watch?v=6wxJ1up-E7E&list=PLIQIswOrUH6_DWy5mJlSfj6AWY0y9iUce )
 
 MRI data is constructed from an MR-scanner in the form of volumes. These 3D images can be compared to centicubes, which together form a big square, where the brain is inside. Each centicube in this image is often referred to as a voxel, and each voxel contains a value that represents the intensity value in the specific area - see figure \ref{fig:voxel}. For T1 weighted or structural images, this determines the boundary between gray matter \& white matter from cerebrospinal fluid. In T2 weighted images, it represents more active voxels to  less active voxels. However, voxels do have certain issues e.g. a voxel can encompass information about two anatomically distinct areas, like if a voxel encompasses two different gyri. Furthermore, it is hard to measure structural properties such as grey matter thickness or volume, which might be important for Alzheimer classification. FreeSurfer Software can help by turning the 3D representation into a 2D representation using triangles. The points of the triangles are vertices and they are connected by an edge. Each vertex then contain measurements such as gray matter volume and thickness, area, curvature etc. These surfaces can then be inflated to visualize where MRI activations and gray matter differences are located more precisely than the voxel representation would have allowed for. 
@@ -647,7 +647,7 @@ The GAN allowed for new images in a specific category to be created based on ran
 \end{figure}
 
 
-\subsubsection{Discriminator in a cycleGAN}
+\subsubsection{Discriminator in a CycleGAN}
 The discriminator of the model should take as input an image of size 1x256x256 (since the image is greyscale) and output a prediction of dimension 1x30x30 with values between zero and one. The reason the output is not just one value is because a patch-GAN is used. This move in dimensions is accomplished using up-sampling of the image with 2D-convolutions to extract increasingly abstract features by decreasing the height and width and increasing the depth of the image.
 
 To make sure that the model is as robust as possible and to avoid overfitting, a patch-GAN is used before outputting the final image prediction. This works by converting 30x30 blocks of the image into predictions, such that the model is forced to predict the validity of the image on each of these blocks. This ensures that the discriminator image can accurately predict if the image comes from the generator using any part of the image. Some problems can occur with this method like the model not being about to predict much from a 30x30 square of black pixels. These kinds of problems will be discovered further in the section \ref{discussion} on discussing problems with and efficacies of the model.
@@ -689,7 +689,7 @@ Not shown in the figure is the actions taken between each layer and the number o
 	\label{tab:discriminator_layers}
 \end{table}
 
-\subsubsection{Generator in a cycleGAN}
+\subsubsection{Generator in a CycleGAN}
 %TODO: Convolutional neural network
 Unlike in a standard GAN generator, where a random image from a latent space is used to create what ends up looking like a real image, the generators in the cycleGAN takes as input an image from one of the datasets. As such, the input dimension is 1x256x256 (since the image is grayscale). The output is of the exact same dimension, since the generator tries to generate an image from the opposite category using the input image. Between input and output, the general generator architecture is that of an autoencoder, as pictured below in figure \ref{fig:autoencoder}. The generator contains three layers in an encoder and a decoder, while 9 so-called resnet blocks reside between them. The encoder encodes features by narrowing the image dimensions down and widening the depth of the data. The decoder does exactly the opposite, extracting the newfound information back into the new image. The resnet blocks between the encoder and decoder serve the purpose of interpreting the encoded features. The resnet blocks also use skip connections, which provide an alternate path for the gradient. This helps the network reach convergence.
 
@@ -795,8 +795,8 @@ The identity loss formulated below punishes the model if the generator changes a
 \end{aligned}\]
 
 
-\subsubsection{optimizer, cross Entropy, Etc.}
-A table of the used hyperparameters and their values in this project in given below. Note that these hyperparameters are applied to different models. Kernel size, stride and padding for each of the convolutional layers of the discriminator and generator are shown in tables \ref{tab:gan_generator}, \ref{tab:gan_discriminator}, \ref{tab:generator_layers} and \ref{tab:discriminator_layers}.
+\subsubsection{Optimizer, Cross Entropy, Etc.}
+A table of the used hyperparameters and their values in this project in given below. Note that these hyperparameters are applied to different models. Kernel size, stride and padding for each of the convolutional layers of the discriminator and generator are shown in tables \ref{tab:gan_generator}, \ref{tab:gan_discriminator}, \ref{tab:discriminator_layers} and \ref{tab:generator_layers}.
 %TODO: opdatér denne tabel til at have alle modellernes hyperparametre
 \begin{table}[H]
 	\centering
@@ -922,6 +922,19 @@ Another issue entirely turned out to be that the vast number of input images all
 
 Many solution to the problem of mode collapse exist, some being much easier to implement than other. Easier solutions include reducing the learning rate, making separate learning rates for the discriminators and generators and only updating the discriminator if the accuracy of the discriminator in the current step is under 50\%. Harder solutions include implementing instance noise, making the generator better or making the discriminator worse. For the discriminators in this project, it turned out that it was enough to implement the accuracy check before updating the discriminators, reducing the learning rate and making separate learning rates for generators and discriminators. The others methods have been left in this section for future reference \cite{mode_collapse_reddit_fix}\cite{mode_collapse_github}. After implementing these fixes, the model was able to generate output samples from a much larger distribution, which indicates that the mode collapse has been fixed. A number of generated images can be seen in section \ref{results}.
 
+
+\subsection{Performance Measures}
+
+\subsubsection{RMSE}\label{rmse}
+
+
+\subsubsection{Geometric Accuracy}\label{geometric_accuracy}
+
+
+\subsubsection{image Subtraction}\label{image_subtraction}
+
+
+
 \subsection{Classifier}
 %TODO: Skriv sektion om classifier. Overvej om første subsection skal med herned
 
@@ -1043,7 +1056,7 @@ The data used for training the classifier is a combination of generated images f
 		\caption{The convolutions, stride and padding of each layer in the classification model. The values used in the activation functions and instance normalization (LayerNorm) as well as when they are used in the network have also been shown. Other table details are given in the table \ref{tab:gan_generator} and \ref{tab:discriminator_layers} captions.}
 \end{table}	
 
-	\subsubsection{Memory handling}
+	\subsubsection{Memory Handling}
 	Due to the pure size of the 3D images, which 
 
 \subsection{Similarity measures}
@@ -1874,7 +1887,7 @@ This section will focus on showing relevant outputs of the final trained models.
 %TODO: Der skal være en figur her med de genererede all_billeder
 
 
-\subsection{XY RMSE Calculations}
+\subsection{XY Evaluation Metrics}
 %TODO:
 %TODO: Dette skal være tabel over gennemsnitlige RMSE-værdier og geometric accuracies for alle modellerne.
 %TODO:
@@ -2097,28 +2110,63 @@ This section will focus on showing relevant outputs of the final trained models.
 
 \subsection{ALL Subtracted Images}\label{all_subtracted_images}
 %TODO: Fyld ud med de rigtige billeder og skriv figurtekst
-%TODO: Her er tanken at rows eller columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T
 \begin{figure}[H]
 	\centering
-	\begin{subfigure}[b]{0.7\textwidth}
+	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.30\linewidth]{imgs/1.5T_bilinear}
-		\hskip\skipper
-		\includegraphics[width=0.30\linewidth]{imgs/3T_bilinear}
-		%		\caption{1.5T and 3T respectively YZ MRI images after making kernel size divisible by stride.}
-		%		\label{fig:troubleshootc}
+		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
 	\end{subfigure}
-	\vskip\ripper
-	\begin{subfigure}[b]{0.7\textwidth}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.30\linewidth]{imgs/1.5T_no_noise}
-		\hskip\skipper
-		\includegraphics[width=0.30\linewidth]{imgs/3T_no_noise}
-		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
-		%		\label{fig:troubleshootd}
+		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
 	\end{subfigure}
-	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
-	%	\label{fig:troubleshoot}
+	\vskip\bigskipy
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+	\end{subfigure}
+	\vskip\bigskipy
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+	\end{subfigure}
+	\caption{}
+	\label{}
 \end{figure}
 
 \subsection{Discriminator Losses}\label{disc_loss}
