@@ -923,10 +923,17 @@ Another issue entirely turned out to be that the vast number of input images all
 Many solution to the problem of mode collapse exist, some being much easier to implement than other. Easier solutions include reducing the learning rate, making separate learning rates for the discriminators and generators and only updating the discriminator if the accuracy of the discriminator in the current step is under 50\%. Harder solutions include implementing instance noise, making the generator better or making the discriminator worse. For the discriminators in this project, it turned out that it was enough to implement the accuracy check before updating the discriminators, reducing the learning rate and making separate learning rates for generators and discriminators. The others methods have been left in this section for future reference \cite{mode_collapse_reddit_fix}\cite{mode_collapse_github}. After implementing these fixes, the model was able to generate output samples from a much larger distribution, which indicates that the mode collapse has been fixed. A number of generated images can be seen in section \ref{results}.
 
 
-\subsection{Performance Measures}
+\subsection{Evaluation Metrics}\label{evaluation_metrics}
+To be able to properly evaluate whether the CycleGAN models have learned to effectively move between 1.5T and 3T images, a number of evaluation metrics have been applied. This section will explain the background behind these as well as what is expected for bad and good performance when using each metric.
 
-\subsubsection{RMSE}\label{rmse}
+\subsubsection{Visual Inspection}\label{visual_inspection}
+The first evaluation metric, visual inspection, is also the most obvious one. By showing the generated images in a figure next to the ground truth, it is possible to firstly evaluate if the generated image even looks like a brain and secondly if the generated image looks like the brain it is supposed to be mapping towards. This seemingly simple metric might be the most important one, since the first step toward generating convincing brains is to make them convincing to humans.
 
+\subsubsection{Root-Mean-Square Error}\label{rmse}
+Another way to show how closely the generated image matches the real one is to calculate the root-mean-square error between every pixel in the two images. This is done by applying
+\begin{equation}
+	RMSE = \sqrt{\frac{1}{n}\Sigma_{i=1}^{n}{\Big(\frac{d_i -f_i}{\sigma_i}\Big)^2}}
+\end{equation}
 
 \subsubsection{Geometric Accuracy}\label{geometric_accuracy}
 
@@ -2254,10 +2261,11 @@ This section will focus on showing relevant outputs of the final trained models.
 \section{Discussion}\label{discussion}
 %TODO: Skriv en introduktion til sektionen og dens undersektioner
 
-\subsection{What do the Results Show?}\label{discussionOfResults}
-%TODO 
+\subsection{What do the Results Show}\label{discussionOfResults}
+%TODO
 
 \subsection{Similarity measures}
+%TODO
 
 \subsection{Would the Model be Efficacious in Practice?}
 %TODO
@@ -2271,7 +2279,7 @@ This section will focus on showing relevant outputs of the final trained models.
 \subsection{Dealing With GDPR in Personal Data}
 %TODO
 
-\subsection{Economic Incentive of a good classification model}
+\subsection{Economic Incentive of a Good Classification Model}
 
 One could ask the question of what societal and economic implications a good classification model within this field of study could imply. This section aims to estimate the outcome of implementing such a classifier into the Danish society. This will give an insight into whether continuing to study in this field would make sense for the sake of societal impact. The danish 2025 dementia plan has the following goals:
 
@@ -2281,7 +2289,7 @@ One could ask the question of what societal and economic implications a good cla
 	\item Reduce the amount of anti-psychotic medicine with 50 \% in the year 2025
 \end{itemize}
 \noindent
-One of the relevant key focus areas include early detection of dementia which can be aided by deep learning models such as a classifier described in section \ref{statens_kunst}, also consult \cite{yudong} \cite{suk_and_shen_1} \cite{suk_and_shen_2} \cite{cheng} \cite{neuro}. An average patient with dementia costs approximately $ 51000 \ \texttt{DKK / year}$:
+One of the relevant key focus areas include early detection of dementia which can be aided by deep learning models such as a classifier described in section \ref{statens_kunst}, also consult \cite{yudong, suk_and_shen_1, suk_and_shen_2, cheng, neuro}. An average patient with dementia costs approximately $ 51000 \ \texttt{DKK / year}$:
 
 %\texttt{\begin{table}
 		%	\item Practice sector: 3900 DKK
