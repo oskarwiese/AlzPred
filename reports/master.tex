@@ -516,7 +516,7 @@ MRI data is constructed from an MR-scanner in the form of volumes. These 3D imag
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.6\linewidth]{imgs/voxel}
-	\caption{A cube that represent the grid in which the subject brain is. Each voxel will contain information about the intensity of the area. This representation is prone to loss since one voxel can contain information about multiple areas of the brain.}
+	\caption{A cube that represents the grid in which the subject brain is located. Each voxel will contain information about the intensity of the area. This representation is prone to loss since one voxel can contain information about multiple areas of the brain.}
 	\label{fig:voxel}
 \end{figure}
 
@@ -568,7 +568,7 @@ To generate the image, a \texttt{(batch\_size, 100)} vector of gaussian distribu
 		\textbf{Total Parameters}    &                 &       & 26,885,904   \\
 		\textbf{Trainable Parameters}&                 &       & 26,885,904   \\  \bottomrule
 	\end{tabular}
-	\caption{All layers used in the final generator as well as how many parameters are used to train them.}
+	\caption{All layers used in the final generator as well as how many parameters are used to train them. The activation size refers to the output of the layer in the same row. As such, applying the first linear layer yields an output vector of size $2848$. The input "layer" is added for completeness to show which size input is needed for the model to run correctly.}
 	\label{tab:gan_generator}
 \end{table}
 
@@ -603,7 +603,7 @@ The discriminator, like any other classifier, can take as input whatever size an
 		\textbf{Total Parameters}    &                 &       & 5,657,601     \\
 		\textbf{Trainable Parameters}&                 &       & 5,657,601     \\ \bottomrule
 	\end{tabular}
-	\caption{All layers used in the final generator and the number of needed parameters.}
+	\caption{All layers used in the final generator and the number of needed parameters. For a detailed explanation, see table \protect\ref{tab:gan_generator}.}
 	\label{tab:gan_discriminator}
 \end{table}
 
@@ -685,7 +685,7 @@ Not shown in the figure is the actions taken between each layer and the number o
 		\textbf{Total Parameters}     &                 &       & 2,762,689     \\
 		\textbf{Trainable Parameters} &                 &       & 2,762,689     \\ \bottomrule
 	\end{tabular}
-	\caption{The convolutions, stride and padding of each layer in the discriminators. The values used in the activation functions and instance normalization as well as when they are used in the network have also been shown. The activation shape channels are equal to the output\_shape of each layer and the height and width are calculated using the formula from article \protect\cite{calculate_activation_shape}.}
+	\caption{The convolutions, stride and padding of each layer in the discriminators. The values used in the activation functions and instance normalization as well as when they are used in the network have also been shown. The activation shape channels are equal to the output\_shape of each layer and the height and width are calculated using the formula from article \protect\cite{calculate_activation_shape}. For the convolutional layers, the convention in the "layer" column reads \texttt{output\_size x kernel\_height x kernel\_width}. The first layer thus outputs a vector with 64 channels after applying a convolution with a 4x4 kernel with a stride of 2 and padding of 1. Other details of how to read the table can be found in table \ref{tab:gan_generator}.}
 	\label{tab:discriminator_layers}
 \end{table}
 
@@ -738,7 +738,7 @@ Unlike in a standard GAN generator, where a random image from a latent space is 
 		\textbf{Total Parameters}                   &                &             & 11,665,283    \\
 		\textbf{Trainable Parameters}               &                &             & 11,665,283    \\ \bottomrule
 	\end{tabular}
-	\caption{The convolutions, stride and padding of each layer in the generators. The values used in the activation functions and instance normalization as well as when they are used in the network have also been shown. The activation shape channels are equal to the output\_shape of the preceding layer and the height and width are calculated using the formula from article \protect\cite{calculate_activation_shape}.}
+	\caption{The convolutions, stride and padding of each layer in the generators. The values used in the activation functions and instance normalization as well as when they are used in the network have also been shown. Relevant details of how to read the table are found in the captions of tables \ref{tab:gan_generator} and \ref{tab:discriminator_layers}.}
 	\label{tab:generator_layers}
 \end{table}
 
@@ -921,6 +921,7 @@ The data used for training the classifier is a combination of generated images f
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.65\linewidth, trim={0 0 69cm 0},clip]{imgs/convolution}
+		%TODO: Måske kortere caption. Ikke nødvendigt at have kernel defineret, når den er med i billedet.
 		\caption{Here the input is an image with dimensions 6x6, corresponding to 36 pixels. The kernel is a famous filter called the Sobel filter and is used for edge detection. In this case it is simply a 3x3 matrix: 
 			\[ \text{Kernel} = \begin{bmatrix}
 				-1 & -2 & -1 & \\ 0 & 0 & 0 &  \\
@@ -1018,7 +1019,7 @@ The data used for training the classifier is a combination of generated images f
 			\textbf{Total Parameters}                   &                &             & 596,886,978    \\
 			\textbf{Trainable Parameters}               &                &             & 596,886,978    \\ \bottomrule
 		\end{tabular}
-		\caption{The convolutions, stride and padding of each layer in the classification model. The values used in the activation functions and instance normalization (LayerNorm) as well as when they are used in the network have also been shown. The activation shape channels are equal to the output\_shape of the preceding layer. Input is not a layer, but shows what the input dimensions are.}
+		\caption{The convolutions, stride and padding of each layer in the classification model. The values used in the activation functions and instance normalization (LayerNorm) as well as when they are used in the network have also been shown. Other table details are given in the table \ref{tab:gan_generator} and \ref{tab:discriminator_layers} captions.}
 \end{table}	
 
 	\subsubsection{Memory handling}
@@ -1037,19 +1038,24 @@ Furthermore, the versions of the packages used in the project are given in the t
 \begin{table}[H]
 	\begin{center}
 		\begin{tabular}{l l l l l l l l l l}
-			\toprule
+			\toprule			
+			
 			& \textbf{Package \cite{python_packages}}      & & & & & & & \textbf{Version}  & \\ \midrule
-			& torchvision   & & & & & & & $0.10.0$ & \\
-			& pelutils \cite{pelutils}      & & & & & & & $0.6.9$  & \\
-			& torch         & & & & & & & $1.9.0$  & \\
-			& tqdm          & & & & & & & $4.62.3$ & \\
-			& numpy \cite{numpy}        & & & & & & & $1.21.2$ & \\
-			& matplotlib \cite{matplotlib}   & & & & & & & $3.4.3$  & \\
-			& random        & & & & & & & $a$      & \\
-			& os            & & & & & & & $a$      & \\
-			& PIL \cite{pil}           & & & & & & & $a$      & \\
-			& albumentations \cite{albumentations} & & & & & & & $1.1.0$  & \\ \bottomrule
+			& albumentations \cite{albumentations}         & & & & & & & $1.1.0$           & \\ 
+			& ipython \cite{ipython}                       & & & & & & & $7.30.1$          & \\ 
+			& matplotlib \cite{matplotlib}                 & & & & & & & $3.5.0$           & \\ 
+			& nipy \cite{nipy}                             & & & & & & & $0.5.0$           & \\
+			& pandas \cite{pandas}                         & & & & & & & $1.3.5$           & \\
+			& pelutils \cite{pelutils}                     & & & & & & & $0.6.9$           & \\
+			& pip-chill \cite{pip-chill}                   & & & & & & & $1.0.1$           & \\
+			& torchio \cite{torchio}                       & & & & & & & $0.18.71$         & \\
+			& torchsummary \cite{torchsummary}             & & & & & & & $1.5.1$           & \\
+			& torch \cite{pytorch}                         & & & & & & & $1.10.0+cu113$    & \\
+			& torchvision \cite{torchvision}               & & & & & & & $0.11.1+cu113$    & \\
+			\bottomrule
 		\end{tabular}
+		\caption{The packages used for all the scrips in this project as well as their versions. Note that \texttt{pip-chill} was only used to generate this table and \texttt{ipython} is not strictly necessary.}
+		\label{tab:packages}
 	\end{center}
 \end{table}
 \noindent Since randomness plays a large roll in implementing deep learning architectures, random seeds have been set in order to ensure equivalent results for every run of the notebook. The seed number was set to 42 and was used for the python seed \texttt{random.seed}, the numpy seed \texttt{np.random.seed} and the pytorch seeds: \newline \texttt{torch.manual\_seed} \texttt{torch.cuda.manual\_seed}
@@ -3258,6 +3264,20 @@ Even though the discriminators are not nearly as important after having trained 
 		\bibitem{pil} Umesh, P. "Image Processing in Python". Citeseer. 2012.
 		
 		\bibitem{albumentations} Buslaev, Alexander. "Albumentations: Fast and Flexible Image Augmentations". Information. 2020. https://www.mdpi.com/2078-2489/11/2/125
+		
+		\bibitem{ipython} Pérez, Fernando et al. "IPython: A System for Interactive Scientific Computing, Computing in Science and Engineering", , vol. 9, no. 3, pp. 21-29. 2007. https://ieeexplore.ieee.org/document/4160251
+		
+		\bibitem{nipy} Gorgolewski, Krzysztof et al. "NIPY: an open library and development framework for FMRI data analysis". 2016. https://www.researchgate.net/publication/238805751\_NIPY\_an\_open\_library\_and\_development\_framework\_for\_FMRI\_data\_analysis.
+		
+		\bibitem{pandas} McKinney, Wes et al. "Data structures for statistical computing in python". Austin TX. 2010.
+		
+		\bibitem{pip-chill} Bánffy, Ricardo. "PIP Chill - Make requirements with only the packages you need". pypi. 2021. https://pypi.org/project/pip-chill/
+		
+		\bibitem{torchio} Pérez-García, Fernando et al. "TorchIO: A Python library for efficient loading, preprocessing, augmentation and patch-based sampling of medical images in deep learning". Elsevier BV. 2021. https://arxiv.org/abs/2003.04696.		
+		
+		\bibitem{torchsummary}  Yep, Tyler. "torch-summary". pypi. 2020. https://pypi.org/project/torch-summary/
+		
+		\bibitem{torchvision} Marcel, Sébastien et al. "Torchvision the machine-vision package of torch". Proceedings of the 18th ACM international conference on Multimedia. 2010. https://dl.acm.org/doi/10.1145/1873951.1874254
 		
 		\bibitem{bcewithlogits} Paszke, A et al. "PyTorch: An Imperative Style, High-Performance Deep Learning Library", Curran Associates, Inc., 2019, https://pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html
 		
