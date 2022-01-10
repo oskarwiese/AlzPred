@@ -526,8 +526,7 @@ MRI data is constructed from an MR-scanner in the form of volumes. These 3D imag
 
 
 \section{Methods}
-This section introduces what technical background has been used in the duration of this project as well as which types of models have been trained. Section \ref{camillas_model} introduces the classification network used to find and analyze the bias present in using both 1.5T and 3T MRI images for analysis. Section \ref{gan} and \ref{cyclegan} consider the intuition and mathematical theory behind implementing GAN's and cycleGAN's. The GAN has been trained on the MNIST hand-drawn digit dataset as a preliminary introduction to GAN's. The results of training this model is found in section \ref{MNIST_GAN}. As for the cycleGAN, five total models have been implemented on various datasets. One of these models was trained on the horse2zebra dataset used in the original cycleGAN paper \cite{original_cyclegan} as another preliminary experiment and as an introduction to cycleGANs. The result of this preliminary run is located in section \ref{horse2zebra_cyclegan}. The four other models have been trained on different variations of the MRI \texttt{nii}-files %TODO: Er det det de hedder?
- mentioned above. One has been trained on slices from the $x$-axis (YZ), another from the $y$-axis (XZ), yet another on the $z$-axis (XY). The last model has been trained on all (all) of these images simultaneously. The goal was to test the best approach for reconstructing 1.5T images from 3T images, and to see if the all-model could hold up to the quality of the other models. The specifics about training variables, hyperparameters, etc. are located in section \ref{model_specifics}. Since these models are not easy to train \cite{hard_to_train}, section \ref{troubleshooting} relays multiple issues along the training process and how they were eventually fixed. Lastly, section \ref{reproducibility} discusses what has been done to ensure reproducible results.
+This section introduces what technical background has been used in the duration of this project as well as which types of models have been trained. Section \ref{camillas_model} introduces the classification network used to find and analyze the bias present in using both 1.5T and 3T MRI images for analysis. Section \ref{gan} and \ref{cyclegan} consider the intuition and mathematical theory behind implementing GAN's and cycleGAN's. The GAN has been trained on the MNIST hand-drawn digit dataset as a preliminary introduction to GAN's. The results of training this model is found in section \ref{MNIST_GAN}. As for the cycleGAN, five total models have been implemented on various datasets. One of these models was trained on the horse2zebra dataset used in the original cycleGAN paper \cite{original_cyclegan} as another preliminary experiment and as an introduction to cycleGANs. The result of this preliminary run is located in section \ref{horse2zebra_cyclegan}. The four other models have been trained on different variations of the MRI files mentioned above. One has been trained on slices from the $x$-axis (YZ), another from the $y$-axis (XZ), yet another on the $z$-axis (XY). The last model has been trained on all (all) of these images simultaneously. The goal was to test the best approach for reconstructing 1.5T images from 3T images, and to see if the all-model could hold up to the quality of the other models. The specifics about training variables, hyperparameters, etc. are located in section \ref{model_specifics}. Since these models are not easy to train \cite{hard_to_train}, section \ref{troubleshooting} relays multiple issues along the training process and how they were eventually fixed. Lastly, section \ref{reproducibility} discusses what has been done to ensure reproducible results.
 
 
 
@@ -631,7 +630,6 @@ This loss is equivalent to the BCE loss with logits, where the weights are all s
 \subsection{CycleGAN}\label{cyclegan}
 The GAN allowed for new images in a specific category to be created based on random noise. The next upgrade would be to be able to go from one category to another and back again. This is exactly the problem a cycleGAN aims to fix, which makes it perfect for this paper, since we aim to go from 3T images to 1.5T images. Going back is not as important in this case, but could prove useful for other purposes. The cycleGAN generally works by implementing two generator networks, each generating one category based on an image from the other category, and two discriminator networks, each predicting the probability of the input image actually being from the original category. This architecture is explained and showcased further in figure \ref{fig:cycleganarchitecture} and \ref{fig:cycleganarchitecture2} below.
 % TODO: Vigtigt at komme ind på original paper
-% F: X -> Y samt G: Y -> X
 
 \subsubsection{General Model Architecture}
 % Visualizer library (måske)
@@ -693,13 +691,12 @@ Not shown in the figure is the actions taken between each layer and the number o
 \end{table}
 
 \subsubsection{Generator in a CycleGAN}
-%TODO: Convolutional neural network
 Unlike in a standard GAN generator, where a random image from a latent space is used to create what ends up looking like a real image, the generators in the cycleGAN takes as input an image from one of the datasets. As such, the input dimension is 1x256x256 (since the image is grayscale). The output is of the exact same dimension, since the generator tries to generate an image from the opposite category using the input image. Between input and output, the general generator architecture is that of an autoencoder, as pictured below in figure \ref{fig:autoencoder}. The generator contains three layers in an encoder and a decoder, while 9 so-called resnet blocks reside between them. The encoder encodes features by narrowing the image dimensions down and widening the depth of the data. The decoder does exactly the opposite, extracting the newfound information back into the new image. The resnet blocks between the encoder and decoder serve the purpose of interpreting the encoded features. The resnet blocks also use skip connections, which provide an alternate path for the gradient. This helps the network reach convergence.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{imgs/autoencoder}
-	\caption{The general autoencoder architecture. A kernel does convolutions to reduce and increase the image dimensions. The smaller the dimensions, the larger the feature complexity. The code between the encoder and decoder aaa. Figure courtesy of \cite{autoencoder}.} %TODO: Find ud af hvad resnet blocks gør
+	\caption{The general autoencoder architecture. A kernel does convolutions to reduce and increase the image dimensions. The smaller the dimensions, the larger the feature complexity. The code between the encoder and decoder is referred to as residual blocks. These learn residual functions from the input of their last layer instead of learning unreferenced functions \cite{residual_blocks}. Figure courtesy of \cite{autoencoder}.}
 	\label{fig:autoencoder}
 \end{figure}
 
@@ -789,7 +786,6 @@ It turns out that the above adversarial losses are not always strenuous enough t
 	&+\mathbb{E}_{y \sim p_{\text {dau }}(y)}\left[\|G(F(y))-y\|_{1}\right] .
 \end{aligned}\]
 
-%TODO: Identity loss
 The identity loss formulated below punishes the model if the generator changes an image that is already part of the domain it transforms to. That is, $y_{new} = G(y)$ gets zero identity loss if $y_{new}$ and $y$ are completely identical and high loss if there are vast differences. The identity loss usually keeps the generators from changing the colors of the input image to get lower errors. The identity loss has therefore not been used in our implementation, as we are not working with color images. The loss has been included for completeness and for possible inspiration if color images were to be used in other contexts.
 
 \[\begin{aligned}
@@ -800,7 +796,6 @@ The identity loss formulated below punishes the model if the generator changes a
 
 \subsubsection{Optimizer, Cross Entropy, Etc.}
 A table of the used hyperparameters and their values in this project in given below. Note that these hyperparameters are applied to different models. Kernel size, stride and padding for each of the convolutional layers of the discriminator and generator are shown in tables \ref{tab:gan_generator}, \ref{tab:gan_discriminator}, \ref{tab:discriminator_layers} and \ref{tab:generator_layers}.
-%TODO: opdatér denne tabel til at have alle modellernes hyperparametre
 \begin{table}[H]
 	\centering
 	\begin{tabular}{l l l l l l l l l}
@@ -828,29 +823,31 @@ A table of the used hyperparameters and their values in this project in given be
 		& Discriminator learning rate &&&&& & $5e-8$        & \\
 		& Generator learning rate     &&&&& & $1e-7$        & \\
 		& Number of epochs            &&&&& & $1.5$         & \\
+		& Number of steps             &&&&& & $240000$      & \\
 		&                             &&&&& &               & \\
 		& \multicolumn{7}{c}{\textbf{XZ Model}}             & \\
 		& Discriminator learning rate &&&&& & $5e-8$        & \\
 		& Generator learning rate     &&&&& & $1e-7$        & \\
 		& Number of epochs            &&&&& & $2$           & \\
+		& Number of steps             &&&&& & $265000$      & \\
 		&                             &&&&& &               & \\
 		& \multicolumn{7}{c}{\textbf{YZ Model}}             & \\
 		& Discriminator learning rate &&&&& & $1e-7$        & \\
 		& Generator learning rate     &&&&& & $1e-7$        & \\
 		& Number of epochs            &&&&& & $1.4$         & \\
+		& Number of steps             &&&&& & $176000$      & \\
 		&                             &&&&& &               & \\
 		& \multicolumn{7}{c}{\textbf{ALL Model}}            & \\
 		& Discriminator learning rate &&&&& & $7e-8$        & \\
 		& Generator learning rate     &&&&& & $1e-7$        & \\
 		& Number of epochs            &&&&& & $0.5$         & \\		
+		& Number of steps             &&&&& & $245000$      & \\
 		\bottomrule
-		%& Train-test split         &&&&& & $0.8/0.2$& \\
 	\end{tabular}
 \end{table} 
-%TODO: Dette passer ikke længere
-The batch size, learning rate, $\lambda_{cyc}$ and betas were set to the same value as in the original CycleGAN paper, as this turned out to be efficacious on ADNI images too. Most notably, the number of epochs has been drastically reduced (from 200 in the original paper to 10). This is due to the fact that the training data used in this project is much more plentiful than originally used to train the first CycleGAN in the paper. This means that we can get away with using vastly fewer epochs. The weight $\lambda_{iden}$ was set to zero in this paper. This is because RGB images have not been used in this project and color integrity is therefore not important in the generator output.
+The optimizer, batch size, betas, convolution depths and input/output were set to the same value as in the original CycleGAN paper, as this turned out to be efficacious on ADNI images too. Most notably, the number of epochs has been drastically reduced (from 200 in the original paper to under two in most of the models). This is due to the fact that the training data used in this project is much more plentiful than originally used to train the first CycleGAN in the paper. This means that we can get away with using vastly fewer epochs, since we still get the same number of overall steps. The weight $\lambda_{iden}$ was set to 1 in this paper, as it turned out to give better performance.
 
-The discriminator and generator convolution depths were chosen to match those used in the original CycleGAN paper. It is self-explanatory that using other images (RGB, non-square, different dimension) would require changing the architecture of input and output dimensions of all four models while also ensuring that the kernel size, stride and padding of the convolutional layers are setup correctly. This can be double checked by using $output\_dim = n - k + p + 1$, where $n$ is the image dimension, $k$ is kernel size and $p$ is padding.
+In relation to the discriminator and generator convolution depths, it is self-explanatory that using other images (RGB, non-square, different dimension) would require changing the architecture of input and output dimensions of all four models while also ensuring that the kernel size, stride and padding of the convolutional layers are setup correctly. This can be double checked by using $output\_dim = n - k + p + 1$, where $n$ is the image dimension, $k$ is kernel size and $p$ is padding.
 
 \subsubsection{Troubleshooting}\label{troubleshooting}
 Since implementing a cycleGAN requires implementing four different neural networks, the hyperparameter search and minutia of the model can be difficult to get right. Very many issues like non-convergence, mode collapse, diminished gradients, vanishing gradients and more are well documented \cite{hard_to_train}. A known problem is cycleGAN only training until they reach a local minimum \cite{ganlocalminimum}. Another is the issue of getting noisy squares in images, sometimes referred to as checkerboard noise. One of the first models that was trained on the MRI ADNI images turned out to contain a version of this checkerboard noise. The source of the noise turned out to be an uneven sampling of pixels in earlier layers to newer layers when doing the upsampling (also known as transpose convolution or deconvolution). Mismatches between the kernel size and the stride as well as bad upscaling can cause some areas of the upsampled image to contain information from more pixels than other areas. This is a critical cause of the recognizable checkerboard noise \cite{checkerboard}. An illustration of how the flaw gets made can be seen below. images generated from the flawed cycleGAN can also be seen in illustration \ref{fig:troubleshoota}. Here, it is clear that white squares are surrounded by black squares all over the image, worsening the general image quality.
@@ -2971,6 +2968,8 @@ The regulations should be build upon the safe AI principles, but should also inc
 		\bibitem{fagproject} Henriksen, Anders, Christensen, Oskar. "Discrimination of Race, Age \& Gender in the COMPAS Dataset". Technical University of Denmark. 2020.
 		
 	%%%%% <GAN and CycleGAN> %%%%%
+		\bibitem{residual_blocks} He, Kaiming. "Deep Residual Learning for Image Recognition". Cornell University. 2015. \url{https://arxiv.org/abs/1512.03385v1}
+	
 		\bibitem{cyclegan_implementation} Persson, Aladdin. "CycleGAN implementation from scratch". YouTube. 2021.  \url{https://www.youtube.com/watch?v=4LktBHGCNfw}
 	
 		\bibitem{original_cyclegan} Zhu, Jun-Yan, et al. "Unpaired image-to-image translation using cycle-consistent adversarial networks." Proceedings of the IEEE international conference on computer vision. 2017.
