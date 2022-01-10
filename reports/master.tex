@@ -2244,7 +2244,7 @@ Even though the discriminators are not nearly as important after having trained 
 		\label{fig:horse2zebra_identity_loss}
 	\end{subfigure}
 	\caption{Horse2zebra CycleGAN loss curves. The curves are order to be respectively generator losses, discriminator losses, cycle-consistency losses and identity losses. $G_A$ converts zebras to horse and $G_B$ converts horses to zebras. Meanwhile, $D_A$ predicts validity of horse images and $D_B$ predicts zebra validity.}
-	\label{horse2zebra_losses}
+	\label{fig:horse2zebra_losses}
 \end{figure}
 
 \subsubsection{Progress of Training}
@@ -2388,7 +2388,7 @@ Even though the discriminators are not nearly as important after having trained 
 	\label{fig:horse2zebra_progress_zebra}
 \end{figure}
 
-\subsubsection{Testing Cycle-Consistency}
+\subsubsection{Generated Images and Testing Cycle-Consistency}
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.8\textwidth}
@@ -2465,23 +2465,8 @@ Even though the discriminators are not nearly as important after having trained 
 		\hskip\skipperer
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/b-a/51_fake_a}
 	\end{subfigure}
-	\vskip\ripper
-	\begin{subfigure}[b]{0.8\textwidth}
-		\centering
-		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-	\end{subfigure}
-	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
-	%	\label{fig:troubleshoot}
+	\caption{This figure shows the results of using $G_A$ and $G_B$ to generate zebras and horses respectively. It also shows how well the models fare at restoring the input image when given the generated image. For each block of images, the first column shows the original input image, the second column shows one generator turning the image into the other class and the third column shows the cycle-consistency when the opposite generator turns the image into the other class again. Each row contains one unique subject for each of the classes. Keep in mind that this task is unpaired, so the horse and zebra input images have no relation.}
+	\label{fig:testing_cycle_consistency}
 \end{figure}
 
 \subsubsection{Testing Identity}
@@ -2543,99 +2528,18 @@ Even though the discriminators are not nearly as important after having trained 
 		\hskip\skipperer
 		\includegraphics[width=0.15\linewidth]{imgs/horse2zebra_cycle/gaussnoise/identity/51_140_fake_b}
 	\end{subfigure}
-	\vskip\ripper
-	\begin{subfigure}[b]{0.8\textwidth}
-		\centering
-		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-		\hskip\skipper
-		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-	\end{subfigure}
-	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
-	%	\label{fig:troubleshoot}
+	\caption{Analyzing how well the model obeys applying the identity transformation when the input image is already part of the output class. The left block of images applies $G_A$ to samples of the horse class and on the right, $G_B$ is applied to zebra class images. In each block, the first column contains the input horse/zebra and the second column shows the generator output. Each column is a subject for each class.}
+	\label{fig:testing_identity}
 \end{figure}
 
-
-%\subsubsection{Quality Comparison to Real Images}
-%%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
-%%TODO: Vis originale heste- og zebrabilleder i kolonne 1 og 3 og genererede heste- og zebrabilleder i kolonne 2 og 4.
-%\begin{figure}[H]
-%	\centering
-%	\begin{subfigure}[b]{0.8\textwidth}
-%		\centering
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%	\end{subfigure}
-%	\vskip\ripper
-%	\begin{subfigure}[b]{0.8\textwidth}
-%		\centering
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%	\end{subfigure}
-%	\vskip\ripper
-%	\begin{subfigure}[b]{0.8\textwidth}
-%		\centering
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%	\end{subfigure}
-%	\vskip\ripper
-%	\begin{subfigure}[b]{0.8\textwidth}
-%		\centering
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%	\end{subfigure}
-%	\vskip\ripper
-%	\begin{subfigure}[b]{0.8\textwidth}
-%		\centering
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%	\end{subfigure}
-%	\vskip\ripper
-%	\begin{subfigure}[b]{0.8\textwidth}
-%		\centering
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_horse}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%		\hskip\skipper
-%		\includegraphics[width=0.15\linewidth]{imgs/temp_zebra}
-%	\end{subfigure}
-%	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
-%	%	\label{fig:troubleshoot}
-%\end{figure}
-
-
 \subsubsection{Discussion of Results}
-%TODO: Skriv om resultaterne og årsagerne til dem}}
+In the loss curves of figure \ref{horse2zebra_losses}, a number of points become apparent. Figure \ref{fig:horse2zebra_generator_loss} and \ref{fig:horse2zebra_discriminator_loss}, it seems that the losses do not experience the same convergence as is commonplace in a model with well-optimized hyperparameters. This could of course happen because the hyperparameters are bad, since a short amount of time has been used to optimize these. Another possibility is that losses for adversarial networks simply look like this sometimes, which is also supported in  machine learning circles \cite{mode_collapse_MLM}. This is also not an issue, as will be covered later. The cycle loss in figure \ref{fig:horse2zebra_cycle_loss} does experience this curve though, which might mean that the generator is overly focused on reducing the cycle-consistency loss. Since $\lambda_{iden}$ was set to $ 0 $ for this run, the identity loss does not converge, as expected.
+
+In regards to the progress of training in figures \ref{fig:horse2zebra_progress_zebra} and \ref{fig:horse2zebra_progress_horse} We notice that the models learn rather quickly to insert stripes/browning and make it more realistic over time. One interesting point is that comparing the epoch show that the images have received a tint of unwanted color. This might be because the model is exploring possible minima, or because the identity loss should have been a value slightly higher than $0$.
+
+For the results in figure \ref{fig:testing_cycle_consistency}, it is first of all noted that the results are rather impressive for being trained on an unoptimized model in a short amount of time. It is also noted that the model has obviously learned to output horses and zebras even though the generator loss only increased and the discriminator loss only linearly decreased. The zebras are missing many features like eyes and muzzle, although $G_B$ has obviously learned to mostly keep the stripes within the subject horse or horses. As for $G_A$, this model also learns to transfer the zebras to horses, but some of the stripes are still visible through the browning. The features are also more prevant on these generations, since the browning is a less aggressive pattern. Lastly in regard to the pure generated images, $G_B$ has seemingly also learned to color the background larger and make grass on the beach, while $G_A$ Adds a more blue background and more fresh-looking grass. In regards to the cycle-consistency, almost no images seem to have any major flaws after having been sent through two networks. This shows that $\lambda_{cyc}$ should probably have been even lower to force the models to learn how to create the other class before learning how to go back again. In general, the models have learned to transfer back to the original image.
+
+In figure \ref{fig:testing_identity}, it seems that the identity loss might have been a necessary parameter for this network. Many of the images have a completely different saturation and hue. More obvious zebra stripes are added to the zebras and the horses are for some reason made to look more pale. Artifact are als ovisible on a number of the images.
 
 
 \newpage
