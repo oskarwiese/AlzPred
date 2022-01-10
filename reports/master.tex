@@ -1198,8 +1198,8 @@ This section will focus on showing relevant outputs of the final trained models.
 		\hskip\skipper
 		\includegraphics[width=0.22\linewidth]{imgs/training_progress/XY_model_3T_epoch_1_idx_77000}
 	\end{subfigure}
-%	\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been changed to nearest neighbor interpolation.}
-%	\label{fig:troubleshootd}
+	\caption{Examples of different slices from the XY model after 0, 1000, 5000, 9000, 11000, 13000, 17000, 19000, 22000, 27000 and 240000 steps respectively from left-to-right, top-to-bottom. The slices where the most interesting developments happen have been chosen. The bottom left image is generated from the finished model. Note that the subject used to generate each image is random.}
+	\label{fig:training_progress}
 \end{figure}
 
 
@@ -1218,8 +1218,6 @@ This section will focus on showing relevant outputs of the final trained models.
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xy_1.5_GT}
 		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/XY_model_136_S_0196_xy_3}
-		%		\caption{136_S_0196}
-		%		\label{}
 	\end{subfigure}
 	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -1231,8 +1229,6 @@ This section will focus on showing relevant outputs of the final trained models.
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xz_1.5_GT}
 		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/XY_model_136_S_0196_xz_3}
-		%		\caption{136_S_0196}
-		%		\label{}
 	\end{subfigure}
 	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -1244,8 +1240,6 @@ This section will focus on showing relevant outputs of the final trained models.
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_yz_1.5_GT}
 		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/XY_model_136_S_0196_yz_3}
-		%		\caption{136_S_0196}
-		%		\label{}
 	\end{subfigure}
 	\vskip\bigskipy
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -1257,8 +1251,6 @@ This section will focus on showing relevant outputs of the final trained models.
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xy_1.5_GT}
 		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/XY_model_082_S_0469_xy_3}
-		%		\caption{082_S_0469}
-		%		\label{}
 	\end{subfigure}
 	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -1270,8 +1262,6 @@ This section will focus on showing relevant outputs of the final trained models.
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xz_1.5_GT}
 		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/XY_model_082_S_0469_xz_3}
-		%		\caption{082_S_0469}
-		%		\label{}
 	\end{subfigure}
 	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -1283,11 +1273,9 @@ This section will focus on showing relevant outputs of the final trained models.
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_yz_1.5_GT}
 		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/XY_model_082_S_0469_yz_3}
-		%		\caption{082_S_0469}
-		%		\label{}
 	\end{subfigure}
-	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
-	%	\label{fig:troubleshoot}
+	\caption{Comparing generated images from the XY model to real ground truth images. The columns, from left to right, contain respectively ground truth 1.5T images, generated 1.5T, ground truth 3T and generated 3T images. As such, the left part of the figure contains only 1.5T images and the right side only contains 3T images. \textbf{Top:} images for subject \texttt{136\_S\_0196}. \textbf{Bottom:} images for subject \texttt{082\_S\_0469}.}
+	\label{fig:xy_quality_comparison}
 \end{figure}
 
 \subsection{XZ Quality Comparison}\label{xz_generated}
@@ -1304,8 +1292,6 @@ This section will focus on showing relevant outputs of the final trained models.
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xy_1.5_GT}
 		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/XZ_model_136_S_0196_xy_3}
-		%		\caption{136_S_0196}
-		%		\label{}
 	\end{subfigure}
 	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -1317,8 +1303,6 @@ This section will focus on showing relevant outputs of the final trained models.
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xz_1.5_GT}
 		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/XZ_model_136_S_0196_xz_3}
-		%		\caption{136_S_0196}
-		%		\label{}
 	\end{subfigure}
 	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -1330,8 +1314,6 @@ This section will focus on showing relevant outputs of the final trained models.
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_yz_1.5_GT}
 		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/XZ_model_136_S_0196_yz_3}
-		%		\caption{136_S_0196}
-		%		\label{}
 	\end{subfigure}
 	\vskip\bigskipy
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -1343,8 +1325,6 @@ This section will focus on showing relevant outputs of the final trained models.
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xy_1.5_GT}
 		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/XZ_model_082_S_0469_xy_3}
-		%		\caption{082_S_0469}
-		%		\label{}
 	\end{subfigure}
 	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -1356,8 +1336,6 @@ This section will focus on showing relevant outputs of the final trained models.
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xz_1.5_GT}
 		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/XZ_model_082_S_0469_xz_3}
-		%		\caption{082_S_0469}
-		%		\label{}
 	\end{subfigure}
 	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -1369,11 +1347,9 @@ This section will focus on showing relevant outputs of the final trained models.
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_yz_1.5_GT}
 		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/XZ_model_082_S_0469_yz_3}
-		%		\caption{082_S_0469}
-		%		\label{}
 	\end{subfigure}
-	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
-	%	\label{fig:troubleshoot}
+	\caption{Comparing generated images from the XZ model to real ground truth images. See the explanation in figure \ref{fig:xy_quality_comparison} for a more detailed explanation.}
+	\label{fig:xz_quality_comparison}
 \end{figure}
 
 \subsection{YZ Quality Comparison}\label{yz_generated}
@@ -1390,8 +1366,6 @@ This section will focus on showing relevant outputs of the final trained models.
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xy_1.5_GT}
 		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/YZ_model_136_S_0196_xy_3}
-		%		\caption{136_S_0196}
-		%		\label{}
 	\end{subfigure}
 	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -1403,8 +1377,6 @@ This section will focus on showing relevant outputs of the final trained models.
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xz_1.5_GT}
 		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/YZ_model_136_S_0196_xz_3}
-		%		\caption{136_S_0196}
-		%		\label{}
 	\end{subfigure}
 	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -1416,8 +1388,6 @@ This section will focus on showing relevant outputs of the final trained models.
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_yz_1.5_GT}
 		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/YZ_model_136_S_0196_yz_3}
-		%		\caption{136_S_0196}
-		%		\label{}
 	\end{subfigure}
 	\vskip\bigskipy
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -1429,8 +1399,6 @@ This section will focus on showing relevant outputs of the final trained models.
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xy_1.5_GT}
 		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/YZ_model_082_S_0469_xy_3}
-		%		\caption{082_S_0469}
-		%		\label{}
 	\end{subfigure}
 	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -1442,8 +1410,6 @@ This section will focus on showing relevant outputs of the final trained models.
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xz_1.5_GT}
 		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/YZ_model_082_S_0469_xz_3}
-		%		\caption{082_S_0469}
-		%		\label{}
 	\end{subfigure}
 	\vskip\ripperer
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -1455,15 +1421,85 @@ This section will focus on showing relevant outputs of the final trained models.
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_yz_1.5_GT}
 		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/YZ_model_082_S_0469_yz_3}
-		%		\caption{082_S_0469}
-		%		\label{}
 	\end{subfigure}
-	%	\caption{Comparison of troubleshooting efforts to solve the visual issues in the generated images from the generators.}
-	%	\label{fig:troubleshoot}
+	\caption{images from the YZ model compared to real ground truth images. See the explanation in figure \ref{fig:xy_quality_comparison} for a more detailed explanation.}
+	\label{fig:yz_quality_comparison}
 \end{figure}
 
 \subsection{All Planes Quality Comparison}\label{all_generated}
-%TODO: Der skal være en figur her med de genererede all_billeder
+%TODO: skriv figurtekst
+%TODO Indsæt genererede 3T billeder
+%TODO: Her er tanken at columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T. Rows er two forskellige subjects i hver plane.
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xy_3_GT}
+		\hskip\skipperer
+		%\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/ALL_model_136_S_0196_xy_1.5}
+		\hskip\bigskipx
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xy_1.5_GT}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/ALL_model_136_S_0196_xy_3}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xz_3_GT}
+		\hskip\skipperer
+		%\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/ALL_model_136_S_0196_xz_1.5}
+		\hskip\bigskipx
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_xz_1.5_GT}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/ALL_model_136_S_0196_xz_3}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_yz_3_GT}
+		\hskip\skipperer
+		%\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/ALL_model_136_S_0196_yz_1.5}
+		\hskip\bigskipx
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/136_S_0196_yz_1.5_GT}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/136_S_0196/ALL_model_136_S_0196_yz_3}
+	\end{subfigure}
+	\vskip\bigskipy
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xy_3_GT}
+		\hskip\skipperer
+		%\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/ALL_model_082_S_0469_xy_1.5}
+		\hskip\bigskipx
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xy_1.5_GT}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/ALL_model_082_S_0469_xy_3}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xz_3_GT}
+		\hskip\skipperer
+		%\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/ALL_model_082_S_0469_xz_1.5}
+		\hskip\bigskipx
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_xz_1.5_GT}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/ALL_model_082_S_0469_xz_3}
+	\end{subfigure}
+	\vskip\ripperer
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_yz_3_GT}
+		\hskip\skipperer
+		%\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/ALL_model_082_S_0469_yz_1.5}
+		\hskip\bigskipx
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/082_S_0469_yz_1.5_GT}
+		\hskip\skipperer
+		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/ALL_model_082_S_0469_yz_3}
+	\end{subfigure}
+	\caption{Comparing generated images from the YZ model to real ground truth images. Figure \ref{fig:xy_quality_comparison} shows the full figure explanation.}
+	\label{fig:yz_quality_comparison}
+\end{figure}
 
 
 \subsection{XY Evaluation Metrics}
@@ -1491,7 +1527,7 @@ This section will focus on showing relevant outputs of the final trained models.
 	\begin{center}
 		\begin{tabular}{l l l l l}
 			\toprule
-			& \textbf{Model}   & \textbf{Avg. Pixels} & \textbf{Avg. Norm}  & \\ \midrule
+			& \textbf{Model}   & \textbf{Avg. Pixels} & \textbf{Avg. Norm [\%]}  & \\ \midrule
 			&      \multicolumn{3}{c}{\textbf{Geometric Accuracy}}          & \\
 			&XY                & $14678174.659$       & $0.8749$            & \\
 			&XZ                & $14603704.886$       & $0.8704$            & \\
@@ -1512,52 +1548,52 @@ This section will focus on showing relevant outputs of the final trained models.
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/002_S_0559_xy_gts_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/002_S_0559_xy_gts_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/002_S_0559_xz_gts_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/002_S_0559_xy_gts_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/002_S_0559_yz_gts_comparison}
 	\end{subfigure}
 	\vskip\ripperer
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/002_S_0559_xy_1.5_1.5gen_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/002_S_0559_xy_1.5_1.5gen_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/002_S_0559_xz_1.5_1.5gen_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/002_S_0559_xy_1.5_1.5gen_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/002_S_0559_yz_1.5_1.5gen_comparison}
 	\end{subfigure}
 	\vskip\bigskipy
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/082_S_0469_xz_gts_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/082_S_0469_xy_gts_comparison}
 		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/082_S_0469_xz_gts_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/082_S_0469_xz_gts_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/082_S_0469_yz_gts_comparison}
 	\end{subfigure}
 	\vskip\ripperer
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/082_S_0469_xz_1.5_1.5gen_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/082_S_0469_xy_1.5_1.5gen_comparison}
 		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/082_S_0469_xz_1.5_1.5gen_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/082_S_0469_xz_1.5_1.5gen_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/082_S_0469_yz_1.5_1.5gen_comparison}
 	\end{subfigure}
 	\vskip\bigskipy
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/136_S_0196_yz_gts_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/136_S_0196_xy_gts_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/136_S_0196_yz_gts_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/136_S_0196_xz_gts_comparison}
 		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/136_S_0196_yz_gts_comparison}
 	\end{subfigure}
 	\vskip\ripperer
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/136_S_0196_yz_1.5_1.5gen_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/136_S_0196_xy_1.5_1.5gen_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/136_S_0196_yz_1.5_1.5gen_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/136_S_0196_xz_1.5_1.5gen_comparison}
 		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xy/136_S_0196_yz_1.5_1.5gen_comparison}
 	\end{subfigure}
@@ -1573,52 +1609,52 @@ This section will focus on showing relevant outputs of the final trained models.
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/002_S_0559_xy_gts_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/082_S_0469_xy_gts_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/002_S_0559_xz_gts_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/136_S_0196_xy_gts_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/002_S_0559_yz_gts_comparison}
 	\end{subfigure}
 	\vskip\ripperer
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/002_S_0559_xy_1.5_1.5gen_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/002_S_0559_xy_1.5_1.5gen_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/002_S_0559_xz_1.5_1.5gen_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/136_S_0196_xy_1.5_1.5gen_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/002_S_0559_yz_1.5_1.5gen_comparison}
 	\end{subfigure}
 	\vskip\bigskipy
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/002_S_0559_xz_gts_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/082_S_0469_xy_gts_comparison}
 		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/082_S_0469_xz_gts_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/136_S_0196_xz_gts_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/082_S_0469_yz_gts_comparison}
 	\end{subfigure}
 	\vskip\ripperer
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/002_S_0559_xz_1.5_1.5gen_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/082_S_0469_xy_1.5_1.5gen_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/002_S_0559_xz_1.5_1.5gen_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/082_S_0469_xz_1.5_1.5gen_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/136_S_0196_xz_1.5_1.5gen_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/082_S_0469_yz_1.5_1.5gen_comparison}
 	\end{subfigure}
 	\vskip\bigskipy
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/002_S_0559_yz_gts_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/136_S_0196_xy_gts_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/082_S_0469_yz_gts_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/136_S_0196_xz_gts_comparison}
 		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/136_S_0196_yz_gts_comparison}
 	\end{subfigure}
 	\vskip\ripperer
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/002_S_0559_yz_1.5_1.5gen_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/136_S_0196_xy_1.5_1.5gen_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/002_S_0559_yz_1.5_1.5gen_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/136_S_0196_xz_1.5_1.5gen_comparison}
 		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/xz/136_S_0196_yz_1.5_1.5gen_comparison}
 	\end{subfigure}
@@ -1634,52 +1670,52 @@ This section will focus on showing relevant outputs of the final trained models.
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/002_S_0559_xy_gts_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/082_S_0469_xy_gts_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/002_S_0559_xz_gts_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/136_S_0196_xy_gts_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/002_S_0559_yz_gts_comparison}
 	\end{subfigure}
 	\vskip\ripperer
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
 		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/002_S_0559_xy_1.5_1.5gen_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/002_S_0559_xy_1.5_1.5gen_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/002_S_0559_xz_1.5_1.5gen_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/136_S_0196_xy_1.5_1.5gen_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/002_S_0559_yz_1.5_1.5gen_comparison}
 	\end{subfigure}
 	\vskip\bigskipy
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/002_S_0559_xz_gts_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/082_S_0469_xy_gts_comparison}
 		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/082_S_0469_xz_gts_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/136_S_0196_xz_gts_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/082_S_0469_yz_gts_comparison}
 	\end{subfigure}
 	\vskip\ripperer
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/002_S_0559_xz_1.5_1.5gen_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/082_S_0469_xy_1.5_1.5gen_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/002_S_0559_xz_1.5_1.5gen_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/082_S_0469_xz_1.5_1.5gen_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/136_S_0196_xz_1.5_1.5gen_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/082_S_0469_yz_1.5_1.5gen_comparison}
 	\end{subfigure}
 	\vskip\bigskipy
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/002_S_0559_yz_gts_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/136_S_0196_xy_gts_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/082_S_0469_yz_gts_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/136_S_0196_xz_gts_comparison}
 		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/136_S_0196_yz_gts_comparison}
 	\end{subfigure}
 	\vskip\ripperer
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/002_S_0559_yz_1.5_1.5gen_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/136_S_0196_xy_1.5_1.5gen_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/002_S_0559_yz_1.5_1.5gen_comparison}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/136_S_0196_xz_1.5_1.5gen_comparison}
 		\hskip\skipperer
 		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/yz/136_S_0196_yz_1.5_1.5gen_comparison}
 	\end{subfigure}
@@ -1688,61 +1724,61 @@ This section will focus on showing relevant outputs of the final trained models.
 \end{figure}
 
 \subsection{ALL Subtracted Images}\label{all_subtracted_images}
-%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
+%TODO: Skriv figurtekst
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/all/002_S_0559_xy_gts_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/all/002_S_0559_xz_gts_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/all/002_S_0559_yz_gts_comparison}
 	\end{subfigure}
 	\vskip\ripperer
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/all/002_S_0559_xy_1.5_1.5gen_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/all/002_S_0559_xz_1.5_1.5gen_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/all/002_S_0559_yz_1.5_1.5gen_comparison}
 	\end{subfigure}
 	\vskip\bigskipy
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/all/082_S_0469_xy_gts_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/all/082_S_0469_xz_gts_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/all/082_S_0469_yz_gts_comparison}
 	\end{subfigure}
 	\vskip\ripperer
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/all/082_S_0469_xy_1.5_1.5gen_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/all/082_S_0469_xz_1.5_1.5gen_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/all/082_S_0469_yz_1.5_1.5gen_comparison}
 	\end{subfigure}
 	\vskip\bigskipy
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/all/136_S_0196_xy_gts_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/all/136_S_0196_xz_gts_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/all/136_S_0196_yz_gts_comparison}
 	\end{subfigure}
 	\vskip\ripperer
 	\begin{subfigure}[b]{0.8\textwidth}
 		\centering
-		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/all/136_S_0196_xy_1.5_1.5gen_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/all/136_S_0196_xz_1.5_1.5gen_comparison}
 		\hskip\skipperer
-		\includegraphics[width=0.22\linewidth]{imgs/blacks.jpg}
+		\includegraphics[width=0.22\linewidth]{imgs/subtracted_images/all/136_S_0196_yz_1.5_1.5gen_comparison}
 	\end{subfigure}
 	\caption{}
 	\label{}
