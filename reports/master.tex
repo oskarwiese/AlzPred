@@ -1077,18 +1077,12 @@ The data used for training the classifier is a combination of generated images f
 	\subsubsection{Memory Handling}
 	Due to the pure size of the 3D images, which is 256x256x256 for each image, it requires enormous amounts of memory on the GPU to run the network outlined in table \ref{cnn_arcitecture}. For this project 32 GB GPUs are available, which in turn enable us to run and train the model with a batchsize of one and images cropped to size 256x145x121. The reason why cropping can be used is due to the amount of black pixels around the brain itself. Other implementations to extend the amount of available memory on the GPU has been implemented in the source code, such as: \texttt{torch.cuda.empty\_cache() }, which empties the cache of the cuda and in turn enables a bit more of memory.
 
-\subsection{Similarity measures}
-%TODO Important to describe how we compare cycleGAN generated images to original. How do we actually measure succes / accuracy?
+
 
 \subsection{T-SNE}
 %TODO Describe method to look at features for 2nd last linear layer
 
 
-
-
-\subsection{Specifics}\label{model_specifics}
-%TODO: Skriv resten af denne sektion
-In this section, other more specific details for the implementation of a GAN will be examined. This includes activation functions, hyperparameters and hyperparameter search and optimizers.
 
 
 \subsection{Reproducibility}\label{reproducibility}
