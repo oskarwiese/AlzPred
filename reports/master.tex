@@ -1145,25 +1145,9 @@ The script \texttt{config.py} is very short but extremely important for the gene
 The script \texttt{utils.py} and \texttt{dataset.py} are not as important to the general workflow and are much easier to understand. \texttt{utils.py} simply implements functions that save and load a checkpoint (current model and optimizer states) such that training can easily be stopped or the best model can be saved. Functions are also saved to plot the loss curves and add seeds to everything, so randomness does not provide difficulty. \texttt{dataset.py} does all the data preprocessing for the horse2zebra dataset.
 
 \section{Results}\label{results}
-%TODO: NÅR VI TRÆKKER GROUND TRUTH OG GENERERET BILLEDE FRA HINANDEN SKAL DE MÅSKE REGISTRERES TIL SAMME SPACE FØRST
-
-
-
-%TODO: Hvordan vurderer vi, hvor godt vi har klaret os?
-%TODO: Indsæt de bedste genererede billeder fra 1.5T og 3T
-%TODO: Indsæt loss-kurve
-%TODO: Undersøg (og lav eventuelt grafer for) hvor ofte discriminatoren får ret i ægte/falske billeder
-%TODO: Måske også en graf for hvor ofte generatoren snyder discriminatoren?
-%TODO: Prøv at generere billeder fra alle tre orienteringer og se, om de bliver genereret lige effektivt
-%TODO: Sammenlign valideringsbilleder med genererede billeder og brug metrics til at måle forskellen mellem billederne
-%TODO: Hvor godt klarer modellen sig når man afprøver cycle consistency? Hvor meget bliver billedet ændret, hvis man giver 1.5T->3T modellen et 3T-billede?
-%TODO: https://machinelearningmastery.com/how-to-evaluate-generative-adversarial-networks/
-%Once your confidence in developing GAN models improves, both the Inception Score and the Frechet Inception Distance can be used to quantitatively summarize the quality of generated images. There is no single best and agreed upon measure, although, these two measures come close.
-
 This section will focus on showing relevant outputs of the final trained models. Results from previous, less successful models can be found in section \ref{appendix} and section \ref{troubleshooting} highlights some of largest issues during the image generation and how they were solved. The general goal of this section will be to first go through examples of generated images and compare and contrast them to real images, and secondly to show loss-curves for each model. Sections \ref{xy_generated}, \ref{xz_generated} and \ref{yz_generated} provide examples of generated images from the models trained on the $XY$, $XZ$ and $YZ$ respectively. In a slightly different manner, section \ref{training_progress} shows how training comes along after a number of steps to show what the generators learn and when. Afterwards, section \ref{all_generated} will show results on every plane when a model has been trained on data from all of $XY$, $XZ$ and $YZ$. Afterwards, the next four sections will focus on the various losses. The sections \ref{disc_loss}, \ref{gen_loss}, \ref{cycle_loss} and \ref{iden_loss} will show respectively the discriminator losses, generator losses, cycle losses and identity losses from each of the four aforementioned models.
 
 \subsection{Training Progress}\label{training_progress}
-%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -1205,8 +1189,6 @@ This section will focus on showing relevant outputs of the final trained models.
 
 
 \subsection{XY Quality Comparison}\label{xy_generated}
-%TODO: skriv figurtekst
-%TODO: Her er tanken at rows eller columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -1279,8 +1261,6 @@ This section will focus on showing relevant outputs of the final trained models.
 \end{figure}
 
 \subsection{XZ Quality Comparison}\label{xz_generated}
-%TODO: skriv figurtekst
-%TODO: Her er tanken at columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T. Rows er two forskellige subjects i hver plane.
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -1353,8 +1333,6 @@ This section will focus on showing relevant outputs of the final trained models.
 \end{figure}
 
 \subsection{YZ Quality Comparison}\label{yz_generated}
-%TODO: skriv figurtekst
-%TODO: Her er tanken at columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T. Rows er two forskellige subjects i hver plane.
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -1427,7 +1405,6 @@ This section will focus on showing relevant outputs of the final trained models.
 \end{figure}
 
 \subsection{All Planes Quality Comparison}\label{all_generated}
-%TODO: skriv figurtekst
 %TODO Indsæt genererede 3T billeder
 %TODO: Her er tanken at columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T. Rows er two forskellige subjects i hver plane.
 \begin{figure}[H]
@@ -1503,9 +1480,6 @@ This section will focus on showing relevant outputs of the final trained models.
 
 
 \subsection{XY Evaluation Metrics}
-%TODO:
-%TODO: Dette skal være tabel over gennemsnitlige RMSE-værdier og geometric accuracies for alle modellerne.
-%TODO:
 \begin{table}[H]
 	\begin{center}
 		\begin{tabular}{l l l l l l}
@@ -1541,7 +1515,6 @@ This section will focus on showing relevant outputs of the final trained models.
 \end{table}
 
 \subsection{XY Subtracted Images}\label{xy_subtracted_images}
-%TODO: Skriv figurtekst
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.8\textwidth}
@@ -1602,7 +1575,6 @@ This section will focus on showing relevant outputs of the final trained models.
 \end{figure}
 
 \subsection{XZ Subtracted Images}\label{xz_subtracted_images}
-%TODO: Skriv figurtekst
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.8\textwidth}
@@ -1663,7 +1635,6 @@ This section will focus on showing relevant outputs of the final trained models.
 \end{figure}
 
 \subsection{YZ Subtracted Images}\label{yz_subtracted_images}
-%TODO: Skriv figurtekst
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.8\textwidth}
@@ -1724,7 +1695,6 @@ This section will focus on showing relevant outputs of the final trained models.
 \end{figure}
 
 \subsection{ALL Subtracted Images}\label{all_subtracted_images}
-%TODO: Skriv figurtekst
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.8\textwidth}
@@ -1785,7 +1755,6 @@ This section will focus on showing relevant outputs of the final trained models.
 \end{figure}
 
 \subsection{Discriminator Losses}\label{disc_loss}
-%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.8\textwidth}
@@ -1798,11 +1767,11 @@ This section will focus on showing relevant outputs of the final trained models.
 		\hfill
 		\includegraphics[width=\linewidth]{imgs/discriminator_losses/ALL_model_discriminator_losses}
 	\end{subfigure}
-
+	\caption{Discriminator losses for respectively the XY, XZ, YZ and ALL model. $D_A$ tries to predict validity of real and fake 1.5T images and $D_B$ predicts 3T images. The models have been trained with different parameters and for different periods of time, so this loss is not necessarily useful for gauging the model performance. Nevertheless, the figures can be used to determine convergence and signs of learning.}
+	\label{fig:discriminator_losses}
 \end{figure}
 
 \subsection{Generator Losses}\label{gen_loss}
-%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.8\textwidth}
@@ -1814,15 +1783,12 @@ This section will focus on showing relevant outputs of the final trained models.
 		\includegraphics[width=\linewidth]{imgs/generator_losses/YZ_model_generator_losses}
 		\hfill
 		\includegraphics[width=\linewidth]{imgs/generator_losses/ALL_model_generator_losses}
-		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been implemented in upsampling.}
-		%		\label{fig:troubleshootb}
 	\end{subfigure}
-	%	\caption{text}
-	%	\label{key}
+	\caption{Generator losses for the XY, XZ, YZ and ALL models. $G_A$ converts images from 3T to 1.5T and $G_B$ converts from 1.5T to 3T. Other minutia about the plot is written about in the caption of figure \ref{fig:discriminator_losses}.}
+	\label{fig:generator_losses}
 \end{figure}
 
 \subsection{Cycle-Consistency Losses}\label{cycle_loss}
-%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.8\textwidth}
@@ -1834,15 +1800,12 @@ This section will focus on showing relevant outputs of the final trained models.
 		\includegraphics[width=\linewidth]{imgs/cycle_losses/YZ_model_cycle_losses}
 		\hfill
 		\includegraphics[width=\linewidth]{imgs/cycle_losses/ALL_model_cycle_losses}
-		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been implemented in upsampling.}
-		%		\label{fig:troubleshootb}
 	\end{subfigure}
-	%	\caption{text}
-	%	\label{key}
+	\caption{Cycle-consistency losses for the XY, XZ, YZ and ALL models. Details are described in the captions of figures \ref{fig:discriminator_losses} and \ref{fig:generator_losses}.}
+	\label{fig:cycle_losses}
 \end{figure}
 
 \subsection{Identity Losses}\label{iden_loss}
-%TODO: Fyld ud med de rigtige billeder og skriv figurtekst
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.8\textwidth}
@@ -1854,11 +1817,9 @@ This section will focus on showing relevant outputs of the final trained models.
 		\includegraphics[width=\linewidth]{imgs/identity_losses/YZ_model_identity_losses}
 		\hfill
 		\includegraphics[width=\linewidth]{imgs/identity_losses/ALL_model_identity_losses}
-		%		\caption{1.5T and 3T respectively YZ MRI images after bilinear interpolation has been implemented in upsampling.}
-		%		\label{fig:troubleshootb}
 	\end{subfigure}
-	%	\caption{text}
-	%	\label{key}
+	\caption{Identity losses for the XY, XZ, YZ and ALL models. Details are described in the captions of figures \ref{fig:discriminator_losses} and \ref{fig:generator_losses}.}
+	\label{fig:cycle_losses}
 \end{figure}
 
 
