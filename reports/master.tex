@@ -1996,6 +1996,10 @@ This section will focus on showing relevant outputs of the final trained models.
 This section aim to interpret the findings of the results. 
 
 \subsubsection{Difficulties and lessons from converging a cycleGAN}
+In section \ref{troubleshooting}, issues in the CycleGAN outputs were remarked upon and, to a certain extent, fixed. This section showed that training these powerful models can be cumbersome and difficult. This section will focus more on what might be done to further improve the model and why training CycleGANs and GANs is so difficult. One of the biggest issues of trying the implement a successful CycleGAN is the sheer number of pitfalls. Mode collapse, checkerboard noise and especially lack of convergence have all been experienced in this project and these only scratch the surface of possible issues \cite{hard_to_train, mode_collapse_MLM}. Thus, this project proposes the importance of having fail-safes when training. Loss curves can give a false sense of security \cite{towardsdatascience_losses, better_cycles_losses}, so both losses, examples of generated images from both models as well as the original image and potentially the cycle-generated image should be shown at regular intervals during training to ensure proper convergence.
+
+Another issue entirely is the question of how to find the optimal hyperparameters. Throughout this project, a number of different parameters were "brute-forced" until the best models were found, though this is not a viable option for everyone. Other possible options could include starting out with hyperparameters from a well-performing paper on a relating subject, using bayesian optimization\cite{bayesian_optimization} to find fitting hyperparameters or even changing the structure of the CycleGAN network with newer methods like the Wasserstein GAN\cite{wasserstein_gan} or the improved Wasserstein GAN\cite{wasserstein_gan_improved}, which promise to improve convergence and make the generator loss curves more relevant to generated image quality. In general, finding the best hyperparameters is difficult, required practice and could become easier if it was easily possible to gauge the performance of the models both during and after training. The next section will focus more on this topic.
+
 
 \subsubsection{How to verify accuracy of the presented cycleGAN}
 % Include both the quality comparison along with the evaluation metrics, AAAAND substracted images
@@ -2814,6 +2818,16 @@ In figure \ref{fig:testing_identity}, it seems that the identity loss might have
 		\bibitem{cyclegan_figures} Hannemose, Morten. "CycleGAN walktrough". Technical University of Denmark. 2019. \url{http://summer-school-gan.compute.dtu.dk/3CycleGanWalkthrough.pdf}.
 		
 		\bibitem{calculate_activation_shape} Ding, Yan. "Calculating Parameters of Convolutional and Fully Connected Layers with Keras". Medium. 2020. \url{https://dingyan89.medium.com/calculating-parameters-of-convolutional-and-fully-connected-layers-with-keras-186590df36c6}.
+		
+		\bibitem{towardsdatascience_losses} Jayathilaka, Mirantha. "Understanding and optimizing GANs (Going back to first principles)". Towards Data Science. 2018. \url{https://towardsdatascience.com/understanding-and-optimizing-gans-going-back-to-first-principles-e5df8835ae18}
+		
+		\bibitem{better_cycles_losses} Wang, Tongzhou and Lin, Yihan. "CycleGAN with Better Cycles". University of California. \url{https://ssnl.github.io/better_cycles/report.pdf}
+		
+		\bibitem{wasserstein_gan} Arjovsky, Martin et al. "Wasserstein GAN". 1Courant Institute of Mathematical Sciences. 2017. \url{https://arxiv.org/abs/1701.07875}
+		
+		\bibitem{wasserstein_gan_improved} Gulrajani, Ishaan et al. "Improved Training of Wasserstein GANs". Montreal Institute for Learning Algorithms. 2017. \url{https://arxiv.org/abs/1704.00028}
+		
+		\bibitem{bayesian_optimization} Snoek, Jasper et al. "Practical Bayesian Optimization of Machine Learning Algorithms". NeurIPS. \url{https://proceedings.neurips.cc/paper/2012/file/05311655a15b75fab86956663e1819cd-Paper.pdf}
 	%%%%% </GAN and CycleGAN> %%%%%
 
 		\bibitem{reckon} FreeSurfer Software Suite, \url{https://surfer.nmr.mgh.harvard.edu/fswiki/recon-all}, last visited 1st of January, 2022.
