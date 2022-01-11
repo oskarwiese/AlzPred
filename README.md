@@ -2,7 +2,7 @@
 Official GitHub repository for Oskar &amp; Anders Bachelor project.
 
 The scope of this project will be to train a classifier on MRI images to predict AD as well as training a cycle-generative adversarial network (cycleGAN)
-to construct 1.5T images from 3T images in order to construct more usable, and
+to generate 1.5T images from 3T images in order to construct more usable, and
 hopefully unbiased, data. Thereby, the model will have more available training
 data, which should lead to a more generalizable classifier, which will be able to aid doctors and humans in need all around the world. This project will also aim to determine possible bias introduced in the model, and discuss how a classifier can be implemented as a tool for doctors, how this might benefit AD prevention, reduce treatment cost and the possible ethical scenarios that might be at play.
 
