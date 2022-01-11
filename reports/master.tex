@@ -1581,14 +1581,19 @@ This section will focus on showing relevant outputs of the final trained models.
 		\begin{tabular}{l l l l l l}
 			\toprule
 			& \textbf{Model} & \textbf{Avg. Orig.} & \textbf{Avg. Gen.} & \textbf{Avg. Diff.} & \\ \midrule
-			&                        \multicolumn{4}{c}{\textbf{RMSE}}                          & \\
+			&              \multicolumn{4}{c}{\textbf{RMSE $\mathbf{3\rightarrow1.5}$}}         & \\
 			&XY                & $1.5344$            & $1.0253$           & $0.5090$            & \\
 			&XZ                & $1.5344$            & $1.1691$           & $0.3653$            & \\
 			&YZ                & $1.5344$            & $1.0311$           & $0.5033$            & \\
 			&ALL               & $1.5344$            & $0.8505$           & $0.6839$            & \\
+			&            \multicolumn{4}{c}{\textbf{RMSE $\mathbf{1.5\rightarrow3}$}}           & \\
+			&XY                & $1.5344$            & $1.0159$           & $0.5185$            & \\
+			&XZ                & $1.5344$            & $1.2517$			  & $0.2827$            & \\
+			&YZ                & $1.5344$            & $0.9805$           & $0.5539$            & \\
+			&ALL               & $1.5344$            & $0.9243$           & $0.6100$            & \\
 			 \bottomrule
 		\end{tabular}
-		\caption{Table showing RMSE for comparisons of images from the different models. The rows contain the four trained MRI CycleGAN models and the column contains respectively average RMSE between 1.5T ground truth and 3T ground truth, average RMSE between 1.5T ground truth and 1.5 generated. The last column is the difference between the first two column. Thus a larger number shows in the last column shows better performance.}
+		\caption{Table showing RMSE for comparisons of images from the different models. The rows contain the four trained MRI CycleGAN models and the first column contains average RMSE between 1.5T ground truth and 3T ground truth. The top part of the second column contains the average RMSE between 1.5T ground truth and 1.5 generated and the bottom part shows RMSE between 3T ground truth and 3T generated. The last column is the difference between the first two columns. Thus a larger number shows in the last column shows better performance.}
 		\label{tab:metrics_rmse}
 	\end{center}
 \end{table}
@@ -1598,15 +1603,19 @@ This section will focus on showing relevant outputs of the final trained models.
 		\begin{tabular}{l l l l l}
 			\toprule
 			& \textbf{Model}   & \textbf{Avg. Pixels} & \textbf{Avg. Norm [\%]}  & \\ \midrule
-			&      \multicolumn{3}{c}{\textbf{Geometric Accuracy}}          & \\
-			&XY                & $14678174.659$       & $0.8749$            & \\
-			&XZ                & $14603704.886$       & $0.8704$            & \\
-			&YZ                & $14593826.818$       & $0.8699$            & \\
-			&ALL               & $14599432.409$       & $0.8702$            & \\
-			\bottomrule
+			&\multicolumn{3}{c}{\textbf{Geometric Accuracy $\mathbf{3\rightarrow1.5}$}}   & \\
+			&XY                & $14678174.659$       & $0.8749$                 & \\
+			&XZ                & $14603704.886$       & $0.8704$                 & \\
+			&YZ                & $14593826.818$       & $0.8699$                 & \\
+			&ALL               & $14599432.409$       & $0.8702$                 & \\
+			&\multicolumn{3}{c}{\textbf{Geometric Accuracy $\mathbf{1.5\rightarrow3}$}}   & \\
+			&XY                & $14778896.955$	      & $0.8809$                 & \\
+			&XZ                & $14776926.409$       & $0.8808$                 & \\
+			&YZ                & $14793707.02$        & $0.8818$                 & \\
+			&ALL               & $14694007.18$        & $0.8758$                 & \\ \bottomrule
 		\end{tabular}
 		%TODO: Skriv om hvor mange pixels der er sorte
-		\caption{This table shows geometric accuracy for comparisons between the 1.5 ground truth image and an image generated from each of the four models. The rows contain the four trained MRI CycleGAN models and the column contains respectively the number of pixels where the 1.5T ground truth and 1.5T generated images agree and the percentage of agreed upon pixels.}
+		\caption{\textbf{Top:} This table shows geometric accuracy for comparisons between the 1.5 ground truth image and an image generated from each of the four models. \textbf{Bottom:} Geometric accuracy between 3T ground truth images and generated 3T images. The rows contain the four trained MRI CycleGAN models and the column contains respectively the number of pixels where the 1.5T ground truth and 1.5T generated images agree and the percentage of agreed upon pixels.}
 		\label{tab:metrics_geometric_accuracy}
 	\end{center}
 \end{table}
