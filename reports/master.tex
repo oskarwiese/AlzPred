@@ -508,7 +508,7 @@ An important thing to note is that all black images are discarded. This means on
 \end{figure}
 
 \subsection{Ethicality of Data}
-% Quick rant about GDPR
+% Quick rant about GDPR 
 
 
 \subsection{Trade off of Using MRI}
@@ -956,7 +956,7 @@ In order to investigate whether a cycleGAN can be used to remove bias from a cla
 In recent work with Alzheimer's disease classification by Camilla, a neural network was used to determine whether each patient had AD. Since this model was full of bias when used on the original data, we used a very similar model to compare and contrast if the above described methods succeeds in removing the most prominent biases from the model, namely, the difference between 1.5T and 3T images. The model was implemented as a PyTorch neural network with 6 convolution layers using ReLU as activation function between each layer. This was followed by a fully connected layer with sigmoid activation to output the probability of each class (sick or healthy).  \cite{CamillaKandidat}.
 
 \subsubsection{Data}
-The data used for training the classifier is a combination of generated images from a cycleGAN model as well as the original data from ADNI, which has been described in section \ref{dataDescription}. By training a classifier on the data, the outcome will be to test whether the model will inherit a bias towards the generated images. The goal is to prove that this bias does not exist by using dimensionality reduction algorithms on the 2nd last linear layer from the model. There are 939 images in the training data and 235 in the test data. 
+The data used for training the classifier is a combination of generated images from a cycleGAN model as well as the original data from ADNI, which has been described in section \ref{dataDescription}. By training a classifier on the data, the outcome will be to test whether the model will inherit a bias towards the generated images. The goal is to prove that this bias does not exist by using dimensionality reduction algorithms on the 2nd last linear layer from the model. There are 939 images in the training data and 235 in the test data. However, augmentation is used to create a more robust model. Three types of augmentations happen randomly with a probability, $ p = 0.8 $. The augmentations are a random rotation, random flip or a random elastic deformation. The goal of using augmentation is to both create more training data and ensure a robust and generalization model post training. 
 
 \subsubsection{Deep Neural Network Model}
 
@@ -1173,6 +1173,75 @@ The script \texttt{utils.py} and \texttt{dataset.py} are not as important to the
 
 \section{Results}\label{results}
 This section will focus on showing relevant outputs of the final trained models. Results from previous, less successful models can be found in section \ref{appendix} and section \ref{troubleshooting} highlights some of largest issues during the image generation and how they were solved. The general goal of this section will be to first go through examples of generated images and compare and contrast them to real images, and secondly to show loss-curves for each model. Sections \ref{xy_generated}, \ref{xz_generated} and \ref{yz_generated} provide examples of generated images from the models trained on the $XY$, $XZ$ and $YZ$ respectively. In a slightly different manner, section \ref{training_progress} shows how training comes along after a number of steps to show what the generators learn and when. Afterwards, section \ref{all_generated} will show results on every plane when a model has been trained on data from all of $XY$, $XZ$ and $YZ$. Afterwards, the next four sections will focus on the various losses. The sections \ref{disc_loss}, \ref{gen_loss}, \ref{cycle_loss} and \ref{iden_loss} will show respectively the discriminator losses, generator losses, cycle losses and identity losses from each of the four aforementioned models.
+
+\subsection{Discriminator Losses}\label{disc_loss}
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{imgs/discriminator_losses/XY_model_discriminator_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/discriminator_losses/XZ_model_discriminator_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/discriminator_losses/YZ_model_discriminator_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/discriminator_losses/ALL_model_discriminator_losses}
+	\end{subfigure}
+	\caption{Discriminator losses for respectively the XY, XZ, YZ and ALL model. $D_A$ tries to predict validity of real and fake 1.5T images and $D_B$ predicts 3T images. The models have been trained with different parameters and for different periods of time, so this loss is not necessarily useful for gauging the model performance. Nevertheless, the figures can be used to determine convergence and signs of learning.}
+	\label{fig:discriminator_losses}
+\end{figure}
+
+\subsection{Generator Losses}\label{gen_loss}
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{imgs/generator_losses/XY_model_generator_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/generator_losses/XZ_model_generator_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/generator_losses/YZ_model_generator_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/generator_losses/ALL_model_generator_losses}
+	\end{subfigure}
+	\caption{Generator losses for the XY, XZ, YZ and ALL models. $G_A$ converts images from 3T to 1.5T and $G_B$ converts from 1.5T to 3T. Other minutia about the plot is written about in the caption of figure \ref{fig:discriminator_losses}.}
+	\label{fig:generator_losses}
+\end{figure}
+
+\subsection{Cycle-Consistency Losses}\label{cycle_loss}
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{imgs/cycle_losses/XY_model_cycle_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/cycle_losses/XZ_model_cycle_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/cycle_losses/YZ_model_cycle_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/cycle_losses/ALL_model_cycle_losses}
+	\end{subfigure}
+	\caption{Cycle-consistency losses for the XY, XZ, YZ and ALL models. Details are described in the captions of figures \ref{fig:discriminator_losses} and \ref{fig:generator_losses}.}
+	\label{fig:cycle_losses}
+\end{figure}
+
+\subsection{Identity Losses}\label{iden_loss}
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{imgs/identity_losses/XY_model_identity_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/identity_losses/XZ_model_identity_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/identity_losses/YZ_model_identity_losses}
+		\hfill
+		\includegraphics[width=\linewidth]{imgs/identity_losses/ALL_model_identity_losses}
+	\end{subfigure}
+	\caption{Identity losses for the XY, XZ, YZ and ALL models. Details are described in the captions of figures \ref{fig:discriminator_losses} and \ref{fig:generator_losses}.}
+	\label{fig:cycle_losses}
+\end{figure}
+
 
 \subsection{Training Progress}\label{training_progress}
 \begin{figure}[H]
@@ -1782,72 +1851,121 @@ This section will focus on showing relevant outputs of the final trained models.
 	\label{fig:all_subtracted_images}
 \end{figure}
 
-\subsection{Discriminator Losses}\label{disc_loss}
+
+
+\subsection{Classifier Loss \& Accuracy}
+%TODO: insert plots and write figure text
+
 \begin{figure}[H]
 	\centering
-	\begin{subfigure}[b]{0.8\textwidth}
+	\begin{subfigure}[t]{0.5\textwidth}
 		\centering
-		\includegraphics[width=\linewidth]{imgs/discriminator_losses/XY_model_discriminator_losses}
-		\hfill
-		\includegraphics[width=\linewidth]{imgs/discriminator_losses/XZ_model_discriminator_losses}
-		\hfill
-		\includegraphics[width=\linewidth]{imgs/discriminator_losses/YZ_model_discriminator_losses}
-		\hfill
-		\includegraphics[width=\linewidth]{imgs/discriminator_losses/ALL_model_discriminator_losses}
+		\includegraphics[height=2.2in]{imgs/classifier/lr_0.0002_loss_curve}%
+	\end{subfigure}%
+	~
+	\begin{subfigure}[t]{0.5\textwidth}
+	\centering
+	\includegraphics[height=2.2in]{imgs/classifier/lr_0.0002_accuracy_curve}%
+
+\end{subfigure}
+	\label{fig:loss_acc}
+	\caption{CNN Classifier training \& validation loss (left) and training \& validation accuracy (right). The classifier tries to predict whether the subject has Alzheimer disease or not. The figures can be used to determine convergence and signs of learning. }
+\end{figure} \newpage
+\subsection{t-SNE \& PCA}
+
+\subsubsection{With cycleGAN generated 1.5T images \& original 1.5T images }
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[t]{0.59\textwidth}
+		\centering
+		\includegraphics[height=2.2in]{imgs/classifier/with_generated_imgs_tsne_type}%
+		\caption{t-SNE plot colored by type of image. Generated refers to the subject image being reconstructed from 3T to 1.5T with cycleGAN model.}
+	\end{subfigure}%
+	~
+	\begin{subfigure}[t]{0.5\textwidth}
+		\centering
+		\includegraphics[height=2.2in]{imgs/classifier/with_generated_imgs_tsne_sex}%
+		\caption{t-SNE plot colored by sex. Sex refer to the gender of the patient indicating whether the person is male or female according to the ADNI database.}	
 	\end{subfigure}
-	\caption{Discriminator losses for respectively the XY, XZ, YZ and ALL model. $D_A$ tries to predict validity of real and fake 1.5T images and $D_B$ predicts 3T images. The models have been trained with different parameters and for different periods of time, so this loss is not necessarily useful for gauging the model performance. Nevertheless, the figures can be used to determine convergence and signs of learning.}
-	\label{fig:discriminator_losses}
+	\begin{subfigure}[t]{0.5\textwidth}
+	\centering
+	\includegraphics[height=2.2in]{imgs/classifier/with_generated_imgs_tsne_group}%
+	\caption{t-SNE plot colored by group. Group refer to the label of the patient indicating whether the person has Alheimer or not.}
+	\end{subfigure}
+	\label{fig:type_1}
+	\caption{The figure displayed shows the t-SNE plots of the CNN classifier models 2nd last linear layer when forward passing the validation data. Each of the plots are colored by different labels. Figure (a) shows generated vs. original images, (b) shows male vs. female and (c) shows the Alzheimer patients vs. control group. }
 \end{figure}
 
-\subsection{Generator Losses}\label{gen_loss}
+
 \begin{figure}[H]
 	\centering
-	\begin{subfigure}[b]{0.8\textwidth}
+	\begin{subfigure}[t]{0.59\textwidth}
 		\centering
-		\includegraphics[width=\linewidth]{imgs/generator_losses/XY_model_generator_losses}
-		\hfill
-		\includegraphics[width=\linewidth]{imgs/generator_losses/XZ_model_generator_losses}
-		\hfill
-		\includegraphics[width=\linewidth]{imgs/generator_losses/YZ_model_generator_losses}
-		\hfill
-		\includegraphics[width=\linewidth]{imgs/generator_losses/ALL_model_generator_losses}
+		\includegraphics[height=2.2in]{imgs/classifier/with_generated_imgs_pca_type}%
+		\caption{PCA plot colored by type of image. Generated refers to the subject image being reconstructed from 3T to 1.5T with cycleGAN model.}
+	\end{subfigure}%
+	~
+	\begin{subfigure}[t]{0.5\textwidth}
+		\centering
+		\includegraphics[height=2.2in]{imgs/classifier/with_generated_imgs_pca_sex}%
+		\caption{PCA plot colored by sex. Sex refer to the gender of the patient indicating whether the person is male or female according to the ADNI database.}	
 	\end{subfigure}
-	\caption{Generator losses for the XY, XZ, YZ and ALL models. $G_A$ converts images from 3T to 1.5T and $G_B$ converts from 1.5T to 3T. Other minutia about the plot is written about in the caption of figure \ref{fig:discriminator_losses}.}
-	\label{fig:generator_losses}
+	\begin{subfigure}[t]{0.5\textwidth}
+		\centering
+		\includegraphics[height=2.2in]{imgs/classifier/with_generated_imgs_pca_group}%
+		\caption{PCA plot colored by group. Group refer to the label of the patient indicating whether the person has Alheimer or not.}
+	\end{subfigure}
+	\label{fig:type_1}
+	\caption{The figure displayed shows the PCA plots of the CNN classifier models 2nd last linear layer when forward passing the validation data. Each of the plots are colored by different labels. Figure (a) shows generated vs. original images, (b) shows male vs. female and (c) shows the Alzheimer patients vs. control group. }
 \end{figure}
 
-\subsection{Cycle-Consistency Losses}\label{cycle_loss}
+
+\subsubsection{With original 3T \& original 1.5T images }
+
 \begin{figure}[H]
 	\centering
-	\begin{subfigure}[b]{0.8\textwidth}
+	\begin{subfigure}[t]{0.59\textwidth}
 		\centering
-		\includegraphics[width=\linewidth]{imgs/cycle_losses/XY_model_cycle_losses}
-		\hfill
-		\includegraphics[width=\linewidth]{imgs/cycle_losses/XZ_model_cycle_losses}
-		\hfill
-		\includegraphics[width=\linewidth]{imgs/cycle_losses/YZ_model_cycle_losses}
-		\hfill
-		\includegraphics[width=\linewidth]{imgs/cycle_losses/ALL_model_cycle_losses}
+		\includegraphics[height=2.2in]{imgs/classifier/not_generated_imgs_tsne_type}%
+		\caption{t-SNE plot colored by type of image. The label refers to the subject image being either 3T to 1.5T.}
+	\end{subfigure}%
+	~
+	\begin{subfigure}[t]{0.5\textwidth}
+		\centering
+		\includegraphics[height=2.2in]{imgs/classifier/not_generated_imgs_tsne_sex}%
+		\caption{t-SNE plot colored by sex. Sex refer to the gender of the patient indicating whether the person is male or female according to the ADNI database.}	
 	\end{subfigure}
-	\caption{Cycle-consistency losses for the XY, XZ, YZ and ALL models. Details are described in the captions of figures \ref{fig:discriminator_losses} and \ref{fig:generator_losses}.}
-	\label{fig:cycle_losses}
+	\begin{subfigure}[t]{0.5\textwidth}
+		\centering
+		\includegraphics[height=2.2in]{imgs/classifier/not_generated_imgs_tsne_group}%
+		\caption{t-SNE plot colored by group. Group refer to the label of the patient indicating whether the person has Alheimer or not.}
+	\end{subfigure}
+	\label{fig:type_1}
+	\caption{The figure displayed shows the t-SNE plots of the CNN classifier models 2nd last linear layer when forward passing the validation data. Each of the plots are colored by different labels. Figure (a) shows generated vs. original images, (b) shows male vs. female and (c) shows the Alzheimer patients vs. control group. }
 \end{figure}
 
-\subsection{Identity Losses}\label{iden_loss}
+
 \begin{figure}[H]
 	\centering
-	\begin{subfigure}[b]{0.8\textwidth}
+	\begin{subfigure}[t]{0.59\textwidth}
 		\centering
-		\includegraphics[width=\linewidth]{imgs/identity_losses/XY_model_identity_losses}
-		\hfill
-		\includegraphics[width=\linewidth]{imgs/identity_losses/XZ_model_identity_losses}
-		\hfill
-		\includegraphics[width=\linewidth]{imgs/identity_losses/YZ_model_identity_losses}
-		\hfill
-		\includegraphics[width=\linewidth]{imgs/identity_losses/ALL_model_identity_losses}
+		\includegraphics[height=2.2in]{imgs/classifier/not_generated_imgs_pca_type}%
+		\caption{PCA plot colored by type of image. Generated refers to the subject image being reconstructed from 3T to 1.5T with cycleGAN model.}
+	\end{subfigure}%
+	~
+	\begin{subfigure}[t]{0.5\textwidth}
+		\centering
+		\includegraphics[height=2.2in]{imgs/classifier/not_generated_imgs_pca_sex}%
+		\caption{PCA plot colored by sex. Sex refer to the gender of the patient indicating whether the person is male or female according to the ADNI database.}	
 	\end{subfigure}
-	\caption{Identity losses for the XY, XZ, YZ and ALL models. Details are described in the captions of figures \ref{fig:discriminator_losses} and \ref{fig:generator_losses}.}
-	\label{fig:cycle_losses}
+	\begin{subfigure}[t]{0.5\textwidth}
+		\centering
+		\includegraphics[height=2.2in]{imgs/classifier/not_generated_imgs_pca_group}%
+		\caption{PCA plot colored by group. Group refer to the label of the patient indicating whether the person has Alheimer or not.}
+	\end{subfigure}
+	\label{fig:type_1}
+	\caption{The figure displayed shows the PCA plots of the CNN classifier models 2nd last linear layer when forward passing the validation data. Each of the plots are colored by different labels. Figure (a) shows generated vs. original images, (b) shows male vs. female and (c) shows the Alzheimer patients vs. control group. }
 \end{figure}
 
 
@@ -1856,19 +1974,21 @@ This section will focus on showing relevant outputs of the final trained models.
 %TODO: Skriv en introduktion til sektionen og dens undersektioner
 
 \subsection{What do the Results Show}\label{discussionOfResults}
-%TODO
+This section aim to interpret the findings of the results. 
 
-\subsection{Similarity measures}
-%TODO
+\subsubsection{Difficulties and lessons from converging a cycleGAN}
+
+\subsubsection{How to verify accuracy of the presented cycleGAN}
+% Include both the quality comparison along with the evaluation metrics, AAAAND substracted images
+
+\subsubsection{Can synthetic cycleGAN data be used for bias removal?}
+% t-SNE, PCA 
 
 \subsection{Would the Model be Efficacious in Practice?}
-%TODO
+%TODO can i use it?
 
 \subsection{Standardization of Measuring Equipment (3T/1.5T)}
 %TODO gør 1.5T til den nye 3T
-
-\subsection{Improvements for Future Papers}
-%TODO
 
 \subsection{Dealing With GDPR in Personal Data}
 %TODO
