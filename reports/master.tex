@@ -2008,7 +2008,9 @@ Thus, the study suggests that using cycleGAN for either removing the field stren
 
 
 \subsection{Would the Model be Efficacious in Practice?}
-%TODO can i use it?
+%TODO can i use it? 
+
+
 
 \subsection{Convenience of mapping: $ G: X \rightarrow Y $ \ \& \ $ F: Y \rightarrow X $ }
 
@@ -2098,6 +2100,9 @@ An important thing to ensure in future work within this field is a standardized 
 Proposed in this study is the RMSE between the generated 1.5T and original 1.5T and a geometric accuracy which does a pixel wise comparison. The geometric accuracy will give an overview of whether the model has learned the geometric structure of the brain, where the RMSE will tell us how far the generated images is from the original  image. However, the euclidean distance from the generated image to the original image might stem from the difference in the two different scans of the subject. In conclusion, this report calls for a method to quantitatively evaluate if the synthetically generated images from the cycleGAN model are similar to the 3T equivalents that do not exist. 
 
 \subsection{Training multiple classifiers}\label{future_work_mult}
+
+%TODO snak om hyperparameter optmizatio etc. 
+
 One of the main things for future work is to train more classifiers than the simple one implemented in this study. Furthermore, getting the large networks to converge before trying to look at the internal feature representations. From, figure \ref{fig:loss_acc} it is very apparent that the network is not fully converged which may cause spurious conclusions as to whether the bias is completely removed or not. The cycleGAN model used to generate data for the showcased CNN classifier of the report was trained on the xy planes. Therefore, future work needs to investigate some of the other cycleGAN models, epecially the \texttt{all\_model}, which has the lowest RMSE of the ones trained in this project.
 
 \subsection{Investigating possible accuracy improvements using synthetic data}
