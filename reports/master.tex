@@ -175,7 +175,7 @@ of detail. Previous studies have with the tools of machine learning and computer
 \subsection{Incentive of the Project}
 %TODO: SKal der mere vægt på at gøre 3T til 1.5T-billeder?
 The scope of this project will be to train a classifier on MRI images to predict AD as well as training a cycle-generative adversarial network (cycleGAN)
-to construct 1.5T images from 3T images in order to construct more usable, and
+to generate 1.5T images from 3T images in order to construct more usable, and
 hopefully unbiased, data. Thereby, the model will have more available training
 data, which should lead to a more generalizable classifier, which will be able to aid doctors and humans in need all around the world. This project will also aim to determine possible bias introduced in the model, and discuss how a classifier can be implemented as a tool for doctors, how this might benefit AD prevention, reduce treatment cost and the possible ethical scenarios that might be at play.
 \\\\
@@ -528,13 +528,13 @@ This section introduces what technical background has been used in the duration 
 
 
 \subsection{Generative Adversarial Network}\label{gan}
-Since the bottom line of this project is the cycleGAN, the methods and mathematical understanding behind Generative Adversarial Networks (GANs) are important to grasp before diving deep into the theory of cycleGANs. A GAN was implemented on the MNIST dataset as a preliminary trail to help understand the basics. This implementation can be seen in the python script \texttt{train\_GAN.py}. An older version of the same code is also accessible as a Jupyter Notebook in our GitHub repository  \href{https://github.com/oskarwiese/AlzPred/blob/main/preliminary/GAN_MNIST.ipynb}{here}. This implementation in collaboration with this section will hopefully help to give the proper insight into the reasoning and intuition behind cycleGANs later in this section.
+Since the meat and potatoes of this project is the cycleGAN, the methods and mathematical understanding behind Generative Adversarial Networks (GANs) are important to grasp before diving deep into the theory of cycleGANs. A GAN was implemented on the MNIST dataset as a preliminary trail to help understand the basics. This implementation can be seen in the python script \texttt{train\_GAN.py}. An older version of the same code is also accessible as a Jupyter Notebook in our GitHub repository  \href{https://github.com/oskarwiese/AlzPred/blob/main/preliminary/GAN_MNIST.ipynb}{here}. This implementation in collaboration with this section will hopefully help to give the proper insight into the reasoning and intuition behind cycleGANs later in this section.
 
-In general, GANs can be seen as two different complex neural networks competing for the best accuracy during  the process of generating a class of pictures. In other words, the networks are adversaries in generating or classifying images, from which the source of the name becomes clear. One of the networks will be focusing on generating a fake version of images seen in a training folder, called the \textit{generator}, and the other will be trying to distinguish between real and fake images, called the \textit{discriminator} \cite{gan_introduction_towards_datascience}. This competition between networks leads to results comparable or sometimes better than other ML and AI image generation techniques, thus making a good foundation for the generation of 1.5T MRI images from 3T \cite{gan_vs_vae}. The two networks are covered in depth in the below subsections.
+In general, GANs can be seen as two different complex neural networks competing for the best accuracy during  the process of generating a class of pictures. In other words, the networks are adversaries in generating or classifying images, from which the source of the name becomes clear. One of the networks will be focusing on generating a fake version of images seen in a training folder, called the \textit{generator}, and the other will be trying to distinguish between real and fake images, called the \textit{discriminator}. This competition between networks leads to results better than most other ML and AI image generation techniques, thus making a good foundation for the generation of 1.5T MRI images from 3T. The two networks are covered in depth in the below subsections.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{"imgs/GAN architecture"}
-	\caption{The GAN architecture. The generator decodes the random noise from the latent space into a fake image. This fake image as well as an image from the training set is fed into the Discriminator, which encodes the data into a binary prediction of whether the image is real or fake \cite{model_architecture}. Figure courtesy of \cite{gan_introduction_towards_datascience}.}
+	\caption{The GAN architecture. The generator decodes the random noise from the latent space into a fake image. This fake image as well as an image from the training set is fed into the Discriminator, which encodes the data into a binary prediction of whether the image is real or fake. Figure courtesy of \cite{gan_introduction_towards_datascience}.}
 	\label{fig:gan-architecture}
 \end{figure}
 
@@ -542,7 +542,7 @@ In general, GANs can be seen as two different complex neural networks competing 
 \subsubsection{Generator}
 The generator is the most important part of the GAN, since it is responsible for actually generating convincing images. Sadly, making a neural network generate real images is a difficult task to say the least. For that reason, instead of asking the generator to generate 28x28 hand-written digits by comparing the generator output to real digits using some objective function, the output of the generator is instead fed to the discriminator, which predicts if the generated image is real or not. If the discriminator is tricked by the generator, then the generator deserves a low loss for having made a "real" image (in practice, the generator and discriminator both start off unoptimized, so it takes many steps for real images to emerge). This is conceptually a much easier problem to solve, since the generator learns what is necessary to fool the discriminator instead of what characterizes a hand-written digit \cite{developers.google_generator}.
 
-To generate the image, a \texttt{(batch\_size, 100)} vector of gaussian distributed noise is given as input, and the output is an image of dimension \texttt{(batch\_size, 1, 28, 28)}, since the image is black-white. The layers in-between consist of five linear layers. All layers but the last one have batch normalization and leaky-ReLU with value $0.2$. The last layer uses hyperbolic tangent as activation function and is afterwards reshaped from $28^2$ to \texttt{(batch\_size, 1, 28, 28)} to be able to view the output as an image \cite{pathmind_gen_disc_architecture}. The architecture described above is also shown in table \ref{tab:gan_generator}.
+To generate the image, a \texttt{(batch\_size, 100)} vector of gaussian distributed noise is given as input, and the output is an image of dimension \texttt{(batch\_size, 1, 28, 28)}, since the image is black-white. The layers in-between consist of five linear layers. All layers but the last one have batch normalization and leaky-ReLU with $x$ set to $0.2$. The last layer uses hyperbolic tangent as activation function and is afterwards reshaped from $28^2$ to \texttt{(batch\_size, 1, 28, 28)} to be able to view the output as an image \cite{pathmind_gen_disc_architecture}. The architecture described above is also shown in table \ref{tab:gan_generator}.
 
 \begin{table}[H]
 	\centering
@@ -609,7 +609,7 @@ The discriminator, like any other classifier, can take as input whatever size an
 Regarding the learning of the discriminator, one real and one fake image is first given as input. This gives the discriminator both positive and negative examples during training, which it tries to classify as real or fake. The discriminator performance is found using a loss function and this loss quantifies how well the discriminator predicted the validity of the images. This loss is high if the model classifies real images as fake or visa versa. Then, the discriminator weights are updated by backpropagating the loss thoughout the discriminator network. The generator weights are not updated in this step, as it needs to stay constant while generating examples of training images \cite{developers.google_discriminator, developers.google_training}.
 
 \subsubsection{Loss}
-For implementing the loss functions necessary to get a proper GAN going, we first need to define some nomenclature. We assume that sample images are sampled from $x \sim p_{\text {data}}(x)$. The discriminator $D(x)$ outputs a value between zero and one determining whether $x$ is real or fake. The generator takes random noise $z \sim p_{\text {data}}(z)$ and returns a fake sample. The loss function for the discriminator is given as shown below \cite{original_gan}.
+For implementing the loss functions necessary to get a proper GAN going, we first need to define some nomenclature. We assume that sample images are sampled from $x \sim p_{\text {data}}(x)$. The discriminator $D(x)$ outputs a value between zero and one determining whether $x$ is real or fake. The generator takes random noise $z \sim p_{\text {data}}(z)$ and returns a fake sample. The loss function for the discriminator is given as shown below.
 
 \[\begin{aligned}
 	\mathcal{L}\left(G, D, X, Z\right)_D &=\frac{1}{2} \mathbb{E}_{x \sim p_{x}}[1-D(x)] \\
@@ -625,7 +625,7 @@ This loss is equivalent to the BCE loss with logits, where the weights are all s
 
 
 \subsection{CycleGAN}\label{cyclegan}
-The GAN allowed for new images in a specific category to be created based on random noise. The next upgrade would be to be able to go from one category to another and back again. This is exactly the problem a cycleGAN aims to fix, which makes it perfect for this paper, since we aim to go from 3T images to 1.5T images. Going back is not as important in this case, but could prove useful for other purposes. The cycleGAN generally works by implementing two generator networks, each generating one category based on an image from the other category, and two discriminator networks, each predicting the probability of the input image actually being from the original category. This architecture is explained and showcased further in figure \ref{fig:cycleganarchitecture} and \ref{fig:cycleganarchitecture2} below \cite{model_architecture}.
+The GAN allowed for new images in a specific category to be created based on random noise. The next upgrade would be to be able to go from one category to another and back again. This is exactly the problem a cycleGAN aims to fix, which makes it perfect for this paper, since we aim to go from 3T images to 1.5T images. Going back is not as important in this case, but could prove useful for other purposes. The cycleGAN generally works by implementing two generator networks, each generating one category based on an image from the other category, and two discriminator networks, each predicting the probability of the input image actually being from the original category. This architecture is explained and showcased further in figure \ref{fig:cycleganarchitecture} and \ref{fig:cycleganarchitecture2} below.
 % TODO: Vigtigt at komme ind på original paper
 
 \subsubsection{General Model Architecture}
@@ -648,7 +648,7 @@ The GAN allowed for new images in a specific category to be created based on ran
 \subsubsection{Discriminator in a CycleGAN}
 The discriminator of the model should take as input an image of size 1x256x256 (since the image is greyscale) and output a prediction of dimension 1x30x30 with values between zero and one. The reason the output is not just one value is because a patch-GAN is used. This move in dimensions is accomplished using up-sampling of the image with 2D-convolutions to extract increasingly abstract features by decreasing the height and width and increasing the depth of the image.
 
-To make sure that the model is as robust as possible and to avoid overfitting, a patch-GAN is used before outputting the final image prediction. This works by converting 30x30 blocks of the image into predictions, such that the model is forced to predict the validity of the image on each of these blocks. This ensures that the discriminator image can accurately predict if the image comes from the generator using any part of the image \cite{original_cyclegan, patchgan}. Some problems can occur with this method like the model not being about to predict much from a 30x30 square of black pixels. These kinds of problems will be discovered further in the section \ref{discussion} on discussing problems with and efficacies of the model.
+To make sure that the model is as robust as possible and to avoid overfitting, a patch-GAN is used before outputting the final image prediction. This works by converting 30x30 blocks of the image into predictions, such that the model is forced to predict the validity of the image on each of these blocks. This ensures that the discriminator image can accurately predict if the image comes from the generator using any part of the image. Some problems can occur with this method like the model not being about to predict much from a 30x30 square of black pixels. These kinds of problems will be discovered further in the section \ref{discussion} on discussing problems with and efficacies of the model.
 
 %TODO: Explain components (norm and activation layers, convolutions, relu, softmax, prediction layer, etc)
 Of just as much importance as the patch-GAN architecture and general model interactions is the layout of each layer and the functions used throughout the discriminator network. A general overview of the layers, kernel size, type of convolution, stride and padding is shown below in figure \ref{fig:cyclegandiscriminatorlayers}.
@@ -688,7 +688,7 @@ Not shown in the figure is the actions taken between each layer and the number o
 \end{table}
 
 \subsubsection{Generator in a CycleGAN}
-Unlike in a standard GAN generator, where a random image from a latent space is used to create what ends up looking like a real image, the generators in the cycleGAN takes as input an image from one of the datasets. As such, the input dimension is 1x256x256 (since the input is a gray-scale image). The output is of the exact same dimension, since the generator tries to generate an image from the opposite category using the input image. Between input and output, the general generator architecture is that of an autoencoder\cite{autoencoder}, as pictured below in figure \ref{fig:autoencoder}. The generator contains three layers in an encoder and a decoder, while 9 so-called resnet blocks reside between them. The encoder encodes features by narrowing the image dimensions down and widening the depth of the data. The decoder does exactly the opposite, extracting the newfound information back into the new image. The resnet blocks between the encoder and decoder serve the purpose of interpreting the encoded features. The resnet blocks also use skip connections, which provide an alternate path for the gradient. This helps the network reach convergence \cite{developers.google_generator}.
+Unlike in a standard GAN generator, where a random image from a latent space is used to create what ends up looking like a real image, the generators in the cycleGAN takes as input an image from one of the datasets. As such, the input dimension is 1x256x256 (since the image is grayscale). The output is of the exact same dimension, since the generator tries to generate an image from the opposite category using the input image. Between input and output, the general generator architecture is that of an autoencoder, as pictured below in figure \ref{fig:autoencoder}. The generator contains three layers in an encoder and a decoder, while 9 so-called resnet blocks reside between them. The encoder encodes features by narrowing the image dimensions down and widening the depth of the data. The decoder does exactly the opposite, extracting the newfound information back into the new image. The resnet blocks between the encoder and decoder serve the purpose of interpreting the encoded features. The resnet blocks also use skip connections, which provide an alternate path for the gradient. This helps the network reach convergence.
 
 \begin{figure}[H]
 	\centering
@@ -740,7 +740,7 @@ Unlike in a standard GAN generator, where a random image from a latent space is 
 \end{table}
 
 \subsubsection{Objective Functions (Losses)}
-For this section, a number of notations will be introduced. Since the goal is to map between the two domains $X$ and $Y$, we introduce $G : X \rightarrow Y$ and $F : Y \rightarrow X$. Furthermore, $y \sim p_{\text {data}}(y)$ and $x \sim p_{\text {data }}(x)$ refer to the distributions of each domain and $x$ and $y$ refer to samples from each domain. Lastly, the discriminators for each domain are given by $D_X$ and $D_Y$ \cite{original_cyclegan, what_is_cyclegan}.
+For this section, a number of notations will be introduced. Since the goal is to map between the two domains $X$ and $Y$, we introduce $G : X \rightarrow Y$ and $F : Y \rightarrow X$. Furthermore, $y \sim p_{\text {data}}(y)$ and $x \sim p_{\text {data }}(x)$ refer to the distributions of each domain and $x$ and $y$ refer to samples from each domain. Lastly, the discriminators for each domain are given by $D_X$ and $D_Y$ \cite{original_cyclegan}.
 
 This section will focus on how the objective functions are constructed to ensure the correct result from the discriminators and generators. In general, the losses are separated into three categories: adversarial losses, cycle-consistency losses and identity losses. 
 
@@ -842,7 +842,7 @@ A table of the used hyperparameters and their values in this project in given be
 		\bottomrule
 	\end{tabular}
 \end{table} 
-The optimizer, batch size, betas, convolution depths and input/output were set to the same value as in the original CycleGAN paper\cite{original_cyclegan}, as this turned out to be efficacious on ADNI images too. Most notably, the number of epochs has been drastically reduced (from 200 in the original paper to under two in most of the models). This is due to the fact that the training data used in this project is much more plentiful than originally used to train the first CycleGAN in the paper. This means that we can get away with using vastly fewer epochs, since we still get the same number of overall steps. The weight $\lambda_{iden}$ was set to 1 in this paper, as it turned out to give better performance.
+The optimizer, batch size, betas, convolution depths and input/output were set to the same value as in the original CycleGAN paper, as this turned out to be efficacious on ADNI images too. Most notably, the number of epochs has been drastically reduced (from 200 in the original paper to under two in most of the models). This is due to the fact that the training data used in this project is much more plentiful than originally used to train the first CycleGAN in the paper. This means that we can get away with using vastly fewer epochs, since we still get the same number of overall steps. The weight $\lambda_{iden}$ was set to 1 in this paper, as it turned out to give better performance.
 
 In relation to the discriminator and generator convolution depths, it is self-explanatory that using other images (RGB, non-square, different dimension) would require changing the architecture of input and output dimensions of all four models while also ensuring that the kernel size, stride and padding of the convolutional layers are setup correctly. This can be double checked by using $output\_dim = n - k + p + 1$, where $n$ is the image dimension, $k$ is kernel size and $p$ is padding.
 
@@ -2007,12 +2007,6 @@ One of the more prominent research question is whether data generated data from 
 
 Thus, the study suggests that using cycleGAN for either removing the field strength bias between 1.5T and 3T images in deep learning computer vision models or the generation of synthetic data to extend large datasets or perform advanced augmentation seems very promising. 
 
-
-\subsection{Would the Model be Efficacious in Practice?}
-%TODO can i use it? 
-
-
-
 \subsection{Convenience of mapping: $ G: X \rightarrow Y $ \ \& \ $ F: Y \rightarrow X $ }
 
 The reason why mapping from one domain to another within the field of deep learning trained on MRI data is due to the fact that in a lot of cases around the world accessing MRI data can be complex. For some studies only one type of field strength measurement is available. If a model can map between two domains accurately enough all MRI data that exist, regardless of the field strength, can be used to train a CNN classifier model. This, implies that a model can generate 3T images from 1.5T and vice versa. 
@@ -2772,8 +2766,6 @@ In figure \ref{fig:testing_identity}, it seems that the identity loss might have
 		\bibitem{Alzheimerforeningen} Alzheimer.dk "Fakta om demens": \url{https://www.alzheimer.dk/viden-om-demens/fakta-om-demens/}, last visited at 22nd December, 2021
 		
 		\bibitem{informal_care} Jakobsen, Marie et al. "Costs of Informal Care for People Suffering from Dementia: Evidence from a Danish Survey"
-	
-		\bibitem{reckon} FreeSurfer Software Suite, \url{https://surfer.nmr.mgh.harvard.edu/fswiki/recon-all}, last visited 1st of January, 2022.
 		
 		\bibitem{fagproject} Henriksen, Anders, Christensen, Oskar. "Discrimination of Race, Age \& Gender in the COMPAS Dataset". Technical University of Denmark. 2020.
 		
@@ -2795,12 +2787,14 @@ In figure \ref{fig:testing_identity}, it seems that the identity loss might have
 		\bibitem{mode_collapse_github} vrao9, "Loss D goes to zero when adding a new loss to generator", Github Issues, 2019, \url{https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/issues/626}
 		
 		\bibitem{hard_to_train} Hui, Jonathan, "GAN — Why it is so hard to train Generative Adversarial Networks!", Medium, 2018, \url{https://jonathan-hui.medium.com/gan-why-it-is-so-hard-to-train-generative-advisory-networks-819a86b3750b}
+		
+		\bibitem{reckon} FreeSurfer Software Suite, \url{https://surfer.nmr.mgh.harvard.edu/fswiki/recon-all}, last visited 1st of January, 2022.
 
 		\bibitem{ganlocalminimum} Bansal, Aayush et al. "Recycle-GAN: Unsupervised Video Retargeting", Carnegie Mellon University, 2018, \url{https://arxiv.org/pdf/1808.05174.pdf}
 		
 		\bibitem{checkerboard} Odena, et al., "Deconvolution and Checkerboard Artifacts", Distill, 2016. \url{http://doi.org/10.23915/distill.00003}
 		
-		\bibitem{model_architecture} Bansal, Hardik. "Understanding and Implementing CycleGAN in TensorFlow". GitHub. \url{https://hardikbansal.github.io/CycleGANBlog/}. last visited 01/01-2022
+		\bibitem{model_architecture} Bansal, Hardik. "Understanding and Implementing CycleGAN in TensorFlow". GitHub. \url{https://hardikbansal.github.io/CycleGANBlog/, last visited 01/01-2022}.
 		
 		\bibitem{autoencoder} Khosla, Ritwek. "Auto-Encoders for Computer Vision: An Endless world of Possibilities". Analytica Vidhya. 2021. \url{https://www.analyticsvidhya.com/blog/2021/01/auto-encoders-for-computer-vision-an-endless-world-of-possibilities/}
 		
@@ -2825,12 +2819,6 @@ In figure \ref{fig:testing_identity}, it seems that the identity loss might have
 		\bibitem{wasserstein_gan_improved} Gulrajani, Ishaan et al. "Improved Training of Wasserstein GANs". Montreal Institute for Learning Algorithms. 2017. \url{https://arxiv.org/abs/1704.00028}
 		
 		\bibitem{bayesian_optimization} Snoek, Jasper et al. "Practical Bayesian Optimization of Machine Learning Algorithms". NeurIPS. \url{https://proceedings.neurips.cc/paper/2012/file/05311655a15b75fab86956663e1819cd-Paper.pdf}
-		
-		\bibitem{gan_vs_vae} Stewart, Matthew. "GANs vs. Autoencoders: Comparison of Deep Generative Models". Towards Data Science. 2019.  \url{https://towardsdatascience.com/gans-vs-autoencoders-comparison-of-deep-generative-models-985cf15936ea}
-		
-		\bibitem{patchgan} Sahil. "Understanding PatchGAN". Medium. 2020. \url{https://sahiltinky94.medium.com/understanding-patchgan-9f3c8380c207}
-		
-		\bibitem{what_is_cyclegan} Brownlee, Jason. "A Gentle Introduction to CycleGAN for Image Translation". Machine Learning Mastery. 2019. \url{https://machinelearningmastery.com/what-is-cyclegan/}
 	%%%%% </GAN and CycleGAN> %%%%%
 
 		\bibitem{reckon} FreeSurfer Software Suite, \url{https://surfer.nmr.mgh.harvard.edu/fswiki/recon-all}, last visited 1st of January, 2022.
