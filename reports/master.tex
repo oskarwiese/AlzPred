@@ -1622,6 +1622,8 @@ This section will focus on showing relevant outputs of the final trained models.
 	\end{center}
 \end{table}
 
+\vspace*{-1cm} % Try to fix spacing
+
 \subsection{XY Subtracted Images}\label{xy_subtracted_images}
 \begin{figure}[H]
 	\centering
@@ -1881,7 +1883,10 @@ This section will focus on showing relevant outputs of the final trained models.
 \end{subfigure}
 	\caption{CNN Classifier training \& validation loss (left) and training \& validation accuracy (right). The classifier tries to predict whether the subject has Alzheimer disease or not. The figures can be used to determine convergence and signs of learning. }
 		\label{fig:loss_acc}
-\end{figure} \newpage
+\end{figure}
+
+\vspace*{-1cm}
+
 \subsection{t-SNE \& PCA}
 
 \subsubsection{With cycleGAN generated 1.5T images \& original 1.5T images }
@@ -2009,7 +2014,7 @@ Thus, the study suggests that using cycleGAN for either removing the field stren
 
 The reason why mapping from one domain to another within the field of deep learning trained on MRI data is due to the fact that in a lot of cases around the world accessing MRI data can be complex. For some studies only one type of field strength measurement is available. If a model can map between two domains accurately enough all MRI data that exist, regardless of the field strength, can be used to train a CNN classifier model. This, implies that a model can generate 3T images from 1.5T and vice versa. 
 
-Advantages of this will be to train a type of model with data where the demographics are widely different. It would enable the training of models with subjects from all around the world in contrast to limiting datasets where only one type of field strength image is used. Potentially, this can remove demographic bias if such a bias exist in the model while making the trained classifier more generalizanble and useful for societal implementation.  Moreover, the price of 3T MRI scanners are double of what you pay for a 1.5T scanner. Not only are the machinery more expensive, but maintenance and costs of having 3T scanners is also more expensive. If, a perfect mapping exists another implication of this study is that 3T machines are no longer required.
+Advantages of the domain translation will be to train a deep learning model with data where the demographics are widely different. It would enable the training of models with subjects from all around the world in contrast to limiting datasets where only one type of field strength image is used. Potentially, this can remove demographic bias if such a bias exist in the model while making the trained classifier more generalizanble and useful for societal implementation.  Moreover, the price of 3T MRI scanners are double of what you pay for a 1.5T scanner. Not only are the machinery more expensive, but maintenance and costs of having 3T scanners is also more expensive \cite{kmg}. If a perfect mapping exists another implication of this study is that 3T machines are no longer required.
 
 \subsection{Economic Incentive of a Good Classification Model}
 
@@ -2087,7 +2092,7 @@ The regulations should be build upon the safe AI principles, but should also inc
 
 %TODO write about training classifier with different cycleGAN models xz yz, all models. Experiment with larger data sets or even artificially generated brains --> the wet original GAN dream 
 
-\subsubsection{Method to measure performance of a cycleGAN}
+\subsection{Method to measure performance of a cycleGAN}
 An important thing to ensure in future work within this field is a standardized way to measure the performance of a cycleGAN and its mapping between two domains. For this project, a 1.5T and 3T scan of the subject was available. Despite this, when registering the subjects to the MNI305 atlas the two original images will not be completely on top of each other. Why that is, is because the images stem from two different measurements which means that a patient was in two different MRI-scanners. Hence, the patient was not in the exact same position resulting in minor changes as to where the brain is in the subject space. Thus, when registering the image to MNI305, the images are not completely aligned. If the two original images are compared to each other (the 1.5T and 3T image), a given pixel from one image is not in the same position in the other image. Moreover, when a synthetic 1.5T version generated from a 3T images is compared to the original 1.5T image one cannot simply subtract the images.
 
 Proposed in this study is the RMSE between the generated 1.5T and original 1.5T and a geometric accuracy which does a pixel wise comparison. The geometric accuracy will give an overview of whether the model has learned the geometric structure of the brain, where the RMSE will tell us how far the generated images is from the original  image. However, the euclidean distance from the generated image to the original image might stem from the difference in the two different scans of the subject. In conclusion, this report calls for a method to quantitatively evaluate if the synthetically generated images from the cycleGAN model are similar to the 3T equivalents that do not exist. 
@@ -2834,6 +2839,9 @@ In figure \ref{fig:testing_identity}, it seems that the identity loss might have
 		\bibitem{pca2} ScikitLearn \texttt{sklearn.decomposition.PCA}, see more at: \url{https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html}
 		
 		\bibitem{tsne} Maaten, Laurens van der "Visualizing Data using t-SNE", Journal of Machine Learning Research 9 (2008) 2579-2605 
+		
+		\bibitem{kmg} Evans, Erik "MRI Advantages 1.5T Vs. 3T MRI: One Size Does Not Fit All", Jan 27, 2021. Website: \url{https://kingsmedical.com/mri/mri-advantages-1-5t-vs-3t-mri/}
+		
 		
 	\end{thebibliography}
 	
