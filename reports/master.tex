@@ -1868,8 +1868,8 @@ This section will focus on showing relevant outputs of the final trained models.
 	\includegraphics[height=2.2in]{imgs/classifier/lr_0.0002_accuracy_curve}%
 
 \end{subfigure}
-	\label{fig:loss_acc}
 	\caption{CNN Classifier training \& validation loss (left) and training \& validation accuracy (right). The classifier tries to predict whether the subject has Alzheimer disease or not. The figures can be used to determine convergence and signs of learning. }
+		\label{fig:loss_acc}
 \end{figure} \newpage
 \subsection{t-SNE \& PCA}
 
@@ -1893,8 +1893,8 @@ This section will focus on showing relevant outputs of the final trained models.
 	\includegraphics[height=2.2in]{imgs/classifier/with_generated_imgs_tsne_group}%
 	\caption{t-SNE plot colored by group. Group refer to the label of the patient indicating whether the person has Alheimer or not.}
 	\end{subfigure}
-	\label{fig:type_1}
 	\caption{The figure displayed shows the t-SNE plots of the CNN classifier models 2nd last linear layer when forward passing the validation data. Each of the plots are colored by different labels. Figure (a) shows generated vs. original images, (b) shows male vs. female and (c) shows the Alzheimer patients vs. control group. }
+		\label{fig:tsne_gen}
 \end{figure}
 
 
@@ -1916,8 +1916,9 @@ This section will focus on showing relevant outputs of the final trained models.
 		\includegraphics[height=2.2in]{imgs/classifier/with_generated_imgs_pca_group}%
 		\caption{PCA plot colored by group. Group refer to the label of the patient indicating whether the person has Alheimer or not.}
 	\end{subfigure}
-	\label{fig:type_1}
+
 	\caption{The figure displayed shows the PCA plots of the CNN classifier models 2nd last linear layer when forward passing the validation data. Each of the plots are colored by different labels. Figure (a) shows generated vs. original images, (b) shows male vs. female and (c) shows the Alzheimer patients vs. control group. }
+		\label{fig:pca_gen}
 \end{figure}
 
 
@@ -1941,8 +1942,9 @@ This section will focus on showing relevant outputs of the final trained models.
 		\includegraphics[height=2.2in]{imgs/classifier/not_generated_imgs_tsne_group}%
 		\caption{t-SNE plot colored by group. Group refer to the label of the patient indicating whether the person has Alheimer or not.}
 	\end{subfigure}
-	\label{fig:type_1}
+
 	\caption{The figure displayed shows the t-SNE plots of the CNN classifier models 2nd last linear layer when forward passing the validation data. Each of the plots are colored by different labels. Figure (a) shows generated vs. original images, (b) shows male vs. female and (c) shows the Alzheimer patients vs. control group. }
+		\label{fig:tsne_not_gen}
 \end{figure}
 
 
@@ -1964,8 +1966,9 @@ This section will focus on showing relevant outputs of the final trained models.
 		\includegraphics[height=2.2in]{imgs/classifier/not_generated_imgs_pca_group}%
 		\caption{PCA plot colored by group. Group refer to the label of the patient indicating whether the person has Alheimer or not.}
 	\end{subfigure}
-	\label{fig:type_1}
+
 	\caption{The figure displayed shows the PCA plots of the CNN classifier models 2nd last linear layer when forward passing the validation data. Each of the plots are colored by different labels. Figure (a) shows generated vs. original images, (b) shows male vs. female and (c) shows the Alzheimer patients vs. control group. }
+		\label{fig:pca_not_gen}
 \end{figure}
 
 
@@ -1983,6 +1986,10 @@ This section aim to interpret the findings of the results.
 
 \subsubsection{Can synthetic cycleGAN data be used for bias removal?}
 % t-SNE, PCA 
+One of the more prominent research question is whether data generated from a cycleGAN will be able to remove the bias between the fieldstrength of images when training a classifier on both synthetic and original data. From figure \ref{fig:loss_acc} it is evident that the classifier is learning since both the training and validation loss fall over time. Moreover, the accuracy rises as the number of training increments rises. Due to time constraints, the network is not fully converged. However, more interestingly if we look at figure \ref{fig:tsne_gen}, the generated t-SNE plots, do not seem to cluster any of the given labels differently. In other words, the internal feature representation of generated images vs. original images in the classifier model are similar, implying the the bias previously demonstrated has been removed. Nor PCA, can separate the two types of images in the 2nd last layer of the classifier model, see figure \ref{fig:pca_gen}. Moreover, if we look at figure \ref{fig:tsne_not_gen} \& \ref{fig:pca_not_gen}, which illustrates a t-SNE plot by forward passing original 3T images and orignal 1.5T images no similarity differences in the high dimensional feature space seems to be demonstrated.
+
+Thus, the study suggests that using cycleGAN for either removing the fieldstrength bias between 1.5T and 3T images in deep learning computer vision models or the generation of synthetic data to extend large datasets or perform advanced augmentation seems very promising. 
+
 
 \subsection{Would the Model be Efficacious in Practice?}
 %TODO can i use it?
