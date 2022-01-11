@@ -183,9 +183,9 @@ The project will revolve around the possibility to predict Alzheimers by utilizi
 
 \begin{itemize}
 	\item[\textbf{i}] Can a cycleGAN be trained to map between the following domains: 1.5T and 3T MRI
-	images? Does the data constructed by the cycleGAN then prove useful for classification?
+	images?
 	
-	\item[\textbf{ii}] How effective is the prediction model in predicting whether a patient has
+	\item[\textbf{ii}] How effective is the training progress in a prediction model when predicting whether a patient has
 	alzheimer’s disease? And can the cyclGAN data remove previous demonstrated bias from the model?
 	
 	\item[\textbf{iii}] Will the cycleGAN have any societal and economic impacts
@@ -503,9 +503,6 @@ An important thing to note is that all black images are discarded. This means on
 	\end{subfigure}
 	\vskip\baselineskip
 \end{figure}
-
-\subsection{Ethicality of Data}
-% Quick rant about GDPR 
 
 
 \subsection{Trade off of Using MRI}
@@ -1574,7 +1571,7 @@ This section will focus on showing relevant outputs of the final trained models.
 \end{figure}
 
 
-\subsection{Evaluation Metrics}
+\subsection{Evaluation Metrics}\label{result_evaluation_metrics}
 \begin{table}[H]
 	\begin{center}
 		\begin{tabular}{l l l l l l}
@@ -1603,18 +1600,20 @@ This section will focus on showing relevant outputs of the final trained models.
 			\toprule
 			& \textbf{Model}   & \textbf{Avg. Pixels} & \textbf{Avg. Norm [\%]}  & \\ \midrule
 			&\multicolumn{3}{c}{\textbf{Geometric Accuracy $\mathbf{3\rightarrow1.5}$}}   & \\
+			&Baseline          & $14745335.0$         & $0.8788$                 & \\
 			&XY                & $14678174.659$       & $0.8749$                 & \\
 			&XZ                & $14603704.886$       & $0.8704$                 & \\
 			&YZ                & $14593826.818$       & $0.8699$                 & \\
 			&ALL               & $14599432.409$       & $0.8702$                 & \\
 			&\multicolumn{3}{c}{\textbf{Geometric Accuracy $\mathbf{1.5\rightarrow3}$}}   & \\
+			&Baseline          & $14706659.0$         & $0.8765$                 & \\
 			&XY                & $14778896.955$	      & $0.8809$                 & \\
 			&XZ                & $14776926.409$       & $0.8808$                 & \\
 			&YZ                & $14793707.02$        & $0.8818$                 & \\
 			&ALL               & $14694007.18$        & $0.8758$                 & \\ \bottomrule
 		\end{tabular}
 		%TODO: Skriv om hvor mange pixels der er sorte
-		\caption{\textbf{Top:} This table shows geometric accuracy for comparisons between the 1.5 ground truth image and an image generated from each of the four models. \textbf{Bottom:} Geometric accuracy between 3T ground truth images and generated 3T images. The rows contain the four trained MRI CycleGAN models and the column contains respectively the number of pixels where the 1.5T ground truth and 1.5T generated images agree and the percentage of agreed upon pixels.}
+		\caption{\textbf{Top:} This table shows geometric accuracy for comparisons between the 1.5 ground truth image and an image generated from each of the four models. \textbf{Bottom:} Geometric accuracy between 3T ground truth images and generated 3T images. The rows contain the four trained MRI CycleGAN models and the column contains respectively the number of pixels where the 1.5T ground truth and 1.5T generated images agree and the percentage of agreed upon pixels.} %TODO tilføj baseline
 		\label{tab:metrics_geometric_accuracy}
 	\end{center}
 \end{table}
@@ -1863,7 +1862,7 @@ This section will focus on showing relevant outputs of the final trained models.
 
 
 
-\subsection{Classifier Loss \& Accuracy}
+\subsection{Classifier Loss \& Accuracy}\label{result_loss_cnn}
 %TODO: insert plots and write figure text
 
 \begin{figure}[H]
@@ -1884,7 +1883,7 @@ This section will focus on showing relevant outputs of the final trained models.
 
 \vspace*{-1cm}
 
-\subsection{t-SNE \& PCA}
+\subsection{t-SNE \& PCA}\label{result_dim_reduction}
 
 \subsubsection{With cycleGAN generated 1.5T images \& original 1.5T images }
 
@@ -1998,7 +1997,7 @@ In section \ref{troubleshooting}, issues in the CycleGAN outputs were remarked u
 Another issue entirely is the question of how to find the optimal hyperparameters. Throughout this project, a number of different parameters were "brute-forced" until the best models were found, though this is not a viable option for everyone. Other possible options could include starting out with hyperparameters from a well-performing paper on a relating subject, using bayesian optimization\cite{bayesian_optimization} to find fitting hyperparameters or even changing the structure of the CycleGAN network with newer methods like the Wasserstein GAN\cite{wasserstein_gan} or the improved Wasserstein GAN\cite{wasserstein_gan_improved}, which promise to improve convergence and make the generator loss curves more relevant to generated image quality. In general, finding the best hyperparameters is difficult, required practice and could become easier if it was easily possible to gauge the performance of the models both during and after training. The next section will focus more on this topic.
 
 
-\subsubsection{How to verify accuracy of the presented cycleGAN}
+\subsubsection{How to verify accuracy of the presented cycleGAN}\label{discuss_measure}
 % Include both the quality comparison along with the evaluation metrics, AAAAND substracted images
 
 \subsubsection{Can synthetic cycleGAN data be used for bias removal?}
@@ -2089,7 +2088,7 @@ The regulations should be build upon the safe AI principles, but should also inc
 
 %TODO write about training classifier with different cycleGAN models xz yz, all models. Experiment with larger data sets or even artificially generated brains --> the wet original GAN dream 
 
-\subsection{Method to measure performance of a cycleGAN}
+\subsection{Method to measure performance of a cycleGAN}\label{fture_work_measure}
 An important thing to ensure in future work within this field is a standardized way to measure the performance of a cycleGAN and its mapping between two domains. For this project, a 1.5T and 3T scan of the subject was available. Despite this, when registering the subjects to the MNI305 atlas the two original images will not be completely on top of each other. Why that is, is because the images stem from two different measurements which means that a patient was in two different MRI-scanners. Hence, the patient was not in the exact same position resulting in minor changes as to where the brain is in the subject space. Thus, when registering the image to MNI305, the images are not completely aligned. If the two original images are compared to each other (the 1.5T and 3T image), a given pixel from one image is not in the same position in the other image. Moreover, when a synthetic 1.5T version generated from a 3T images is compared to the original 1.5T image one cannot simply subtract the images.
 
 Proposed in this study is the RMSE between the generated 1.5T and original 1.5T and a geometric accuracy which does a pixel wise comparison. The geometric accuracy will give an overview of whether the model has learned the geometric structure of the brain, where the RMSE will tell us how far the generated images is from the original  image. However, the euclidean distance from the generated image to the original image might stem from the difference in the two different scans of the subject. In conclusion, this report calls for a method to quantitatively evaluate if the synthetically generated images from the cycleGAN model are similar to the 3T equivalents that do not exist. 
@@ -2098,7 +2097,7 @@ Proposed in this study is the RMSE between the generated 1.5T and original 1.5T 
 
 %TODO snak om hyperparameter optmizatio etc. 
 
-One of the main things for future work is to train more classifiers than the simple one implemented in this study. Furthermore, getting the large networks to converge before trying to look at the internal feature representations. From, figure \ref{fig:loss_acc} it is very apparent that the network is not fully converged which may cause spurious conclusions as to whether the bias is completely removed or not. The cycleGAN model used to generate data for the showcased CNN classifier of the report was trained on the xy planes. Therefore, future work needs to investigate some of the other cycleGAN models, epecially the \texttt{all\_model}, which has the lowest RMSE of the ones trained in this project.
+One of the main things for future work is to train more classifiers than the simple one implemented in this study. Furthermore, getting the large networks to converge before trying to look at the internal feature representations. From, figure \ref{fig:loss_acc} it is very apparent that the network is not fully converged which may cause spurious conclusions as to whether the bias is completely removed or not. The cycleGAN model used to generate data for the showcased CNN classifier of the report was trained on the xy planes. Therefore, future work needs to investigate some of the other cycleGAN models, epecially the \texttt{all\_model}, which has the lowest RMSE of the ones trained in this project. To fully investigate whether the bias between field strength images is successfully removed from the model a identical classifier trained purely on original data need to be trained and converged for comparison.
 
 \subsection{Investigating possible accuracy improvements using synthetic data}
 
@@ -2107,6 +2106,22 @@ Exploring if synthetic data can be used to make models more robust and generaliz
 To test this hypothesis experiments should be carried out to train two identical classifiers. One classifier on a dataset with synthetic data in it and another on a dataset without synthetic data. 
 
 \section{Conclusion}\label{conclusion}
+
+%Can a cycleGAN be trained to map between the following domains: 1.5T and 3T MRI images?
+% Yes, to some extend baseret på RMSE . --> hvordan måler vi succes? 
+In light of the project a few key findings can be concluded. As can be understood from section \ref{result_evaluation_metrics} \& \ref{discuss_measure}, the proposed cycleGAN models from this project can according to the accuracy measurements presented map successfully between the 1.5T and 3T MRI image domains. The best model is the \texttt{ALL}-model, which has a RMSE of 0.8505 when mapping from 3T to 1.5T and 0.9243 when mapping from 1.5T to 3T compared to the perceived ground truth image. However, as mentioned in section \ref{fture_work_measure} in order to confidently conclude, that a cycleGAN can construct 3D MRI images a proper and agreed methodology of how to measure the precision of the generated data is needed. 
+
+%How effective is the training progress in a prediction model when predicting whether a patient has alzheimer’s disease? 
+% The training progress seems promising based on loss over time
+The cycleGAN generated images seems promising as training data for a CNN classifier for Alzheimer disease. Based on section \ref{result_loss_cnn}, it is evident that the network indeed is learning since the overall trend of the loss is downward. Moreover, the model is not fully converged due to the pure time it takes to train a model with  $ \thicksim $560 million parameters. Furthermore, from section \ref{result_dim_reduction} the bias has been removed to some extend. The bias demonstrated by Kergel\footnote{To see the original demonstrated bias see figure \ref{fig:camillatsne} from section \ref{indledning}.} does seem to be present in the CNN classifier trained on synthetic and original data in this project. 
+
+
+%And can the cyclGAN data remove previous demonstrated bias from the model?
+% Yes, to some extend --> hard to tell without comparison of more classifiers trained on different parts of dataset and different data. model med genereret vs. model uden (med rå 1.5T og 3T) 
+%
+
+%Will the cycleGAN have any societal and economic impacts given the success of the prediction model?
+% If synthetic data generation succesful --> reduce cost economically for society ^ increase life expectancy og quality for individual. 
 
 
 
