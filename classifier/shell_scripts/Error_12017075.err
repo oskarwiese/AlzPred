@@ -1,0 +1,5 @@
+Loaded module: cuda/11.0
+  File "/dtu-compute/ADNIbias/AlzPred_Oskar_Anders/git_code/AlzPred/classifier/src/train_classifier.py", line 102
+    print(f'Epoch: {epoch} Training Loss: {} Validation Loss {} Training Accuracy {} Validation Accuracy {}')
+                                                                                                            ^
+SyntaxError: f-string: empty expression not allowed
