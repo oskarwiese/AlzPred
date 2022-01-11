@@ -1567,7 +1567,7 @@ This section will focus on showing relevant outputs of the final trained models.
 		\includegraphics[width=0.22\linewidth]{imgs/082_S_0469/ALL_model_082_S_0469_yz_3}
 	\end{subfigure}
 	\caption{Comparing generated images from the YZ model to real ground truth images. Figure \ref{fig:xy_quality_comparison} shows the full figure explanation.}
-	\label{fig:yz_quality_comparison}
+	\label{fig:all_quality_comparison}
 \end{figure}
 
 
@@ -1581,15 +1581,15 @@ This section will focus on showing relevant outputs of the final trained models.
 			&XY                & $1.5344$            & $1.0253$           & $0.5090$            & \\
 			&XZ                & $1.5344$            & $1.1691$           & $0.3653$            & \\
 			&YZ                & $1.5344$            & $1.0311$           & $0.5033$            & \\
-			&ALL               & $1.5344$            & $0.8505$           & $0.6839$            & \\
+			&\textbf{ALL}               & $\mathbf{1.5344}$            & $\mathbf{0.8505}$           & $\mathbf{0.6839}$            & \\
 			&            \multicolumn{4}{c}{\textbf{RMSE $\mathbf{1.5\rightarrow3}$}}           & \\
 			&XY                & $1.5344$            & $1.0159$           & $0.5185$            & \\
 			&XZ                & $1.5344$            & $1.2517$			  & $0.2827$            & \\
 			&YZ                & $1.5344$            & $0.9805$           & $0.5539$            & \\
-			&ALL               & $1.5344$            & $0.9243$           & $0.6100$            & \\
+			&\textbf{ALL}               & $\mathbf{1.5344}$            & $\mathbf{0.9243}$           & $\mathbf{0.6100}$            & \\
 			 \bottomrule
 		\end{tabular}
-		\caption{Table showing RMSE for comparisons of images from the different models. The rows contain the four trained MRI CycleGAN models and the first column contains average RMSE between 1.5T ground truth and 3T ground truth. The top part of the second column contains the average RMSE between 1.5T ground truth and 1.5 generated and the bottom part shows RMSE between 3T ground truth and 3T generated. The last column is the difference between the first two columns. Thus a larger number shows in the last column shows better performance.}
+		\caption{Table showing RMSE for comparisons of images from the different models. The rows contain the four trained MRI CycleGAN models and the first column contains average RMSE between 1.5T ground truth and 3T ground truth. The top part of the second column contains the average RMSE between 1.5T ground truth and 1.5 generated and the bottom part shows RMSE between 3T ground truth and 3T generated. The last column is the difference between the first two columns. Thus a larger number shows in the last column shows better performance. The best performing models have been highlighted.}
 		\label{tab:metrics_rmse}
 	\end{center}
 \end{table}
@@ -1999,12 +1999,25 @@ Another issue entirely is the question of how to find the optimal hyperparameter
 
 \subsubsection{How to verify accuracy of the presented cycleGAN}\label{discuss_measure}
 % Include both the quality comparison along with the evaluation metrics, AAAAND substracted images
+This section will focus on how well the MRI CycleGAN models have done in trying to replicate the complex structures of real brains. Looking at the generated images of \ref{fig:xy_quality_comparison}, \ref{fig:xz_quality_comparison}, \ref{fig:yz_quality_comparison} and \ref{fig:all_quality_comparison}, a couple points become clear. All the generated images from all of the models definitely look like real brains. Furthermore, the images look convincingly like the ground truth image matching the same field strength, though some of the details from the old field strength seem to have seeped through into the new field strength. This is probably due to CycleGANs retaining a large focus on structural similarity between input and output because of the cycle-consistency loss \cite{better_cycles_losses}. Other than these rather subjective notions, how else can the CycleGANs be evaluated?
+
+Well, a number of quantitative evaluations have been performed to get a better view of true performance. These, RMSE and geometric accuracy, are can be viewed in tables \ref{tab:metrics_rmse} and \ref{tab:metrics_geometric_accuracy}. The RMSE results are enormously positive, since every model has achieved an RMSE better than the baseline of $1.5344$. The worst model performance comes from the XZ model and the best from the ALL model. This makes sense since the XZ model trained for the fewest epochs and was probably the farthest from reaching a satisfactory convergence, which is also shown in the second loss curve of figure \ref{fig:discriminator_losses} and \ref{fig:generator_losses}. Meanwhile, the ALL model most likely has the best performance, since it has been made robust from getting every plane as input. The xy, xz and yz plane outputs from this model have also been averaged, which might also give better performance.
+
+
+
+geoacc
+they have learned the shape of the brain. The rest of the pixels are not converged yet
+
+sub imgs
+show where the models do not agree
+
 
 \subsubsection{Can synthetic cycleGAN data be used for bias removal?}
 % t-SNE, PCA 
 One of the more prominent research question is whether data generated data from a cycleGAN will be able to remove the bias between the field strength of images when training a classifier on both synthetic and original data. From figure \ref{fig:loss_acc} it is evident that the classifier is learning since both the training and validation loss fall over time. Moreover, the accuracy rises as the number of training increments. Due to time constraints, the network is not fully converged. However, more interestingly by looking at figure \ref{fig:tsne_gen}, the generated t-SNE plots, do not seem to cluster any of the given labels differently. In other words, the internal feature representation of generated images vs. original images in the classifier model are similar, implying the the bias previously demonstrated has been removed. Nor PCA, can separate the two types of images in the 2nd last layer of the classifier model, see figure \ref{fig:pca_gen}. Moreover, if we look at figure \ref{fig:tsne_not_gen} \& \ref{fig:pca_not_gen}, which illustrates a t-SNE plot by forward passing original 3T images and orignal 1.5T images no similarity differences in the high dimensional feature space seems to be demonstrated.
 
 Thus, the study suggests that using cycleGAN for either removing the field strength bias between 1.5T and 3T images in deep learning computer vision models or the generation of synthetic data to extend large datasets or perform advanced augmentation seems very promising. 
+
 
 \subsection{Convenience of mapping: $ G: X \rightarrow Y $ \ \& \ $ F: Y \rightarrow X $ }
 
