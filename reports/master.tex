@@ -1571,53 +1571,6 @@ This section will focus on showing relevant outputs of the final trained models.
 \end{figure}
 
 
-\subsection{Evaluation Metrics}\label{result_evaluation_metrics}
-\begin{table}[H]
-	\begin{center}
-		\begin{tabular}{l l l l l l}
-			\toprule
-			& \textbf{Model} & \textbf{Avg. Orig.} & \textbf{Avg. Gen.} & \textbf{Avg. Diff.} & \\ \midrule
-			&              \multicolumn{4}{c}{\textbf{RMSE $\mathbf{3\rightarrow1.5}$}}         & \\
-			&XY                & $1.5344$            & $1.0253$           & $0.5090$            & \\
-			&XZ                & $1.5344$            & $1.1691$           & $0.3653$            & \\
-			&YZ                & $1.5344$            & $1.0311$           & $0.5033$            & \\
-			&\textbf{ALL}               & $\mathbf{1.5344}$            & $\mathbf{0.8505}$           & $\mathbf{0.6839}$            & \\
-			&            \multicolumn{4}{c}{\textbf{RMSE $\mathbf{1.5\rightarrow3}$}}           & \\
-			&XY                & $1.5344$            & $1.0159$           & $0.5185$            & \\
-			&XZ                & $1.5344$            & $1.2517$			  & $0.2827$            & \\
-			&YZ                & $1.5344$            & $0.9805$           & $0.5539$            & \\
-			&\textbf{ALL}               & $\mathbf{1.5344}$            & $\mathbf{0.9243}$           & $\mathbf{0.6100}$            & \\
-			 \bottomrule
-		\end{tabular}
-		\caption{Table showing RMSE for comparisons of images from the different models. The rows contain the four trained MRI CycleGAN models and the first column contains average RMSE between 1.5T ground truth and 3T ground truth. The top part of the second column contains the average RMSE between 1.5T ground truth and 1.5 generated and the bottom part shows RMSE between 3T ground truth and 3T generated. The last column is the difference between the first two columns. Thus a larger number shows in the last column shows better performance. The best performing models have been highlighted.}
-		\label{tab:metrics_rmse}
-	\end{center}
-\end{table}
-
-\begin{table}[H]
-	\begin{center}
-		\begin{tabular}{l l l l l}
-			\toprule
-			& \textbf{Model}   & \textbf{Avg. Pixels} & \textbf{Avg. Norm [\%]}  & \\ \midrule
-			&\multicolumn{3}{c}{\textbf{Geometric Accuracy $\mathbf{3\rightarrow1.5}$}}   & \\
-			&Baseline          & $14745335.0$         & $0.8788$                 & \\
-			&XY                & $14678174.659$       & $0.8749$                 & \\
-			&XZ                & $14603704.886$       & $0.8704$                 & \\
-			&YZ                & $14593826.818$       & $0.8699$                 & \\
-			&ALL               & $14599432.409$       & $0.8702$                 & \\
-			&\multicolumn{3}{c}{\textbf{Geometric Accuracy $\mathbf{1.5\rightarrow3}$}}   & \\
-			&Baseline          & $14706659.0$         & $0.8765$                 & \\
-			&XY                & $14778896.955$	      & $0.8809$                 & \\
-			&XZ                & $14776926.409$       & $0.8808$                 & \\
-			&YZ                & $14793707.02$        & $0.8818$                 & \\
-			&ALL               & $14694007.18$        & $0.8758$                 & \\ \bottomrule
-		\end{tabular}
-		%TODO: Skriv om hvor mange pixels der er sorte
-		\caption{\textbf{Top:} This table shows geometric accuracy for comparisons between the 1.5 ground truth image and an image generated from each of the four models. \textbf{Bottom:} Geometric accuracy between 3T ground truth images and generated 3T images. The rows contain the four trained MRI CycleGAN models and the column contains respectively the number of pixels where the 1.5T ground truth and 1.5T generated images agree and the percentage of agreed upon pixels.} %TODO tilføj baseline
-		\label{tab:metrics_geometric_accuracy}
-	\end{center}
-\end{table}
-
 \vspace*{-1cm} % Try to fix spacing
 
 \subsection{XY Subtracted Images}\label{xy_subtracted_images}
@@ -1861,6 +1814,52 @@ This section will focus on showing relevant outputs of the final trained models.
 \end{figure}
 
 
+\subsection{Evaluation Metrics}\label{result_evaluation_metrics}
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{l l l l l l}
+			\toprule
+			& \textbf{Model} & \textbf{Avg. Orig.} & \textbf{Avg. Gen.} & \textbf{Avg. Diff.} & \\ \midrule
+			&              \multicolumn{4}{c}{\textbf{RMSE $\mathbf{3\rightarrow1.5}$}}         & \\
+			&XY                & $1.5344$            & $1.0253$           & $0.5090$            & \\
+			&XZ                & $1.5344$            & $1.1691$           & $0.3653$            & \\
+			&YZ                & $1.5344$            & $1.0311$           & $0.5033$            & \\
+			&\textbf{ALL}               & $\mathbf{1.5344}$            & $\mathbf{0.8505}$           & $\mathbf{0.6839}$            & \\
+			&            \multicolumn{4}{c}{\textbf{RMSE $\mathbf{1.5\rightarrow3}$}}           & \\
+			&XY                & $1.5344$            & $1.0159$           & $0.5185$            & \\
+			&XZ                & $1.5344$            & $1.2517$			  & $0.2827$            & \\
+			&YZ                & $1.5344$            & $0.9805$           & $0.5539$            & \\
+			&\textbf{ALL}               & $\mathbf{1.5344}$            & $\mathbf{0.9243}$           & $\mathbf{0.6100}$            & \\
+			 \bottomrule
+		\end{tabular}
+		\caption{Table showing RMSE for comparisons of images from the different models. The rows contain the four trained MRI CycleGAN models and the first column contains average RMSE between 1.5T ground truth and 3T ground truth. The top part of the second column contains the average RMSE between 1.5T ground truth and 1.5 generated and the bottom part shows RMSE between 3T ground truth and 3T generated. The last column is the difference between the first two columns. Thus a larger number shows in the last column shows better performance. The best performing models have been highlighted.}
+		\label{tab:metrics_rmse}
+	\end{center}
+\end{table}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{l l l l l}
+			\toprule
+			& \textbf{Model}   & \textbf{Avg. Pixels} & \textbf{Avg. Norm [\%]}  & \\ \midrule
+			&\multicolumn{3}{c}{\textbf{Geometric Accuracy $\mathbf{3\rightarrow1.5}$}}   & \\
+			&\textbf{Baseline}          & $\mathbf{14745335.0}$         & $\mathbf{0.8788}$                 & \\
+			&XY                & $14678174.659$       & $0.8749$                 & \\
+			&XZ                & $14603704.886$       & $0.8704$                 & \\
+			&YZ                & $14593826.818$       & $0.8699$                 & \\
+			&ALL               & $14599432.409$       & $0.8702$                 & \\
+			&\multicolumn{3}{c}{\textbf{Geometric Accuracy $\mathbf{1.5\rightarrow3}$}}   & \\
+			&Baseline          & $14706659.0$         & $0.8765$                 & \\
+			&XY                & $14778896.955$	      & $0.8809$                 & \\
+			&XZ                & $14776926.409$       & $0.8808$                 & \\
+			&\textbf{YZ}                & $\mathbf{14793707.02}$        & $\mathbf{0.8818}$                 & \\
+			&ALL               & $14694007.18$        & $0.8758$                 & \\ \bottomrule
+		\end{tabular}
+		\caption{\textbf{Top:} This table shows geometric accuracy for comparisons between the 1.5 ground truth image and an image generated from each of the four models. \textbf{Bottom:} Geometric accuracy between 3T ground truth images and generated 3T images. The rows contain the four trained MRI CycleGAN models and the column contains respectively the number of pixels where the 1.5T ground truth and 1.5T generated images agree and the percentage of agreed upon pixels. The best model for each field strength is written in boldface. The baseline is calculated as the average percentage of black pixels in the relevant field strength image.}
+		\label{tab:metrics_geometric_accuracy}
+	\end{center}
+\end{table}
+
 
 \subsection{Classifier Loss \& Accuracy}\label{result_loss_cnn}
 %TODO: insert plots and write figure text
@@ -1881,7 +1880,6 @@ This section will focus on showing relevant outputs of the final trained models.
 		\label{fig:loss_acc}
 \end{figure}
 
-\vspace*{-1cm}
 
 \subsection{t-SNE \& PCA}\label{result_dim_reduction}
 
@@ -1999,17 +1997,14 @@ Another issue entirely is the question of how to find the optimal hyperparameter
 
 \subsubsection{How to verify accuracy of the presented cycleGAN}\label{discuss_measure}
 % Include both the quality comparison along with the evaluation metrics, AAAAND substracted images
-This section will focus on how well the MRI CycleGAN models have done in trying to replicate the complex structures of real brains. Looking at the generated images of \ref{fig:xy_quality_comparison}, \ref{fig:xz_quality_comparison}, \ref{fig:yz_quality_comparison} and \ref{fig:all_quality_comparison}, a couple points become clear. All the generated images from all of the models definitely look like real brains. Furthermore, the images look convincingly like the ground truth image matching the same field strength, though some of the details from the old field strength seem to have seeped through into the new field strength. This is probably due to CycleGANs retaining a large focus on structural similarity between input and output because of the cycle-consistency loss \cite{better_cycles_losses}. Other than these rather subjective notions, how else can the CycleGANs be evaluated?
+This section will focus on how well the MRI CycleGAN models have done in trying to replicate the complex structures of real brains. Looking at the generated images of \ref{fig:xy_quality_comparison}, \ref{fig:xz_quality_comparison}, \ref{fig:yz_quality_comparison} and \ref{fig:all_quality_comparison}, a couple points become clear. All the generated images from all of the models definitely look like real brains. Furthermore, the images look convincingly like the ground truth image matching the same field strength, though some of the details from the old field strength seem to have seeped through into the new field strength. This is probably due to CycleGANs retaining a large focus on structural similarity between input and output because of the cycle-consistency loss \cite{better_cycles_losses}.
 
-Well, a number of quantitative evaluations have been performed to get a better view of true performance. These, RMSE and geometric accuracy, are can be viewed in tables \ref{tab:metrics_rmse} and \ref{tab:metrics_geometric_accuracy}. The RMSE results are enormously positive, since every model has achieved an RMSE better than the baseline of $1.5344$. The worst model performance comes from the XZ model and the best from the ALL model. This makes sense since the XZ model trained for the fewest epochs and was probably the farthest from reaching a satisfactory convergence, which is also shown in the second loss curve of figure \ref{fig:discriminator_losses} and \ref{fig:generator_losses}. Meanwhile, the ALL model most likely has the best performance, since it has been made robust from getting every plane as input. The xy, xz and yz plane outputs from this model have also been averaged, which might also give better performance.
+As for visual inspection, the subtracted images from figure \ref{fig:xy_subtracted_images}, \ref{fig:xz_subtracted_images}, \ref{fig:yz_subtracted_images} and \ref{fig:all_subtracted_images} can also be analyzed. In these figures, we note that some of the images are definitely darker than the baseline images. This means that the brains have been made to look more like the targeted field strength than the baseline does. The rest of the subtracted images either look sort of the same or a bit worse. This definitely indicates that the models have at least learnt to make brains look as convincing as the baseline brain. Comparing within models is difficult, as is concluding on the true performance of the models based only on images and subjective analysis. Other than these rather subjective notions, how else can the CycleGANs be evaluated?
 
+Well, a number of quantitative evaluations have been performed to get a better view of true performance. One of these, RMSE, can be viewed in tables \ref{tab:metrics_rmse}. The RMSE results are enormously positive, since every model has achieved an RMSE better than the baseline of $1.5344$. The worst model performance comes from the XZ model and the best from the ALL model. This makes sense since the XZ model trained for the fewest epochs and was probably the farthest from reaching a satisfactory convergence, which is also shown in the second loss curve of figure \ref{fig:discriminator_losses} and \ref{fig:generator_losses}. Meanwhile, the ALL model most likely has the best performance, since it has been made robust from getting every plane as input. The xy, xz and yz plane outputs from this model have also been averaged, which might also give better performance.
 
+In regards to the geometric accuracy in table \ref{tab:metrics_geometric_accuracy}, comparing to baseline, the results seem less substantial. When converting field strength to 1.5T, the baseline model has the highest accuracy, while the accuracy is highest for YZ for 3T. Firstly, this might indicate that this measure is not perfect for validating the task at hand. Secondly, it might mean that every trained model has learned the general structure of where black pixels are placed in the image, which is a large part of modeling the brain in an MRI image. Since the RMSE loss is low while the geometric accuracy is also lower than baseline, it might be the case that the trained models get closer to the ground truth values without actually hitting specifically the correct integer. Nonetheless, reaching close to baseline shows that the models have learned to synthesize real brains to some extent.
 
-geoacc
-they have learned the shape of the brain. The rest of the pixels are not converged yet
-
-sub imgs
-show where the models do not agree
 
 
 \subsubsection{Can synthetic cycleGAN data be used for bias removal?}
