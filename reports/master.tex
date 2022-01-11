@@ -2012,7 +2012,7 @@ The reason why mapping from one domain to another within the field of deep learn
 
 Advantages of the domain translation will be to train a deep learning model with data where the demographics are widely different. It would enable the training of models with subjects from all around the world in contrast to limiting datasets where only one type of field strength image is used. Potentially, this can remove demographic bias if such a bias exist in the model while making the trained classifier more generalizanble and useful for societal implementation.  Moreover, the price of 3T MRI scanners are double of what you pay for a 1.5T scanner. Not only are the machinery more expensive, but maintenance and costs of having 3T scanners is also more expensive \cite{kmg}. If a perfect mapping exists another implication of this study is that 3T machines are no longer required.
 
-\subsection{Economic Incentive of a Good Classification Model}
+\subsection{Economic Incentive of a Good Classification Model}\label{discussion_economic}
 
 One could ask the question of what societal and economic implications a good classification model within this field of study could imply. This section aims to estimate the outcome of implementing such a classifier into the Danish society. This will give an insight into whether continuing to study in this field would make sense for the sake of societal impact. The danish 2025 dementia plan has the following goals:
 
@@ -2097,7 +2097,7 @@ Proposed in this study is the RMSE between the generated 1.5T and original 1.5T 
 
 %TODO snak om hyperparameter optmizatio etc. 
 
-One of the main things for future work is to train more classifiers than the simple one implemented in this study. Furthermore, getting the large networks to converge before trying to look at the internal feature representations. From, figure \ref{fig:loss_acc} it is very apparent that the network is not fully converged which may cause spurious conclusions as to whether the bias is completely removed or not. The cycleGAN model used to generate data for the showcased CNN classifier of the report was trained on the xy planes. Therefore, future work needs to investigate some of the other cycleGAN models, epecially the \texttt{all\_model}, which has the lowest RMSE of the ones trained in this project. To fully investigate whether the bias between field strength images is successfully removed from the model a identical classifier trained purely on original data need to be trained and converged for comparison.
+One of the main things for future work is to train more classifiers than the simple one implemented in this study. Furthermore, getting the large networks to converge before trying to look at the internal feature representations. From, figure \ref{fig:loss_acc} it is very apparent that the network is not fully converged which may cause spurious conclusions as to whether the bias is completely removed or not. The cycleGAN model used to generate data for the showcased CNN classifier of the report was trained on the xy planes. Therefore, future work needs to investigate some of the other cycleGAN models, epecially the \texttt{all\_model}, which has the lowest RMSE of the ones trained in this project. To fully investigate whether the bias between field strength images is successfully removed from the model an identical classifier trained purely on original data need to be trained and converged for comparison.
 
 \subsection{Investigating possible accuracy improvements using synthetic data}
 
@@ -2110,20 +2110,17 @@ To test this hypothesis experiments should be carried out to train two identical
 %Can a cycleGAN be trained to map between the following domains: 1.5T and 3T MRI images?
 % Yes, to some extend baseret på RMSE . --> hvordan måler vi succes? 
 In light of the project a few key findings can be concluded. As can be understood from section \ref{result_evaluation_metrics} \& \ref{discuss_measure}, the proposed cycleGAN models from this project can according to the accuracy measurements presented map successfully between the 1.5T and 3T MRI image domains. The best model is the \texttt{ALL}-model, which has a RMSE of 0.8505 when mapping from 3T to 1.5T and 0.9243 when mapping from 1.5T to 3T compared to the perceived ground truth image. However, as mentioned in section \ref{fture_work_measure} in order to confidently conclude, that a cycleGAN can construct 3D MRI images a proper and agreed methodology of how to measure the precision of the generated data is needed. 
-
+\\\\
 %How effective is the training progress in a prediction model when predicting whether a patient has alzheimer’s disease? 
 % The training progress seems promising based on loss over time
-The cycleGAN generated images seems promising as training data for a CNN classifier for Alzheimer disease. Based on section \ref{result_loss_cnn}, it is evident that the network indeed is learning since the overall trend of the loss is downward. Moreover, the model is not fully converged due to the pure time it takes to train a model with  $ \thicksim $560 million parameters. Furthermore, from section \ref{result_dim_reduction} the bias has been removed to some extend. The bias demonstrated by Kergel\footnote{To see the original demonstrated bias see figure \ref{fig:camillatsne} from section \ref{indledning}.} does seem to be present in the CNN classifier trained on synthetic and original data in this project. 
-
-
 %And can the cyclGAN data remove previous demonstrated bias from the model?
 % Yes, to some extend --> hard to tell without comparison of more classifiers trained on different parts of dataset and different data. model med genereret vs. model uden (med rå 1.5T og 3T) 
 %
-
+The cycleGAN generated images seems promising as training data for a CNN classifier for Alzheimer disease. Based on section \ref{result_loss_cnn}, it is evident that the network indeed is learning since the overall trend of the loss is downward. Moreover, the model is not fully converged due to the pure time it takes to train a model with  $ \thicksim $560 million parameters. Furthermore, from section \ref{result_dim_reduction} the bias has been removed to some extend. The bias demonstrated by Kergel\footnote{To see the original demonstrated bias see figure \ref{fig:camillatsne} from section \ref{indledning}.} does seem to be present in the CNN classifier trained on synthetic and original data in this project. 
+\\\\
 %Will the cycleGAN have any societal and economic impacts given the success of the prediction model?
 % If synthetic data generation succesful --> reduce cost economically for society ^ increase life expectancy og quality for individual. 
-
-
+As discussed in section \ref{discussion_economic}, if the synthetic generated data from a cycleGAN proves successful to both extend current datasets and generate even more data the result could potentially be more robust models with pinnacle accuracy performances. This would economically drive down cost in society, which enables governments around the world to allocate money elsewhere. Thus, investing in Alzheimer research does not only contribute to ensure bias free deep learning models which confronts the limits \& possibilities within deep learning, but contributes to drive down cost in society and increase the quality of life for each individual within.
 
 \newpage
 \section{Appendix}\label{appendix}
