@@ -18,6 +18,7 @@
 \usepackage{arydshln}
 \usepackage{subcaption}
 \usepackage{listings}
+\usepackage{nccmath}
 \usepackage{pxfonts}
 \usepackage{array}
 \usepackage{multirow}
@@ -890,18 +891,20 @@ The data used for training the classifier is a combination of generated images f
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.65\linewidth, trim={0 0 69cm 0},clip]{imgs/convolution}
+		\includegraphics[width=0.55\linewidth, trim={0 0 69cm 0},clip]{imgs/convolution}
 		%TODO: Måske kortere caption. Ikke nødvendigt at have kernel defineret, når den er med i billedet.
-		\caption{Here the input is an image with dimensions 6x6, corresponding to 36 pixels. The kernel is a famous filter called the Sobel filter and is used for edge detection. In this case it is simply a 3x3 matrix: 
-			\[ \text{Kernel} = \begin{bmatrix}
-				-1 & -2 & -1 & \\ 0 & 0 & 0 &  \\
-				1 & 2 & 1
-			\end{bmatrix}  \] 
-		One convolution corresponds to multiplying the matrix with every possible space in the 6x6 input image. The stride in this example is one, which refers to how the kernel is moved across the image. If no padding is applied to the input image the dimension of the output image after the convolution will be smaller. In this example the image will shrink from 6x6 to 4x4. To be put simply the kernel is slid across the width and height of the input and the dot products between the input and kernel are computed at every spatial position \cite{cnn_paper}. }
+		\caption{The input is an image with dimensions 6x6, corresponding to 36 pixels. The kernel is a famous filter called the Sobel filter and is used for edge detection.}
 		\label{fig:convolution}
 	\end{figure}
-	
-	The kernels in a convolutional neural network are learnable parameters. The dimension of the kernels are smaller than the input, which in turn will reduce the dimension of the input image. All padding are set to zero, which also can be seen in the source code %TODO ref soruce.  
+	\noindent
+	In figure \ref{fig:convolution}, the kernel is simply a 3x3 matrix: 
+	\[\medmath{\text{Kernel} = \begin{bmatrix}
+			-1 & -2 & -1 & \\ 0 & 0 & 0 &  \\
+			1 & 2 & 1
+	\end{bmatrix}}  \] 
+	One convolution corresponds to multiplying the matrix with every possible space in the 6x6 input image. The stride in this example is one, which refers to how the kernel is moved across the image. If no padding is applied to the input image the dimension of the output image after the convolution will be smaller. In this example the image will shrink from 6x6 to 4x4. To be put simply the kernel is slid across the width and height of the input and the dot products between the input and kernel are computed at every spatial position \cite{cnn_paper}.
+	\\\\
+	The kernels in a convolutional neural network are learnable parameters. The dimension of the kernels are smaller than the input, which in turn will reduce the dimension of the input image. All padding are set to zero, which also can be seen in the source code %TODO ref soruce. Har oskar skrevet dette???? tror der er soruce?  
 	In this project the three main type of layers in the network model are:
 
 	\begin{itemize}
@@ -909,8 +912,8 @@ The data used for training the classifier is a combination of generated images f
 	\item ReLU to ensure non-linearity 
 	\item Classification in terms of Fully Connected Layers
 	\end{itemize}
-	
-	The classifier in this project is trained on 80\% of the available data and is tested on the last 20 \%. As for hyperparameters consult following table.
+	\noindent
+	The classifier in this project is trained on 80\% of the available data and is tested on the last 20\%. As for hyperparameters consult following table.
 	
 	\begin{table}[H]\label{hyperparams}
 		\centering
@@ -924,7 +927,7 @@ The data used for training the classifier is a combination of generated images f
 		\end{tabular}
 	\end{table}
 	
-	
+	 \noindent
 	 The optimization algorithm used in the classifier is Adaptive Moment Estimation (Adam). This optimizer utilize adaptive learning rate and step size based on the momentum. The activation function used is the rectified linear unit (ReLU), which is defined as $ y = \text{max}(0,x) $. ReLU will ensure non-linearity in the model making the parameters more expressible and making the model more generalizable and robust. Sigmoid is used on the last layer to ensure that the output value is a vector between zero and one. Cross-entropy loss is used as the cost function and punishes the model if the prediction is far from the label \cite {dl}. The loss can be calculated as:
 	 
 	\begin{equation*}\label{key}
