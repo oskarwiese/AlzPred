@@ -227,7 +227,7 @@ The general goal of the contributions given above is to create a model which can
 
 \section{Background}
 
-This section will contain relevant information in regards to understanding and reproducing the project presented. 
+This section will contain relevant information in regards to understanding and reproducing the project presented. It will shortly introduce magnetic resonance imaging, magnetic field strength, some trade offs of using MRI-scanners and MNI space. 
 %TODO: referér til hver subsection
 
 \subsection{Magnetic Resonance Imaging (MRI)}
@@ -1922,7 +1922,7 @@ This section will focus on showing relevant outputs of the final trained models.
 %TODO: Skriv en introduktion til sektionen og dens undersektioner
 
 \subsection{What do the Results Show}\label{discussionOfResults}
-This section aim to interpret the findings of the results. 
+This section aim to interpret the findings of the results. Furthermore, discuss what the convenience of mapping between the 1.5T and 3T domain in practice implies, the economic incentives, general principles of safe AI and regulations.
 
 \subsubsection{Difficulties and lessons from converging a cycleGAN}
 In section \ref{troubleshooting}, issues in the CycleGAN outputs were remarked upon and, to a certain extent, fixed. This section showed that training these powerful models can be cumbersome and difficult. This section will focus more on what might be done to further improve the model and why training CycleGANs and GANs is so difficult. One of the biggest issues of trying the implement a successful CycleGAN is the sheer number of pitfalls. Mode collapse, checkerboard noise and especially lack of convergence have all been experienced in this project and these only scratch the surface of possible issues \cite{hard_to_train, mode_collapse_MLM}. Thus, this project proposes the importance of having fail-safes when training. Loss curves can give a false sense of security \cite{towardsdatascience_losses, better_cycles_losses}, so both losses, examples of generated images from both models as well as the original image and potentially the cycle-generated image should be shown at regular intervals during training to ensure proper convergence.
