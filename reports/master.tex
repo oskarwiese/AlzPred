@@ -326,37 +326,6 @@ unique brain scans, all of which are used in this project.
 	\label{fig:screenshot001}
 \end{figure}
 
-
-
-%\begin{figure}
-%	\centering
-%	\includegraphics[width=0.7\linewidth]{imgs/mymans_orig_oskar}
-%	\caption{}
-%	\label{fig:mymansorigoskar}
-%\end{figure}
-
-
-%\begin{table}[H]\label{variable}
-%	\centering
-%	\begin{tabular}{l l l}
-%		\toprule
-%		\textbf{Variable} & \textbf{Description} & \textbf{Type} \\ \midrule
-%		age & The age of the offenders & Continuous ratio \\
-%		priors\_count & The number of previous offences & Discrete interval \\
-%		juv\_fel\_count & The number of previous juvenile felonies & Discrete interval \\
-%		juv\_misd\_count & The number of previous juvenile misdemeanor & Discrete interval \\
-%		c\_charge\_degree & The severity of the offence & Discrete nominal \\
-%		race & The race of the offender & Discrete nominal \\
-%		age\_cat & The age category of the offender & Discrete nominal \\
-%		sex & The sex of the offender & Discrete nominal \\
-%		\hdashline
-%		score\_text & The COMPAS prediction of chance of recidivism & Discrete interval \\
-%		is\_recid & Whether the offender truly recidivated after two years (0/1) & Discrete nominal \\ \bottomrule
-%	\end{tabular}
-%\end{table} \noindent
-
-
-
 \subsubsection{Data Preprocessing}
 
 In this project, the area of interest is the brain itself. A lot of different tools from the FreeSurfer Software Suite have been used to produce images of the brain. The brain images constructed and how to construct these for reproduction of the results will be described in the following. The raw image is called: \newline \texttt{
@@ -381,7 +350,7 @@ Each of the raw images in the ADNI-dataset are registered to the Tailirach space
 This is done using \texttt{mri\_vol2vol}, which resamples a volume into another CRS. 
 In this project, a MNI305 transformation has been applied by resampling the original normalized images into talairach space using \texttt{\$subject/mri/transforms/talairach.xfm} 
 
-\subsubsection{Preprocessing Scripts}
+\subsubsection{Preprocessing Scripts}\label{preprocess_scripts}
 %TODO: Det ville være federe at have i methods eller appendix måske
 For this project two different type of preprocessing scripts have been used. These will be shown in the appendix, but are a key importance of the project. The first script will apply the many preprocessing algorithms described in the previous section. Most importantly, it creates the \texttt{norm.mgz} image, which, as mentioned earlier, is a skull-stripped and normalized version of the subject's brain see code in figure \ref{script1} in appendix[\ref{appendix}].
 The produced \texttt{norm.mgz} can be illustrated using Freeview, a FreeSurfer Software used to display and examine 3D images. 
@@ -411,7 +380,6 @@ The resulting image after the FreeSurfer preprocessing is shown in figure \ref{f
 This section aims to give a visualization of the preprocessed data. The section will illustrate the images used to train the cyclic generative advesarial network in this project. The images are being constructed by thresholding one of the following dimension: $ x, y, z $ - which creates the following planes: \texttt{xy, xz, yz}. The xy-, xz- and yz-planes are 2D-images. If an image is converted to a numpy nd array, the slicing would amount to: \texttt{slice = np.array([:,:,z])}, where $ z \in [1,256] $. Thus, we have 256 2D images for each plane for every 3D image resulting in $ 1.152 $ million 2D images. The training images are brain slices, which can be seen in the figures \ref{fig:slica_xy}, \ref{fig:slica_xz} and \ref{fig:slica_yz} \footnote{The images in figures are from randomly selected slices and do not match on the 1.5T to 3T}. Four models will be constructed and trained in this project. Three of the cycleGANs in this project will be trained on xy, xz and yz planes respectively. The last model will be trained on the slices from all three planes. All the slices are created using the \texttt{create\_imgs\_1.5T.py} and \texttt{create\_imgs\_3T.py} python scripts which utilizes numpy and multiprocessing. The scripts can be seen in the repository of this project here: \href{https://github.com/oskarwiese/AlzPred/blob/main/preprocessing_scripts/slicing_scripts/3/create_imgs_3T.py}{3T\_script} and \href{https://github.com/oskarwiese/AlzPred/blob/main/preprocessing_scripts/slicing_scripts/1.5/create_imgs_1.5T.py}{1.5\_script}.
 An important thing to note is that completely black images are discarded. This means only slices with at least one pixel value different from zero are used to train the cycleGAN. This is partly a way to reduce the raw amount of training data, but it is also done because a cycleGAN would never need to learn to translate completely black images from 3T to 1.5T and vice versa, since the black slices can be removed from the image before conversion and reinserted afterwards.
 
-%TODO: Nævn noget om denne figur, den ankommer meget pludseligt
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -886,13 +854,11 @@ The data used for training the classifier is a combination of generated images f
 
 \subsubsection{Deep Neural Network Model}
 
-	%TODO introduce layers
-	The implemented netowrk is a convolutional neural network (CNN) which is a special type of deep neural network. The name stems from the most important operation in the network which is convolutions. In short, a convolution is the process of convolving a kernel with the image. An example of convolutions and a simple step in the convolution between an image named input and a horizontal Sobel filter can be seen in figure \ref{fig:convolution}.
+	The implemented network is a convolutional neural network (CNN) which is a special type of deep neural network. The name stems from the most important operation in the network which is convolutions. In short, a convolution is the process of convolving a kernel with the image. An example of convolutions and a simple step in the convolution between an image named input and a horizontal Sobel filter can be seen in figure \ref{fig:convolution}.
 	
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.55\linewidth, trim={0 0 69cm 0},clip]{imgs/convolution}
-		%TODO: Måske kortere caption. Ikke nødvendigt at have kernel defineret, når den er med i billedet.
 		\caption{The input is an image with dimensions 6x6, corresponding to 36 pixels. The kernel is a famous filter called the Sobel filter and is used for edge detection.}
 		\label{fig:convolution}
 	\end{figure}
@@ -1021,13 +987,13 @@ Each sample is made the center of a gaussion distribution. Then the distance to 
 \begin{equation*}\label{key}
 	p_{i \vert j} = \frac{\exp(\frac{-\norm{\mathbf x_i - \mathbf x_j}^2}{2 \sigma_i^2})}{\sum_{j^\prime \neq i} \exp (\frac{-\norm{\mathbf x_i - \mathbf x_{j^\prime}}^2}{2 \sigma_i^2})}
 \end{equation*}
-
+\noindent
 Import to note here is that $ p_{i \vert i} = 1$  and $ \sum_{j} p_{j \vert i = 1}$. As the author of "Visualizing Data using t-SNE", Laurens van der Maaten  wrote in her original paper: The similarity of datapoint $ x_j $ to datapoint $ x_i $ is the conditional probability, $ p_{j \vert i} $  that $ x_i $ would pick $ x_j $ as its neighbor if neighbors were picked in proportion to their probability density under a Gaussian centered at $  x_i $ \cite{tsne}.
 
 \begin{equation}\label{symmetry}
 	p_{ij} = \frac{	p_{i \vert j} + p_{j \vert i}}{2N}
 \end{equation}
-
+\noindent
 By using equation \eqref{symmetry} the conditional probabilities are averaged. This is important because the distance from point x to y might not be equal to the distance from point y to x. 
 
 After the above similarities are calculated each sample in the data is represented in a low dimensional space. The whole goal from here is to learn a dimensional mapping from the similarities in the high dimensional space to the low dimensional space.
@@ -1038,15 +1004,15 @@ After the above similarities are calculated each sample in the data is represent
 From equation \eqref{tdistro}, a student-t distribution with 1 as degree of freedom is used to measure the similarities between the low dimensional points. 
 The location of the samples in the mapping process is optimized using the Kullback-Liebler divergence as a cost function. The KL divergence measures the similarity of two distributions, in this case: $ P $ and $ Q $. 
 \begin{equation*}\label{key}
-	KL(Q \vert \vert P) = \sum_{i \neq j} p_{ij} \frac{p_{ij}}{q_{ij}}
+	KL(Q \vert \vert P) = \sum_{i \neq j} p_{ij} \log \frac{p_{ij}}{q_{ij}}
 \end{equation*} 
 The minimization process is done using \href{https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html}{sklearn} which utilizes gradient decent. The output is a mapping that can visualize the similarities from high dimensional inputs. For this project the input will be a massive linear layer from the CNN. The goal is to map this high dimensional layer into a 2D-space for each sample in the validation data to detect if a difference between the protected classes such as the field strength of the input image or if the input is synthetically generated by a cycleGAN can be seen.
 
 
 \subsection{Reproducibility}\label{reproducibility}
-This section aims to give the reader a precise insight into how the methods of this project were implemented and how it would be possible to reproduce these results in the future. Hopefully, this will also simplify the methods. Reproducibility is an important part of writing any project or performing any research. It shows significance of the given result if it is possible for others at a later time to replicate or reproduce the results, since it validates the result of the original study and shows that it was not a fluke. This section was originally adapted from out project work in 2020, so some similarities in layout and wording might occur \cite{fagproject}. By far the most used programming language in this project was Python Version 3.9 and Torch version $ 1.10.0 $ \cite{python, pytorch}.
-Furthermore, the versions of the packages used in the project are given in the table below. If running any code from this project, please make sure that your packages either as new or newer than the ones specified below. All code for the project is accessible at \url{https://github.com/oskarwiese/AlzPred/tree/main/oskar_implemetation}.
- The scripts have also been added to appendix section \ref{showcase_code} for completeness.
+This section aims to give the reader a precise insight into how the methods of this project were implemented and how it would be possible to reproduce these results in the future. Hopefully, this will simplify the methods. Reproducibility is an important part of writing any project or performing any research. It shows significance of the given result if it is possible for others at a later time to replicate or reproduce the results, since it validates the result of the original study and shows that it was not a fluke. This section was originally adapted from our project work in 2020, so some similarities in layout and wording might occur \cite{fagproject}. By far the most used programming language in this project was Python Version 3.9 and Torch version $ 1.10.0 $ \cite{python, pytorch}.
+Furthermore, the versions of the packages used in the project are given in the table below. If running any code from this project, please make sure that your packages either as new or newer than the ones specified below \footnote{Be aware that newer version of packages might have changes that can affect the results of this report. If the goal is to reproduce the results 1:1, please ensure that every package is the exact version as specified in table \ref{tab:packages}.}. All code for the project is accessible at \url{https://github.com/oskarwiese/AlzPred/tree/main/oskar_implemetation}. Note, that the data preprocessing have been described in section \ref{preprocess_scripts} and the code for this can be seen in appendix[\ref{appendix}], consult figure \ref{script1} \& \ref{script2}. 
+
 \begin{table}[H]
 	\begin{center}
 		\begin{tabular}{l l l l l l l l l l}
@@ -1066,18 +1032,23 @@ Furthermore, the versions of the packages used in the project are given in the t
 			& torchvision \cite{torchvision}               & & & & & & & $0.11.1+cu113$    & \\
 			\bottomrule
 		\end{tabular}
-		\caption{The packages used for all the scrips in this project as well as their versions. Note that \texttt{pip-chill} was only used to generate this table and \texttt{ipython} is not strictly necessary.}
+		\caption{The packages used for all the scrips in this project as well as their versions. Note that \texttt{pip-chill} was only used to generate this table and \texttt{ipython} is not strictly necessary, but nice for debugging \& testing simple pytorch operations.}
 		\label{tab:packages}
 	\end{center}
 \end{table}
-\noindent Since randomness plays a large roll in implementing deep learning architectures, random seeds have been set in order to ensure equivalent results for every run of the notebook. The seed number was set to 42 and was used for the python seed \texttt{random.seed}, the numpy seed \texttt{np.random.seed} and the pytorch seeds: \newline \texttt{torch.manual\_seed} \texttt{torch.cuda.manual\_seed}
+\noindent Since randomness plays a large roll in implementing deep learning architectures, random seeds have been set in order to ensure equivalent results for every run of every code block. The seed number was set to 42 and was used for the python seed \texttt{random.seed}, the numpy seed \texttt{np.random.seed} and the pytorch seeds: \newline \texttt{torch.manual\_seed} \texttt{torch.cuda.manual\_seed}
 \texttt{torch.cuda.manual\_seed\_all}. These seeds were set before any processes run in any of the scrips used.
-
-In order to make the results as reproducible as possible, the data as well as the way the data was obtained also plays a big role. The way the data was obtained can be is described in full detail in section \ref{dataDescription}. The data originally comes from the ADNI studies, but the data used specifically for this project are located in the following folders on the HPC / dtu server: \texttt{/dtu-compute/ADNIbias/freesurfer\_ADNI1} and \texttt{/dtu-compute/ADNIbias/freesurfer\_ADNI2} \footnote{All the folders can be found on the DTU HPC server with the given paths.}. \\
+\\\\
+In order to make the results as reproducible as possible, the data as well as the way the data was obtained also plays a big role. The data originally comes from the ADNI studies\footnote{A more detailed outline of the data is given in section \ref{dataDescription}}, but the specific preprocessed data for this project are located in the following folders on the HPC / dtu server: \texttt{/dtu-compute/ADNIbias/freesurfer\_ADNI1} and \texttt{/dtu-compute/ADNIbias/freesurfer\_ADNI2}. Furthermore, 3T images of validation subjects are located at: \texttt{/dtu-compute/ADNIbias/freesurfer}  \footnote{All the folders can be found on the DTU HPC server with the given absolute paths.}. \\
 
 %TODO: Opdatér med de nye python scripts
-\begin{table}[H]\label{fig:files}
-	\begin{center}
+\noindent
+There are two main code structures which will be explained in more detail in the following. These are the scripts used to construct and train the two different models used in this project: cycleGAN and CNN classifier. 
+\\\\
+\noindent Below, a thorough walkthrough of the most essential parts of the code for the cycleGAN will be made. The code is split between six different files, the names and short descriptions of which can be seen in table \ref{fig:files}. 
+%TODO tilføj reconstruct.py 
+\begin{table}[H]
+		\hspace*{-2cm}
 		\begin{tabular}{l l l l l l l l l}
 			\toprule
 			& \textbf{File}          & & & & & & \textbf{Description}  & \\ \midrule
@@ -1085,21 +1056,50 @@ In order to make the results as reproducible as possible, the data as well as th
 			& discriminator\_model.py& & & & & & Definition of the discriminator architecture & \\
 			& generator\_model.py    & & & & & & Definition of the generator architecture & \\
 			& utils.py               & & & & & & \makecell[tl]{Utility functions like plotting, save/load \\ checkpoint and seeding} & \\
-			& dataset.py             & & & & & & Preprocessing of the dataset & \\
+			& data\_load.py             & & & & & & Preprocessing of the dataset & \\
+			& plot.py             & & & & & & Script for plotting loss & \\
 			& config.py              & & & & & & Paths and hyperparameter definition & \\ \bottomrule
 		\end{tabular}
-	\end{center}
+\caption{CycleGAN code description}
+\label{fig:files}
 \end{table}
 
-\noindent Below, a thorough walkthrough of the most essential parts of the code will be made. The code is split between six different files, the names and short descriptions of which can be seen in table \ref{fig:files}. 
-
+\noindent
 The primary file is \texttt{train.py}, which is responsible for putting all of the functionality together. This script starts by defining each of the four models (generators/discriminators) as well as the optimizers and losses. Afterwards, it loads in the dataset and starts the training loop. This loop calls the function \texttt{train\_cykel} where all model interactions and singular losses are immediately calculated. Afterwards, adversarial loss, cycle-consistency loss and identity loss are found and added to get the final loss. This loss is then backpropagated through the model and the next batch is run.
-
+\\\\
 The next two files, \texttt{discriminator\_model.py} and \texttt{generator\_model.py} are related in the sense that they both define the general functionality of models used in \texttt{train.py}. In \texttt{discriminator\_model.py}, the \texttt{Block} class defines the architecture of using one convolution and applying instance normalization and leaky-ReLU, which becomes useful often. The class \texttt{Discriminator} is the workhorse of the script. This class initially defines a layers applying a 2D convolution and leaky-ReLU, after which a number of blocks are added. At the end of the architecture, a last convolutional layer is added and sigmoid is applied to output probabilities. In the script \texttt{generator\_model.py}, the \texttt{ConvBlock} class defines a convolution consisting of a 2D convolution, instance normalization and applying ReLU. The \texttt{ResidualBlock} class consists of two \texttt{ConvBlock} calls. Both of these classes help to implement the general architecture in the \texttt{Generator} class. The \texttt{Generator} class has an initializer made up of an initial layer, down-blocks, up-blocks, residual blocks and a last layer. These are called in the forward method, where an initial layer is first added, then the down-blocks, the residual blocks, the up-blocks and at last the final layer. On top of this, tan-h is applied to the model output.
-
+\\\\
 The script \texttt{config.py} is very short but extremely important for the general workflow and successful use of the code. It defines the directories of the data and almost all hyperparameters that might need to be changed at any point for any reason when running the code.
+\\\\
+The script \texttt{utils.py} and \texttt{data\_load.py} are not as important to the general workflow and are much easier to understand. \texttt{utils.py} simply implements functions that save and load a checkpoint (current model and optimizer states) such that training can easily be stopped or the best model can be saved. Functions are also saved to plot the loss curves and add seeds to everything, so randomness does not provide difficulty. \texttt{data\_load.py} does all the data preprocessing.
+\\\\
+\noindent Below, a thorough walkthrough of the most essential parts of the code for the CNN classifier will be made. The code is split between six different files, the names and short descriptions of which can be seen in table \ref{fig:files}. 
 
-The script \texttt{utils.py} and \texttt{dataset.py} are not as important to the general workflow and are much easier to understand. \texttt{utils.py} simply implements functions that save and load a checkpoint (current model and optimizer states) such that training can easily be stopped or the best model can be saved. Functions are also saved to plot the loss curves and add seeds to everything, so randomness does not provide difficulty. \texttt{dataset.py} does all the data preprocessing for the horse2zebra dataset.
+\begin{table}[H]
+			\hspace*{-2cm}
+		\begin{tabular}{l l l l l l l l l}
+			\toprule
+			& \textbf{File}          & & & & & & \textbf{Description}  & \\ \midrule
+			& train\_classifier.py               & & & & & & \makecell[tl]{Main script which runs the training loop \\ and saves the final models} & \\
+			& classifier\_model.py& & & & & & Definition of the classifier architecture & \\
+			& utils.py               & & & & & & \makecell[tl]{Utility functions for augmentation, save/load etc.} & \\
+			& data\_prep.py             & & & & & & Preprocessing of the dataset & \\
+			& feature\_visualization.py              & & & & & & Script for visualizing feature representation. & \\ \bottomrule
+		\end{tabular}
+	\caption{CycleGAN code description}
+	\label{fig:files_CNN_classifier}
+\end{table}
+
+\noindent
+The primary file is \texttt{train\_classifer.py}, which is responsible for putting all of the functionality together. This script starts by reading the data and turning it into a PyTorch data-loader object. Then the model is initialized along with the optimizer. Then the training loop starts which ensures training of the model interactions and singular losses are immediately calculated after prediction on the training set. Afterwards the loss is backpropagated through the entire network. Once this is done evaluation mode is turned on and the model is tested on the validation set.  Afterwards, loss is calculated. The losses are then appended to a list for visualization of the model performance.
+\\\\
+The next file \texttt{classifer\_model.py} defines the general functionality of the CNN classifier models used in \texttt{train\_classifier.py}. In the script, a class is defined, namely, \texttt{ConvNet}, which includes the architecture of the classifier. Six 3D convolutional layers and two linear layers. Furthermore, it includes the forward function which is used to forward the input through the network. 
+\\\\
+The script \texttt{utils.py} and \texttt{data\_prep.py} are not as important to the general workflow and are much easier to understand. \texttt{utils.py} simply implements functions that save the model (current model and optimizer states) such that training can easily be stopped or the best model can be saved. Functions are also saved to plot the loss curves and augmentation. \texttt{data\_prep.py} does all the data preparation.
+\\\\
+Lastly, \texttt{feature\_visualization.py} is used to construct 2D-plots of the high dimensional features from the 2nd last linear layer in the CNN model. It creates both PCA and t-SNE plots.
+
+
 
 \section{Results}\label{results}
 This section will focus on showing relevant outputs of the final trained models. Results from previous, less successful models can be found in section \ref{appendix} and section \ref{troubleshooting} highlights some of largest issues during the image generation and how they were solved. The general goal of this section will be to first go through examples of generated images and compare and contrast them to real images, and secondly to show loss-curves for each model. Sections \ref{xy_generated}, \ref{xz_generated} and \ref{yz_generated} provide examples of generated images from the models trained on the $XY$, $XZ$ and $YZ$ respectively. In a slightly different manner, section \ref{training_progress} shows how training comes along after a number of steps to show what the generators learn and when. Afterwards, section \ref{all_generated} will show results on every plane when a model has been trained on data from all of $XY$, $XZ$ and $YZ$. Afterwards, the next four sections will focus on the various losses. The sections \ref{disc_loss}, \ref{gen_loss}, \ref{cycle_loss} and \ref{iden_loss} will show respectively the discriminator losses, generator losses, cycle losses and identity losses from each of the four aforementioned models.
@@ -2044,7 +2044,8 @@ One of the main things for future work is to train more classifiers than the sim
 
 \subsection{Investigating possible accuracy improvements using synthetic data}
 
-Exploring if synthetic data can be used to make models more robust and generalizable have been a fruitful idea since the begging of GANs. However, the data being generated is always  noisy and does not seem to resemble the training dataset distribution accurately enough to be useful for generation of training data. Despite this, using synthetic data generation from a cycleGAN model have not yet been explored or used as an advanced augmentation in any state of the art medical imaging models. Future work should include the possibility of using synthetic data from a cycleGAN as part of the training data to ensure slower convergence of classifier networks such as the Baysia et al. or the one presented in this project, which in turn result in more robust and generalizable models. This include classifiers in the X-ray domain, MRI, fMRI etc.
+Exploring if synthetic data can be used to make models more robust and generalizable have been a fruitful idea since the begging of GANs. However, the data being generated is often  noisy and does not seem to resemble the training dataset distribution accurately enough to be useful for generation of training data. Despite this, using synthetic data generation from a cycleGAN model have not yet been explored or used as an advanced augmentation in any state of the art medical imaging models. %TO BOLD MYNIGGA? 
+Future work should include the possibility of using synthetic data from a cycleGAN as part of the training data to ensure slower convergence of classifier networks such as the Baysia et al. or the one presented in this project, which in turn result in more robust and generalizable models. This include classifiers in the X-ray domain, MRI, fMRI etc.
 
 To test this hypothesis experiments should be carried out to train two identical classifiers. One classifier on a dataset with synthetic data in it and another on a dataset without synthetic data. 
 
