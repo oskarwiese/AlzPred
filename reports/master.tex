@@ -245,6 +245,20 @@ MRI was originally called nuclear magnetic resonance imaging, but was later read
 %TODO simple explanation of THE TESLAz
 It is inherently import to understand the underlying concept and difference of the magnetic field strength of the MRI scanner in use. In this project we use two type of images: 1.5T and 3T images. The T, referring to Tesla, is a unit in which the strength of a magnetic field can be measured. The stronger the magnetic resonance, the more detailed the MRI image. The strength of the magnetic field can be thought of as reducing the amount of noise in the image and adding more clarity. Thus this is like increasing the resolution of a normal RGB image. The 3T images are also constructed with more expensive machines and are not available in all countries nor hospitals around the world. This amplifies the need for a method to translate between these domains. 
 
+\subsection{Trade off of Using MRI}
+%TODO Talk about voxels ( a voxel and encode information about two distinct areas in the brain in same number.see: https://www.youtube.com/watch?v=6wxJ1up-E7E&list=PLIQIswOrUH6_DWy5mJlSfj6AWY0y9iUce )
+
+MRI data is constructed from an MR-scanner in the form of volumes. These 3D images can be compared to centicubes, which together form a big square, where the brain is inside. Each centicube in this image is often referred to as a voxel, and each voxel contains a value that represents the intensity value in the specific area - see figure \ref{fig:voxel}. For T1 weighted or structural images, this determines the boundary between gray matter \& white matter from cerebrospinal fluid. In T2 weighted images, it represents more active voxels to  less active voxels. However, voxels do have certain issues e.g. a voxel can encompass information about two anatomically distinct areas, like if a voxel encompasses two different gyri. Furthermore, it is hard to measure structural properties such as grey matter thickness or volume, which might be important for Alzheimer classification. FreeSurfer Software can help by turning the 3D representation into a 2D representation using triangles. The points of the triangles are vertices and they are connected by an edge. Each vertex then contain measurements such as gray matter volume and thickness, area, curvature etc. These surfaces can then be inflated to visualize where MRI activations and gray matter differences are located more precisely than the voxel representation would have allowed for. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.42\linewidth]{imgs/voxel}
+	\caption{A cube that represents the grid in which the subject brain is located. Each voxel will contain information about the intensity of the area. This representation is prone to loss since one voxel can contain information about multiple areas of the brain.}
+	\label{fig:voxel}
+\end{figure}
+
+
+
 \subsection{MNI Space}
 %TODO explain the MNI space 
 Montreal Neurological Institute 305 (MNI305) is an atlas for brain mapping which was introduced by Evans et al. 1992. MNI simply got is name from where it came from. The mapping was created from 250 normal subjects that have been MRI scanned. It is a known method for normalization and is an often used industry practice for an average human brain  \cite{evans}. 
@@ -393,8 +407,8 @@ The resulting image after the FreeSurfer preprocessing is shown in figure \ref{f
 
 \subsection{Visualization of Data}
 % Slices of img, preview 
-This section aims to give a visualization of the preprocessed data. The section will illustrate the images used to train the cyclic generative advesarial network in this project. The images are being constructed by thresholding one of the following dimension: $ x, y, z $ - which creates the following planes: \texttt{xy, xz, yz}. The xy-, xz- and yz-planes are 2D-images. If an image is converted to a numpy nd array, the slicing would amount to: \texttt{slice = np.array([:,:,z])}, where $ z \in [1,256] $. Thus, we have 256 2D images for each plane for every 3D image resulting in $ 1.152 $ million 2D images. The training images are brain slices, which can be seen in the figures \ref{fig:slica_xy}, \ref{fig:slica_xz} and \ref{fig:slica_yz} \footnote{The images in figures are from randomly selected slices and do not match on the 1.5T to 3T}. Four models will be constructed and trained in this project. Three of the cycleGANs in this project will be trained on xy, xz and yz planes respectively. The last model will be trained on the slices from all three planes. All the slices are created using the \texttt{create\_imgs\_1.5T.py} and \texttt{create\_imgs\_3T.py} python scripts which utilizes numpy and multiprocessing. The scripts can be seen in the repository of this project here: \href{https://github.com/oskarwiese/AlzPred/blob/main/preprocessing_scripts/slicing_scripts/3/create_imgs_3T.py}{3T\_script} and \href{URL}{1.5\_script}.
-An important thing to note is that all black images are discarded. This means only slices with at least one pixel value different from zero are used to train the cycleGAN. This is partly a way to reduce the raw amount of training data, but it is also done because a cycleGAN would never need to learn to translate completely black images from 3T to 1.5T and vice versa, since the black slices can be removed from the image before conversion and reinserted afterwards.
+This section aims to give a visualization of the preprocessed data. The section will illustrate the images used to train the cyclic generative advesarial network in this project. The images are being constructed by thresholding one of the following dimension: $ x, y, z $ - which creates the following planes: \texttt{xy, xz, yz}. The xy-, xz- and yz-planes are 2D-images. If an image is converted to a numpy nd array, the slicing would amount to: \texttt{slice = np.array([:,:,z])}, where $ z \in [1,256] $. Thus, we have 256 2D images for each plane for every 3D image resulting in $ 1.152 $ million 2D images. The training images are brain slices, which can be seen in the figures \ref{fig:slica_xy}, \ref{fig:slica_xz} and \ref{fig:slica_yz} \footnote{The images in figures are from randomly selected slices and do not match on the 1.5T to 3T}. Four models will be constructed and trained in this project. Three of the cycleGANs in this project will be trained on xy, xz and yz planes respectively. The last model will be trained on the slices from all three planes. All the slices are created using the \texttt{create\_imgs\_1.5T.py} and \texttt{create\_imgs\_3T.py} python scripts which utilizes numpy and multiprocessing. The scripts can be seen in the repository of this project here: \href{https://github.com/oskarwiese/AlzPred/blob/main/preprocessing_scripts/slicing_scripts/3/create_imgs_3T.py}{3T\_script} and \href{https://github.com/oskarwiese/AlzPred/blob/main/preprocessing_scripts/slicing_scripts/1.5/create_imgs_1.5T.py}{1.5\_script}.
+An important thing to note is that completely black images are discarded. This means only slices with at least one pixel value different from zero are used to train the cycleGAN. This is partly a way to reduce the raw amount of training data, but it is also done because a cycleGAN would never need to learn to translate completely black images from 3T to 1.5T and vice versa, since the black slices can be removed from the image before conversion and reinserted afterwards.
 
 %TODO: Nævn noget om denne figur, den ankommer meget pludseligt
 \begin{figure}[H]
@@ -425,22 +439,8 @@ An important thing to note is that all black images are discarded. This means on
 		\caption{1.5T and 3T respectively YZ MRI Plane from subject 002\_S\_4171 and 002\_S\_0413.}
 		\label{fig:slica_yz}
 	\end{subfigure}
-	\vskip\baselineskip
+	\caption{Each of the subfigures show two examples from the three different planes constructed. The images displayed here is a part of the training data. }
 \end{figure}
-
-
-\subsection{Trade off of Using MRI}
-%TODO Talk about voxels ( a voxel and encode information about two distinct areas in the brain in same number.see: https://www.youtube.com/watch?v=6wxJ1up-E7E&list=PLIQIswOrUH6_DWy5mJlSfj6AWY0y9iUce )
-
-MRI data is constructed from an MR-scanner in the form of volumes. These 3D images can be compared to centicubes, which together form a big square, where the brain is inside. Each centicube in this image is often referred to as a voxel, and each voxel contains a value that represents the intensity value in the specific area - see figure \ref{fig:voxel}. For T1 weighted or structural images, this determines the boundary between gray matter \& white matter from cerebrospinal fluid. In T2 weighted images, it represents more active voxels to  less active voxels. However, voxels do have certain issues e.g. a voxel can encompass information about two anatomically distinct areas, like if a voxel encompasses two different gyri. Furthermore, it is hard to measure structural properties such as grey matter thickness or volume, which might be important for Alzheimer classification. FreeSurfer Software can help by turning the 3D representation into a 2D representation using triangles. The points of the triangles are vertices and they are connected by an edge. Each vertex then contain measurements such as gray matter volume and thickness, area, curvature etc. These surfaces can then be inflated to visualize where MRI activations and gray matter differences are located more precisely than the voxel representation would have allowed for. 
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.5\linewidth]{imgs/voxel}
-	\caption{A cube that represents the grid in which the subject brain is located. Each voxel will contain information about the intensity of the area. This representation is prone to loss since one voxel can contain information about multiple areas of the brain.}
-	\label{fig:voxel}
-\end{figure}
-
 
 
 \section{Methods}
