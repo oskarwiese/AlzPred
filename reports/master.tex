@@ -296,12 +296,11 @@ To get an understanding of the simple demographics like age and gender distribut
 
 %Description of how images(raw) obtained from patients, number of images, type of subjects  
 
-The images from the ADNI dataset are from both different subjects and a plethora of studies around the world.
+The images from the ADNI dataset are from several different subjects and a plethora of studies around the world.
 Each of the patients have multiple scans throughout the span of the ADNI project, however, we only use the baseline scan, which is the subjects first MRI-scan. 
 The MRI-scans are three dimensional images of the subjects brain. 
 The original image is in a \texttt{.mgz} file format which is a compressed mgh file. 
-This file format can store 3D-images, such as NifT1 files, which is 3-dimensional images of the brain. 
-%The fourth dimension contains metadata about the specific image such as subject\_id, gender, age etc.
+This file format can store 3D-images along with headers containing information about the subject and a transformation matrix.
 The raw images stems from the original analysis from 2004 and onwards. There are in total 1562 %TODO perhaps more perhaps less? 
 unique brain scans, all of which are used in this project.
 
@@ -345,17 +344,19 @@ unique brain scans, all of which are used in this project.
 
 \subsubsection{Data Preprocessing}
 
-In this project, the area of interest is the brain itself. A lot of different tools from the FreeSurfer Software Suite have been used to produce images of the brain. The brain images we used and how to obtain them will be described in the following. The raw image is called \newline \texttt{
+In this project, the area of interest is the brain itself. A lot of different tools from the FreeSurfer Software Suite have been used to produce images of the brain. The brain images constructed and how to construct these for reproduction of the results will be described in the following. The raw image is called: \newline \texttt{
 	% ADNI1\_baseline3T\_collection/002\_S\_0413/MPR\_\_\_\_N3\_\_Scaled\_2/2006-05-19\_16\_17\_47.0 /S14782/
-ADNI\_002\_S\_0413\_MR\_MPR\_\_\_\_N3\_\_Scaled\_2\_Br\_20081001114937668\_S14782\_I118675.nii} and is shown in figure \ref{fig:screenshot001}. The first thing that happens in the preprocessing is motion correction. If multiple images of the source volume has been taken, then correction for motion will be done by averaging all the images.
+ADNI\_002\_S\_0413\_MR\_MPR\_\_\_\_N3\_\_Scaled\_2\_Br\_20081001114937668\_S14782\_I118675.nii} and is shown in figure \ref{fig:screenshot001}. 
+\\\\
+The first thing that happens in the preprocessing is motion correction. If multiple images of the source volume has been taken, then correction for motion will be done by averaging all the images.
 Next step in the preprocessing is non-parametric non-uniform intensity Normalization (N3), which corrects for intensity non-uniformity in the MRI image.
 Then, the talairach transformation is applied. This computes the affine transformation from the subject's original space into the MNI395 atlas.
-Then, another normalization of the intensities in the original image is done. The itensity of all voxels are scaled so that the mean intensity of the white matter is 110 \cite{normalize}. 
+Then, another normalization of the intensities in the original image is done. The intensity of all voxels are scaled so that the mean intensity of the white matter is 110 \cite{normalize}. 
 As the brain is the key area of interest as mentioned earlier, the skull is stripped from the image. The skull-stripping process is done by using Freesurfer Software Suite \cite{freesurfer}.
 More thoroughly, the skull is removed by using a threshold.
 The FreeSurfer software will create files which can be used to check if too much brain matter is removed in the process of skull-stripping the raw image.
 Files which can be used to inspect this include \texttt{brainmask.mgz, T1.mgz} and \texttt{brainmask.gcuts.mgz}.
-Now, EM (GCA) Registration is done. This computes and transforms to alugb %TODO: hva?
+Next, EM (GCA) Registration is done which computes and transforms to align
 \texttt{mri/nu.mgz} to the default GCA atlas from the FreeSurfer Home folder. Lastly, the CA Normalization happens, which outputs a normalized version of the skull-stripped image. This is saved as \texttt{mri/norm.mgz} and is going to be used as the data for each subject in this project \cite{reckon}.
 \\\\
 All human brains are different and the raw images are recorded in the subject's personal space. 
@@ -363,113 +364,36 @@ In order to compare several brains, a registration of the images has to be done 
 A standard CRS for the common brain is called the Tailirach space. 
 Each of the raw images in the ADNI-dataset are registered to the Tailirach space using the \texttt{mni305.cor} template from FreeSurfer. 
 This is done using \texttt{mri\_vol2vol}, which resamples a volume into another CRS. 
-In this project, a MNI305 transformation has been applied by resampling the original normalized images into talairach space using \texttt{\$subject/mri/transforms/talairach.xfm} %TODO Description of the registration 
+In this project, a MNI305 transformation has been applied by resampling the original normalized images into talairach space using \texttt{\$subject/mri/transforms/talairach.xfm} 
 
 \subsubsection{Preprocessing Scripts}
 %TODO: Det ville være federe at have i methods eller appendix måske
-For this project two different type of preprocessing scripts have been used. These will be shown and described. The first script will apply the many preprocessing algorithms described in the previous section. Most importantly, it creates the \texttt{norm.mgz} image, which, as mentioned earlier, is a skull-stripped and normalized version of the subject's brain. The next script will create a version of \texttt{norm.mgz} in the MNI305 space, which is vital to be able to compare several different people's brains.
-
-\begin{lstlisting}[language=bash,caption={FreeSurfer Preprocessing}]
-#!/bin/bash 
-# Script to process FreeSurfer for Bachelor Project:
-# AlzPred by Anders Henriksen & Oskar Wiese
-source FSstable71
-
-cd /dtu-compute/ADNIbias/freesurfer/
-
-filename='freesurfer_log.txt'
-
-rm -f $filename
-
-touch $filename
-
-count=1
-
-SUBJECT_NAMES=$(ls /dtu-compute/ADNIbias \ 
-/ADNI1_baseline3T_collection/ | grep '_S_')
-
-echo 'Starting FreeSurfer by Mr FreeSurfer' 
-
-for f in $SUBJECT_NAMES; do
-echo 'Workin on:' >> $filename
-echo $f >> $filename
-echo $count >> $filename 
-count=`expr $count + 1`
-recon-all -motioncor -s $f -i /dtu-compute/ADNIbias/ \
-ADNI1_baseline3T_collection/$f/MPR*2/20*/S*/*.nii 
-echo 'Motion Cor done' >> $filename
-recon-all -nuintensitycor -s $f  
-echo 'Nu intensity cor done' >> $filename
-recon-all -talairach -s $f 
-echo 'Tailarach done' >> $filename
-recon-all -normalization -s $f 
-echo 'Normalization done' >> $filename
-recon-all -skullstrip -s $f     
-echo 'Skullstrip done' >> $filename
-recon-all -gcareg -s $f  
-echo 'gcareg done' >> $filename
-recon-all -canorm -s $f  
-echo 'canorm done' >> $filename
-echo '' >> $filename
-done 
-\end{lstlisting}
-
-\noindent
-The produced \texttt{norm.mgz} can be illustrated using Freeview, a FreeSurfer Software used to display and examine 3D images. Displaying the new \texttt{norm.mgz} file, a big difference can be seen between the image before processing in figure \ref{fig:screenshot001} and after processing in figure \ref{fig:norm}.
+For this project two different type of preprocessing scripts have been used. These will be shown in the appendix, but are a key importance of the project. The first script will apply the many preprocessing algorithms described in the previous section. Most importantly, it creates the \texttt{norm.mgz} image, which, as mentioned earlier, is a skull-stripped and normalized version of the subject's brain see code in figure \ref{script1} in appendix[\ref{appendix}].
+The produced \texttt{norm.mgz} can be illustrated using Freeview, a FreeSurfer Software used to display and examine 3D images. 
+Displaying the new \texttt{norm.mgz} file, a big difference can be seen between the image before processing in figure \ref{fig:screenshot001} and after processing in figure \ref{fig:norm}.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.9\linewidth]{imgs/norm}
-	\caption{Above illustrates the \texttt{norm.mgz} for the subject \texttt{002\_S\_0413} in the subject's own normalized space.} 
+	\caption{Above illustrates the \texttt{norm.mgz} for the subject \texttt{002\_S\_0295} in the subject's own normalized space.} 
 	\label{fig:norm}
 \end{figure}
 
-The next script utilizes the \texttt{mri\_vol2vol} command, which will use advanced registration to ensure the \texttt{norm.mgz} image is in Talirach space using the mni305.cor.template - this will allow for both compatability between the different subject images and opportunity to train a cycleGAN model to transfer between the two tesla domains.
-
-\begin{lstlisting}[language=bash,caption={FreeSurfer mri\_vol2vol}]
-#!/bin/bash 
-# A script to create a normalized MNI305
-cd /dtu-compute/ADNIbias/freesurfer_ADNI1/
-
-source FSstable71
-
-SUBJECT_NAMES=$(ls /dtu-compute/ADNIbias/ \ 
-freesurfer_ADNI1/ | grep '_S_')
-
-for f in $SUBJECT_NAMES; do 
-	echo "Processing subject: $f"
-	mri_vol2vol --mov /dtu-compute/ADNIbias/freesurfer_ADNI1 \
-	/$f/mri/norm.mgz --targ $FREESURFER_HOME/average \
-	/mni305.cor.mgz --xfm /dtu-compute/ADNIbias \ 
-	/freesurfer_ADNI1/$f/mri/transforms/talairach.xfm --o \
-	/dtu-compute/ADNIbias/freesurfer_ADNI1/$f/norm_mni305.mgz
-done
-\end{lstlisting}
-
+The next script utilizes the \texttt{mri\_vol2vol} command, which will use advanced registration to ensure the \texttt{norm.mgz} image is in Talirach space using the mni305.cor.template - this will allow for both compatability between the different subject images and opportunity to train a cycleGAN model to transfer between the two tesla domains. The script can be seen in appendix, consult figure \ref{script2} in appendix[\ref{appendix}].
 \noindent
 The resulting image after the FreeSurfer preprocessing is shown in figure \ref{fig:norm305}. This image will resemble figure \ref{fig:norm}, but is in a different space, where it has been aligned to the MNI305 atlas. 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.7\linewidth]{imgs/norm_305}
-	\caption{The \texttt{norm\_mni305.mgz} for the subject \texttt{002\_S\_0413} in the Tailarach space.} 
+	\includegraphics[width=0.9\linewidth]{imgs/norm_305}
+	\caption{The \texttt{norm\_mni305.mgz} for the subject \texttt{002\_S\_0295} in the Tailarach space.} 
 	\label{fig:norm305}
 \end{figure}
 
 
-
-%TODO indæst billede af norm i begge spaces
-
-
-\subsubsection{Data Augmentation}
-% Hvis vi vælger at bruge augmentation
-
-Besides the immense preprocessing done with the FreeSurfer Software Suite, the images are also resized, center cropped, converted to float and normalized with a $ \mu = 0.5 $ and $ \sigma = 0.5$. Centercrop crops an image in the center, ensuring that when the image is converted to a tensor and has an arbitrary number of leading dimensions, it will be cropped correctly. Furthermore, the intensity values are normalized to avoid the vanishing and exploding gradient problem when doing backpropagation.
-
-
 \subsection{Visualization of Data}
 % Slices of img, preview 
-This section aims to give a visualization of the preprocessed data. This will show what image data the cycleGANs in this project utilizes when training. The images are being constructed by thresholding one of the following dimension: \texttt{xy, xz, yz}. This creates xy-, xz- and yz-planes, which are 2D-images. If an image is converted to a numpy nd array, the slicing would amount to: \texttt{slice = np.array([:,:,z])}, where $ z \in [1,256] $. Thus, we have 256 2D images for every 3D image resulting in $ 1.152 $ million training images when perform this transformation for every subject used for training. The training images are brain slices, which can be seen in the figures \ref{fig:slica_xy}, \ref{fig:slica_xz} and \ref{fig:slica_yz} \footnote{The images in figures are from randomly selected slices and do not match on the 1.5T to 3T}. Three of the cycleGANs in this project will be trained on xy, xz and yz planes respectively. Lastly, a model will also be trained on the slices from all three planes. All the slices are created using the \texttt{create\_imgs\_1.5T.py} and \texttt{create\_imgs\_3T.py} python scripts which utilizes numpy and multiprocessing. The scripts can be seen in the appendix in section \ref{create_imgs_1.5T} and \ref{create_imgs_3T}.
+This section aims to give a visualization of the preprocessed data. The section will illustrate the images used to train the cyclic generative advesarial network in this project. The images are being constructed by thresholding one of the following dimension: $ x, y, z $ - which creates the following planes: \texttt{xy, xz, yz}. The xy-, xz- and yz-planes are 2D-images. If an image is converted to a numpy nd array, the slicing would amount to: \texttt{slice = np.array([:,:,z])}, where $ z \in [1,256] $. Thus, we have 256 2D images for each plane for every 3D image resulting in $ 1.152 $ million 2D images. The training images are brain slices, which can be seen in the figures \ref{fig:slica_xy}, \ref{fig:slica_xz} and \ref{fig:slica_yz} \footnote{The images in figures are from randomly selected slices and do not match on the 1.5T to 3T}. Four models will be constructed and trained in this project. Three of the cycleGANs in this project will be trained on xy, xz and yz planes respectively. The last model will be trained on the slices from all three planes. All the slices are created using the \texttt{create\_imgs\_1.5T.py} and \texttt{create\_imgs\_3T.py} python scripts which utilizes numpy and multiprocessing. The scripts can be seen in the repository of this project here: \href{https://github.com/oskarwiese/AlzPred/blob/main/preprocessing_scripts/slicing_scripts/3/create_imgs_3T.py}{3T\_script} and \href{URL}{1.5\_script}.
 An important thing to note is that all black images are discarded. This means only slices with at least one pixel value different from zero are used to train the cycleGAN. This is partly a way to reduce the raw amount of training data, but it is also done because a cycleGAN would never need to learn to translate completely black images from 3T to 1.5T and vice versa, since the black slices can be removed from the image before conversion and reinserted afterwards.
 
 %TODO: Nævn noget om denne figur, den ankommer meget pludseligt
@@ -843,6 +767,13 @@ The optimizer, batch size, betas, convolution depths and input/output were set t
 
 In relation to the discriminator and generator convolution depths, it is self-explanatory that using other images (RGB, non-square, different dimension) would require changing the architecture of input and output dimensions of all four models while also ensuring that the kernel size, stride and padding of the convolutional layers are setup correctly. This can be double checked by using $output\_dim = n - k + p + 1$, where $n$ is the image dimension, $k$ is kernel size and $p$ is padding.
 
+
+\subsubsection{Data Augmentation}
+% Hvis vi vælger at bruge augmentation
+
+Besides the immense preprocessing done with the FreeSurfer Software Suite, the images are also resized, center cropped, converted to float and normalized with a $ \mu = 0.5 $ and $ \sigma = 0.5$. Centercrop crops an image in the center, ensuring that when the image is converted to a tensor and has an arbitrary number of leading dimensions, it will be cropped correctly. Furthermore, the intensity values are normalized to avoid the vanishing and exploding gradient problem when doing backpropagation.
+
+
 \subsubsection{Troubleshooting}\label{troubleshooting}
 Since implementing a cycleGAN requires implementing four different neural networks, the hyperparameter search and minutia of the model can be difficult to get right. Very many issues like non-convergence, mode collapse, diminished gradients, vanishing gradients and more are well documented \cite{hard_to_train}. A known problem is cycleGAN only training until they reach a local minimum \cite{ganlocalminimum}. Another is the issue of getting noisy squares in images, sometimes referred to as checkerboard noise. One of the first models that was trained on the MRI ADNI images turned out to contain a version of this checkerboard noise. The source of the noise turned out to be an uneven sampling of pixels in earlier layers to newer layers when doing the upsampling (also known as transpose convolution or deconvolution). Mismatches between the kernel size and the stride as well as bad upscaling can cause some areas of the upsampled image to contain information from more pixels than other areas. This is a critical cause of the recognizable checkerboard noise \cite{checkerboard}. An illustration of how the flaw gets made can be seen below. images generated from the flawed cycleGAN can also be seen in illustration \ref{fig:troubleshoota}. Here, it is clear that white squares are surrounded by black squares all over the image, worsening the general image quality.
 
@@ -979,7 +910,7 @@ The data used for training the classifier is a combination of generated images f
 	\item Classification in terms of Fully Connected Layers
 	\end{itemize}
 	
-	The classifier in this project is trained on 80\& of the available data and is tested on the last 20 \%. As for hyperparameters consult following table.
+	The classifier in this project is trained on 80\% of the available data and is tested on the last 20 \%. As for hyperparameters consult following table.
 	
 	\begin{table}[H]\label{hyperparams}
 		\centering
@@ -988,8 +919,8 @@ The data used for training the classifier is a combination of generated images f
 			& \textbf{Hyperparameter}           &&&&& & \textbf{Value}    & \\ \midrule
 			& Train-test split         &&&&& & $0.8/0.2$& \\
 			& Dropout $[p]$            &&&&& & $0.15$    & \\ 
-			& Learning rate $[\alpha]$ &&&&& & $0.0001$  & \\ 
-			& Epochs                   &&&&& & $400$    & \\  \bottomrule
+			& Learning rate $[\alpha]$ &&&&& & $0.0002$  & \\ 
+			& Epochs                   &&&&& & $230$    & \\  \bottomrule
 		\end{tabular}
 	\end{table}
 	
@@ -2181,6 +2112,81 @@ As discussed in section \ref{discussion_economic}, if the synthetic generated da
 %\pythonexternal{scr/create_imgs_1.5T.py}
 
 \subsection{Shell scripts}
+\begin{figure}[H]
+	\scriptsize
+	\begin{lstlisting}[language=bash,caption={FreeSurfer Preprocessing}]
+		#!/bin/bash 
+		# Script to process FreeSurfer for Bachelor Project:
+		# AlzPred by Anders Henriksen & Oskar Wiese
+		source FSstable71
+		
+		cd /dtu-compute/ADNIbias/freesurfer/
+		
+		filename='freesurfer_log.txt'
+		
+		rm -f $filename
+		
+		touch $filename
+		
+		count=1
+		
+		SUBJECT_NAMES=$(ls /dtu-compute/ADNIbias \ 
+		/ADNI1_baseline3T_collection/ | grep '_S_')
+		
+		echo 'Starting FreeSurfer by Mr FreeSurfer' 
+		
+		for f in $SUBJECT_NAMES; do
+		echo 'Workin on:' >> $filename
+		echo $f >> $filename
+		echo $count >> $filename 
+		count=`expr $count + 1`
+		recon-all -motioncor -s $f -i /dtu-compute/ADNIbias/ \
+		ADNI1_baseline3T_collection/$f/MPR*2/20*/S*/*.nii 
+		echo 'Motion Cor done' >> $filename
+		recon-all -nuintensitycor -s $f  
+		echo 'Nu intensity cor done' >> $filename
+		recon-all -talairach -s $f 
+		echo 'Tailarach done' >> $filename
+		recon-all -normalization -s $f 
+		echo 'Normalization done' >> $filename
+		recon-all -skullstrip -s $f     
+		echo 'Skullstrip done' >> $filename
+		recon-all -gcareg -s $f  
+		echo 'gcareg done' >> $filename
+		recon-all -canorm -s $f  
+		echo 'canorm done' >> $filename
+		echo '' >> $filename
+		done 
+		
+	\end{lstlisting}
+	\caption{}
+	\label{script1}
+\end{figure}
+
+ \begin{figure}[H]
+ 	\scriptsize
+ 	\begin{lstlisting}[language=bash,caption={FreeSurfer mri\_vol2vol}]
+		#!/bin/bash 
+		# A script to create a normalized MNI305
+		cd /dtu-compute/ADNIbias/freesurfer_ADNI1/
+		
+		source FSstable71
+		
+		SUBJECT_NAMES=$(ls /dtu-compute/ADNIbias/ \ 
+		freesurfer_ADNI1/ | grep '_S_')
+		
+		for f in $SUBJECT_NAMES; do 
+		echo "Processing subject: $f"
+		mri_vol2vol --mov /dtu-compute/ADNIbias/freesurfer_ADNI1 \
+		/$f/mri/norm.mgz --targ $FREESURFER_HOME/average \
+		/mni305.cor.mgz --xfm /dtu-compute/ADNIbias \ 
+		/freesurfer_ADNI1/$f/mri/transforms/talairach.xfm --o \
+		/dtu-compute/ADNIbias/freesurfer_ADNI1/$f/norm_mni305.mgz
+		done
+ 	\end{lstlisting}
+ 	\caption{}
+ 	\label{script2}
+ \end{figure}
 
 
 \subsection{MNIST GAN}\label{MNIST_GAN}
@@ -2380,7 +2386,7 @@ As discussed in section \ref{discussion_economic}, if the synthetic generated da
 \subsubsection{Discussion of Results}
 This sections aims to interpret the results of training a GAN to generate images from the MNIST dataset shown in section \ref{MNIST_GAN}. In the loss function plot for BCE and L1 loss GANs in figure \ref{fig:MNIST_GAN_losses_normal}, the losses do not seem to change much over time, except for the large downwards spike of the discriminator in the beginning of training. This would normally be a negative sign, signifying that the models are not learning much of anything. In the case of GANs though, the discriminator and generator are always fighting betwixt each other for the lowest possible loss. This means that a theoretical increase in one performance leads to a decrease in the performance of the other. This means that both models are actually still learning although their losses are not an indication of such. Much the same can be said for figure \ref{fig:MNIST_GAN_losses_mse}, though this figure seems to generally be more interesting. As expressed ad nauseam in the literature, a successful GAN should have losses that slowly converge towards some constant over time. This seems especially true here, since the discriminator gets higher loss while the generator gets lower loss until they arrive at pretty much the same loss. The generator generally looks to have slightly higher loss and a much larger variance of loss for each step. Some hyperparameters could thus be tuned further to allow the generator to reach a more stable point of convergence.
 
-In the next section, it is discovered how the generator learns using the two different loss functions for training. In the first row of figure \ref{fig:training_progress_normal} is shown how the Binary Cross Entropy (BCE) loss very quickly enforces background pixels to be black and the generators starts learning the general outline that is shared by multiple digits after only 1.5 epochs. Many images look to be a mix of 5 and 9 and  1 and 2 especially. In row two after 70 epochs, many of the digits have become sharp and now look only like one digit. Some small artifacts like floating pixels and disconnected parts of digits are still present, especially in the 8's, 5's and 7's. After epoch 150 in row three, the generator has now learned to connect most parts of the digits, although it still generated random small pixels at incorrect parts of the image. Finally, in row four after 200 epochs, most of the grains now seem to have been removed and only some artifacts are left in the images. This shows that even though the generator loss in figure \ref{fig:MNIST_GAN_losses_normal} was stable, the generator wass definitely still learning. Using Mean Squared Error (MSE) loss instead of BCE, it seems that the generators learns in a completely different manner based off of figure \ref{fig:training_progress_mse}. Here, row one after training 3 epochs shows that the general shape of a digit has been found, though the salt-and-pepper noise from the original gaussian-distributed noise is still present in all the images. After 15 epochs, in row two, most of the images now get generated with little to no salt-and-pepper noise, and the shape of some digits is already starting to become visible. After 86 epochs in row three, the generator seems to be in pretty much the same spot as the BCE generator was at epoch 150. The shape of singular digits is learned and only some parts of digits are disconnected. In the last epoch of the last row, virtually no noise is present and the digits look really convincing. This whole experiment seems to show that the generator using MSE seems to train faster and learn better features than the generator using BCE. 
+In the next section, it is discovered how the generator learns using the two different loss functions for training. In the first row of figure \ref{fig:training_progress_normal} is shown how the Binary Cross Entropy (BCE) loss very quickly enforces background pixels to be black and the generators starts learning the general outline that is shared by multiple digits after only 1.5 epochs. Many images look to be a mix of 5 and 9 and  1 and 2 especially. In row two after 70 epochs, many of the digits have become sharp and now look only like one digit. Some small artifacts like floating pixels and disconnected parts of digits are still present, especially in the 8's, 5's and 7's. After epoch 150 in row three, the generator has now learned to connect most parts of the digits, although it still generated random small pixels at incorrect parts{\tiny } of the image. Finally, in row four after 200 epochs, most of the grains now seem to have been removed and only some artifacts are left in the images. This shows that even though the generator loss in figure \ref{fig:MNIST_GAN_losses_normal} was stable, the generator wass definitely still learning. Using Mean Squared Error (MSE) loss instead of BCE, it seems that the generators learns in a completely different manner based off of figure \ref{fig:training_progress_mse}. Here, row one after training 3 epochs shows that the general shape of a digit has been found, though the salt-and-pepper noise from the original gaussian-distributed noise is still present in all the images. After 15 epochs, in row two, most of the images now get generated with little to no salt-and-pepper noise, and the shape of some digits is already starting to become visible. After 86 epochs in row three, the generator seems to be in pretty much the same spot as the BCE generator was at epoch 150. The shape of singular digits is learned and only some parts of digits are disconnected. In the last epoch of the last row, virtually no noise is present and the digits look really convincing. This whole experiment seems to show that the generator using MSE seems to train faster and learn better features than the generator using BCE. 
 
 Since the images have started looking so convincing after generating them with BCE and MSE, the BCE images have been shown with original images in the figure 	\ref{fig:generated_images_MNIST_GAN_normal} to compare and contrast. Notably, the generated images in this figure are sampled by manually picking out the best 8 from a sample of 20 generated images. Comparing the real and fake images, it seems that the largest difference between the two is a number of sharp pixels at random points of the 0's, the 6 and the 5. Some of the digits also look a bit too thick compared to the real images, though this is probably due to the large number of 4's and 1's in the randomly sampled real images. Figure \ref{fig:generated_images_MNIST_GAN_mse} shows MSE generated images compared to real images. Here, we once again notice how some digits like the 3, 2 and 6 have pretty random-looking pixels poking out the side of them. These pixels are most likely more difficult to remove than the salt-and-pepper noise since real digits have a high variance, and as such, some of the floating pixels would have been placed correctly in another iteration of the same digit. Comparing the best examples of generated MSE and BCE images, the difference are very vague. The BCE model seems to have more, smaller blobs of noisy pixels at the perimeter, while the MSE generator creates images with few large noisy concentrations. Overall, the results are closely comparable. The recommendation from this paper is to train on MSE if under time-constraint. Otherwise, one model does not seem to out-perform the other.
 
