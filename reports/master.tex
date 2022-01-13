@@ -143,7 +143,58 @@
 	
 \end{abstract}
 
-%TODO INDSÆT  \section{Glossary} her på en smuk måde (noget af det sidste der skal laves)
+
+\vspace*{-4cm}
+\section*{Glossary}
+\begin{table}[H]\label{fig:files}
+	\hspace*{-2cm}
+	\begin{tabular}{l l l l l l l l l}
+		\toprule
+		& \textbf{Term} & & & & & & \textbf{Explanation}                                              & \\ \midrule
+		& AD            & & & & & & Alzheimer's Disease                                               & \\
+		& ADNI          & & & & & & Alzheimer's Disease Neuroimaging Initiative                       & \\
+		& AI            & & & & & & Artificial Intelligence                                           & \\
+		& Adam          & & & & & & Adaptive Moment Estimation                                        & \\
+		& BCE           & & & & & & Binary Cross-Entropy                                              & \\
+		& CN            & & & & & & cognitively normal                                                & \\
+		& CNN           & & & & & & Convolutional Neural Network                                      & \\
+		& CRS           & & & & & & Coordinate Reference System                                       & \\
+		& CSF           & & & & & & Cerebrospinal Fluid                                               & \\
+		& CycleGAN      & & & & & & Cyclic Generative Adversarial Network                             & \\
+		& DKK           & & & & & & Danish Kroner                                                     & \\
+		& DL            & & & & & & Deep Learning                                                     & \\
+		& DTU           & & & & & & Technical University of Denmark                                   & \\
+		& EM-GCA        & & & & & & Electromagnetic Gaussian Classifier Array                         & \\
+		& FS            & & & & & & FreeSurfer                                                        & \\
+		& GAN           & & & & & & Generative Adversarial Network                                    & \\
+		& GCA           & & & & & & Gaussian Classifier Array                                         & \\
+		& GPU           & & & & & & Graphics Processing Unit                                          & \\
+		& HPC           & & & & & & High Performance Computing                                        & \\
+		& KL            & & & & & & Kullback-Liebler                                                  & \\
+		& LONI          & & & & & & Laboratory of Neuro Imaging                                       & \\
+		& MCI           & & & & & & Mild Cognitive Impairment                                         & \\
+		& ML            & & & & & & Machine learning                                                  & \\
+		& MNI           & & & & & & Montreal Neurological Institute                                   & \\
+		& MNIST         & & & & & & Modified National Institute of Standards and Technology database  & \\
+		& MRI           & & & & & & Magnetic Resonance Imaging                                        & \\
+		& NA            & & & & & & Not Applicable                                                    & \\
+		& PCA           & & & & & & Principal Component Analysis                                      & \\
+		& PET           & & & & & & Positron Emission Tomography                                      & \\
+		& RGB           & & & & & & Red-Green-Blue                                                    & \\
+		& RMSE          & & & & & & Root-Mean-Square Error                                            & \\
+		& ReLU          & & & & & & Rectified Linear Unit                                             & \\
+		& SVD           & & & & & & Singular Value Decomposition                                      & \\
+		& WGAN          & & & & & & Wasserstein GAN                                                   & \\
+		& fMRI          & & & & & & Functional Magnetic Resonance Imaging                             & \\
+		& kSVM-DT       & & & & & & kernel support vector machine decision trees                      & \\
+		& t-SNE         & & & & & & t-Distributed Stochastic Neighbor Embedding                       & \\
+		
+		
+		
+		\bottomrule
+	\end{tabular}
+\end{table}
+
 {
 \hypersetup{linkcolor=black}
 \tableofcontents 
@@ -277,7 +328,7 @@ Thus, they created a space, namely the MNI305 space, which is used in this proje
 
 
 The data used in this project is from Alzheimer's Disease Neurosurgical Initiative (ADNI). This initiative unites researchers with study data to investigate and define the progression of Alzheimer's Disease (AD). 
-ADNI collects, validates and utilizes data, including magnetic resonance imaging (MRI), positron emission tomography (PET), genetics, cognitive tests, cerebrospinal fluid biomarkers (CSF) and blood biomarkers as predictors of the disease \cite{adni}.
+ADNI collects, validates and utilizes data, including magnetic resonance imaging (MRI), positron emission tomography (PET), genetics, cognitive tests, cerebrospinal fluid (CSF) biomarkers and blood biomarkers as predictors of the disease \cite{adni}.
 More specifically, this project will use MRI data from ADNI 1 \& 2, which was launched in October 24 2004. Originally this project was designed to find more accurate biomarkers for the early detection of AD.
 The ADNI project analyzed more than a thousand different brain scans from three different subject groups, namely, subjects with mild cognitive impairment (MCI), subjects with early AD and control subjects \cite{adni1}. 
 \\\\
@@ -1002,7 +1053,7 @@ After the above similarities are calculated each sample in the data is represent
 	q_{i,j} = \frac{(1 + \norm{\mathbf y_i - \mathbf y_j}^2)^{-1}}{\sum_k \sum_{l \neq k}(1 + \norm{\mathbf y_i - \mathbf y_j}^2)^{-1}}
 \end{equation}
 From equation \eqref{tdistro}, a student-t distribution with 1 as degree of freedom is used to measure the similarities between the low dimensional points. 
-The location of the samples in the mapping process is optimized using the Kullback-Liebler divergence as a cost function. The KL divergence measures the similarity of two distributions, in this case: $ P $ and $ Q $. 
+The location of the samples in the mapping process is optimized using the Kullback-Liebler (KL) divergence as a cost function. The KL divergence measures the similarity of two distributions, in this case: $ P $ and $ Q $. 
 \begin{equation*}\label{key}
 	KL(Q \vert \vert P) = \sum_{i \neq j} p_{ij} \log \frac{p_{ij}}{q_{ij}}
 \end{equation*} 
