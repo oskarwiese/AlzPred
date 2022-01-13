@@ -126,13 +126,13 @@
 \begin{abstract}
 	\small
 	\noindent
-	The progression of Alzheimer's Disease is slow and lead to death within 7-10 years from the date of diagnosis. In addition, AD is the most common precursor to dementia in Denmark and an estimated 85000-90000 people live with a dementia disease. \noindent As such methods for diagnosis have been researched for many decades especially within the field of medical imaging. 
+	The progression of Alzheimer's Disease is slow and lead to death within 7-10 years from the date of diagnosis. In addition, AD is the most common precursor to dementia in Denmark, and an estimated 85000-90000 people live with a dementia disease. \noindent As such, methods for diagnosis have been researched for many decades, especially within the field of medical imaging. 
 	\noindent
-	A previous study exploring the possibility of classifying AD from MRI from the ADNI database showed promising results in classifying the disease, however, a bias between the magnetic field strength of the images used in the study was demonstrated. To eliminate the demonstrated bias, this project implements a CycleGAN to translate between 1.5T \& 3T MRI-scans in order to generate 1.5T version of 3T images vice versa to retrain a classifier to classify AD without the observed magnetic field strength bias. The project finds, that a CycleGAN model can successfully be trained to translate between the magnetic field strength domains. Quantified by a RMSE difference of 0.85064 when mapping from 3T to 1.5T and 0.9243 when mapping from 1.5T to 3T, compared to the baseline. Furthermore, when inspecting the feature representation of a classifier trained purely on original 1.5T \& 3T images in a two-dimensional space, by utilizing t-SNE and forward passing cycleGAN generated images along with original images, no significant difference in their distributions can be determined. Based on RMSE, t-SNE and visual inspection the generated images demonstrates utmost close resemblance to real images. 
+	A previous study exploring the possibility of classifying AD from MRI images stemming from the ADNI database showed promising results in classifying the disease, however, a bias between the magnetic field strength of the images used in the study was demonstrated. To eliminate the demonstrated bias, this project implements a CycleGAN to translate between 1.5T \& 3T MRI scans in order to generate 1.5T version of 3T images and vice versa to retrain a classifier to classify AD without the observed magnetic field strength bias. The project finds that a CycleGAN model can successfully be trained to translate between the magnetic field strength domains quantified by a RMSE difference of 0.85064 when mapping from 3T to 1.5T and 0.9243 when mapping from 1.5T to 3T, compared to the baseline. Furthermore, when inspecting the feature representation of a classifier trained purely on original 1.5T \& 3T images in a two-dimensional space, by utilizing t-SNE and forward passing cycleGAN generated images along with original images, no significant difference in their distributions can be determined. Based on RMSE, t-SNE and visual inspection, the generated images demonstrate utmost close resemblance to real images. 
 	% Konklussion på at data fra cycleGAN kan bruges til at træne en biasfri classifier
 	Moreover, the synthetically generated data seems promising in training an unbiased classifier to predict AD. Contingent on the t-SNE plots, the classifier exhibits no bias towards the magnetic field strength.
 	% This implies that --> cycleGAN help cure AD
-	Based on the amount of resources society spends on AD \& dementia a successful prediction model will economically drive down cost and improve life quality of future AD patients. 
+	Based on the amount of resources society spends on AD \& dementia, a successful prediction model will economically drive down cost and improve life quality and expectancy of future AD patients. 
 	\noindent
 	The findings of the project implies that a combination of a cycleGAN \& deep learning classifier might help reduce the severity of AD for a multitude of generations to come and in the long run may aid in finding a cure or reason as to how \& why AD occurs. 
 	
@@ -473,6 +473,7 @@ Besides the immense preprocessing done with the FreeSurfer Software Suite, the i
 
 
 \section{Methods}
+%TODO: tror ikke alle subsections er nævnt her. Så vi skal nok endten nævne alle eller ingen 
 This section introduces what technical background has been used in the duration of this project as well as which types of models have been trained. Section \ref{camillas_model} introduces the classification network used to find and analyze the bias present in using both 1.5T and 3T MRI images for analysis. Section \ref{gan} and \ref{cyclegan} consider the intuition and mathematical theory behind implementing GANs and CycleGANs. The GAN has been trained on the Modified National Institute of Standards and Technology database (MNIST) hand-drawn digit dataset as a preliminary introduction to GANs. The results of training this model is found in section \ref{MNIST_GAN}. As for the CycleGAN, five total models have been implemented on various datasets. One of these models was trained on the horse2zebra dataset used in the original CycleGAN paper \cite{original_cyclegan} as another preliminary experiment and as an introduction to CycleGANs. The result of this preliminary run is located in section \ref{horse2zebra_cyclegan}. The four other models have been trained on different variations of the MRI files mentioned above. One has been trained on slices from the $x$-axis (YZ), another from the $y$-axis (XZ), yet another on the $z$-axis (XY). The last model has been trained on all (ALL) of these images simultaneously and outputs and average 3D image from predicting each 3D image. The goal was to test the best approach for reconstructing 1.5T images from 3T images, and to see if the ALL-model could hold up to the quality of the other models. The specifics about training variables, hyperparameters, etc. are located in section \ref{model_specifics}. Since these models are not easy to train \cite{hard_to_train}, section \ref{troubleshooting} relays multiple issues along the training process and how they were eventually fixed. Lastly, section \ref{reproducibility} discusses what has been done to ensure reproducible results. %TODO: mangler sektioner. Kunne nok også godt gøres lidt kortere
 
 
@@ -1154,6 +1155,7 @@ Lastly, \texttt{feature\_visualization.py} is used to construct 2D-plots of the 
 
 
 \section{Results}\label{results}
+%TODO: tror ikke alle subsections er nævnt her. Så vi skal nok endten nævne alle eller ingen 
 This section will focus on showing relevant outputs of the final trained models. Results from previous, less successful models can be found in section \ref{troubleshooting}, which also highlights some of largest issues during the image generation and how they were solved. The general goal of this section will be to first go through examples of generated images and compare and contrast them to real images, and secondly to show loss-curves for each model. Sections \ref{xy_generated}, \ref{xz_generated} and \ref{yz_generated} provide examples of generated images from the models trained on the $XY$, $XZ$ and $YZ$ respectively. In a slightly different manner, section \ref{training_progress} shows how training comes along after a number of steps to show what the generators learn and when. Afterwards, section \ref{all_generated} will show results on every plane when a model has been trained on data from all of $XY$, $XZ$ and $YZ$. Afterwards, the next four sections will focus on the various losses. The sections \ref{disc_loss}, \ref{gen_loss}, \ref{cycle_loss} and \ref{iden_loss} will show respectively the discriminator losses, generator losses, cycle losses and identity losses from each of the four aforementioned models.
 
 \subsection{Discriminator Losses}\label{disc_loss}
@@ -1818,7 +1820,7 @@ This section will focus on showing relevant outputs of the final trained models.
 			&\textbf{ALL}               & $\mathbf{1.5344}$            & $\mathbf{0.9243}$           & $\mathbf{0.6100}$            & \\
 			 \bottomrule
 		\end{tabular}
-		\caption{Table showing RMSE for comparisons of images from the different models. The rows contain the four trained MRI CycleGAN models and the first column contains average RMSE between 1.5T ground truth and 3T ground truth. The top part of the second column contains the average RMSE between 1.5T ground truth and 1.5 generated and the bottom part shows RMSE between 3T ground truth and 3T generated. The last column is the difference between the first two columns. Thus a larger number shows in the last column shows better performance. The best performing models have been highlighted.}
+		\caption{Table showing RMSE for comparisons of images from the different models. The rows contain the four trained MRI CycleGAN models and the first column contains average RMSE between 1.5T ground truth and 3T ground truth. The top part of the second column contains the average RMSE between 1.5T ground truth and 1.5 generated and the bottom part shows RMSE between 3T ground truth and 3T generated. The last column is the difference between the first two columns. Thus a larger number in the last column shows better performance. The best performing models have been highlighted.}
 		\label{tab:metrics_rmse}
 	\end{center}
 \end{table}
@@ -1861,7 +1863,7 @@ This section will focus on showing relevant outputs of the final trained models.
 	\includegraphics[height=2.2in]{imgs/classifier/lr_0.0002_accuracy_curve}%
 
 \end{subfigure}
-	\caption{The displayed illustration shows training progress of a CNN classifier trained on synthetic CycleGAN images and original images. The classifier will be referred to as $ \mathcal M_1 $. The training \& validation loss (left) and training \& validation accuracy (right). The classifier tries to predict whether the subject has Alzheimer disease or not. The figures can be used to determine convergence and signs of learning. }
+	\caption{The displayed illustration shows training progress of a CNN classifier trained on synthetic CycleGAN images and original images. The classifier will be referred to as $ \mathcal M_1 $. The classifier tries to predict whether the subject has Alzheimer disease or not. The figures can be used to determine convergence and signs of learning. \textbf{Left:} The training \& validation loss. \textbf{Right:} training \& validation accuracy.}
 		\label{fig:loss_acc}
 \end{figure}
 
@@ -1877,7 +1879,7 @@ This section will focus on showing relevant outputs of the final trained models.
 		\includegraphics[height=2.2in]{imgs/classifier/lr_0.0002_accuracy_curve_overfit}%
 		
 	\end{subfigure}
-	\caption{The displayed illustration shows training progress of a CNN classifier trained on original 1.5T and 3T images. The classifier will be referred to as $ \mathcal M_2 $. The training \& validation loss (left) and training \& validation accuracy (right). The classifier tries to predict whether the subject has Alzheimer disease or not. The figures can be used to determine convergence and signs of learning. }
+	\caption{The displayed illustration shows training progress of a CNN classifier trained on original 1.5T and 3T images. The classifier will be referred to as $ \mathcal M_2 $. Details can be seen in the caption of figure \ref{fig:loss_acc}.}
 	\label{fig:loss_acc_overfit_classifier}
 \end{figure}
 \vspace*{-2.2cm}
@@ -1887,7 +1889,7 @@ This section will focus on showing relevant outputs of the final trained models.
 %\vfill
 \noindent
 %\vspace*{\fill}
-The plots in the following subsections are generated by forward passing images through the model and looking at the weight vector in the 2nd last linear layer of the model $ \mathcal M$. The title of the following subsection refers to the data used to generate the plots.
+The plots in the following subsections are generated by forward passing images through the model and looking at the weight vector in the penultimate linear layer of the model $ \mathcal M$. The title of the following subsection refers to the data used to generate the plots.
 \vspace*{-0.39cm}
 \subsubsection{CycleGAN generated 1.5T images \& original 1.5T -  $ \mathcal M_1 $}
 \vspace*{-0.65cm}
@@ -1897,18 +1899,18 @@ The plots in the following subsections are generated by forward passing images t
 	\begin{subfigure}[t]{0.62\textwidth}
 		\centering
 		\includegraphics[height=2.2in]{imgs/classifier/with_generated_imgs_tsne_type}%
-		\caption{t-SNE plot colored by type of image. Generated refers to the subject image being reconstructed from 3T to 1.5T with CycleGAN model.}
+		\caption{t-SNE plot colored by type of image. Generated refers to the subject image being reconstructed from 3T to 1.5T with the CycleGAN model.}
 	\end{subfigure}%
 	~
 	\begin{subfigure}[t]{0.5\textwidth}
 		\centering
 		\includegraphics[height=2.2in]{imgs/classifier/with_generated_imgs_tsne_sex}%
-		\caption{t-SNE plot colored by sex. Sex refer to the gender of the patient indicating whether the person is male or female according to the ADNI database.}	
+		\caption{t-SNE plot colored by sex. Sex refer to the gender of each individual subject in the ADNI database}	
 	\end{subfigure}
 	\begin{subfigure}[t]{0.5\textwidth}
 		\centering
 		\includegraphics[height=2.2in]{imgs/classifier/with_generated_imgs_tsne_group}%
-		\caption{t-SNE plot colored by group. Group refer to the label of the patient indicating whether the person has Alheimer or not.}
+		\caption{t-SNE plot colored by group. Group refers to whether the subject has Alzheimer's Disease (AD) or not (CN)}
 	\end{subfigure}
 	\caption{The figure displayed shows the t-SNE plots of model $ \mathcal M_1 $. The plot resembles the features from the 2nd last linear layer when forward passing data through the model. Each of the plots are colored by different labels. Figure (a) shows generated vs. original images, (b) shows male vs. female and (c) shows the Alzheimer patients vs. control group. }
 	\label{fig:tsne_gen}
@@ -1926,12 +1928,12 @@ The plots in the following subsections are generated by forward passing images t
 	\begin{subfigure}[t]{0.5\textwidth}
 		\centering
 		\includegraphics[height=2.2in]{imgs/classifier/with_generated_imgs_pca_sex}%
-		\caption{PCA plot colored by sex. Sex refer to the gender of the patient indicating whether the person is male or female according to the ADNI database.}	
+		\caption{PCA plot colored by sex.}	
 	\end{subfigure}
 	\begin{subfigure}[t]{0.5\textwidth}
 		\centering
 		\includegraphics[height=2.2in]{imgs/classifier/with_generated_imgs_pca_group}%
-		\caption{PCA plot colored by group. Group refer to the label of the patient indicating whether the person has Alheimer or not.}
+		\caption{PCA plot colored by group.}
 	\end{subfigure}
 	
 	\caption{The figure displayed shows the PCA plots of model $ \mathcal M_1 $. Each of the plots are colored by different labels. Figure (a) shows generated vs. original images, (b) shows male vs. female and (c) shows the Alzheimer patients vs. control group. }
@@ -1953,12 +1955,12 @@ The plots in the following subsections are generated by forward passing images t
 	\begin{subfigure}[t]{0.5\textwidth}
 		\centering
 		\includegraphics[height=2.2in]{imgs/classifier/not_generated_imgs_tsne_sex}%
-		\caption{t-SNE plot colored by sex. Sex refer to the gender of the patient indicating whether the person is male or female according to the ADNI database.}	
+		\caption{t-SNE plot colored by sex.}	
 	\end{subfigure}
 	\begin{subfigure}[t]{0.5\textwidth}
 		\centering
 		\includegraphics[height=2.2in]{imgs/classifier/not_generated_imgs_tsne_group}%
-		\caption{t-SNE plot colored by group. Group refer to the label of the patient indicating whether the person has Alheimer or not.}
+		\caption{t-SNE plot colored by group.}
 	\end{subfigure}
 	
 	\caption{The figure displayed shows the t-SNE plots of model $ \mathcal M_1 $. Each of the plots are colored by different labels. Figure (a) shows generated vs. original images, (b) shows male vs. female and (c) shows the Alzheimer patients vs. control group. }
@@ -1977,12 +1979,12 @@ The plots in the following subsections are generated by forward passing images t
 	\begin{subfigure}[t]{0.5\textwidth}
 		\centering
 		\includegraphics[height=2.2in]{imgs/classifier/not_generated_imgs_pca_sex}%
-		\caption{PCA plot colored by sex. Sex refer to the gender of the patient indicating whether the person is male or female according to the ADNI database.}	
+		\caption{PCA plot colored by sex.}	
 	\end{subfigure}
 	\begin{subfigure}[t]{0.5\textwidth}
 		\centering
 		\includegraphics[height=2.2in]{imgs/classifier/not_generated_imgs_pca_group}%
-		\caption{PCA plot colored by group. Group refer to the label of the patient indicating whether the person has Alheimer or not.}
+		\caption{PCA plot colored by group.}
 	\end{subfigure}
 	
 	\caption{The figure displayed shows the PCA plots of model $ \mathcal M_1 $. Each of the plots are colored by different labels. Figure (a) shows generated vs. original images, (b) shows male vs. female and (c) shows the Alzheimer patients vs. control group. }
@@ -2002,12 +2004,12 @@ The plots in the following subsections are generated by forward passing images t
 	\begin{subfigure}[t]{0.5\textwidth}
 		\centering
 		\includegraphics[height=2.2in]{imgs/classifier/overfit_with_generated_imgs_all_datatsne_sex}%
-		\caption{t-SNE plot colored by sex. Sex refer to the gender of the patient indicating whether the person is male or female according to the ADNI database.}	
+		\caption{t-SNE plot colored by sex.}	
 	\end{subfigure}
 	\begin{subfigure}[t]{0.5\textwidth}
 		\centering
 		\includegraphics[height=2.2in]{imgs/classifier/overfit_with_generated_imgs_all_datatsne_group}%
-		\caption{t-SNE plot colored by group. Group refer to the label of the patient indicating whether the person has Alheimer or not.}
+		\caption{t-SNE plot colored by group.}
 	\end{subfigure}
 	\caption{The figure displayed shows the t-SNE plots of model $ \mathcal M_2 $. Each of the plots are colored by different labels. Figure (a) shows generated vs. original images, (b) shows male vs. female and (c) shows the Alzheimer patients vs. control group. }
 	\label{fig:tsne_gen_overfit}
@@ -2025,12 +2027,12 @@ The plots in the following subsections are generated by forward passing images t
 	\begin{subfigure}[t]{0.5\textwidth}
 		\centering
 		\includegraphics[height=2.2in]{imgs/classifier/overfit_with_generated_imgs_all_datapca_sex}%
-		\caption{PCA plot colored by sex. Sex refer to the gender of the patient indicating whether the person is male or female according to the ADNI database.}	
+		\caption{PCA plot colored by sex.}	
 	\end{subfigure}
 	\begin{subfigure}[t]{0.5\textwidth}
 		\centering
 		\includegraphics[height=2.2in]{imgs/classifier/overfit_with_generated_imgs_all_datapca_group}%
-		\caption{PCA plot colored by group. Group refer to the label of the patient indicating whether the person has Alheimer or not.}
+		\caption{PCA plot colored by group.}
 	\end{subfigure}
 	
 	\caption{The figure displayed shows the PCA plots of model $ \mathcal M_2 $. Each of the plots are colored by different labels. Figure (a) shows generated vs. original images, (b) shows male vs. female and (c) shows the Alzheimer patients vs. control group. }
@@ -2052,12 +2054,12 @@ The plots in the following subsections are generated by forward passing images t
 	\begin{subfigure}[t]{0.5\textwidth}
 		\centering
 		\includegraphics[height=2.2in]{imgs/classifier/overfit_not_generated_imgs_all_datatsne_sex}%
-		\caption{t-SNE plot colored by sex. Sex refer to the gender of the patient indicating whether the person is male or female according to the ADNI database.}	
+		\caption{t-SNE plot colored by sex.}	
 	\end{subfigure}
 	\begin{subfigure}[t]{0.5\textwidth}
 		\centering
 		\includegraphics[height=2.2in]{imgs/classifier/overfit_not_generated_imgs_all_datatsne_group}%
-		\caption{t-SNE plot colored by group. Group refer to the label of the patient indicating whether the person has Alheimer or not.}
+		\caption{t-SNE plot colored by group.}
 	\end{subfigure}
 	
 	\caption{The figure displayed shows the t-SNE plots of model $ \mathcal M_2 $. Each of the plots are colored by different labels. Figure (a) shows generated vs. original images, (b) shows male vs. female and (c) shows the Alzheimer patients vs. control group. }
@@ -2076,12 +2078,12 @@ The plots in the following subsections are generated by forward passing images t
 	\begin{subfigure}[t]{0.5\textwidth}
 		\centering
 		\includegraphics[height=2.2in]{imgs/classifier/overfit_not_generated_imgs_all_datapca_sex}%
-		\caption{PCA plot colored by sex. Sex refer to the gender of the patient indicating whether the person is male or female according to the ADNI database.}	
+		\caption{PCA plot colored by sex.}	
 	\end{subfigure}
 	\begin{subfigure}[t]{0.5\textwidth}
 		\centering
 		\includegraphics[height=2.2in]{imgs/classifier/overfit_not_generated_imgs_all_datapca_group}%
-		\caption{PCA plot colored by group. Group refer to the label of the patient indicating whether the person has Alheimer or not.}
+		\caption{PCA plot colored by group.}
 	\end{subfigure}
 	
 	\caption{The figure displayed shows the PCA plots of model $ \mathcal M_2 $. Each of the plots are colored by different labels. Figure (a) shows generated vs. original images, (b) shows male vs. female and (c) shows the Alzheimer patients vs. control group. }
@@ -2091,12 +2093,13 @@ The plots in the following subsections are generated by forward passing images t
 
 \section{Discussion}\label{discussion}
 %TODO: Skriv en introduktion til sektionen og dens undersektioner
+%TODO: tror ikke alle subsections er nævnt her. Så vi skal nok endten nævne alle eller ingen 
 
 \subsection{What do the Results Show}\label{discussionOfResults}
-This section aim to interpret the findings of the results. Furthermore, discuss what the convenience of mapping between the 1.5T and 3T domain in practice implies, the economic incentives, general principles of safe AI and regulations.
+This section aim to interpret the results seen in section \ref{results} and discuss the convenience of mapping between the 1.5T and 3T domain in practice as well as the economic incentives, general principles of safe AI and regulations.
 
 \subsubsection{Difficulties and lessons from converging a CycleGAN}
-In section \ref{troubleshooting}, issues in the CycleGAN outputs were remarked upon and, to a certain extent, fixed. This section showed that training these powerful models can be cumbersome and difficult. This section will focus more on what might be done to further improve the model and why training CycleGANs and GANs is so difficult. One of the biggest issues of trying the implement a successful CycleGAN is the sheer number of pitfalls. Mode collapse, checkerboard noise and especially lack of convergence have all been experienced in this project and these only scratch the surface of possible issues \cite{hard_to_train, mode_collapse_MLM}. Thus, this project proposes the importance of having fail-safes when training. Loss curves can give a false sense of security \cite{towardsdatascience_losses, better_cycles_losses}, so both losses, examples of generated images from both models as well as the original image and potentially the cycle-generated image should be shown at regular intervals during training to ensure proper convergence.
+In section \ref{troubleshooting}, issues in the CycleGAN outputs were remarked upon and, to a certain extent, fixed. This section showed that training these powerful models can be cumbersome and difficult. This section will focus more on what might be done to further improve the model and why training CycleGANs and GANs is so difficult. One of the biggest issues of trying the implement a successful CycleGAN is the sheer number of pitfalls. Mode collapse, checkerboard noise and especially lack of convergence have all been experienced in this project, and these only scratch the surface of possible issues \cite{hard_to_train, mode_collapse_MLM}. Thus, this project proposes the importance of having fail-safes when training. Loss curves can give a false sense of security \cite{towardsdatascience_losses, better_cycles_losses}, so both losses, examples of generated images from both models as well as the original image and potentially the cycle-generated image should be shown at regular intervals during training to ensure proper convergence.
 
 Another issue entirely is the question of how to find the optimal hyperparameters. Throughout this project, a number of different parameters were "brute-forced" until the best models were found, though this is not a viable option for everyone. Other possible options could include starting out with hyperparameters from a well-performing paper on a relating subject, using bayesian optimization\cite{bayesian_optimization} to find fitting hyperparameters or even changing the structure of the CycleGAN network with newer methods like the Wasserstein GAN\cite{wasserstein_gan} or the improved Wasserstein GAN\cite{wasserstein_gan_improved}, which promise to improve convergence and make the generator loss curves more relevant to generated image quality. In general, finding the best hyperparameters is difficult, required practice and could become easier if it was easily possible to gauge the performance of the models both during and after training. The next section will focus more on this topic.
 
@@ -2107,40 +2110,40 @@ This section will focus on how well the MRI CycleGAN models have done in trying 
 
 As for visual inspection, the subtracted images from figure \ref{fig:xy_subtracted_images}, \ref{fig:xz_subtracted_images}, \ref{fig:yz_subtracted_images} and \ref{fig:all_subtracted_images} can also be analyzed. In these figures, we note that some of the images are definitely darker than the baseline images. This means that the brains have been made to look more like the targeted field strength than the baseline does. The rest of the subtracted images either look sort of the same or a bit worse. This definitely indicates that the models have at least learnt to make brains look as convincing as the baseline brain. Comparing within models is difficult, as is concluding on the true performance of the models based only on images and subjective analysis. Other than these rather subjective notions, how else can the CycleGANs be evaluated?
 
-Well, a number of quantitative evaluations have been performed to get a better view of true performance. One of these, RMSE, can be viewed in tables \ref{tab:metrics_rmse}. The RMSE results are enormously positive, since every model has achieved an RMSE better than the baseline of $1.5344$. The worst model performance comes from the XZ model and the best from the ALL model. This makes sense since the XZ model trained for the fewest epochs and was probably the farthest from reaching a satisfactory convergence, which is also shown in the second loss curve of figure \ref{fig:discriminator_losses} and \ref{fig:generator_losses}. Meanwhile, the ALL model most likely has the best performance, since it has been made robust from getting every plane as input. The xy, xz and yz plane outputs from this model have also been averaged, which might also give better performance.
+Well, a number of quantitative evaluations have been performed to get a better view of true performance. One of these, RMSE, can be viewed in table \ref{tab:metrics_rmse}. The RMSE results are enormously positive, since every model has achieved an RMSE better than the baseline of $1.5344$. The worst model performance comes from the XZ model and the best from the ALL model. This makes sense since the XZ model trained for the fewest epochs and was probably the farthest from reaching a satisfactory convergence, which is also shown in the second loss curve of figure \ref{fig:discriminator_losses} and \ref{fig:generator_losses}. Meanwhile, the ALL model most likely has the best performance, since it has been made robust from getting every plane as input. The xy, xz and yz plane outputs from this model have also been averaged, which might also give better performance.
 
 In regards to the geometric accuracy in table \ref{tab:metrics_geometric_accuracy}, comparing to baseline, the results seem less substantial. When converting field strength to 1.5T, the baseline model has the highest accuracy, while the accuracy is highest for YZ for 3T. Firstly, this might indicate that this measure is not perfect for validating the task at hand. Secondly, it might mean that every trained model has learned the general structure of where black pixels are placed in the image, which is a large part of modeling the brain in an MRI image. Since the RMSE loss is low while the geometric accuracy is also lower than baseline, it might be the case that the trained models get closer to the ground truth values without actually hitting specifically the correct integer. Nonetheless, reaching close to baseline shows that the models have learned to synthesize real brains to some extent.
 
 
 
-\subsubsection{Can synthetic CycleGAN data be used for bias removal?}
+\subsubsection{Can synthetic CycleGAN Data be Used for Bias Removal?}
 % t-SNE, PCA 
-One of the more prominent research question is whether data generated data from a CycleGAN will be able to remove the bias between the field strength of images when training a classifier on both synthetic and original data. From figure \ref{fig:loss_acc} it is evident that the classifier is learning since both the training and validation loss fall over time. Moreover, the accuracy rises as the number of training increments. Due to time constraints, the network is not fully converged. However, more interestingly by looking at figure \ref{fig:tsne_gen}, the generated t-SNE plots, do not seem to cluster any of the given labels differently. In other words, the internal feature representation of generated images vs. original images in the classifier model are similar, implying the the bias previously demonstrated has been removed. Nor PCA, can separate the two types of images in the 2nd last layer of the classifier model, see figure \ref{fig:pca_gen}. Moreover, if we look at figure \ref{fig:tsne_not_gen} \& \ref{fig:pca_not_gen}, which illustrates a t-SNE plot by forward passing original 3T images and orignal 1.5T images no similarity differences in the high dimensional feature space seems to be demonstrated.
+One of the more prominent research questions is whether data generated from a CycleGAN will be able to remove the bias between the field strength of images when training a classifier on both synthetic and original data. From figure \ref{fig:loss_acc}, it is evident that the classifier is learning, since both the training and validation loss fall over time. Moreover, the accuracy rises steadily over training increments. Due to time constraints, the network is not fully converged. However, more interestingly, by looking at figure \ref{fig:tsne_gen}, the generated t-SNE plots do not seem to cluster any of the given labels differently. In other words, the internal feature representation of generated images compared to original images in the classifier model are similar, implying the the bias previously demonstrated has been removed. Meanwhile, PCA also shows no clear separation between the two types of images in the 2nd last layer of the classifier model, see figure \ref{fig:pca_gen}. Moreover, if we look at figure \ref{fig:tsne_not_gen} \& \ref{fig:pca_not_gen}, which illustrates a t-SNE plot by forward passing original 3T images and orignal 1.5T images, no similarity differences in the high dimensional feature space seems to be demonstrated.
 
-Thus, the study suggests that using CycleGAN for either removing the field strength bias between 1.5T and 3T images in deep learning computer vision models or the generation of synthetic data to extend large datasets or perform advanced augmentation seems very promising. 
+Thus, the study suggests that using CycleGAN for removing the field strength bias between 1.5T and 3T images in deep learning, computer-vision models, for generation of synthetic data to extend large datasets or for performing advanced augmentation seems very promising. 
 \\\\
 %TODO: Mention that we cant resemble the original bias -- might be due to not using the same data. Suggests, that maybe the preprocessing in itself was enough for the bias removal. However, we can see from t-sne plots that when the model that have never seen CycleGAN generated data ( we suspect huge bias ) clusters generated and normal images in the same way. Promising results for using CycleGAN as synthetic data generation for medical imaging. 
-\noindent Efforts in this project was put into trying to recreate the bias found and presented by Kergel\footnote{See, section \ref{indledning} and consult reference: \cite{CamillaKandidat}}. A model identical to the CNN classifier trained on generated data was trained purely on the original data\footnote{The preprocessed versions of the 1.5T \& 3T images. The files named \texttt{norm\_mni305.mgz}}. From figure \ref{fig:loss_acc_overfit_classifier} it is apparent that the model trained on the data is prone to overfitting, thus one would suspect a similar bias towards the magnetic field strength of the images. However, from figure \ref{fig:tsne_not_gen_overfit} \& \ref{fig:pca_not_gen_overfit}, %TODO ref tsne og pca
-the bias towards the field strength is not resembled. 
+\noindent Efforts in this project was put into trying to recreate the bias found and presented by Kergel\footnote{See section \ref{indledning} and consult reference: \cite{CamillaKandidat}}. A model identical to the CNN classifier trained on generated data was trained purely on the original data\footnote{The preprocessed versions of the 1.5T \& 3T images. The files named \texttt{norm\_mni305.mgz}}. From figure \ref{fig:loss_acc_overfit_classifier}, it is apparent that the model is prone to overfitting. Thus, one would suspect a similar bias towards the magnetic field strength of the images. However, from figure \ref{fig:tsne_not_gen_overfit} \& \ref{fig:pca_not_gen_overfit}, %TODO ref tsne og pca
+the bias towards the field strength does not resemble that of Kergel's model biases. 
 
-The reason why the model does not inherent the field strength bias can be due to the difference in data used by Kergel and the data used in this project. Kergel has used the same raw images, but preprocessed the data using spm12 and DARTEL\footnote{DARTEL is another toolbox and is based on “A Fast Diffeomorphic Registration Algorithm” paper
-	(Ashburner, 2007) \cite{dartel}. }. In this project, the preprocessing has been quite different utilizing FreeSurfer Software. It might be apparent that the change of preprocessing has removed the bias in the trained classifier, however, to state this further investigation needs to be done. 
+The reason why the model does not inherit the field strength bias can be due to the difference in data used by Kergel and the data used in this project. Kergel has used the same raw images, but preprocessed the data using spm12 and DARTEL\footnote{DARTEL is another toolbox and is based on “A Fast Diffeomorphic Registration Algorithm” paper
+	(Ashburner, 2007) \cite{dartel}. }. In this project, the preprocessing has been quite different, utilizing FreeSurfer Software. It might be apparent that the change of preprocessing has removed the bias in the trained classifier, however, to state this further investigation needs to be done. 
 \\\\
-Another question that might come to light, is if there was a field strength bias between the types of images to start with. As suggested by the trained classifier in this project, no bias can be found. Looking at the Baysia et al. model, implemented by Kergel, the bias furthermore seems to be less apparent. For completeness, this figure has been included below, see figure \ref{fig:kergelbay}.
+Another question that might come to light is if there was a field strength bias between the types of images to start with. As suggested by the trained classifier in this project, no bias can be found. Looking at the Baysia et al. model implemented by Kergel, the bias seems to be less apparent. For completeness, this figure has been included below, see figure \ref{fig:kergelbay}.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{imgs/kergel_bay}
-	\caption{The t-SNE plot from 2nd last linear layer from the Baysia model from thesis by Kergel. Figure courtesy of \cite{CamillaKandidat}.}
+	\caption{The t-SNE plot from the penultimate linear layer from the Baysia model from thesis by Kergel. Figure courtesy of \cite{CamillaKandidat}.}
 	\label{fig:kergelbay}
 \end{figure}
-\noindent Despite the bias not being demonstrated in any of the classifiers trained in this project, another interesting insight into the CycleGAN generated data can be made. Inspecting figures \ref{fig:tsne_gen_overfit} \& \ref{fig:pca_gen_overfit}, which shows the t-SNE and PCA plot for model, $ \mathcal M_2 $, which is the classifier trained on original images, no bias towards the generated images can be seen. Considering that this model has never seen any type nor resemblance of CycleGAN generated images, the t-SNE and PCA implies that the generated data lies very close to original MRI data. By visual inspection it almost look as if they come from the same distribution. Thus, the analysis confirms the RMSE results from section \ref{result_evaluation_metrics} and implies that the generated data can be useful for learning and potentially increase the robustness of machine learning algorithms trained on MRI data.
+\noindent Despite the bias not being demonstrated in any of the classifiers trained in this project, another interesting insight into the CycleGAN generated data can be made. Inspecting figures \ref{fig:tsne_gen_overfit} \& \ref{fig:pca_gen_overfit}, which shows the t-SNE and PCA plot for model, $ \mathcal M_2 $, which is the classifier trained on original images, no bias towards the generated images can be seen. Considering that this model has never seen any type nor resemblance of CycleGAN generated images, the t-SNE and PCA implies that the generated data lies very close to original MRI data. By visual inspection it almost look as if they come from the same distribution. Thus, the analysis confirms the RMSE results from section \ref{result_evaluation_metrics}, and implies that the generated data can be useful for learning and potentially increasing the robustness of machine learning algorithms trained on MRI data.
 
 \subsection{Convenience of mapping: $ G: X \rightarrow Y $ \ \& \ $ F: Y \rightarrow X $ }
 
-The reason why mapping from one domain to another within the field of deep learning trained on MRI data is due to the fact that in a lot of cases around the world accessing MRI data can be complex. For some studies only one type of field strength measurement is available. If a model can map between two domains accurately enough all MRI data that exist, regardless of the field strength, can be used to train a CNN classifier model. This, implies that a model can generate 3T images from 1.5T and vice versa. 
+The reason why mapping between field strength domains might be relevant is most importantly that MRI data can be complex. For some studies, only one type of field strength measurement is available. If a model can map between two domains accurately enough, all MRI data that exist, regardless of the field strength, can be used to train a CNN classifier model. This implies that a model can generate 3T images from 1.5T and vice versa. 
 
-Advantages of the domain translation will be to train a deep learning model with data where the demographics are widely different. It would enable the training of models with subjects from all around the world in contrast to limiting datasets where only one type of field strength image is used. Potentially, this can remove demographic bias if such a bias exist in the model while making the trained classifier more generalizanble and useful for societal implementation.  Moreover, the price of 3T MRI scanners are double of what you pay for a 1.5T scanner. Not only are the machinery more expensive, but maintenance and costs of having 3T scanners is also more expensive \cite{kmg}. If a perfect mapping exists another implication of this study is that 3T machines are no longer required.
+Advantages of the domain translation will be to train a deep learning model with data, where the demographics are widely different. It would enable the training of models with subjects from all around the world, in contrast to limiting datasets where only one type of field strength image is used. Potentially, this can remove demographic bias, if such a bias exist in the model, while making the trained classifier more generalizable and useful for societal implementation. Moreover, 3T MRI scanners are twice as expensive as 1.5T scanners. Not only is the machinery more expensive, but maintenance also adds a large expense over time \cite{kmg}. If a perfect mapping exists, another implication of this study is that 3T scanners become completely redundant.
 
 \subsection{Economic Incentive of a Good Classification Model}\label{discussion_economic}
 
@@ -2152,7 +2155,7 @@ One could ask the question of what societal and economic implications a good cla
 	\item Reduce the amount of anti-psychotic medicine with 50 \% in the year 2025
 \end{itemize}
 \noindent
-One of the relevant key focus areas include early detection of dementia which can be aided by deep learning models such as a classifier described in section \ref{statens_kunst}, also consult \cite{yudong, suk_and_shen_1, suk_and_shen_2, cheng, neuro}. An average patient with dementia costs approximately $ 51000 \ \texttt{DKK / year}$:
+One of the relevant key focus areas include early detection of dementia which can be aided by deep learning models such as a classifier, described in section \ref{statens_kunst} as well as \cite{yudong, suk_and_shen_1, suk_and_shen_2, cheng, neuro}. An average patient with dementia costs approximately $ 51000 \ \texttt{DKK / year}$:
 
 %\texttt{\begin{table}
 		%	\item Practice sector: 3900 DKK
@@ -2170,7 +2173,7 @@ One of the relevant key focus areas include early detection of dementia which ca
 			\end{tabular}
 		\end{table}
 		
-		In Denmark around $ 85000-90000 $ people live with a dementia disease. Around 50000 of these cases are Alzheimer's. Every year around $ 8000 $ new cases are detected and in 2040 the expected amount of people with dementia above 60 years old is $ 125000 $ to $ 150000 $. This amount to Denmark spending $ 4.59 $ Billion DKK / year on Alzheimer's Patients to $ 7.65 $ Billion DKK / year \footnote{!NB Not taking inflation into consideration for the outlined numbers}. These numbers do not take healthcare personal, researchers and other variable costs into consideration. Moreover, 65\% to 85\% of all inhabitants in eldercare has a dementia disease. The cost of informal care time ranges between $ 5.0 $ to $ 6.9 $ hours daily. Furthermore, the daily cost was estimated to range between $ 1190 - 1658 $ DKK / day for primary caregivers\footnote{A primary caregiver can range from everything from a nurse, family member etc.} and $ 171 - 253 $ DKK / day for secondary caregivers. The cost for Denmark amounts to $ 18 $ Billion DKK / year, on eldercare alone. The total cost of dementia related diseases in Denmark is estimated to be 20 Billion DKK / year \cite{Alzheimerforeningen} \cite{informal_care}. Thus, a screening to detect Alzheimer's before a patient is showing symptoms can be a way to both drive down cost of the danish society, but also optimize life expectancy and quality for the citizens of Denmark.
+		In Denmark around $ 85000-90000 $ people live with a dementia disease. Around 50000 of these cases are Alzheimer's. Every year, approximately $ 8000 $ new cases are detected and in 2040 the expected amount of people with dementia above 60 years old is $ 125000 $ to $ 150000 $. This amounts to Denmark spending between $ 4.59-7.65$ Billion DKK / year on Alzheimer's patients \footnote{!NB Not taking inflation into consideration for the outlined numbers}. These numbers do not take healthcare personal, researchers and other variable costs into consideration. Moreover, 65-85\% of all inhabitants in eldercare has a dementia disease. The cost of informal care time ranges between $ 5.0 $ to $ 6.9 $ hours daily. Furthermore, the daily cost was estimated to range between $ 1190 - 1658 $ DKK / day for primary caregivers\footnote{A primary caregiver can range from everything from a nurse, family member etc.} and $ 171 - 253 $ DKK / day for secondary caregivers. The cost for Denmark amounts to $ 18 $ Billion DKK / year, on eldercare alone. The total cost of dementia related diseases in Denmark is estimated to be 20 Billion DKK / year \cite{Alzheimerforeningen, informal_care}. Thus, a screening to detect Alzheimer's before a patient is showing symptoms can be a way to both drive down cost of the danish society, but also optimize life expectancy and quality for the citizens of Denmark.
 		
 		% TODO: inkluder sygeplejerske
 		%TODO 25000 MRI in use see https://en.wikipedia.org/wiki/Magnetic_resonance_imaging
@@ -2178,7 +2181,7 @@ One of the relevant key focus areas include early detection of dementia which ca
 \subsection{Safe AI}
 % Er stor ting i medical imaging, gør Lars lykkelig
 
-The principles of safe artificial intelligence (AI) build on a set of rules which the constructed models will have to obey in order to be safe to use on a societal scale. When dealing with models such as the classifier or CycleGANs presented in this project the ethical concerns for potential misuse or hidden biases are very important due to the effects an implementation can have on society. Trust between the prediction of a model and the predicted individual is thus key for success. The very first steps of achieving this trust is both by delivering a good service from the machine learning industry and bringing the topic to life in a public discussion in society. The Ministry of Foreign Affairs of Denmark has contributed to just that in collaboration with the Technical University of Denmark (DTU). The outcome of safe AI is machine learning models with democratic values and control mechanisms. Trust from the user point of view is very important for the whole research of AI. If individuals in society do not trust the developers behind them their data will not be available to further research and enhance the models. This will result in big companies, such as Amazon, Facebook, Google etc., not being able to further develop the technology \cite{larsk}. The safe AI principles are presented below:
+The principles of safe AI build on a set of rules that the constructed models will have to obey in order to be safe to use on a societal scale. When dealing with models such as the classifier or CycleGANs presented in this project the ethical concerns for potential misuse or hidden biases are very important due to the effects an implementation can have on society. Trust between the prediction of a model and the predicted individual is, thus, key for success. The very first steps of achieving this trust is both by delivering a good service from the machine learning industry and bringing the topic to life in a public discussion in society. The Ministry of Foreign Affairs of Denmark has contributed to just that in collaboration with the Technical University of Denmark (DTU). The outcome of safe AI is machine learning models with democratic values and control mechanisms. Trust from the user point of view is very important for the whole research of AI. If individuals in society do not trust the developers behind them, their data will not be available to further research and enhance the models. This will result in big companies, such as Amazon, Facebook, Google etc., not being able to further develop the technology \cite{larsk}. The safe AI principles are presented below:
 
 \begin{table}[H]
 	\hspace*{-2cm}
@@ -2198,64 +2201,62 @@ The principles of safe artificial intelligence (AI) build on a set of rules whic
 \end{table} 
 
 \noindent
-As can be seen from the safe AI principles most of them do not apply to the current technology. Is self-conscious, is accountable, understands social relations, understands power and generates trust are all principles for the perhaps distant future. However, principles such as secure, open-source and has calibrated values are more relevant both for the models presented in this project, but also for the present time and the stage in which machine learning models are at today. Calibrated values include debugging for biases and stereotypes. A bias seen from previous studies was the effect of 3T images vs. 1.5T images, but biases could also be more harmful. This include gender bias, age bias, racial bias and a plethora more of different biases. If a model such as the one presented in this project will classify Alzheimer's patients before they develop symptoms then the patients need to trust the prediction and the developers need to ensure fairness and calibrated values.
+As can be seen from the safe AI principles, most of them do not apply to the current technology. Is self-conscious, is accountable, understands social relations, understands power and generates trust are all principles for the perhaps distant future. However, principles such as secure, open-source and has calibrated values are more relevant, both for the models presented in this project, but also for the present time and the current state om machine learning. Calibrated values include debugging for biases and stereotypes. A bias seen from previous studies was the varying effect of 3T images and 1.5T images, but biases could also be more harmful. This include gender bias, age bias, racial bias and a plethora of potentially dangerous biases. If a model such as the one presented in this project will classify Alzheimer's patients before they develop symptoms, then the patients need to trust the prediction, and the developers need to ensure fairness and calibrated values.
 
 
 \subsection{Regulations}
 % A section about needed regulations for society in order to adopt machine learning models into indutry.
-Due to the rapid advancements of AI in recent years laws and regulations have not been implemented to avoid potential abuse. 
-A technology which is often referred to as a black box tool where even the developers of AI are not able to explain why certain predictions are made. 
-With models being trained on historical data and undoubtedly inheriting bias this study calls for the need for regulations of models with the intend of being implemented into society. 
-To illustrate why there is a need for AI regulations a hypothetical example will be presented.
+Due to the rapid advancements of AI in recent years, laws and regulations have not been implemented to avoid potential abuse, even though the black box tools can be unpredictable - maybe even dangerously so. With models being trained on historical data and undoubtedly inheriting bias, this study calls for regulations of models with the intend of being implemented into society. 
+To illustrate why there is a need for AI regulations, a hypothetical example will be presented.
 
-Imagine a classifier which can predict lounge cancer in very early stages from screening of patients. This is already achieved by Raponi et al. \cite{raponi} with a prediction accuracy of 78\%. If the classifier performed a prediction accuracy of ~90\% it would have the possibility to be an advanced tool for doctors or even replacing doctors in the screening. However, despite the 90\% prediction, developers with a malicious intent could have programmed the model to always classify healthy lounges for certain ages, minorities or genders, thus discriminating certain groups. Furthermore, this would leave individuals with severe damage or even death in worst cases. In practice, this would have little no consequences since there are not regulations or laws to prevent this from happening in the code. This does not only apply to the field of medicine, but to all machine learning models being implemented into society. 
+Imagine a classifier which can predict lung cancer in very early stages from screening of patients. This is already achieved by Raponi et al. \cite{raponi} with a prediction accuracy of 78\%. If the classifier could achieve a prediction accuracy of ~90\% it would have the possibility to be an advanced tool for doctors or even replacing doctors in the screening. However, despite the 90\% prediction, developers with a malicious intent could have programmed the model to always classify healthy lungs for certain ages, minorities or genders, thus discriminating certain groups. Furthermore, this would leave individuals with severe damage or even death in worst cases. In practice, this would have little to no consequences, since there are no preventative regulations or laws to avoid it. This does not only apply to the field of medicine, but to recidivism prediction \cite{fagproject} and potentially all other machine learning models being implemented for use on large groups of people.
 \\\\
-By default this is not an easy problem or area of technology to create laws and regulations for since many demonstrated models are being used presently, i.e. facial recognition on our phone, email filtering algorithms, Facebook adds, Google adds and much more. In conclusion, we need to both look at the current models in place and the potential future machine learning models. A stepping stone could be to create a third party organ which work as a confidential code reviewer handing out certificates to AI models which comply with the decided regulations and or laws for the country / society in which the models is being implemented. The third party organ would moreover have to track back through the already implemented models to ensure the regulations.
+By default, this is not an easy problem or area of technology to create laws and regulations for, since many demonstrated models are being used presently, e.g. facial recognition on our phone, email filtering algorithms, Facebook adds, Google adds and much more. In conclusion, we need to both look at the current models in place and the potential future machine learning models. A stepping stone could be to create a third party organ, which works as a confidential code reviewer handing out certificates to AI models, which comply with the decided regulations and laws for the country it is implemented in. The third party organ would, moreover, have to track back through the already implemented models to ensure the regulations.
 
-The regulations should be build upon the safe AI principles, but should also include notions of fairness to ensure no groups are being discriminated. Therefore, we propose that a council consisting of experts within the domains of machine learning and the industries in which machine learning is used as well as civil individuals should decide on key parameters which can be used to build the regulations themselves to inspire trust, transparency and safety for the future. 
+The regulations should be build upon the safe AI principles, but should also include notions of fairness to ensure no groups are being discriminated. Therefore, we propose that a council consisting of experts within the domains of machine learning, and the industries in which machine learning is used, as well as civil individuals should decide on key parameters, which can be used to build the regulations themselves to inspire trust, transparency and safety for the future. 
 
 \section{Future work} \label{future_work}
 
 %TODO write about training classifier with different CycleGAN models xz yz, all models. Experiment with larger data sets or even artificially generated brains --> the wet original GAN dream 
 
 \subsection{Method to measure performance of a CycleGAN}\label{fture_work_measure}
-An important thing to ensure in future work within this field is a standardized way to measure the performance of a CycleGAN and its mapping between two domains. For this project, a 1.5T and 3T scan of the subject was available. Despite this, when registering the subjects to the MNI305 atlas the two original images will not be completely on top of each other. Why that is, is because the images stem from two different measurements which means that a patient was in two different MRI scanners. Hence, the patient was not in the exact same position resulting in minor changes as to where the brain is in the subject space. Thus, when registering the image to MNI305, the images are not completely aligned. If the two original images are compared to each other (the 1.5T and 3T image), a given pixel from one image is not in the same position in the other image. Moreover, when a synthetic 1.5T version generated from a 3T images is compared to the original 1.5T image one cannot simply subtract the images.
+An important thing to ensure in future work within this field is a standardized way to measure the performance of a CycleGAN and its mapping between two domains. For this project, a 1.5T and 3T scan of the subject was available. Despite this, when registering the subjects to the MNI305 atlas, the two original images will not align completely due to the images stemming from two different measurements, which means that a patient was in two different MRI scanners. Hence, the patient was not in the exact same position, resulting in minor changes as to where the brain is in the subject space. Thus, when registering the image to MNI305, the images are not completely aligned. If the two original images are compared to each other (the 1.5T and 3T image), a given pixel from one image is not in the same position in the other image. Moreover, simply subtracting the generated 1.5T and real 1.5T image does not seem to lead to satisfactory results.
 
-Proposed in this study is the RMSE between the generated 1.5T and original 1.5T and a geometric accuracy which does a pixel wise comparison. The geometric accuracy will give an overview of whether the model has learned the geometric structure of the brain, where the RMSE will tell us how far the generated images is from the original  image. However, the euclidean distance from the generated image to the original image might stem from the difference in the two different scans of the subject. In conclusion, this report calls for a method to quantitatively evaluate if the synthetically generated images from the CycleGAN model are similar to the 3T equivalents that do not exist. 
+Proposed in this study is the RMSE between the generated 1.5T and original 1.5T and a geometric accuracy, which does a pixel-wise comparison. The geometric accuracy will give an overview of whether the model has learned the geometric structure of the brain, where the RMSE will tell us how far the generated images is from the original image. However, even these measures might be biased by the two different scans of the subject. In conclusion, this report calls for new methods to quantitatively evaluate if the synthetically generated images from the CycleGAN model are similar to the 3T equivalents that do not exist. 
 
 \subsection{Training multiple classifiers}\label{future_work_mult}
 
 %TODO snak om hyperparameter optmizatio etc. 
 
-One of the main things for future work is to train more classifiers than the simple one implemented in this study. Furthermore, getting the large networks to converge before trying to look at the internal feature representations. From, figure \ref{fig:loss_acc} it is very apparent that the network is not fully converged which may cause spurious conclusions as to whether the bias is completely removed or not. The CycleGAN model used to generate data for the showcased CNN classifier of the report was trained on the xy planes. Therefore, future work needs to investigate some of the other CycleGAN models, epecially the \texttt{all\_model}, which has the lowest RMSE of the ones trained in this project. To fully investigate whether the bias between field strength images is successfully removed from the model an identical classifier trained purely on original data need to be trained and converged for comparison.
+Another note for future work is to train more classifiers than the simple one implemented in this study and getting the large networks to converge before perform the t-SNE analysis. From figure \ref{fig:loss_acc}, it is very apparent that the network is not fully converged, which may cause spurious conclusions as to whether the bias is completely removed or not. The CycleGAN model used to generate data for the showcased CNN classifier was trained on the xy planes. Therefore, future work needs to investigate some of the other CycleGAN models, epecially the \texttt{ALL\_model}, which achieved the lowest RMSE in all of the results. To fully investigate whether the bias between field strength images is successfully removed from the model, an identical classifier trained purely on original data also needs to be trained and converged for comparison.
 
 \subsection{Investigating possible accuracy improvements using synthetic data}
 
-Exploring if synthetic data can be used to make models more robust and generalizable have been a fruitful idea since the begging of GANs. However, the data being generated is often  noisy and does not seem to resemble the training dataset distribution accurately enough to be useful for generation of training data. Despite this, using synthetic data generation from a CycleGAN model have not yet been explored or used as an advanced augmentation in any state of the art medical imaging models. %TO BOLD MYNIGGA? 
-Future work should include the possibility of using synthetic data from a CycleGAN as part of the training data to ensure slower convergence of classifier networks such as the Baysia et al. or the one presented in this project, which in turn result in more robust and generalizable models. This include classifiers in the X-ray domain, MRI, fMRI etc.
+Exploring if synthetic data can be used to make models more robust and generalizable, has been a fruitful idea since the beginning of GANs. However, the data being generated is often  noisy and does not seem to resemble the training dataset distribution accurately enough to be useful for generation of training data. Despite this, using synthetic data generation from a CycleGAN model has not yet been explored or used as an advanced augmentation in any state of the art medical imaging models. %TODO: Helt klart slet ikke nok citationer til at lave de claims %TO BOLD MYNIGGA? 
+Future work should include the possibility of using synthetic data from a CycleGAN as part of the training data, to ensure slower convergence of classifier networks such as the Baysia et al. or the one presented in this project, which in turn results in more robust and generalizable models. This include classifiers in the X-ray domain, MRI, fMRI etc.
 
-To test this hypothesis experiments should be carried out to train two identical classifiers. One classifier on a dataset with synthetic data in it and another on a dataset without synthetic data. 
+To test this hypothesis, experiments should be carried out to train two identical classifiers. One on a dataset with synthetic data and one without.
 \newpage
 \section{Conclusion}\label{conclusion}
 
 %Can a CycleGAN be trained to map between the following domains: 1.5T and 3T MRI images?
 % Yes, to some extend baseret på RMSE . --> hvordan måler vi succes? 
-In light of the project a few key findings can be concluded. As can be understood from section \ref{result_evaluation_metrics} \& \ref{discuss_measure}, the proposed CycleGAN models from this project can according to the accuracy measurements presented map successfully between the 1.5T and 3T MRI image domains. The best model is the \texttt{ALL}-model, which has a RMSE of 0.8505 when mapping from 3T to 1.5T and 0.9243 when mapping from 1.5T to 3T compared to the perceived ground truth image. However, as mentioned in section \ref{fture_work_measure} in order to confidently conclude, that a CycleGAN can construct 3D MRI images a proper and agreed methodology of how to measure the precision of the generated data is needed. 
+In light of the project, a few key findings can be concluded. As can be understood from section \ref{result_evaluation_metrics} \& \ref{discuss_measure}, the proposed CycleGAN models from this project can, according to the accuracy measurements presented, map successfully between the 1.5T and 3T MRI image domains. The best model is the \texttt{ALL}-model, which has an RMSE of 0.8505 when mapping from 3T to 1.5T and 0.9243 when mapping from 1.5T to 3T compared to the perceived ground truth image. However, as mentioned in section \ref{fture_work_measure}, in order to confidently conclude that a CycleGAN can construct 3D MRI images, a proper and agreed upon measuring quantitative precision of the generated data is needed. 
 \\\\
 %How effective is the training progress in a prediction model when predicting whether a patient has alzheimer’s disease? 
 % The training progress seems promising based on loss over time
 %And can the cyclGAN data remove previous demonstrated bias from the model?
 % Yes, to some extend --> hard to tell without comparison of more classifiers trained on different parts of dataset and different data. model med genereret vs. model uden (med rå 1.5T og 3T) 
 %
-The CycleGAN generated images seems promising as training data for a CNN classifier for Alzheimer's disease. Based on section \ref{result_loss_cnn}, it is evident that the network indeed is learning since the overall trend of the loss is downward. Moreover, the model is not fully converged due to the pure time it takes to train a model with  $ \thicksim $560 million parameters. Furthermore, from section \ref{result_dim_reduction} the bias has been removed to some extend. The bias demonstrated by Kergel\footnote{To see the original demonstrated bias see figure \ref{fig:camillatsne} from section \ref{indledning}.} does seem to be present in the CNN classifier trained on synthetic and original data in this project. 
+The CycleGAN's generated images seems promising as training data for a CNN classifier for Alzheimer's disease. Based on section \ref{result_loss_cnn}, it is evident that the network indeed is learning, since the overall trend of the loss is downward. Moreover, the model is not fully converged due to the pure time it takes to train a model with  $ \thicksim $560 million parameters. Furthermore, from section \ref{result_dim_reduction}, the bias has been removed to some extent. The bias demonstrated by Kergel\footnote{To see the original demonstrated bias, see figure \ref{fig:camillatsne} from section \ref{indledning}.} does seem to be present in the CNN classifier trained on synthetic and original data in this project. 
 \\\\
 %Will the CycleGAN have any societal and economic impacts given the success of the prediction model?
 % If synthetic data generation succesful --> reduce cost economically for society ^ increase life expectancy og quality for individual. 
-As discussed in section \ref{discussion_economic}, if the synthetic generated data from a CycleGAN proves successful to both extend current datasets and generate even more data the result could potentially be more robust models with pinnacle accuracy performances. This would economically drive down cost in society, which enables governments around the world to allocate money elsewhere. Thus, investing in Alzheimer's research does not only contribute to ensure bias free prediction models which confronts the limits \& possibilities within deep learning, but contributes to drive down cost in society and increase the quality of life for each individual within.
+As discussed in section \ref{discussion_economic}, if the synthetic generated data from a CycleGAN proves successful to both extend current datasets and generate even more data, the result could potentially be more robust models with pinnacle accuracy performances. This would economically drive down cost in society, which enables governments around the world to allocate money elsewhere. Thus, investing in Alzheimer's research not only contributes to ensure bias free prediction models, which confronts the limits \& possibilities within deep learning, but contributes to drive down cost in society and increase the quality of life for each individual within.
 
 \newpage
 \section{Appendix}\label{appendix}
-%TODO: Skriv måske en introduktion til sektionen og dens undersektioner
+This section shows the parts of the report that were not important enough to be included in the general architecture of the project but still played an important role in explaining parts of the project. Here, the shell scripts used for preprocessing will be shown and the preliminary GAN and CycleGAN results have been showcased.
 
 %\subsection{Showcase of Code}\label{showcase_code}
 %%TODO: HUSK AT OPDATERE FILERNE INDE I REPORTS/SCR INDEN AFLEVERING
@@ -2380,7 +2381,7 @@ As discussed in section \ref{discussion_economic}, if the synthetic generated da
  	\label{script2}
  \end{figure}
 
-
+\newpage
 \subsection{MNIST GAN}\label{MNIST_GAN}
 
 \subsubsection{Losses}
@@ -2584,6 +2585,7 @@ Since the images have started looking so convincing after generating them with B
 
 Even though the discriminators are not nearly as important after having trained the generators, the discriminator predictions on a number of images have been shown for completeness. The BCE loss model is shown in figure 	\ref{fig:discriminator_preds_MNIST_GAN_normal}. From this figure, a couple points quickly become apparent. It seems the discriminator acts in a risk-averse fashion, never predicting any probability under 0.45 or over 0.75, which is probably negative for the overall performance. This could be due to the generator becoming stronger than the generator and being more able to fool it. Meanwhile, the discriminator performance has high variance. The second figure has almost completely switched the predictions between real and false, while the first and third figure shows the discriminator experiencing more expected behavior. This variability might be a result of very low changes in loss, which do not penalize the discriminator enough for wrong predictions. A solution for this could be to scale the loss function, though this is left as future work. As for the MSE loss models, figure \ref{fig:discriminator_preds_MNIST_GAN_normal} shows much the same patterns as mentioned in the first part of the paragraph. This means that the discriminator was not benefit nor hindered from the different use of loss function. This also might indicate that a future model trained on the MNIST dataset would need to take into action a weaker generator or stronger discriminator.
 
+\newpage
 \subsection{Horse2Zebra CycleGAN}\label{horse2zebra_cyclegan}
 
 
