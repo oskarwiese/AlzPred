@@ -426,7 +426,7 @@ The resulting image after FreeSurfer preprocessing is shown in figure \ref{fig:n
 
 \subsection{Visualization of Data}
 % Slices of img, preview 
-This section aims to give a visualization of the preprocessed data, and illustrate the images used to train the CycleGANs in this project. The images are constructed by thresholding one of the dimensions $ x, y, z $, which creates the following planes: \texttt{xy, xz, yz}. The xy-, xz- and yz-planes are 2D-images. If an image is converted to a \texttt{numpy nd} array, the slicing would amount to: \texttt{slice = np.array([:,:,z])}, where $ z \in [1,256] $. Thus, we have 256 2D images for each of the three planes for every 3D image resulting in a total of $ 1.152 $ million 2D images. The training images are brain slices, which can be seen in the figures \ref{fig:slica_xy}, \ref{fig:slica_xz} and \ref{fig:slica_yz} \footnote{The images in the figures are from randomly selected slices and do not match within 1.5T and 3T}. All the slices are created using the \texttt{create\_imgs\_1.5T.py} and \texttt{create\_imgs\_3T.py} python scripts which utilizes numpy and multiprocessing. The scripts can be seen in the repository of this project here: \href{https://github.com/oskarwiese/AlzPred/blob/main/preprocessing_scripts/slicing_scripts/3/create_imgs_3T.py}{3T\_script} and \href{https://github.com/oskarwiese/AlzPred/blob/main/preprocessing_scripts/slicing_scripts/1.5/create_imgs_1.5T.py}{1.5\_script}.
+This section aims to give a visualization of the preprocessed data, and illustrate the images used to train the CycleGANs in this project. The images are constructed by thresholding one of the dimensions $ x, y, z $, which creates the following planes: \texttt{xy, xz, yz}. The xy-, xz- and yz-planes are 2D-images. If an image is converted to a \texttt{numpy nd} array, the slicing would amount to: \texttt{slice = np.array([:,:,z])}, where $ z \in [1,256] $. Thus, there are 256 2D images for each of the three planes for every 3D image resulting in a total of $ 1.152 $ million 2D images. The training images are brain slices, which can be seen in the figures \ref{fig:slica_xy}, \ref{fig:slica_xz} and \ref{fig:slica_yz} \footnote{The images in the figures are from randomly selected slices and do not match within 1.5T and 3T}. All the slices are created using the \texttt{create\_imgs\_1.5T.py} and \texttt{create\_imgs\_3T.py} python scripts which utilizes numpy and multiprocessing. The scripts can be seen in the repository of this project here: \href{https://github.com/oskarwiese/AlzPred/blob/main/preprocessing_scripts/slicing_scripts/3/create_imgs_3T.py}{3T\_script} and \href{https://github.com/oskarwiese/AlzPred/blob/main/preprocessing_scripts/slicing_scripts/1.5/create_imgs_1.5T.py}{1.5\_script}.
 An important point to note is that completely black images are discarded. This means that only slices with at least one pixel value different from zero are used to train the CycleGAN. This is partially a way to reduce the raw amount of training data, but it is also done because a CycleGAN would never need to learn to translate completely black images from 3T to 1.5T and vice versa, since the black slices can be removed from the image before conversion and reinserted afterwards.
 
 \begin{figure}[H]
@@ -468,7 +468,7 @@ Besides the immense preprocessing done with the FreeSurfer Software Suite, the i
 \newpage
 
 \section{Methods}
-This section introduces what technical background has been used in the duration of this project as well as which types of models have been trained. Section \ref{camillas_model} introduces the classification network used to find and analyze the bias present in using both 1.5T and 3T MRI images for analysis. Section \ref{gan} and \ref{cyclegan} consider the intuition and mathematical theory behind implementing GANs and CycleGANs. The GAN has been trained on the Modified National Institute of Standards and Technology database (MNIST) hand-drawn digit dataset as a preliminary introduction to GANs. The results of training this model is found in section \ref{MNIST_GAN}. As for the CycleGAN, five total models have been implemented on various datasets. One of these models was trained on the horse2zebra dataset used in the original CycleGAN paper \cite{original_cyclegan} as another preliminary experiment and as an introduction to CycleGANs. The result of this preliminary run is located in section \ref{horse2zebra_cyclegan}. The four other models have been trained on different variations of the MRI files mentioned above. One has been trained on slices from the $x$-axis (YZ), another from the $y$-axis (XZ), yet another on the $z$-axis (XY). The last model has been trained on all (ALL) of these images simultaneously and outputs an average 3D image from predicting each 3D image. The goal was to test the best approach for reconstructing 1.5T images from 3T images, and to see if the ALL-model could hold up to the quality of the other models. The specifics about training variables, hyperparameters, etc. are located in section \ref{model_specifics}. Since these models are not easy to train \cite{hard_to_train}, section \ref{troubleshooting} relays multiple issues along the training process and how they were eventually fixed. Lastly, section \ref{reproducibility} discusses what has been done to ensure reproducible results. %TODO: mangler sektioner. Kunne nok også godt gøres lidt kortere
+This section introduces what technical background has been used in the duration of this project as well as which types of models have been trained. Section \ref{camillas_model} introduces the classification network used to find and analyze the bias present in using both 1.5T and 3T MRI images for analysis. Section \ref{gan} and \ref{cyclegan} consider the intuition and mathematical theory behind implementing GANs and CycleGANs. The GAN has been trained on the Modified National Institute of Standards and Technology database (MNIST) hand-drawn digit dataset as a preliminary introduction to GANs. The results of training this model is found in section \ref{MNIST_GAN}. As for the CycleGAN, five total models were implemented on various datasets. One of these models was trained on the horse2zebra dataset used in the original CycleGAN paper \cite{original_cyclegan} as another preliminary experiment and as an introduction to CycleGANs. The result of this preliminary run is located in section \ref{horse2zebra_cyclegan}. The four other models have been trained on different variations of the MRI files mentioned above. One has been trained on slices from the $x$-axis (YZ), another from the $y$-axis (XZ) and yet another on the $z$-axis (XY). The last model was trained on all (ALL) of these images simultaneously and outputs an average 3D image from predicting each 3D image. The goal was to test the best approach for reconstructing 1.5T images from 3T images, and to see if the ALL-model could hold up to the quality of the other models. The specifics about training variables, hyperparameters, etc. are located in section \ref{model_specifics}. Since these models are not easy to train \cite{hard_to_train}, section \ref{troubleshooting} relays multiple issues along the training process and how they were eventually fixed. Lastly, section \ref{reproducibility} discusses what has been done to ensure reproducible results. %TODO: mangler sektioner. Kunne nok også godt gøres lidt kortere
 
 
 
@@ -554,7 +554,7 @@ The discriminator, like any other classifier, can take as input whatever size an
 Regarding the learning of the discriminator, one real and one fake image is first given as input. This gives the discriminator both positive and negative examples during training, which it tries to classify as real or fake. The discriminator performance is found using a loss function and this loss quantifies how well the discriminator predicted the validity of the images. This loss is high if the model classifies real images as fake or visa versa. Then, the discriminator weights are updated by backpropagating the loss thoughout the discriminator network. The generator weights are not updated in this step, as it needs to stay constant while generating examples of training images \cite{developers.google_discriminator, developers.google_training}.
 
 \subsubsection{Loss}
-For implementing the loss functions necessary to get a proper GAN going, we first need to define some nomenclature. We assume that sample images are sampled from $x \sim p_{\text {data}}(x)$. The discriminator $D(x)$ outputs a value between zero and one determining whether $x$ is real or fake. The generator takes random noise $z \sim p_{\text {data}}(z)$ and returns a fake sample. The loss function for the discriminator is given as shown below.
+For implementing the loss functions necessary to get a proper GAN going, first, some nomenclature needs to define . We assume that sample images are sampled from $x \sim p_{\text {data}}(x)$. The discriminator $D(x)$ outputs a value between zero and one determining whether $x$ is real or fake. The generator takes random noise $z \sim p_{\text {data}}(z)$ and returns a fake sample. The loss function for the discriminator is given as shown below.
 
 \[\begin{aligned}
 	\mathcal{L}\left(G, D, X, Z\right)_D &=\frac{1}{2} \mathbb{E}_{x \sim p_{x}}[1-D(x)] \\
@@ -570,7 +570,7 @@ This loss is equivalent to the binary cross-entropy (BCE) loss with logits, wher
 
 
 \subsection{CycleGAN}\label{cyclegan}
-The GAN allowed for new images in a specific category to be created based on random noise. The next upgrade would be to be able to go from one category to another and back again. This is exactly the problem a CycleGAN aims to fix, which makes it perfect for this paper, since we aim to go from 3T images to 1.5T images. Going back is not as important in this case, but could prove useful for other purposes. The CycleGAN generally works by implementing two generator networks, each generating one category based on an image from the other category, and two discriminator networks, each predicting the probability of the input image actually being from the original category. This architecture is explained and showcased further in figure \ref{fig:cycleganarchitecture} and \ref{fig:cycleganarchitecture2} below.
+The GAN allowed for new images in a specific category to be created based on random noise. The next upgrade would be to be able to go from one category to another and back again. This is exactly the problem a CycleGAN aims to fix, which makes it perfect for this paper, since the aim is to go from 3T images to 1.5T images. Going back is not as important in this case, but could prove useful for other purposes. The CycleGAN generally works by implementing two generator networks, each generating one category based on an image from the other category, and two discriminator networks, each predicting the probability of the input image actually being from the original category. This architecture is explained and showcased further in figure \ref{fig:cycleganarchitecture} and \ref{fig:cycleganarchitecture2} below.
 % TODO: Vigtigt at komme ind på original paper
 
 \subsubsection{General Model Architecture}
@@ -686,7 +686,7 @@ Unlike in a standard GAN generator, where a random image from a latent space is 
 \end{table}
 
 \subsubsection{Objective Functions (Losses)}
-For this section, a number of notations will be introduced. Since the goal is to map between the two domains $X$ and $Y$, we introduce $G : X \rightarrow Y$ and $F : Y \rightarrow X$. Furthermore, $y \sim p_{\text {data}}(y)$ and $x \sim p_{\text {data }}(x)$ refer to the distributions of each domain and $x$ and $y$ refer to samples from each domain. Lastly, the discriminators for each domain are given by $D_X$ and $D_Y$ \cite{original_cyclegan}.
+For this section, a number of notations will be introduced. Since the goal is to map between the two domains $X$ and $Y$, $G : X \rightarrow Y$ and $F : Y \rightarrow X$ is defined. Furthermore, $y \sim p_{\text {data}}(y)$ and $x \sim p_{\text {data }}(x)$ refer to the distributions of each domain and $x$ and $y$ refer to samples from each domain. Lastly, the discriminators for each domain are given by $D_X$ and $D_Y$ \cite{original_cyclegan}.
 
 This section will focus on how the objective functions are constructed to ensure the correct result from the discriminators and generators. In general, the losses are separated into three categories: adversarial losses, cycle-consistency losses and identity losses. 
 
@@ -788,7 +788,7 @@ A table of the used hyperparameters and their values in this project in given be
 		\bottomrule
 	\end{tabular}
 \end{table} 
-The optimizer, batch size, betas, convolution depths and input/output were set to the same value as in the original CycleGAN paper, as this turned out to be efficacious on ADNI images too. Most notably, the number of epochs has been drastically reduced (from 200 in the original paper to under two in most of the models). This is due to the fact that the training data used in this project is much more plentiful than originally used to train the first CycleGAN in the paper. This means that we can get away with using vastly fewer epochs, since we still get the same number of overall steps. The weight $\lambda_{iden}$ was set to 1 in this project, since it gave better performance than the 0 value from the CycleGAN paper.
+The optimizer, batch size, betas, convolution depths and input/output were set to the same value as in the original CycleGAN paper, as this turned out to be efficacious on ADNI images too. Most notably, the number of epochs has been drastically reduced (from 200 in the original paper to under two in most of the models). This is due to the fact that the training data used in this project is much more plentiful than originally used to train the first CycleGAN in the paper. This means that fewer epochs can be used, since the same number of overall steps is achieved. The weight $\lambda_{iden}$ was set to 1 in this project, since it gave better performance than the 0 value from the CycleGAN paper.
 
 In relation to the discriminator and generator convolution depths, it is self-explanatory that using other images (RGB, non-square, different dimension) would require changing the architecture of input and output dimensions of all four models while also ensuring that the kernel size, stride and padding of the convolutional layers are setup correctly. This can be double checked by using $output\_dim = n - k + p + 1$, where $n$ is the image dimension, $k$ is kernel size and $p$ is padding.
 
@@ -867,7 +867,7 @@ Many solution to the problem of mode collapse exist, some being much easier to i
 
 \subsection{Reconstruction of 3D images}
 
-The reconstruction of 3D images are done by predicting each 2D slice by a CycleGAN model. Thus, the 3D image is reconstructed from generating $\thicksim 768 $ 2D images, and then restitching these together\footnote{Images which contain nothing but black pixels, around the edges are not predicted by the model since this is unnecessary. Thus, less than 768 generations for each image happens at time of reconstruction.}. The ALL model will predict on all three planes which in practice means that the output slice is an average of 3 generated slices. 
+The reconstruction of 3D images was done by predicting each 2D slice by a CycleGAN model. Thus, the 3D image was reconstructed from generating $\thicksim 768 $ 2D images, and then re-stitching these together\footnote{Images which contain nothing but black pixels around the edges are not predicted by the model since this is unnecessary. Thus, less than 768 generations for each image happens at time of reconstruction.}. The ALL model will predict on all three planes, which in practice means that the output slice is an average of 3 generated slices. 
 The reconstruction is done in python and the code can be seen here, \href{https://github.com/oskarwiese/AlzPred/blob/main/cycleGAN/src/reconstruct.py}{GitHub}.
 % HOW IS THIS DONE?
 % EXPLAIN SCRIPT
@@ -875,20 +875,20 @@ The reconstruction is done in python and the code can be seen here, \href{https:
 
 
 \subsection{CycleGAN Evaluation Metrics}\label{evaluation_metrics}
-To be able to properly evaluate whether the CycleGAN models have learned to effectively move between 1.5T and 3T images, a number of evaluation metrics have been applied. This section will explain the background behind these as well as what is expected for bad and good performance when using each metric. The data used for this project contains 40 subjects which have a 1.5T scan and 3T scan. This enables a perceived ground truth that can be used to quantify the CycleGAN model.
+To be able to properly evaluate whether the CycleGAN models have learned to effectively move between 1.5T and 3T images, a number of evaluation metrics have been applied. This section will explain the background behind these as well as what is expected for bad and good performance when using each metric. The data used for this project contains 40 subject with both a 1.5T scan and 3T scan. This enabled a perceived ground truth to be calculated, that could be used to quantify the CycleGAN model.
 
 \subsubsection{Visual Inspection}\label{visual_inspection}
-Visual inspection is done by showing the generated images in a figure next to the ground truth. Visual inspections can be used to evaluate if the generated image looks like a brain and secondly if the generated image looks like the brain it is supposed to be mapping towards. This metric is important since the first step towards generating convincing brains is to make them look convincing to humans.
+Visual inspection was done by showing the generated images in a figure next to the ground truth. Visual inspections was used to evaluate if the generated image looked like a brain, and secondly if the generated image looked like the brain it was supposed to be mapping towards. This metric was important, since the first step towards generating convincing brains was to make them look convincing to humans.
 
 \subsubsection{Image Subtraction}\label{image_subtraction}
-Another way to visually inspect the images is to subtract images from each other and look at the resulting image. In this report, image subtraction has been used between the 1.5T ground truth and 3T ground truth images as well as between the 1.5T ground truth and 1.5T generated images. This allows for comparison between how well the 1.5T generated image and the 3T ground truth images fit onto the 1.5T ground truth image. Images that are closer to matching will have fewer high-intensity pixels and a generally darker image. To enhance the visibility histogram stretching and gamma transformation has been applied.
+Another way to visually inspect the images is to subtract images from each other and look at the resulting image. In this report, image subtraction had been used between the 1.5T ground truth and 3T ground truth images as well as between the 1.5T ground truth and 1.5T generated images. This allowed for comparison between how well the 1.5T generated image and the 3T ground truth images fit onto the 1.5T ground truth image. Images that were closer to matching would have fewer high-intensity pixels and a generally darker image. To enhance the visibility, histogram stretching and gamma transformation was applied.
 
 \subsubsection{Root-Mean-Square Error}\label{rmse}
-Another way to show how close the generated image is to the real image is to calculate the root-mean-square error between every pixel in the two images. This is done by applying equation \eqref{rmse_eq}.
+Another way to show how close the generated image was to the real image was to calculate the root-mean-square error between every pixel in the two images. This is done by applying equation \eqref{rmse_eq}.
 \begin{equation}\label{rmse_eq}
 	RMSE = \sqrt{\frac{1}{n}\Sigma_{i=1}^{n}{\Big(y_i - \hat{y}_i\Big)^2}}\cite{sklearn.metrics.root_mean_square_error}
 \end{equation}
-where $n$ is the total number of pixels, $y_i$ is the real image and $\hat{y}_i$ is the fake image. RMSE has been found for two three of images: 1.5T ground truth \& 3T ground truth images, between the 1.5T ground truth \& 1.5T generated images and between the 3T ground truth \& 3T generated images. A smaller difference between the generated and ground truth image than between the ground truth set would mean that the model has, to some extent, learned to replicate the patterns seen in 1.5T images.
+where $n$ is the total number of pixels, $y_i$ is the real image and $\hat{y}_i$ is the fake image. RMSE was found for two three of images: 1.5T ground truth \& 3T ground truth images, between the 1.5T ground truth \& 1.5T generated images and between the 3T ground truth \& 3T generated images. A smaller difference between the generated and ground truth image than between the ground truth set would mean that the model had, to some extent, learned to replicate the patterns seen in 1.5T images.
 
 \subsubsection{Geometric Accuracy}\label{geometric_accuracy}
 The geometric accuracy is another metric for determining how close two image are to matching. As an accuracy measure, this method calculates how high a percentage of two images contain the same pixel values by doing a pixel-wise comparison.
@@ -897,12 +897,12 @@ The geometric accuracy is another metric for determining how close two image are
 	\textrm{Geometric accuracy} = \frac{\Sigma_{i=1}^{n}\mathds{1}}{n}, \qquad
 	  \mathds{1}=\begin{cases} 1, & \text{if $y_i = \hat{y}_i$}.\\ 0, & \text{otherwise}.\end{cases}
 \end{equation}
-Here, $n$ is the total number of pixels that will be compared in the image. As such, a higher accuracy means that the model is more successful in creating the real 1.5T image. It is only possible to calculate this metric on the image data because values have been rounded to \texttt{uint8} integer values.
+Here, $n$ is the total number of pixels that will be compared in the image. As such, a higher accuracy means that the model was more successful in creating the real 1.5T image. It is only possible to calculate this metric on the image data, because values have been rounded to \texttt{uint8} integer values.
 
 
 \subsection{Classifier}
 
-In order to investigate whether a CycleGAN can be used to remove bias from a classifier, this project will introduce a Convolutional Neural Network (CNN), inspired heavily by Basai et al. and Camilla Kergel \cite{CamillaKandidat, neuro}. This section will present the architecture of the CNN, the applied hyperparameters as well as some highlighted differences from the other papers. The project will implement two different classifiers, referred to as $ \mathcal M_1 $ and $ \mathcal M_2 $. The model, $ \mathcal M_1 $ will be trained on synthetic data from the CycleGAN model and original data\footnote{The training data will then consist of 1.5T from ADNI \& and synthetic 1.5T images constructed from 3T images.}. Whereas, the model $ \mathcal M_2 $ will be trained purely on original data (both 3T and 1.5T), to recreate the field strength bias.
+In order to investigate whether a CycleGAN could be used to remove bias from a classifier, this project introduced a Convolutional Neural Network (CNN), inspired heavily by Basai et al. and Camilla Kergel \cite{CamillaKandidat, neuro}. This section will present the architecture of the CNN, the applied hyperparameters as well as some highlighted differences from the other papers. The project implemented two different classifiers, referred to as $ \mathcal M_1 $ and $ \mathcal M_2 $. The model, $ \mathcal M_1 $ was trained on synthetic data from the CycleGAN model and original data\footnote{The training data then consisted of 1.5T from ADNI \& and synthetic 1.5T images constructed from 3T images.}. Whereas, the model $ \mathcal M_2 $ was trained purely on original data (both 3T and 1.5T), to recreate the field strength bias.
 
 \subsubsection{Neural Network for Alzheimer's Disease Classification} \label{camillas_model}
 In recent work with Alzheimer's disease classification by Camilla, a neural network was trained to predict whether patients had AD and the largest biases were found. Since the largest bias found in the model was between 1.5T and 3T images, a similar model was used to compare and contrast if the above described methods succeeded in removing the most prominent biases from the model, namely, the difference between 1.5T and 3T images. The model was implemented as a PyTorch neural network with 6 convolution layers using ReLU as activation function between each layer. This was followed by a fully connected layer with sigmoid activation to output the probability of each class (sick or healthy).  \cite{CamillaKandidat}.
@@ -912,7 +912,7 @@ The data used for training the classifier is a combination of generated images f
 
 \subsubsection{Deep Neural Network Model}
 
-	The implemented network is a convolutional neural network (CNN) which is a special type of deep neural network. The name stems from the most important operation in the network which is convolutions. In short, a convolution is the process of convolving a kernel with the image. An example of convolutions and a simple step in the convolution between an image named input and a horizontal Sobel filter can be seen in figure \ref{fig:convolution}.
+	The implemented network is a convolutional neural network (CNN) which is a special type of deep neural network. The name stems from the most important operation in the network, which is convolutions. In short, a convolution is the process of convolving a kernel with the image. An example of convolutions and a simple step in the convolution between an image named input and a horizontal Sobel filter can be seen in figure \ref{fig:convolution}.
 	
 	\begin{figure}[H]
 		\centering
@@ -929,7 +929,7 @@ The data used for training the classifier is a combination of generated images f
 	One convolution corresponds to multiplying the matrix with every possible space in the 6x6 input image. The stride in this example is one, which refers to how the kernel is moved across the image. If no padding is applied to the input image the dimension of the output image after the convolution will be smaller. In this example the image will shrink from 6x6 to 4x4. To put it simply, the kernel is slid across the width and height of the input and the dot products between the input and kernel are computed at every spatial position \cite{cnn_paper}.
 	\\\\
 	The kernels in a convolutional neural network are learnable parameters. The dimension of the kernels are smaller than the input, which in turn will reduce the dimension of the input image. All padding are set to zero, which can also be seen in the source code.
-	In this project the three main type of layers in the network model are:
+	In this project, the three main type of layers in the network model were:
 
 	\begin{itemize}
 	\item Convolutional Layers 
@@ -952,7 +952,7 @@ The data used for training the classifier is a combination of generated images f
 	\end{table}
 	
 	 \noindent
-	 The optimization algorithm used in the classifier was Adaptive Moment Estimation (Adam). This optimizer utilized adaptive learning rate and step size based on the momentum. The activation function used was ReLU, which is defined as $ y = \text{max}(0,x) $. ReLU ensures non-linearity in the model, making the parameters more expressible and making the model more generalizable and robust. Sigmoid was used on the last layer to ensure that the output value was a vector between zero and one. Cross-entropy loss was used as the cost function and punished the model if the prediction was far from the label \cite {dl}. The loss was calculated using:
+	 The optimization algorithm used in the classifier was Adaptive Moment Estimation (Adam). This optimizer utilized adaptive learning rate and step size based on the momentum. The activation function used was ReLU, which is defined as $ y = \text{max}(0,x) $. ReLU ensured non-linearity in the model, making the parameters more expressible and making the model more generalizable and robust. Sigmoid was used on the last layer to ensure that the output value was a vector between zero and one. Cross-entropy loss was used as the cost function and punished the model, if the prediction was far from the label \cite {dl}. The loss was calculated using:
 	 
 	\begin{equation*}\label{key}
 		L\left(\boldsymbol{y}_{i}, \hat{\boldsymbol{y}}_{i}\right) = -(\mathbf y \log (\mathbf {\hat y})+(1-\mathbf  y) \log (1-\mathbf {\hat y}))
@@ -993,7 +993,7 @@ The data used for training the classifier is a combination of generated images f
 % 32x3x3x3 Conv3d, stride 1, pad 0                & 64x257x257     &             & 6,976         \\
 
 	\begin{table}[H]
-		\hspace*{-2cm}
+		\hspace*{-1.2cm}
 		\begin{tabular}{llll}\toprule
 			Layer                                       & Activation Size& Value       & \# Parameters \\ \midrule
 			Input                                       & 3x256x256      &             & 0             \\
@@ -1021,14 +1021,14 @@ The data used for training the classifier is a combination of generated images f
 \end{table}	
 
 	\subsubsection{Memory Handling}
-	Due to the pure size of the 3D images, which is 256x256x256 for each 3D image, it required enormous amounts of memory on the GPU to run the network outlined in table \ref{cnn_arcitecture}. For this project, 32 GB GPUs were available, which made it feasible to run and train the model with a batch size of 1 and images cropped to size 256x145x121. The reason why cropping was used was due to the amount of black pixels around the brain itself. Other implementations to extend the amount of available memory on the GPU have been implemented in the source code, such as: \texttt{torch.cuda.empty\_cache()}, which empties the cache of the cuda and in turn enables a bit more of memory.
+	Due to the pure size of the 3D images, which was 256x256x256 for each 3D image, an enormous amount of memory was required on the GPU to run the network outlined in table \ref{cnn_arcitecture}. For this project, 32 GB GPUs were available, which made it feasible to run and train the model with a batch size of 1 and images cropped to size 256x145x121. The reason why cropping was used was due to the amount of black pixels around the brain itself. Other implementations to extend the amount of available memory on the GPU have been implemented in the source code, such as: \texttt{torch.cuda.empty\_cache()}, which empties the cache of the cuda and in turn enables a bit more of memory.
 
 
 
 \subsection{Dimensionality Reduction: t-SNE \& PCA}
-The amount of input features or shape of an input for a model is often referred as the dimensionality of the dataset or variable. The end goal of dimensionality reduction is to reduce the number of features (dimensions) in a given dataset, while keeping as much of the variation in the dataset as possible. This is very useful to visualize high dimensional features in a human interpretable space such as 2D or 3D. Two different dimensionality algorithms have been utilized in this project to investigate if a CNN trained on generated images and original images inherit a bias towards either of the image types. The two algorithms are Principal Component Analysis (PCA) and t-Distributed Stochastic Neighbor Embedding (T-SNE).
+The amount of input features or shape of an input for a model is often referred as the dimensionality of the dataset or variable. The end goal of dimensionality reduction is to reduce the number of features (dimensions) in a given dataset, while keeping as much of the variation in the dataset as possible. This is very useful to visualize high dimensional features in a human interpretable space such as 2D or 3D. Two different dimensionality algorithms were utilized in this project to investigate if a CNN trained on generated images and original images inherit a bias towards either of the image types. The two algorithms are Principal Component Analysis (PCA) and t-Distributed Stochastic Neighbor Embedding (T-SNE).
 \\\\
-\textbf{Principle Component Analysis} is a widely used algorithm within the field of machine learning for dimensionality reduction. With large datasets containing many features PCA offers a method that can minimize information loss while increasing the interpretability. This is done by calculating the principle components which is a new set of de-correlated variables that maximizes the variance. A way to calculate the principle component is by using Singular Value Decomposition (SVD), to find the eigenvalues and eigenvectors. Then, the original data can be projected into a space with fewer dimensions. Furthermore, PCA can be used to see how much variance is explained by each of the principle components in a dataset. Thus, PCA is useful for both visualizing and intepreting high dimensional features, but also as a way to reduce the dimension of high dimensional datasets without losing more information than strictly necessary. In this project, PCA was used to project the features of the penultimate linear layer in the CNN to understand and see if the model interpreted 1.5T ground and 1.5T generated images differently \cite{pca1, pca2}.
+\textbf{Principle Component Analysis} is a widely used algorithm within the field of machine learning for dimensionality reduction. With large datasets containing many features PCA offers a method that can minimize information loss while increasing the interpretability. This is done by calculating the principle components which is a new set of de-correlated variables that maximizes the variance. A way to calculate the principle component is by using Singular Value Decomposition (SVD), to find the eigenvalues and eigenvectors. Then, the original data can be projected into a space with fewer dimensions. Furthermore, PCA can be used to see how much variance is explained by each of the principle components in a dataset. Thus, PCA is useful for both visualizing and intepreting high dimensional features, but also as a way to reduce the dimension of high dimensional datasets without losing more information than strictly necessary. In this project, PCA was used to project the features of the penultimate linear layer in the CNN to understand and see if the model interpreted 1.5T ground truth and 1.5T generated images differently \cite{pca1, pca2}.
 \\\\
 \textbf{t-Distributed Stochastic Neighbor Embedding} is another type of dimensionality reduction algorithm, which, much like PCA, can be used to visualize and understand high dimensionality data. The main difference from PCA is that t-SNE  creates a space where points that are close are similar in the original space. Thus, t-SNE will attempt to cluster data with local similarities, but de-prioritize keeping large pair-wise distances between samples (where PCA will prioritize separating dissimilar data). 
 From a high-level overview, t-SNE will compare the similarity of two points in both the high-dimensional and low-dimensional space. Then, it will iteratively optimize these measures by using Kullback-Liebler (KL) divergence as a cost function.
@@ -1062,7 +1062,7 @@ The location of the samples in the mapping process was optimized using the KL di
 \begin{equation*}\label{key}
 	KL(Q \vert \vert P) = \sum_{i \neq j} p_{ij} \log \frac{p_{ij}}{q_{ij}}
 \end{equation*} 
-The minimization process was done using \href{https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html}{sklearn} which utilizes gradient decent. The output is a mapping that can visualize the similarities from high dimensional inputs. For this project the input will be a massive linear layer from the CNN. The goal was to map this high dimensional layer into a 2D-space for each sample in the validation data to detect if a difference between the protected classes such as the field strength of the input image or if the input is synthetically generated by a CycleGAN could be seen.
+The minimization process was done using \href{https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html}{sklearn}, which utilizes gradient decent. The output is a mapping that can visualize the similarities from high dimensional inputs. For this project the input will be a massive linear layer from the CNN. The goal was to map this high-dimensional layer into a 2D-space for each sample in the validation data to detect if a difference between the protected classes, such as the field strength of the input image or if the input is synthetically generated by a CycleGAN, could be seen.
 
 
 \subsection{Reproducibility}\label{reproducibility}
@@ -1922,12 +1922,12 @@ The plots in the following subsections are generated by forward passing images t
 	\begin{subfigure}[t]{0.40\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{imgs/classifier/with_generated_imgs_tsne_sex}%
-		\caption{t-SNE plot colored by sex. Sex refer to the gender of the patient indicating whether the person is male or female according to the ADNI database.}	
+		\caption{t-SNE plot colored by subject sex.}	
 	\end{subfigure}
 	\begin{subfigure}[t]{0.40\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{imgs/classifier/with_generated_imgs_tsne_group}%
-		\caption{t-SNE plot colored by group. Group refer to the label of the patient indicating whether the person has Alheimer or not.}
+		\caption{t-SNE plot colored by group. Group refer to the label of the patient indicating whether the person belongs to  Alzheimer's or control normal group.}
 	\end{subfigure}
 	\caption{t-SNE plots of model $ \mathcal M_1 $. The plots resemble the features from the second last linear layer when forward passing data through the model. Each of the plots are colored by different labels. Figure (a) shows generated versus original images, (b) shows male versus female and (c) shows the Alzheimer's patients versus control group. }
 	\label{fig:tsne_gen}
@@ -1945,12 +1945,12 @@ The plots in the following subsections are generated by forward passing images t
 	\begin{subfigure}[t]{0.47\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{imgs/classifier/with_generated_imgs_pca_sex}%
-		\caption{PCA plot colored by sex. Sex refer to the gender of the patient indicating whether the person is male or female according to the ADNI database.}	
+		\caption{PCA plot colored by subject sex.}	
 	\end{subfigure}
 	\begin{subfigure}[t]{0.47\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{imgs/classifier/with_generated_imgs_pca_group}%
-		\caption{PCA plot colored by group. Group refer to the label of the patient indicating whether the person has Alheimer or not.}
+		\caption{PCA plot colored by group. Group refer to the label of the patient indicating whether the person belongs to  Alzheimer's or control normal group.}
 	\end{subfigure}
 	
 	\caption{PCA plots of model $ \mathcal M_1 $. Each of the plots are colored by different labels. Figure (a) shows generated versus original images, (b) shows male versus female and (c) shows the Alzheimer's patients versus control group. }
@@ -1972,12 +1972,12 @@ The plots in the following subsections are generated by forward passing images t
 	\begin{subfigure}[t]{0.40\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{imgs/classifier/not_generated_imgs_tsne_sex}%
-		\caption{t-SNE plot colored by sex. Sex refer to the gender of the patient indicating whether the person is male or female according to the ADNI database.}	
+		\caption{t-SNE plot colored by subject sex.}	
 	\end{subfigure}
 	\begin{subfigure}[t]{0.40\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{imgs/classifier/not_generated_imgs_tsne_group}%
-		\caption{t-SNE plot colored by group. Group refer to the label of the patient indicating whether the person has Alheimer or not.}
+		\caption{t-SNE plot colored by group. Group refer to the label of the patient indicating whether the person belongs to  Alzheimer's or control normal group.}
 	\end{subfigure}
 	
 	\caption{t-SNE plots of model $ \mathcal M_1 $. Each of the plots are colored by different labels. Figure (a) shows generated versus original images, (b) shows male versus female and (c) shows the Alzheimer's patients versus control group. }
@@ -1996,12 +1996,12 @@ The plots in the following subsections are generated by forward passing images t
 	\begin{subfigure}[t]{0.47\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{imgs/classifier/not_generated_imgs_pca_sex}%
-		\caption{PCA plot colored by sex. Sex refer to the gender of the patient indicating whether the person is male or female according to the ADNI database.}	
+		\caption{PCA plot colored by subject sex.}	
 	\end{subfigure}
 	\begin{subfigure}[t]{0.47\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{imgs/classifier/not_generated_imgs_pca_group}%
-		\caption{PCA plot colored by group. Group refer to the label of the patient indicating whether the person has Alheimer or not.}
+		\caption{PCA plot colored by group. Group refer to the label of the patient indicating whether the person belongs to  Alzheimer's or control normal group.}
 	\end{subfigure}
 	
 	\caption{PCA plots of model $ \mathcal M_1 $. Each of the plots are colored by different labels. Figure (a) shows generated versus original images, (b) shows male versus female and (c) shows the Alzheimer's patients versus control group. }
@@ -2021,12 +2021,12 @@ The plots in the following subsections are generated by forward passing images t
 	\begin{subfigure}[t]{0.40\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{imgs/classifier/overfit_with_generated_imgs_all_datatsne_sex}%
-		\caption{t-SNE plot colored by sex. Sex refer to the gender of the patient indicating whether the person is male or female according to the ADNI database.}	
+		\caption{t-SNE plot colored by subject sex.}	
 	\end{subfigure}
 	\begin{subfigure}[t]{0.40\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{imgs/classifier/overfit_with_generated_imgs_all_datatsne_group}%
-		\caption{t-SNE plot colored by group. Group refer to the label of the patient indicating whether the person has Alheimer or not.}
+		\caption{t-SNE plot colored by group. Group refer to the label of the patient indicating whether the person belongs to  Alzheimer's or control normal group.}
 	\end{subfigure}
 	\caption{t-SNE plots of model $ \mathcal M_2 $. Each of the plots are colored by different labels. Figure (a) shows generated versus original images, (b) shows male versus female and (c) shows the Alzheimer's patients versus control group. }
 	\label{fig:tsne_gen_overfit}
@@ -2044,12 +2044,12 @@ The plots in the following subsections are generated by forward passing images t
 	\begin{subfigure}[t]{0.47\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{imgs/classifier/overfit_with_generated_imgs_all_datapca_sex}%
-		\caption{PCA plot colored by sex. Sex refer to the gender of the patient indicating whether the person is male or female according to the ADNI database.}	
+		\caption{PCA plot colored by subject sex.}	
 	\end{subfigure}
 	\begin{subfigure}[t]{0.47\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{imgs/classifier/overfit_with_generated_imgs_all_datapca_group}%
-		\caption{PCA plot colored by group. Group refer to the label of the patient indicating whether the person has Alheimer or not.}
+		\caption{PCA plot colored by group. Group refer to the label of the patient indicating whether the person belongs to  Alzheimer's or control normal group.}
 	\end{subfigure}
 	
 	\caption{PCA plots of model $ \mathcal M_2 $. Each of the plots are colored by different labels. Figure (a) shows generated versus original images, (b) shows male versus female and (c) shows the Alzheimer's patients versus control group. }
@@ -2071,12 +2071,12 @@ The plots in the following subsections are generated by forward passing images t
 	\begin{subfigure}[t]{0.40\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{imgs/classifier/overfit_not_generated_imgs_all_datatsne_sex}%
-		\caption{t-SNE plot colored by sex. Sex refer to the gender of the patient indicating whether the person is male or female according to the ADNI database.}	
+		\caption{t-SNE plot colored by subject sex.}	
 	\end{subfigure}
 	\begin{subfigure}[t]{0.40\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{imgs/classifier/overfit_not_generated_imgs_all_datatsne_group}%
-		\caption{t-SNE plot colored by group. Group refer to the label of the patient indicating whether the person has Alheimer or not.}
+		\caption{t-SNE plot colored by group. Group refer to the label of the patient indicating whether the person belongs to  Alzheimer's or control normal group.}
 	\end{subfigure}
 	
 	\caption{t-SNE plots of model $ \mathcal M_2 $. Each of the plots are colored by different labels. Figure (a) shows generated versus original images, (b) shows male versus female and (c) shows the Alzheimer's patients versus control group. }
@@ -2095,12 +2095,12 @@ The plots in the following subsections are generated by forward passing images t
 	\begin{subfigure}[t]{0.47\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{imgs/classifier/overfit_not_generated_imgs_all_datapca_sex}%
-		\caption{PCA plot colored by sex. Sex refer to the gender of the patient indicating whether the person is male or female according to the ADNI database.}	
+		\caption{PCA plot colored by subject sex.}	
 	\end{subfigure}
 	\begin{subfigure}[t]{0.47\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{imgs/classifier/overfit_not_generated_imgs_all_datapca_group}%
-		\caption{PCA plot colored by group. Group refer to the label of the patient indicating whether the person has Alheimer or not.}
+		\caption{PCA plot colored by group. Group refer to the label of the patient indicating whether the person belongs to  Alzheimer's or control normal group.}
 	\end{subfigure}
 	
 	\caption{PCA plots of model $ \mathcal M_2 $. Each of the plots are colored by different labels. Figure (a) shows generated versus original images, (b) shows male versus female and (c) shows the Alzheimer's patients versus control group. }
@@ -2124,7 +2124,7 @@ Another issue entirely is the question of how to find the optimal hyperparameter
 % Include both the quality comparison along with the evaluation metrics, AAAAND substracted images
 This section will focus on how well the MRI CycleGAN models have done in trying to replicate the complex structures of real brains. Looking at the generated images of \ref{fig:xy_quality_comparison}, \ref{fig:xz_quality_comparison}, \ref{fig:yz_quality_comparison} and \ref{fig:all_quality_comparison}, a couple of points become clear. All the generated images from all of the models definitely look like real brains. Furthermore, the images look convincingly like the ground truth image matching the same field strength, though some of the details from the old field strength of 3T seem to have seeped through into the new field strength of 1.5T. This is probably due to the fact that the CycleGAN models retain a large focus on structural similarity between input and output because of the cycle-consistency loss \cite{better_cycles_losses}.
 
-The subtracted images from figure \ref{fig:xy_subtracted_images}, \ref{fig:xz_subtracted_images}, \ref{fig:yz_subtracted_images} and \ref{fig:all_subtracted_images} can be analyzed with a visual inspection. In these figures, we note that some of the images are definitely darker than the baseline images. This means that the brains have been made to look more like the targeted field strength than the baseline does. The rest of the subtracted images either look sort of the same or a bit worse. This definitely indicates that the models have at least learned to make brains look as convincing as the baseline brains. Comparing models is difficult, as is concluding on the true performance of models based only on images and subjective analysis. Other than these rather subjective notions, how else can the CycleGANs be evaluated?
+The subtracted images from figure \ref{fig:xy_subtracted_images}, \ref{fig:xz_subtracted_images}, \ref{fig:yz_subtracted_images} and \ref{fig:all_subtracted_images} can be analyzed with a visual inspection. In these figures, it is worth noting that some of the images are definitely darker than the baseline images. This means that the brains have been made to look more like the targeted field strength than the baseline does. The rest of the subtracted images either look sort of the same or a bit worse. This definitely indicates that the models have at least learned to make brains look as convincing as the baseline brains. Comparing models is difficult, as is concluding on the true performance of models based only on images and subjective analysis. Other than these rather subjective notions, how else can the CycleGANs be evaluated?
 
 A number of quantitative evaluations have been performed to get a better view of true performance. One of these, RMSE, can be viewed in table \ref{tab:metrics_rmse}. Every model has achieved an RMSE better than the baseline of $1.5344$. The XZ model performed the worst and the ALL model the best. This makes sense since the XZ model trained for the fewest epochs and was farthest from reaching a satisfactory convergence, which is shown in the second loss curve of figure \ref{fig:discriminator_losses} and \ref{fig:generator_losses}. 
 The ALL model might have been the best performing model due to learning from all three planes as input, thus making the model more robust. The fact that the xy, xz and yz planes are averaged might have improved performance as well.
@@ -2135,7 +2135,7 @@ When comparing geometric accuracies of the models to the baseline, table \ref{ta
 
 \subsubsection{Can synthetic CycleGAN Data be Used for Bias Removal?}
 % t-SNE, PCA 
-One of the more prominent research questions is whether generated data from a CycleGAN will be able to remove the bias between the field strength of images when training a classifier on both synthetic and original data. From figure \ref{fig:loss_acc} it is evident that the classifier is learning, since both the training and validation loss are trending downwards. Moreover, the accuracy rises as the number of training epochs increase. Due to time constraints, the network is not fully converged. Interestingly, inspecting figure \ref{fig:tsne_gen}, the generated t-SNE plots do not seem to cluster any of the given labels differently. In other words, the internal feature representation of generated images compared to original images in the classifier model are similar, implying the the bias previously demonstrated has been removed. In addition, PCA cannot separate the two types of images in the second last layer of the classifier model, figure \ref{fig:pca_gen}. Moreover, if we look at figure \ref{fig:tsne_not_gen} \& \ref{fig:pca_not_gen}, which illustrates a t-SNE plot by forward passing original 3T images and orignal 1.5T images, no similarity differences in the high dimensional feature space seems to be demonstrated.
+One of the more prominent research questions is whether generated data from a CycleGAN will be able to remove the bias between the field strength of images when training a classifier on both synthetic and original data. From figure \ref{fig:loss_acc} it is evident that the classifier is learning, since both the training and validation loss are trending downwards. Moreover, the accuracy rises as the number of training epochs increase. Due to time constraints, the network is not fully converged. Interestingly, inspecting figure \ref{fig:tsne_gen}, the generated t-SNE plots do not seem to cluster any of the given labels differently. In other words, the internal feature representation of generated images compared to original images in the classifier model are similar, implying the the bias previously demonstrated has been removed. In addition, PCA cannot separate the two types of images in the second last layer of the classifier model, figure \ref{fig:pca_gen}. Moreover, looking at figure \ref{fig:tsne_not_gen} \& \ref{fig:pca_not_gen}, which illustrates a t-SNE plot by forward passing original 3T images and orignal 1.5T images, no similarity differences in the high dimensional feature space seems to be demonstrated.
 
 Thus, the study suggests that it is beneficial to use CycleGANs for removing the field strength bias between 1.5T and 3T images in a deep learning, computer-vision model. Furthermore, it is suggested that using a CycleGAN to generate synthetic data to extend large datasets or perform advanced augmentation seems very promising. \\\\
 \noindent Efforts in this project was put into trying to recreate the bias found and presented by Kergel\footnote{See, section \ref{indledning} and consult reference: \cite{CamillaKandidat}}. A model identical to the CNN classifier trained on generated data was trained purely on the original data\footnote{The preprocessed versions of the 1.5T \& 3T images. The files named \texttt{norm\_mni305.mgz}}. From figure \ref{fig:loss_acc_overfit_classifier} it is apparent that the model trained on the data is prone to overfitting. Thus, one would suspect a similar bias towards the magnetic field strength of the images. However, from figure \ref{fig:tsne_not_gen_overfit} \& \ref{fig:pca_not_gen_overfit},
@@ -2225,9 +2225,9 @@ To illustrate why there is a need for AI regulations a hypothetical example will
 
 Imagine a classifier which can predict lung cancer in very early stages from screening of patients. This is already achieved by Raponi et al. \cite{raponi} with a prediction accuracy of 78\%. If the classifier could achieve a prediction accuracy of ~90\% it would have the possibility to be an advanced tool for doctors or even replacing doctors in the screening. However, despite the 90\% prediction, developers with a malicious intent could have programmed the model to always classify healthy lungs for certain ages, minorities or genders, thus discriminating certain groups. Furthermore, this would leave individuals with severe damage or even death in worst cases. In practice, this would have little to no consequences, since there are no preventative regulations or laws to avoid it. This does not only apply to the field of medicine, but to recidivism prediction \cite{fagproject} and potentially all other machine learning models being implemented for use on large groups of people.
 \\\\
-By default, this is not an easy problem or area of technology to create laws and regulations for, since many demonstrated models are being used presently, e.g. facial recognition on our phone, email filtering algorithms, Facebook adds, Google adds and much more. In conclusion, we need to both look at the current models in place and the potential future machine learning models. A stepping stone could be to create a third party organ, which works as a confidential code reviewer handing out certificates to AI models, which comply with the decided regulations and laws for the country it is implemented in. The third party organ would, moreover, have to track back through the already implemented models to ensure the regulations.
+By default, this is not an easy problem or area of technology to create laws and regulations for, since many demonstrated models are being used presently, e.g. facial recognition on our phone, email filtering algorithms, Facebook adds, Google adds and much more. In conclusion, a look at both the current models in place and the potential future machine learning models is necessary. A stepping stone could be to create a third party organ, which works as a confidential code reviewer handing out certificates to AI models, which comply with the decided regulations and laws for the country it is implemented in. The third party organ would, moreover, have to track back through the already implemented models to ensure the regulations.
 
-The regulations should be build upon the safe AI principles, but should also include notions of fairness to ensure no groups are being discriminated. Therefore, we propose that a council consisting of experts within the domains of machine learning, and the industries in which machine learning is used, as well as civil individuals should decide on key parameters, which can be used to build the regulations themselves to inspire trust, transparency and safety for the future.  
+The regulations should be build upon the safe AI principles, but should also include notions of fairness to ensure no groups are being discriminated. Therefore, a council consisting of experts within the domains of machine learning propose , and the industries in which machine learning is used, as well as civil individuals should decide on key parameters, which can be used to build the regulations themselves to inspire trust, transparency and safety for the future.  
 
 \section{Future work} \label{future_work}
 
@@ -2590,7 +2590,7 @@ This sections aims to interpret the results of training a GAN to generate images
 
 In the next section, it is discovered how the generator learns using the two different loss functions for training. In the first row of figure \ref{fig:training_progress_normal} is shown how the Binary Cross Entropy (BCE) loss very quickly enforces background pixels to be black and the generators starts learning the general outline that is shared by multiple digits after only 1.5 epochs. Many images look to be a mix of 5 and 9 and  1 and 2 especially. In row two after 70 epochs, many of the digits have become sharp and now look only like one digit. Some small artifacts like floating pixels and disconnected parts of digits are still present, especially in the 8's, 5's and 7's. After epoch 150 in row three, the generator has now learned to connect most parts of the digits, although it still generated random small pixels at incorrect parts{\tiny } of the image. Finally, in row four after 200 epochs, most of the grains now seem to have been removed and only some artifacts are left in the images. This shows that even though the generator loss in figure \ref{fig:MNIST_GAN_losses_normal} was stable, the generator wass definitely still learning. Using Mean Squared Error (MSE) loss instead of BCE, it seems that the generators learns in a completely different manner based off of figure \ref{fig:training_progress_mse}. Here, row one after training 3 epochs shows that the general shape of a digit has been found, though the salt-and-pepper noise from the original gaussian-distributed noise is still present in all the images. After 15 epochs, in row two, most of the images now get generated with little to no salt-and-pepper noise, and the shape of some digits is already starting to become visible. After 86 epochs in row three, the generator seems to be in pretty much the same spot as the BCE generator was at epoch 150. The shape of singular digits is learned and only some parts of digits are disconnected. In the last epoch of the last row, virtually no noise is present and the digits look really convincing. This whole experiment seems to show that the generator using MSE seems to train faster and learn better features than the generator using BCE. 
 
-Since the images have started looking so convincing after generating them with BCE and MSE, the BCE images have been shown with original images in the figure 	\ref{fig:generated_images_MNIST_GAN_normal} to compare and contrast. Notably, the generated images in this figure are sampled by manually picking out the best 8 from a sample of 20 generated images. Comparing the real and fake images, it seems that the largest difference between the two is a number of sharp pixels at random points of the 0's, the 6 and the 5. Some of the digits also look a bit too thick compared to the real images, though this is probably due to the large number of 4's and 1's in the randomly sampled real images. Figure \ref{fig:generated_images_MNIST_GAN_mse} shows MSE generated images compared to real images. Here, we once again notice how some digits like the 3, 2 and 6 have pretty random-looking pixels poking out the side of them. These pixels are most likely more difficult to remove than the salt-and-pepper noise since real digits have a high variance, and as such, some of the floating pixels would have been placed correctly in another iteration of the same digit. Comparing the best examples of generated MSE and BCE images, the difference are very vague. The BCE model seems to have more, smaller blobs of noisy pixels at the perimeter, while the MSE generator creates images with few large noisy concentrations. Overall, the results are closely comparable. The recommendation from this paper is to train on MSE if under time-constraint. Otherwise, one model does not seem to out-perform the other.
+Since the images have started looking so convincing after generating them with BCE and MSE, the BCE images have been shown with original images in the figure 	\ref{fig:generated_images_MNIST_GAN_normal} to compare and contrast. Notably, the generated images in this figure are sampled by manually picking out the best 8 from a sample of 20 generated images. Comparing the real and fake images, it seems that the largest difference between the two is a number of sharp pixels at random points of the 0's, the 6 and the 5. Some of the digits also look a bit too thick compared to the real images, though this is probably due to the large number of 4's and 1's in the randomly sampled real images. Figure \ref{fig:generated_images_MNIST_GAN_mse} shows MSE generated images compared to real images. Here, digits like the 3, 2 and 6 have pretty random-looking pixels poking out the side of them. These pixels are most likely more difficult to remove than the salt-and-pepper noise since real digits have a high variance, and as such, some of the floating pixels would have been placed correctly in another iteration of the same digit. Comparing the best examples of generated MSE and BCE images, the difference are very vague. The BCE model seems to have more, smaller blobs of noisy pixels at the perimeter, while the MSE generator creates images with few large noisy concentrations. Overall, the results are closely comparable. The recommendation from this paper is to train on MSE if under time-constraint. Otherwise, one model does not seem to out-perform the other.
 
 Even though the discriminators are not nearly as important after having trained the generators, the discriminator predictions on a number of images have been shown for completeness. The BCE loss model is shown in figure 	\ref{fig:discriminator_preds_MNIST_GAN_normal}. From this figure, a couple points quickly become apparent. It seems the discriminator acts in a risk-averse fashion, never predicting any probability under 0.45 or over 0.75, which is probably negative for the overall performance. This could be due to the generator becoming stronger than the generator and being more able to fool it. Meanwhile, the discriminator performance has high variance. The second figure has almost completely switched the predictions between real and false, while the first and third figure shows the discriminator experiencing more expected behavior. This variability might be a result of very low changes in loss, which do not penalize the discriminator enough for wrong predictions. A solution for this could be to scale the loss function, though this is left as future work. As for the MSE loss models, figure \ref{fig:discriminator_preds_MNIST_GAN_normal} shows much the same patterns as mentioned in the first part of the paragraph. This means that the discriminator was not benefit nor hindered from the different use of loss function. This also might indicate that a future model trained on the MNIST dataset would need to take into action a weaker generator or stronger discriminator.
 
@@ -3088,18 +3088,7 @@ In figure \ref{fig:testing_identity}, it seems that the identity loss might have
 	
 	\newpage
 	\bibliographystyle{IEEEbib}
-	\bibliography{refs}
-	
-	
-	
-	% List of articles
-	% Machine learning framework for early MRI-based Alzheimer's conversion prediction in MCI subjects - Elahi Mohadi et al
-	% How early can we predict Alzheimer's disease using computational anatomy? - Stanisław Adaszewski
-	%
-	%
-	%
-	
-	
+	\bibliography{refs}	
 	
 	% 		
 	%\bibitem{pca1} Cadima, Jorge et al. "Principal component analysis: a review and recent %developments", Published:13 April 2016
