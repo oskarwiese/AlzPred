@@ -352,7 +352,7 @@ To get an understanding of some of the summary statistics of subjects in this pr
 	\end{tabular}
 \end{table}
 
-
+\vspace*{-2.2cm}
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.9\linewidth]{imgs/age_distro}
@@ -589,20 +589,21 @@ The GAN allowed for new images in a specific category to be created based on ran
 	\label{fig:cycleganarchitecture2}
 \end{figure}
 
-
+\vspace*{-0.37cm}
 \subsubsection{Discriminator in a CycleGAN}
 The discriminator of the model should take as input an image of size 1x256x256 (since the image is grayscale) and output a prediction of dimension 1x30x30 with values between zero and one. The reason the output is not just one value is because a patch-GAN is used. This move in dimensions is accomplished using up-sampling of the image with 2D-convolutions to extract increasingly abstract features by decreasing the height and width and increasing the depth of the image.
 
 To make sure that the model is as robust as possible and to avoid overfitting, a patchGAN is used before outputting the final image prediction. This works by converting 30x30 blocks of the image into predictions, such that the model is forced to predict the validity of the image on each of these blocks. This ensures that the discriminator image can accurately predict if the image comes from the generator by using any part of the image. Some problems can occur with this method, like the model not being about to predict much from a 30x30 square of black pixels. These kinds of problems will be discovered further in the section \ref{discussion} on discussing problems with and efficacies of the model.
 
 Of just as much importance as the patchGAN architecture and general model interactions is the layout of each layer and the functions used throughout the discriminator network. A general overview of the layers, kernel size, type of convolution, stride and padding is shown below in figure \ref{fig:cyclegandiscriminatorlayers}.
+\vspace*{-0.8cm}
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{imgs/cyclegan_discriminator_layers}
 	\caption{The primary model layout consisting of the input, layers and output. The input is the gray-scale intensity-based MRI input of size 1x256x256. The five consecutive convolutional layers each have a specified kernel size, stride and padding as noted in the figure. The output is constructed from running the patchGAN on the last layer of the model to get a 1x30x30 matrix of values between 0 and 1. The specific values and layer sizes are specifed in table \ref{tab:discriminator_layers}. Figure courtesy of \cite{cyclegan_figures}.}
 	\label{fig:cyclegandiscriminatorlayers}
 \end{figure}
-
+\noindent
 Not shown in the figure is the actions taken between each layer and the number of parameters used for each action. This can be seen below. 
 
 \begin{table}[H]
@@ -630,10 +631,11 @@ Not shown in the figure is the actions taken between each layer and the number o
 	\caption{The convolutions, stride and padding of each layer in the discriminators. The values used in the activation functions and instance normalization as well as when they are used in the network have also been shown. The activation shape channels are equal to the output shape of each layer and the height and width are calculated using the formula from article \protect\cite{calculate_activation_shape}. For the convolutional layers, the convention in the "layer" column reads \texttt{output\_size x kernel\_height x kernel\_width}. The first layer thus outputs a vector with 64 channels after applying a convolution with a 4x4 kernel with a stride of 2 and padding of 1. Other details of how to read the table can be found in table \ref{tab:gan_generator}.}
 	\label{tab:discriminator_layers}
 \end{table}
-
+\vspace*{-0.5cm}
 \subsubsection{Generator in a CycleGAN}
+\vspace*{-0.2cm}
 Unlike in a standard GAN generator, where a random image from a latent space is used to create what ends up looking like a real image, the generators in the CycleGAN takes as input an image from one of the datasets. As such, the input dimension is 1x256x256 (since the image is grayscale). The output is of the exact same dimension, since the generator tries to generate an image from the opposite category using the input image. Between input and output, the general generator architecture is that of an autoencoder, as pictured below in figure \ref{fig:autoencoder}. The generator contains three layers in an encoder and a decoder, while 9 residual blocks reside between them. The encoder encodes features by narrowing the image dimensions down and widening the depth of the data. The decoder does exactly the opposite, extracting newfound information back into a new image. The residual blocks between the encoder and decoder serve the purpose of interpreting the encoded features. They also use skip connections, which provide an alternate path for the gradient. This helps the network reach convergence.
-
+\vspace*{-0.54cm}
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{imgs/autoencoder}
@@ -641,7 +643,7 @@ Unlike in a standard GAN generator, where a random image from a latent space is 
 	\label{fig:autoencoder}
 \end{figure}
 
-
+\vspace*{-0.64cm}
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{imgs/cyclegan_generator_layers}
@@ -694,10 +696,8 @@ The final loss function, containing all the losses mentioned above, will look as
 
 Our full objective is:
 \[\begin{aligned}
-	\mathcal{L}\left(G, F, D_{X}, D_{Y}\right) &=\mathcal{L}_{\mathrm{GAN}}\left(G, D_{Y}, X, Y\right) \\
-	&+\mathcal{L}_{\mathrm{GAN}}\left(F, D_{X}, Y, X\right) \\
-	&+\lambda_{cyc} \mathcal{L}_{\mathrm{cyc}}(G, F) \\
-	&+\lambda_{iden} \mathcal{L}_{\mathrm{iden}}(G, F)
+	\mathcal{L}\left(G, F, D_{X}, D_{Y}\right) &=\mathcal{L}_{\mathrm{GAN}}\left(G, D_{Y}, X, Y\right) +\mathcal{L}_{\mathrm{GAN}}\left(F, D_{X}, Y, X\right)
+	&+\lambda_{cyc} \mathcal{L}_{\mathrm{cyc}}(G, F) +\lambda_{iden} \mathcal{L}_{\mathrm{iden}}(G, F)
 \end{aligned}\]
 
 \noindent Here, $\mathcal{L}_{\mathrm{GAN}}\left(G, D_{Y}, X, Y\right)$ and $\mathcal{L}_{\mathrm{GAN}}\left(F, D_{X}, Y, X\right)$ are the adversarial losses for $G$ and $D_Y$ and $F$ and $D_X$ respectively. Meanwhile, $\mathcal{L}_{\mathrm{cyc}}(G, F)$ is the cyclic loss for both generators and $\mathcal{L}_{\mathrm{iden}}(G, F)$ is the identity loss for both generators. The values $\lambda_{cyc}$ and $\lambda_{iden}$ are hyperparameter weights, controlling the respective importance of each part of the total loss function.
@@ -707,36 +707,38 @@ The goal of the final loss function is now to have the generators $G$ and $F$ mi
 \begin{equation}\label{minimax}
 	G^{*}, F^{*}=\arg \min _{G, F} \max _{D_{x}, D_{Y}} \mathcal{L}\left(G, F, D_{X}, D_{Y}\right).
 \end{equation}
-
+\noindent
 The adversarial losses, shown below, are principally the simplest of the losses to understand. They simply make sure that the discriminators are very sure that real images are real and fake images are fake, while the generator becomes increasingly better at fooling the discriminator (creating convincing fake images). Modeling this behavior into an equation is simple, since the discriminator $D_Y$ approaches minimal adversarial loss as it gets closer to predicting 1 for real images and 0 for generated images. Meanwhile, the opposite is true for the generator. Since the discriminators want to maximize the below equations and the generators want to minimize them, these models have an antagonistic relationship and constantly need to sacrifice the performance of the other model to get better performance itself. This has been shown countless times in the literature to be fruitful and is the basis of GAN-based techniques.
 
 \[\begin{aligned}
-	\mathcal{L}_{\mathrm{GAN}}\left(G, D_{Y}, X, Y\right) &=\mathbb{E}_{y \sim p_{\text {data }}(y)}\left[\log D_{Y}(y)\right] \\
-	&+\mathbb{E}_{x \sim p_{\text {data }}(x)}\left[\log \left(1-D_{Y}(G(x))\right],\right.
+	\mathcal{L}_{\mathrm{GAN}}\left(G, D_{Y}, X, Y\right) &=\mathbb{E}_{y \sim p_{\text {data }}(y)}\left[\log D_{Y}(y)\right] 
+	+\mathbb{E}_{x \sim p_{\text {data }}(x)}\left[\log \left(1-D_{Y}(G(x))\right] \right.
 \end{aligned}\]
 
 \[\begin{aligned}
-	\mathcal{L}_{\mathrm{GAN}}\left(F, D_{X}, X, Y\right) &=\mathbb{E}_{x \sim p_{\text {data }}(x)}\left[\log D_{X}(x)\right] \\
-	&+\mathbb{E}_{y \sim p_{\text {data }}(y)}\left[\log \left(1-D_{X}(F(y))\right],\right.
+	\mathcal{L}_{\mathrm{GAN}}\left(F, D_{X}, X, Y\right) &=\mathbb{E}_{x \sim p_{\text {data }}(x)}\left[\log D_{X}(x)\right] +
+	\mathbb{E}_{y \sim p_{\text {data }}(y)}\left[\log \left(1-D_{X}(F(y))\right] \right.
 \end{aligned}\]
 
 It turns out that the above adversarial losses are not always strenuous enough to map the input $x_i$ to an output $y_i$. Therefore, another set of loss functions are added; the forward and backward cycle-consistency loss functions, shown under this paragraph. The goal of these functions is to make sure that an image from $X$ mapped to $Y$ and mapped back to $X$ again will closely resemble the original image. That is, $x \rightarrow G(x) \rightarrow F(G(x)) \approx x$.This concept is called forward cycle-consistency loss, while the same is true for the other direction, backward cycle-consistency loss: $y \rightarrow F(y) \rightarrow G(F(y)) \approx y$. As can be seen in the two equations below, the L1-loss is taken between the original image $x$ and the double-generated image $F(G(x))$. The generators $G$ and $F$ then aim to minimize these terms, such that the two images are as closely resembling as possible. This loss is focused on the generators specifically, since the discriminators only play a roll in predicting if the image is real.
 
 \[\begin{aligned}
-	\mathcal{L}_{\text {cyc }}(G, F) &=\mathbb{E}_{x \sim p_{\text {data }}(x)}\left[\|F(G(x))-x\|_{1}\right] \\
-	&+\mathbb{E}_{y \sim p_{\text {dau }}(y)}\left[\|G(F(y))-y\|_{1}\right] .
+	\mathcal{L}_{\text {cyc }}(G, F) &=\mathbb{E}_{x \sim p_{\text {data }}(x)}\left[\|F(G(x))-x\|_{1}\right] 
+	+\mathbb{E}_{y \sim p_{\text {dau }}(y)}\left[\|G(F(y))-y\|_{1}\right] 
 \end{aligned}\]
 
 The identity loss formulated below punishes the model if the generator changes an image that is already part of the domain it transforms to. That is, $y_{new} = G(y)$ gets zero identity loss if $y_{new}$ and $y$ are completely identical and high loss if there are vast differences. The identity loss usually keeps the generators from changing the colors of the input image to get lower errors.
 
 \[\begin{aligned}
-	\mathcal{L}_{\text {iden }}(G, F) &=\mathbb{E}_{x \sim p_{\text {data }}(x)}\left[\|F(y)-x\|_{1}\right] \\
-	&+\mathbb{E}_{y \sim p_{\text {data }}(y)}\left[\|G(x)-y\|_{1}\right] .
+	\mathcal{L}_{\text {iden }}(G, F) &=\mathbb{E}_{x \sim p_{\text {data }}(x)}\left[\|F(y)-x\|_{1}\right] 
+	+\mathbb{E}_{y \sim p_{\text {data }}(y)}\left[\|G(x)-y\|_{1}\right] 
 \end{aligned}\]
 
-
+\vspace*{-0.5cm}
 \subsubsection{Optimizer, Cross Entropy, Etc.}
+\vspace*{-0.2cm}
 A table of the used hyperparameters and their values in this project in given below. Note that these hyperparameters are applied to different models. Kernel size, stride and padding for each of the convolutional layers of the discriminator and generator are shown in tables \ref{tab:gan_generator}, \ref{tab:gan_discriminator}, \ref{tab:discriminator_layers} and \ref{tab:generator_layers}.
+
 \begin{table}[H]
 	\centering
 	\begin{tabular}{l l l l l l l l l}
