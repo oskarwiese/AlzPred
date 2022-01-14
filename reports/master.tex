@@ -225,8 +225,8 @@ of detail. Previous studies have attempted to create a binary classifier for Alz
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.6\linewidth]{imgs/camilla_tsne}
-	\caption{T-distributed stochastic neighbor embedding from Camilla Kergel Pedersen: Demographic bias in public neuroimaging databases, and its
+	\includegraphics[width=0.6\linewidth]{imgs/image}
+	\caption{t-distributed stochastic neighbor embedding from Camilla Kergel Pedersen: Demographic bias in public neuroimaging databases, and its
 		effect on AI systems for computer-aided diagnosis \cite{CamillaKandidat}.}
 	\label{fig:camillatsne}
 \end{figure}
@@ -299,7 +299,7 @@ MRI is a technique developed through the 1970s and 1980s. The scanner itself can
 	\label{fig:mriscanner}
 \end{figure}
 \noindent
-MRI was originally called nuclear magnetic resonance imaging, but was later readopted as MRI due to \textit{"nuclear"} having negative associations with the field of research \cite{wiki} \cite{mri2}.
+MRI was originally called nuclear magnetic resonance imaging, but was later readopted as MRI due to \textit{"nuclear"} having negative associations with the field of research \cite{wiki, mri2}.
 
 \subsection{Magnetic Field Strength}
 %TODO simple explanation of THE TESLAz
@@ -475,12 +475,12 @@ An important point to note is that completely black images are discarded. This m
 \newpage
 
 \subsubsection{Data Augmnentation}
-Besides the immense preprocessing done with the FreeSurfer Software Suite, the images are also resized, center cropped, converted to float and normalized with a $ \mu = 0.5 $ and $ \sigma = 0.5$. Centercrop crops an image in the center, ensuring that when the image is converted to a tensor and has an arbitrary number of leading dimensions, it will be cropped correctly. Furthermore, the intensity values are normalized to avoid the vanishing and exploding gradient problem when doing backpropagation.
+Besides the immense preprocessing done with the FreeSurfer Software Suite, the images are also resized, center cropped, converted to float and normalized with a $ \mu = 0.5 $ and $ \sigma = 0.5$. Centercrop crops an image in the center, ensuring that when the image is converted to a tensor and has an arbitrary number of leading dimensions, it will be cropped correctly. Furthermore, the intensity values are normalized to avoid the vanishing and exploding gradient problem when doing backpropagation. This augmentation only applies for data used for the CycleGAN model\footnote{The data used for the CNN classifier will be explained in section \ref{data_cnn_classifier}}.
 
 \newpage
 
 \section{Methods}
-This section introduces what technical background has been used in the duration of this project as well as which types of models have been trained. Section \ref{camillas_model} introduces the classification network used to find and analyze the bias present in using both 1.5T and 3T MRI images for analysis. Section \ref{gan} and \ref{cyclegan} consider the intuition and mathematical theory behind implementing GANs and CycleGANs. The GAN has been trained on the Modified National Institute of Standards and Technology database (MNIST) hand-drawn digit dataset as a preliminary introduction to GANs. The results of training this model is found in section \ref{MNIST_GAN}. As for the CycleGAN, five total models have been implemented on various datasets. One of these models was trained on the horse2zebra dataset used in the original CycleGAN paper \cite{original_cyclegan} as another preliminary experiment and as an introduction to CycleGANs. The result of this preliminary run is located in section \ref{horse2zebra_cyclegan}. The four other models have been trained on different variations of the MRI files mentioned above. One has been trained on slices from the $x$-axis (YZ), another from the $y$-axis (XZ), yet another on the $z$-axis (XY). The last model has been trained on all (ALL) of these images simultaneously and outputs and average 3D image from predicting each 3D image. The goal was to test the best approach for reconstructing 1.5T images from 3T images, and to see if the ALL-model could hold up to the quality of the other models. The specifics about training variables, hyperparameters, etc. are located in section \ref{model_specifics}. Since these models are not easy to train \cite{hard_to_train}, section \ref{troubleshooting} relays multiple issues along the training process and how they were eventually fixed. Lastly, section \ref{reproducibility} discusses what has been done to ensure reproducible results. %TODO: mangler sektioner. Kunne nok også godt gøres lidt kortere
+This section introduces what technical background has been used in the duration of this project as well as which types of models have been trained. Section \ref{camillas_model} introduces the classification network used to find and analyze the bias present in using both 1.5T and 3T MRI images for analysis. Section \ref{gan} and \ref{cyclegan} consider the intuition and mathematical theory behind implementing GANs and CycleGANs. The GAN has been trained on the Modified National Institute of Standards and Technology database (MNIST) hand-drawn digit dataset as a preliminary introduction to GANs. The results of training this model is found in section \ref{MNIST_GAN}. As for the CycleGAN, five total models have been implemented on various datasets. One of these models was trained on the horse2zebra dataset used in the original CycleGAN paper \cite{original_cyclegan} as another preliminary experiment and as an introduction to CycleGANs. The result of this preliminary run is located in section \ref{horse2zebra_cyclegan}. The four other models have been trained on different variations of the MRI files mentioned above. One has been trained on slices from the $x$-axis (YZ), another from the $y$-axis (XZ), yet another on the $z$-axis (XY). The last model has been trained on all (ALL) of these images simultaneously and outputs an average 3D image from predicting each 3D image. The goal was to test the best approach for reconstructing 1.5T images from 3T images, and to see if the ALL-model could hold up to the quality of the other models. The specifics about training variables, hyperparameters, etc. are located in section \ref{model_specifics}. Since these models are not easy to train \cite{hard_to_train}, section \ref{troubleshooting} relays multiple issues along the training process and how they were eventually fixed. Lastly, section \ref{reproducibility} discusses what has been done to ensure reproducible results. %TODO: mangler sektioner. Kunne nok også godt gøres lidt kortere
 
 
 
@@ -876,45 +876,48 @@ Another issue entirely turned out to be that the vast number of input images all
 Many solution to the problem of mode collapse exist, some being much easier to implement than other. Easier solutions include reducing the learning rate, making separate learning rates for the discriminators and generators and only updating the discriminator if the accuracy of the discriminator in the current step is under 50\%. Harder solutions include implementing instance noise, making the generator better or making the discriminator worse. For the discriminators in this project, it turned out that it was enough to implement the accuracy check before updating the discriminators, reducing the learning rate and making separate learning rates for generators and discriminators. The others methods have been left in this section for future reference \cite{mode_collapse_reddit_fix, mode_collapse_github}. After implementing these fixes, the model was able to generate output samples from a much larger distribution, which indicates that the mode collapse has been fixed. A number of generated images can be seen in section \ref{results}.
 
 \subsection{Reconstruction of 3D images}
+
+The reconstruction of 3D images are done by predicting each 2D slice by a CycleGAN model. Thus, the 3D image is reconstructed from generating $\thicksim 768 $ 2D images, and then restitching these together\footnote{Images which contain nothing but black pixels, around the edges are not predicted by the model since this is unnecessary. Thus, less than 768 generations for each image happens at time of reconstruction.}. The ALL model will predict on all three planes which in practice means that the output slice is an average of 3 generated slices. 
+The reconstruction is done in python and the code can be seen here, \href{https://github.com/oskarwiese/AlzPred/blob/main/cycleGAN/src/reconstruct.py}{GitHub}.
 % HOW IS THIS DONE?
 % EXPLAIN SCRIPT
 % ALL MODEL VS OTHER MODELS
 
 
 \subsection{CycleGAN Evaluation Metrics}\label{evaluation_metrics}
-To be able to properly evaluate whether the CycleGAN models have learned to effectively move between 1.5T and 3T images, a number of evaluation metrics have been applied. This section will explain the background behind these as well as what is expected for bad and good performance when using each metric.
+To be able to properly evaluate whether the CycleGAN models have learned to effectively move between 1.5T and 3T images, a number of evaluation metrics have been applied. This section will explain the background behind these as well as what is expected for bad and good performance when using each metric. The data used for this project contains 40 subjects which have a 1.5T scan and 3T scan. This enables a perceived ground truth that can be used to quantify the CycleGAN model.
 
 \subsubsection{Visual Inspection}\label{visual_inspection}
-The first evaluation metric, visual inspection, is also the most obvious one. By showing the generated images in a figure next to the ground truth, it is possible to firstly evaluate if the generated image even looks like a brain and secondly if the generated image looks like the brain it is supposed to be mapping towards. This seemingly simple metric might be the most important one, since the first step toward generating convincing brains is to make them look convincing to humans.
+Visual inspection is done by showing the generated images in a figure next to the ground truth. Visual inspections can be used to evaluate if the generated image looks like a brain and secondly if the generated image looks like the brain it is supposed to be mapping towards. This metric is important since the first step towards generating convincing brains is to make them look convincing to humans.
 
-\subsubsection{image Subtraction}\label{image_subtraction}
-A second visual way to visually inspect the images is to subtract images from each other and look at the resulting edge images. This allows for inspection of where the two images either agree or do not agree. In this report, image subtraction has been used between the 1.5T ground truth and 3T ground truth images as well as between the 1.5T ground truth and 1.5T generated images. This allows for comparison between how well the 1.5T generated image and the 3T ground truth images fit onto the 1.5T ground truth image. Images that are closer to matching will have fewer high-intensity pixels and a generally darker image. The hope is thus that the subtracted image containing the generated image has lower intensity than the ground truth image.
+\subsubsection{Image Subtraction}\label{image_subtraction}
+Another way to visually inspect the images is to subtract images from each other and look at the resulting image. In this report, image subtraction has been used between the 1.5T ground truth and 3T ground truth images as well as between the 1.5T ground truth and 1.5T generated images. This allows for comparison between how well the 1.5T generated image and the 3T ground truth images fit onto the 1.5T ground truth image. Images that are closer to matching will have fewer high-intensity pixels and a generally darker image. To enhance the visibility histogram stretching and gamma transformation has been applied.
 
 \subsubsection{Root-Mean-Square Error}\label{rmse}
-Another way to show how closely the generated image matches the real one is to calculate the root-mean-square error between every pixel in the two images. This is done by applying
-\begin{equation}
+Another way to show how close the generated image is to the real image is to calculate the root-mean-square error between every pixel in the two images. This is done by applying equation \eqref{rmse_eq}.
+\begin{equation}\label{rmse_eq}
 	RMSE = \sqrt{\frac{1}{n}\Sigma_{i=1}^{n}{\Big(y_i - \hat{y}_i\Big)^2}}\cite{sklearn.metrics.root_mean_square_error}
 \end{equation}
-where $n$ is the total number of pixels, $y_i$ is the real image and $\hat{y}_i$ is the fake image. Only calculating this value for one set of images would not give much info, so instead, RMSE has been found for two sets of images. Between the two 1.5T ground truth and 3T ground truth images and between the 1.5T ground truth and 1.5T generated images. This allows for an easy method of comparison, since a smaller difference between the generated and ground truth image than between the ground truth set would mean that the model has, to some extent, learned to replicate the patterns seen in 1.5T images.
+where $n$ is the total number of pixels, $y_i$ is the real image and $\hat{y}_i$ is the fake image. RMSE has been found for two three of images: 1.5T ground truth \& 3T ground truth images, between the 1.5T ground truth \& 1.5T generated images and between the 3T ground truth \& 3T generated images. A smaller difference between the generated and ground truth image than between the ground truth set would mean that the model has, to some extent, learned to replicate the patterns seen in 1.5T images.
 
 \subsubsection{Geometric Accuracy}\label{geometric_accuracy}
-The geometric accuracy, like the root-mean-square error, is another more precise metric for determining how close two image are to matching. As an accuracy measure, this method calculates how high a percentage of two images contain the same pixel by doing a pixel-wise comparison.
+The geometric accuracy is another metric for determining how close two image are to matching. As an accuracy measure, this method calculates how high a percentage of two images contain the same pixel values by doing a pixel-wise comparison.
 
 \begin{equation}
 	\textrm{Geometric accuracy} = \frac{\Sigma_{i=1}^{n}\mathds{1}}{n}, \qquad
 	  \mathds{1}=\begin{cases} 1, & \text{if $y_i = \hat{y}_i$}.\\ 0, & \text{otherwise}.\end{cases}
 \end{equation}
-Here, $n$ is the total number of pixels that will be compared in the image. This accuracy measure accomplishes much the same as other accuracy measures in that it show how often the model gets a pixel exactly right. As such, a higher accuracy means that the model is more successful in creating the real 1.5T image. It is only possible to calculate this metric on the image data because the values have been rounded to \texttt{uint8} integer values. Otherwise the pixel values would never be equal and the accuracy would be 0.
+Here, $n$ is the total number of pixels that will be compared in the image. As such, a higher accuracy means that the model is more successful in creating the real 1.5T image. It is only possible to calculate this metric on the image data because values have been rounded to \texttt{uint8} integer values.
 
 
 \subsection{Classifier}
 
-In order to investigate whether a CycleGAN can be used to remove bias from a classifier, this project will introduce a Convolutional Neural Network (CNN), inspired heavily by Basai et al. and Camilla Kergel \cite{CamillaKandidat, neuro}. This section will present the architecture of the CNN, the applied hyperparameters as well as some highlighted differences from the other papers.
+In order to investigate whether a CycleGAN can be used to remove bias from a classifier, this project will introduce a Convolutional Neural Network (CNN), inspired heavily by Basai et al. and Camilla Kergel \cite{CamillaKandidat, neuro}. This section will present the architecture of the CNN, the applied hyperparameters as well as some highlighted differences from the other papers. The project will implement two different classifiers, referred to as $ \mathcal M_1 $ and $ \mathcal M_2 $. The model, $ \mathcal M_1 $ will be trained on synthetic data from the CycleGAN model and original data\footnote{The training data will then consist of 1.5T from ADNI \& and synthetic 1.5T images constructed from 3T images.}. Whereas, the model $ \mathcal M_2 $ will be trained purely on original data (both 3T and 1.5T), to recreate the field strength bias.
 
 \subsubsection{Neural Network for Alzheimer's Disease Classification} \label{camillas_model}
 In recent work with Alzheimer's disease classification by Camilla, a neural network was trained to predict whether patients had AD and the largest biases were found. Since the largest bias found in the model was between 1.5T and 3T images, a similar model was used to compare and contrast if the above described methods succeeded in removing the most prominent biases from the model, namely, the difference between 1.5T and 3T images. The model was implemented as a PyTorch neural network with 6 convolution layers using ReLU as activation function between each layer. This was followed by a fully connected layer with sigmoid activation to output the probability of each class (sick or healthy).  \cite{CamillaKandidat}.
 
-\subsubsection{Data}
+\subsubsection{Data}\label{data_cnn_classifier}
 The data used for training the classifier is a combination of generated images from a CycleGAN\footnote{Important to note that only the CycleGAN trained on xy plane is used to generate the images used for training the classifier. This will be touched upon again in the discussion, see section \ref{future_work_mult}.} model as well as the original data from ADNI, which has been described in section \ref{dataDescription}. By training a classifier on the data, it was tested whether the model would inherit a bias towards the generated images. The goal was to prove that this bias does not exist by using dimensionality reduction algorithms on the penultimate linear layer from the model. There were 939 images in the training data and 235 in the test data. However, augmentation was used to create a more robust model. Three types of augmentations happened randomly with a probability, $ p = 0.8 $. The augmentations used were a random rotation, random flip or a random elastic deformation. The goal of using augmentation was to both create more training data and ensure a robust and generalization model after training. 
 
 \subsubsection{Deep Neural Network Model}
@@ -1166,9 +1169,9 @@ Lastly, \texttt{feature\_visualization.py} is used to construct 2D-plots of the 
 \newpage
 
 \section{Results}\label{results}
-This section will focus on relevant outputs of the final, trained models. The first four sections will focus on the various losses. The sections \ref{disc_loss}, \ref{gen_loss}, \ref{cycle_loss} and \ref{iden_loss} will show respectively the discriminator losses, generator losses, cycle losses and identity losses respectively from each of the four aforementioned models. Loss-curves are shown for each model. Sections \ref{xy_generated}, \ref{xz_generated} and \ref{yz_generated} provide examples of generated images from the models trained on the $XY$, $XZ$ and $YZ$ respectively. In a slightly different manner, section \ref{training_progress} shows how training comes along after a number of steps to show what the generators learn and when. Afterwards, section \ref{all_generated} will show results on every plane, when a model has been trained on data from all of $XY$, $XZ$ and $YZ$.  In section , examples of generated images are discussed and compared and contrasted to real images. 
-%TODO: Skal omskrives. HUSK CNN model. Husk at gøre klart at her viser i resultaterne, i.e. this section shows relevant outputs.
-%TODO skriv indledende tekst til losses
+This section will focus on relevant outputs of the final, trained models. The first four sections will focus on the various losses. The sections \ref{disc_loss}, \ref{gen_loss}, \ref{cycle_loss} and \ref{iden_loss} will show respectively the discriminator losses, generator losses, cycle losses and identity losses from each of the four aforementioned models. The training progress of the CycleGAN as well as quality comparisons of generated images can be seen in sections \ref{training_progress}, \ref{xy_generated}, \ref{xz_generated}, \ref{yz_generated} \& \ref{all_generated}. In sections \ref{xy_subtracted_images}, \ref{xz_subtracted_images}, \ref{yz_subtracted_images} and \ref{all_subtracted_images} examples of differences between generated images contrasted to real images are shown. Afterwards, section \ref{result_evaluation_metrics} will quantify the differences by two evaluation metrics. 
+Following, section \ref{result_loss_cnn} will illustrate the losses of training two CNN classifiers on CycleGAN generated data \& original data. Lastly, section \ref{result_dim_reduction} will show t-SNE and PCA plots from both of the trained classifiers. 
+
 \subsection{Discriminator Losses}\label{disc_loss}
 \begin{figure}[H]
 	\centering
@@ -1238,6 +1241,7 @@ This section will focus on relevant outputs of the final, trained models. The fi
 
 
 \subsection{Training Progress}\label{training_progress}
+The following figure will outline what the training process of the CycleGAN models in the project look like.
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -1276,7 +1280,21 @@ This section will focus on relevant outputs of the final, trained models. The fi
 	\label{fig:training_progress}
 \end{figure}
 
+\subsection{Example of 3D reconstruction from CycleGAN}
+The following shows what the reconstructed images look like in FreeView. The most import conclusion here is the fact that the reconstructed images are in the mni305 space.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{imgs/reconstruct_1}
+	\caption{The figure shows the reconstructed 1.5T 3D image of the original 3T image from subject \texttt{002\_S\_0413}.}
+	\label{fig:reconstruct1}
+\end{figure}
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{imgs/reconstruct_2}
+	\caption{The figure shows the reconstructed 1.5T 3D image of the original 3T image from subject \texttt{002\_S\_0413} as a heatmap (The orange brain). Furthermore, this is put on top of the mni305 atlas showing that the reconstructed brain is in fact in the correct CRS.}
+	\label{fig:reconstruct2}
+\end{figure}
 
 \subsection{XY Quality Comparison}\label{xy_generated}
 \begin{figure}[H]
@@ -1832,7 +1850,7 @@ This section will focus on relevant outputs of the final, trained models. The fi
 			 \bottomrule
 		\end{tabular}
 		\caption{ 
-		The data contains 40 sets of images of subjects who have been scanned with both the 1.5T and the 3T MRI scanners. This makes it possible to determine a RMSE score for each of the four models. The table shows RMSE scores from the comparison of the images from the four models XY, XZ, YZ and ALL and perceived ground truth image when generating from 3T to 1.5T and from 1.5T to 3T respectively. The avg. orig. column contains the average RMSE score between the original 1.5T and the original 3T images. The avg.gen. column shows the RMSE score between images generated by the models and the original target images. The avg.diff. column shows the average difference between the RMSE scores of the generated images and the baseline (ground truth). The rows highlighted with bold are the best performing models.	}
+		The validation data contains 40 sets of images of subjects who have been scanned with both the 1.5T and the 3T MRI scanners. This makes it possible to determine a RMSE score for each of the four models. The table shows RMSE scores from the comparison of the images from the four models XY, XZ, YZ and ALL and perceived ground truth image when generating from 3T to 1.5T and from 1.5T to 3T respectively. The avg. orig. column contains the average RMSE score between the original 1.5T and the original 3T images. The avg.gen. column shows the RMSE score between images generated by the models and the original target images. The avg.diff. column shows the average difference between the RMSE scores of the generated images and the baseline (ground truth). The rows highlighted with bold are the best performing models.	}
 		\label{tab:metrics_rmse}
 		%TODE: Ryk Avg. Orig. ud så det står over XY som baseline.
 	\end{center}
