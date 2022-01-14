@@ -290,7 +290,6 @@ This section will contain relevant information to understand and reproduce the p
 %TODO: referér til hver subsection
 
 \subsection{Magnetic Resonance Imaging (MRI)}
-%TODO simple explanation of MRI scans
 MRI is a technique developed through the 1970s and 1980s. The scanner itself can be seen on figure \ref{fig:mriscanner}. In simple terms, an MRI scanner works by applying a magnetic field to a patient. The magnetic field will then excite the atoms within an area of the subject's brain. The resulting signal is then measured by the scanner \cite{mri}.  
 \begin{figure}[H]
 	\centering
@@ -302,11 +301,9 @@ MRI is a technique developed through the 1970s and 1980s. The scanner itself can
 MRI was originally called nuclear magnetic resonance imaging, but was later readopted as MRI due to \textit{"nuclear"} having negative associations with the field of research \cite{wiki, mri2}.
 
 \subsection{Magnetic Field Strength}
-%TODO simple explanation of THE TESLAz
 It is inherently important to understand the underlying concept and difference of the magnetic field strength of the MRI scanner in use. In this project, two types of images are used: 1.5T and 3T images. Tesla is a unit in which the strength of magnetic fields are measured. The stronger the magnetic field, the stronger the magnetic resonance, the more detailed the MRI image. The strength of the magnetic field can be thought of as reducing the amount of noise in the image and adding more clarity. Thus this is like increasing the resolution of a normal RGB image. The 3T images are also constructed with more expensive machines and are not available in all countries nor hospitals around the world. This introduces the need for a method to translate between these domains. 
 
 \subsection{Trade off of Using MRI}
-%TODO Talk about voxels ( a voxel and encode information about two distinct areas in the brain in same number.see: https://www.youtube.com/watch?v=6wxJ1up-E7E&list=PLIQIswOrUH6_DWy5mJlSfj6AWY0y9iUce )
 
 MRI data is constructed from an MR scanner in the form of volumes. These 3D images can be compared to centicubes, which together form a big square, where the brain is inside. Each centicube in this image is often referred to as a voxel, and each voxel contains a value that represents the intensity value in the specific area - see figure \ref{fig:voxel}. For T1 weighted or structural images, this determines the boundary between gray matter \& white matter from cerebrospinal fluid. In T2 weighted images, it represents more active voxels to  less active voxels. However, voxels do have certain issues. A voxel can, for example, encompass information about two anatomically distinct areas, like if a voxel encompasses two different gyri. Furthermore, it is hard to measure structural properties such as gray matter thickness or volume, which might be important for AD classification. FreeSurfer Software can help by turning the 3D representation into a 2D representation using triangles. The points of the triangles are vertices and they are connected by an edge. Each vertex then contain measurements such as gray matter volume and thickness, area, curvature etc. These surfaces can be inflated to visualize where MRI activations and gray matter differences are located more precisely than the voxel representation would have allowed for. 
 
@@ -320,10 +317,9 @@ MRI data is constructed from an MR scanner in the form of volumes. These 3D imag
 
 
 \subsection{MNI Space}
-%TODO explain the MNI space 
 Montreal Neurological Institute 305 (MNI305) is an atlas for brain mapping which was introduced by Evans et al. in 1992. The mapping was created from 250 normal subjects that have been MRI scanned. It is a known method for normalization and is an often-used industry practice for an average human brain \cite{evans}. 
 
-The atlas was constructed in two steps. Firstly, anatomical landmarks were outlined for each subject manually. The landmarks were found using the Talairach atlas, which is a 3 dimensional coordinate system used to map several areas of the brain, independent of brain volume and shape. Secondly, each MRI volume from the patients were mapped to an average MRI from the previous subjects, to reduce impact of order effect. %TODO: Hvad er order effect?
+The atlas was constructed in two steps. Firstly, anatomical landmarks were outlined for each subject manually. The landmarks were found using the Talairach atlas, which is a 3 dimensional coordinate system used to map several areas of the brain, independent of brain volume and shape. Secondly, each MRI volume from the patients were mapped to an average MRI from the previous subjects, to reduce impact of order effect.
 The mapping was performed with whole-brain linear (9-parameter) image similarity residual and not according to Talairach's piece-wise linear model \cite{collins}. 
 
 Thus, they created a space, namely the MNI305 space, which is used in this project. The space is useful to compare the brains of different subjects and for a deep learning model to learn meaningful feature representations of such images. 
@@ -331,10 +327,6 @@ Thus, they created a space, namely the MNI305 space, which is used in this proje
 \newpage
 
 \section{Data} 
-%TODO Look at histogram distribution, types of images, etc etc etc etc
-%TODO Look at age distribution of subjects in data and also put which subjects
-%TODO: Lav en introduktion og referér til undersektionerne
-
 
 The data used in this project is from the Alzheimer's Disease Neurosurgical Initiative (ADNI). This initiative unites researchers who study data to investigate and define the progression of Alzheimer's Disease (AD). 
 ADNI collects, validates and utilizes data, including (MRI), positron emission tomography (PET), genetics, cognitive tests, cerebrospinal fluid (CSF) biomarkers and blood biomarkers as predictors of the disease \cite{adni}.
@@ -370,15 +362,12 @@ To get an understanding of some of the summary statistics of subjects in this pr
 
 
 \subsection{Description of Data} \label{dataDescription}
-
-%Description of how images(raw) obtained from patients, number of images, type of subjects  
-
 The images from the ADNI dataset are from several different subjects and a plethora of studies around the world.
 Each of the patients have had multiple scans throughout the span of the ADNI project, however in this project, we only use the baseline scan, i.e. it is the first subject MRI scan, that will be used. 
 The MRI scans are three dimensional images of the subject's brain. 
 The original image is in a \texttt{.mgz} file format which is a compressed \texttt{mgh} file. 
 This file format can store 3D-images along with headers containing information about the subject and a transformation matrix.
-The raw images stem from the original analysis from 2004 and onwards. There are in total 1562 %TODO perhaps more perhaps less? 
+The raw images stem from the original analysis from 2004 and onwards. There are in total 1562 
 unique brain scans, all of which are used in this project.
 
 \begin{figure}[H]
@@ -412,7 +401,6 @@ This is done using \texttt{mri\_vol2vol}, which resamples a volume into another 
 Thus, this project uses an MNI305 transformation by resampling the original normalized images into talairach space using \texttt{\$subject/mri/transforms/talairach.xfm} 
 
 \subsubsection{Preprocessing Scripts}\label{preprocess_scripts}
-%TODO: Det ville være federe at have i methods eller appendix måske
 For this project, two different type of preprocessing scripts have been used. These will be shown in the appendix, but are of key importance to the project. The first script will apply the many preprocessing algorithms described in the previous section. Most importantly, it creates the \texttt{norm.mgz} image, which, as mentioned earlier, is a skull-stripped and normalized version of the subject's brain see code in figure \ref{script1} in appendix[\ref{appendix}].
 The produced \texttt{norm.mgz} file can be illustrated using Freeview, a FreeSurfer Software used to display and examine 3D images. 
 When displaying the new \texttt{norm.mgz} file, a big difference can be seen between the image before processing in figure \ref{fig:screenshot001} and after processing in figure \ref{fig:norm}.
@@ -438,7 +426,7 @@ The resulting image after FreeSurfer preprocessing is shown in figure \ref{fig:n
 
 \subsection{Visualization of Data}
 % Slices of img, preview 
-This section aims to give a visualization of the preprocessed data, and illustrate the images used to train the CycleGANs in this project. The images are constructed by thresholding one of the dimensions $ x, y, z $, which creates the following planes: \texttt{xy, xz, yz}. The xy-, xz- and yz-planes are 2D-images. If an image is converted to a \texttt{numpy nd} array, the slicing would amount to: \texttt{slice = np.array([:,:,z])}, where $ z \in [1,256] $. Thus, we have 256 2D images for each of the three planes for every 3D image resulting in a total of $ 1.152 $ million 2D images. The training images are brain slices, which can be seen in the figures \ref{fig:slica_xy}, \ref{fig:slica_xz} and \ref{fig:slica_yz} \footnote{The images in the figures are from randomly selected slices and do not match within 1.5T and 3T}. All the slices are created using the \texttt{create\_imgs\_1.5T.py} and \texttt{create\_imgs\_3T.py} python scripts which utilizes numpy and multiprocessing. The scripts can be seen in the repository of this project here: \href{https://github.com/oskarwiese/AlzPred/blob/main/preprocessing_scripts/slicing_scripts/3/create_imgs_3T.py}{3T\_script} and \href{https://github.com/oskarwiese/AlzPred/blob/main/preprocessing_scripts/slicing_scripts/1.5/create_imgs_1.5T.py}{1.5\_script}. %TODO: Path passer nok ikke længere
+This section aims to give a visualization of the preprocessed data, and illustrate the images used to train the CycleGANs in this project. The images are constructed by thresholding one of the dimensions $ x, y, z $, which creates the following planes: \texttt{xy, xz, yz}. The xy-, xz- and yz-planes are 2D-images. If an image is converted to a \texttt{numpy nd} array, the slicing would amount to: \texttt{slice = np.array([:,:,z])}, where $ z \in [1,256] $. Thus, we have 256 2D images for each of the three planes for every 3D image resulting in a total of $ 1.152 $ million 2D images. The training images are brain slices, which can be seen in the figures \ref{fig:slica_xy}, \ref{fig:slica_xz} and \ref{fig:slica_yz} \footnote{The images in the figures are from randomly selected slices and do not match within 1.5T and 3T}. All the slices are created using the \texttt{create\_imgs\_1.5T.py} and \texttt{create\_imgs\_3T.py} python scripts which utilizes numpy and multiprocessing. The scripts can be seen in the repository of this project here: \href{https://github.com/oskarwiese/AlzPred/blob/main/preprocessing_scripts/slicing_scripts/3/create_imgs_3T.py}{3T\_script} and \href{https://github.com/oskarwiese/AlzPred/blob/main/preprocessing_scripts/slicing_scripts/1.5/create_imgs_1.5T.py}{1.5\_script}.
 An important point to note is that completely black images are discarded. This means that only slices with at least one pixel value different from zero are used to train the CycleGAN. This is partially a way to reduce the raw amount of training data, but it is also done because a CycleGAN would never need to learn to translate completely black images from 3T to 1.5T and vice versa, since the black slices can be removed from the image before conversion and reinserted afterwards.
 
 \begin{figure}[H]
@@ -938,7 +926,7 @@ The data used for training the classifier is a combination of generated images f
 	\end{bmatrix}}  \] 
 	One convolution corresponds to multiplying the matrix with every possible space in the 6x6 input image. The stride in this example is one, which refers to how the kernel is moved across the image. If no padding is applied to the input image the dimension of the output image after the convolution will be smaller. In this example the image will shrink from 6x6 to 4x4. To put it simply, the kernel is slid across the width and height of the input and the dot products between the input and kernel are computed at every spatial position \cite{cnn_paper}.
 	\\\\
-	The kernels in a convolutional neural network are learnable parameters. The dimension of the kernels are smaller than the input, which in turn will reduce the dimension of the input image. All padding are set to zero, which can also be seen in the source code %TODO ref soruce. Har oskar skrevet dette???? tror der er soruce?  
+	The kernels in a convolutional neural network are learnable parameters. The dimension of the kernels are smaller than the input, which in turn will reduce the dimension of the input image. All padding are set to zero, which can also be seen in the source code.
 	In this project the three main type of layers in the network model are:
 
 	\begin{itemize}
@@ -1036,8 +1024,6 @@ The data used for training the classifier is a combination of generated images f
 
 
 \subsection{Dimensionality Reduction: t-SNE \& PCA}
-%TODO Describe method to look at features for 2nd last linear layer
-
 The amount of input features or shape of an input for a model is often referred as the dimensionality of the dataset or variable. The end goal of dimensionality reduction is to reduce the number of features (dimensions) in a given dataset, while keeping as much of the variation in the dataset as possible. This is very useful to visualize high dimensional features in a human interpretable space such as 2D or 3D. Two different dimensionality algorithms have been utilized in this project to investigate if a CNN trained on generated images and original images inherit a bias towards either of the image types. The two algorithms are Principal Component Analysis (PCA) and t-Distributed Stochastic Neighbor Embedding (T-SNE).
 \\\\
 \textbf{Principle Component Analysis} is a widely used algorithm within the field of machine learning for dimensionality reduction. With large datasets containing many features PCA offers a method that can minimize information loss while increasing the interpretability. This is done by calculating the principle components which is a new set of de-correlated variables that maximizes the variance. A way to calculate the principle component is by using Singular Value Decomposition (SVD), to find the eigenvalues and eigenvectors. Then, the original data can be projected into a space with fewer dimensions. Furthermore, PCA can be used to see how much variance is explained by each of the principle components in a dataset. Thus, PCA is useful for both visualizing and intepreting high dimensional features, but also as a way to reduce the dimension of high dimensional datasets without losing more information than strictly necessary. In this project, PCA was used to project the features of the penultimate linear layer in the CNN to understand and see if the model interpreted 1.5T ground and 1.5T generated images differently \cite{pca1, pca2}.
@@ -1513,8 +1499,7 @@ The following shows what the reconstructed images look like in FreeView. The mos
 \end{figure}
 
 \subsection{All Planes Quality Comparison}\label{all_generated}
-%TODO Indsæt genererede 3T billeder
-%TODO: Her er tanken at columns indeholder ægte 3T, ægte 1.5T, reconstructed 3T og reconstructed 1.5T. Rows er two forskellige subjects i hver plane.
+
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -2152,8 +2137,7 @@ When comparing geometric accuracies of the models to the baseline, table \ref{ta
 One of the more prominent research questions is whether generated data from a CycleGAN will be able to remove the bias between the field strength of images when training a classifier on both synthetic and original data. From figure \ref{fig:loss_acc} it is evident that the classifier is learning, since both the training and validation loss has a downward time-trend. Moreover, the accuracy rises as the number of training epochs increase. Due to time constraints, the network is not fully converged. Interestingly, inspecting figure \ref{fig:tsne_gen}, the generated t-SNE plots do not seem to cluster any of the given labels differently. In other words, the internal feature representation of generated images vs. original images in the classifier model are similar, implying the the bias previously demonstrated has been removed. In addition, PCA cannot separate the two types of images in the 2nd last layer of the classifier model, figure \ref{fig:pca_gen}. Moreover, if we look at figure \ref{fig:tsne_not_gen} \& \ref{fig:pca_not_gen}, which illustrates a t-SNE plot by forward passing original 3T images and orignal 1.5T images, no similarity differences in the high dimensional feature space seems to be demonstrated.
 
 Thus, the study suggests that it is beneficial to use CycleGAN for removing the field strength bias between 1.5T and 3T images in deep learning computer vision model. Furthermore, it is suggested that using a CycleGAN to generate synthetic data to extend large datasets or perform advanced augmentation seems very promising. \\\\
-%TODO: Mention that we cant resemble the original bias -- might be due to not using the same data. Suggests, that maybe the preprocessing in itself was enough for the bias removal. However, we can see from t-sne plots that when the model that have never seen CycleGAN generated data ( we suspect huge bias ) clusters generated and normal images in the same way. Promising results for using CycleGAN as synthetic data generation for medical imaging. 
-\noindent Efforts in this project was put into trying to recreate the bias found and presented by Kergel\footnote{See, section \ref{indledning} and consult reference: \cite{CamillaKandidat}}. A model identical to the CNN classifier trained on generated data was trained purely on the original data\footnote{The preprocessed versions of the 1.5T \& 3T images. The files named \texttt{norm\_mni305.mgz}}. From figure \ref{fig:loss_acc_overfit_classifier} it is apparent that the model trained on the data is prone to overfitting, thus one would suspect a similar bias towards the magnetic field strength of the images. However, from figure \ref{fig:tsne_not_gen_overfit} \& \ref{fig:pca_not_gen_overfit}, %TODO ref tsne og pca
+\noindent Efforts in this project was put into trying to recreate the bias found and presented by Kergel\footnote{See, section \ref{indledning} and consult reference: \cite{CamillaKandidat}}. A model identical to the CNN classifier trained on generated data was trained purely on the original data\footnote{The preprocessed versions of the 1.5T \& 3T images. The files named \texttt{norm\_mni305.mgz}}. From figure \ref{fig:loss_acc_overfit_classifier} it is apparent that the model trained on the data is prone to overfitting, thus one would suspect a similar bias towards the magnetic field strength of the images. However, from figure \ref{fig:tsne_not_gen_overfit} \& \ref{fig:pca_not_gen_overfit},
 the bias towards the field strength is not present. 
 
 The reason why the model does not inherent the field strength bias can be ascribed to differences in data used by Kergel and data used in this project. Kergel has used the same raw images but the data was preprocessed using spm12 and DARTEL\footnote{DARTEL is another toolbox and is based on “A Fast Diffeomorphic Registration Algorithm” paper
@@ -2205,9 +2189,6 @@ One of the relevant key focus areas include early detection of dementia which ca
 		
 		In Denmark around $ 85000-90000 $ people live with a dementia disease. Around 50000 of these cases are Alzheimer's. Every year around $ 8000 $ new cases are detected, and in 2040 the expected amount of people with dementia above 60 years old is $ 125000 $ to $ 150000 $. This amounts to Denmark spending $ 4.59 $ Billion DKK / year on Alzheimer's Patients to $ 7.65 $ Billion DKK / year \footnote{!NB Not taking inflation into consideration for the outlined numbers}. These numbers do not take healthcare personnel, researchers and other variable costs into consideration. Moreover, 65\% to 85\% of all inhabitants in eldercare has a dementia disease. The cost of informal care time ranges between $ 5.0 $ to $ 6.9 $ hours daily. Furthermore, the daily cost was estimated to range between $ 1190 - 1658 $ DKK / day for primary caregivers\footnote{A primary caregiver can range from everything from a nurse, family member etc.} and $ 171 - 253 $ DKK / day for secondary caregivers. The cost for Denmark amounts to $ 18 $ Billion DKK / year on eldercare alone. The total cost of dementia related diseases in Denmark is estimated to be 20 Billion DKK / year \cite{Alzheimerforeningen} \cite{informal_care}. Thus, a screening to detect Alzheimer's before a patient is showing symptoms can be very beneficial to the danish economy. It would furthermore optimize life expectancy and quality of life for citizens in Denmark.
 		
-		% TODO: inkluder sygeplejerske
-		%TODO 25000 MRI in use see https://en.wikipedia.org/wiki/Magnetic_resonance_imaging
-
 \subsection{Safe AI}
 % Er stor ting i medical imaging, gør Lars lykkelig
 
@@ -2249,8 +2230,6 @@ The regulations should be build upon the safe AI principles, but should also inc
 
 \section{Future work} \label{future_work}
 
-%TODO write about training classifier with different CycleGAN models xz yz, all models. Experiment with larger data sets or even artificially generated brains --> the wet original GAN dream 
-
 \subsection{Method to measure performance of a CycleGAN}\label{fture_work_measure}
 An important thing to ensure in future work within this field is a standardized way to measure the performance of a CycleGAN and its mapping between two domains. For this project, a 1.5T and 3T scan of the subject was available. Despite this, when registering the subjects to the MNI305 atlas the two original images will not be completely on top of each other. Why that is, is because the images stem from two different measurements which means that a patient was in two different MRI scanners. Hence, the patient was not in the exact same position resulting in minor changes as to where the brain is in the subject space. Thus, when registering the image to MNI305, the images are not completely aligned. If the two original images are compared to each other (the 1.5T and 3T image), a given pixel from one image is not in the same position in the other image. Moreover, when a synthetic 1.5T version generated from a 3T images is compared to the original 1.5T image one cannot simply subtract the images.
 
@@ -2264,7 +2243,7 @@ One of the main things for future work is to train more classifiers than the sim
 
 \subsection{Investigating possible accuracy improvements using synthetic data}
 
-Exploring if synthetic data can be used to make models more robust and generalizable have been a fruitful idea since the begging of GANs. However, the data being generated is often  noisy and does not seem to resemble the training dataset distribution accurately enough to be useful for generation of training data. Despite this, using synthetic data generation from a CycleGAN model have not yet been explored or used as an advanced augmentation in any state of the art medical imaging models. %TO BOLD MYNIGGA? 
+Exploring if synthetic data can be used to make models more robust and generalizable have been a fruitful idea since the begging of GANs. However, the data being generated is often  noisy and does not seem to resemble the training dataset distribution accurately enough to be useful for generation of training data. Despite this, using synthetic data generation from a CycleGAN model have not yet been explored or used as an advanced augmentation in any state of the art medical imaging models.
 Future work should include the possibility of using synthetic data from a CycleGAN as part of the training data to ensure slower convergence of classifier networks such as the Baysia et al. or the one presented in this project, which in turn result in more robust and generalizable models. This include classifiers in the X-ray domain, MRI, fMRI etc.
 
 To test this hypothesis experiments should be carried out to train two identical classifiers. One classifier on a dataset with synthetic data in it and another on a dataset without synthetic data. 
