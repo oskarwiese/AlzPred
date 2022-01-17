@@ -735,7 +735,7 @@ The identity loss formulated below punishes the model if the generator changes a
 \end{aligned}\]
 
 \vspace*{-0.5cm}
-\subsubsection{Optimizer, Cross Entropy, Etc.}
+\subsubsection{Optimizer, Cross Entropy, Etc.}\label{model_specifics}
 \vspace*{-0.2cm}
 A table of the used hyperparameters and their values in this project in given below. Note that these hyperparameters are applied to different models. Kernel size, stride and padding for each of the convolutional layers of the discriminator and generator are shown in tables \ref{tab:gan_generator}, \ref{tab:gan_discriminator}, \ref{tab:discriminator_layers} and \ref{tab:generator_layers}.
 
@@ -886,17 +886,17 @@ Another way to visually inspect the images is to subtract images from each other
 \subsubsection{Root-Mean-Square Error}\label{rmse}
 Another way to show how close the generated image was to the real image was to calculate the root-mean-square error between every pixel in the two images. This is done by applying equation \eqref{rmse_eq}.
 \begin{equation}\label{rmse_eq}
-	RMSE = \sqrt{\frac{1}{n}\Sigma_{i=1}^{n}{\Big(y_i - \hat{y}_i\Big)^2}}\cite{sklearn.metrics.root_mean_square_error}
+	RMSE = \sqrt{\frac{1}{n}\Sigma_{i=1}^{n}{\Big(y_i - \hat{y}_i\Big)^2}} \  \textrm{\protect }
 \end{equation}
 where $n$ is the total number of pixels, $y_i$ is the real image and $\hat{y}_i$ is the fake image. RMSE was found for two three of images: 1.5T ground truth \& 3T ground truth images, between the 1.5T ground truth \& 1.5T generated images and between the 3T ground truth \& 3T generated images. A smaller difference between the generated and ground truth image than between the ground truth set would mean that the model had, to some extent, learned to replicate the patterns seen in 1.5T images.
 
 \subsubsection{Geometric Accuracy}\label{geometric_accuracy}
 The geometric accuracy is another metric for determining how close two image are to matching. As an accuracy measure, this method calculates how high a percentage of two images contain the same pixel values by doing a pixel-wise comparison.
 
-\begin{equation}
+\begin{equation*}
 	\textrm{Geometric accuracy} = \frac{\Sigma_{i=1}^{n}\mathds{1}}{n}, \qquad
 	  \mathds{1}=\begin{cases} 1, & \text{if $y_i = \hat{y}_i$}.\\ 0, & \text{otherwise}.\end{cases}
-\end{equation}
+\end{equation*}
 Here, $n$ is the total number of pixels that will be compared in the image. As such, a higher accuracy means that the model was more successful in creating the real 1.5T image. It is only possible to calculate this metric on the image data, because values have been rounded to \texttt{uint8} integer values.
 
 
@@ -1276,15 +1276,16 @@ The following shows what the reconstructed images look like in FreeView. The mos
 	\caption{The figure shows the reconstructed 1.5T 3D image of the original 3T image from subject \texttt{002\_S\_0413}.}
 	\label{fig:reconstruct1}
 \end{figure}
-
+\vspace*{-3.3cm}
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{imgs/reconstruct_2}
-	\caption{The figure shows the reconstructed 1.5T 3D image of the original 3T image from subject \texttt{002\_S\_0413} as a heatmap (The orange brain). Furthermore, this is put on top of the mni305 atlas showing that the reconstructed brain is in fact in the correct CRS.}
+	\caption{The figure shows the reconstructed 1.5T 3D image of the original 3T image from subject \texttt{002\_S\_0413} as a heatmap (The orange brain). Furthermore, this is put on top of the mni305 atlas showing that the reconstructed brain is in fact in the correct CRS.\newline}
 	\label{fig:reconstruct2}
-\end{figure}
-
+\end{figure} 
+\vspace*{-1.22cm}
 \subsection{XY Quality Comparison}\label{xy_generated}
+\vspace*{-0.686cm}
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -1824,12 +1825,12 @@ The following shows what the reconstructed images look like in FreeView. The mos
 		\begin{tabular}{l l c c c c}
 			\toprule
 			& \textbf{Model} & \textbf{Avg. Orig.} & \textbf{Avg. Gen.} & \textbf{Avg. Diff.} & \\ \midrule
-			&&              \multicolumn{2}{c}{\textbf{ $\mathbf{3T\rightarrow1.5T}$}}      &&   \\
+			&&                  &\multicolumn{2}{c}{\textbf{ $\mathbf{3T\rightarrow1.5T}$}}  &   \\
 			&XY                & $1.5344$            & $1.0253$           & $0.5090$            & \\
 			&XZ                & $1.5344$            & $1.1691$           & $0.3653$            & \\
 			&YZ                & $1.5344$            & $1.0311$           & $0.5033$            & \\
 			&\textbf{ALL}               & $\mathbf{1.5344}$            & $\mathbf{0.8505}$           & $\mathbf{0.6839}$            & \\
-			&&            \multicolumn{2}{c}{\textbf{ $\mathbf{1.5T\rightarrow3T}$}}        &&    \\
+			&&                  & \multicolumn{2}{c}{\textbf{ $\mathbf{1.5T\rightarrow3T}$}} &    \\
 			&XY                & $1.5344$            & $1.0159$           & $0.5185$            & \\
 			&XZ                & $1.5344$            & $1.2517$			  & $0.2827$            & \\
 			&YZ                & $1.5344$            & $0.9805$           & $0.5539$            & \\
@@ -1848,13 +1849,13 @@ The following shows what the reconstructed images look like in FreeView. The mos
 		\begin{tabular}{l l c c c}
 			\toprule
 			& \textbf{Model}   & \textbf{Avg. Pixels} & \textbf{Avg. Norm [\%]}  & \\ \midrule
-			&&\textbf{Geometric Accuracy $\mathbf{3\rightarrow1.5}$}   && \\
+			&&\textbf{Geometric Accuracy $\mathbf{3T\rightarrow1.5T}$}   && \\
 			&\textbf{Baseline}          & $\mathbf{14745335.0}$         & $\mathbf{0.8788}$                 & \\
 			&XY                & $14678174.659$       & $0.8749$                 & \\
 			&XZ                & $14603704.886$       & $0.8704$                 & \\
 			&YZ                & $14593826.818$       & $0.8699$                 & \\
 			&ALL               & $14599432.409$       & $0.8702$                 & \\
-			&&\textbf{Geometric Accuracy $\mathbf{1.5\rightarrow3}$}   && \\
+			&&\textbf{Geometric Accuracy $\mathbf{1.5T\rightarrow3T}$}   && \\
 			&Baseline          & $14706659.0$         & $0.8765$                 & \\
 			&XY                & $14778896.955$	      & $0.8809$                 & \\
 			&XZ                & $14776926.409$       & $0.8808$                 & \\
@@ -2106,7 +2107,7 @@ The plots in the following subsections are generated by forward passing images t
 	\caption{PCA plots of model $ \mathcal M_2 $. Each of the plots are colored by different labels. Figure (a) shows generated versus original images, (b) shows male versus female and (c) shows the Alzheimer's patients versus control group. }
 	\label{fig:pca_not_gen_overfit}
 \end{figure}
-
+\newpage
 
 \section{Discussion}\label{discussion}
 %TODO: Skriv en introduktion til sektionen og dens undersektioner
@@ -2598,7 +2599,7 @@ Even though the discriminators are not nearly as important after having trained 
 \subsection{Horse2Zebra CycleGAN}\label{horse2zebra_cyclegan}
 
 
-\subsubsection{Losses}
+\subsubsection{Losses}\label{horse2zebra_losses}
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.8\textwidth}
