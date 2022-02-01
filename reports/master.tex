@@ -113,7 +113,7 @@
 
 \title{CycleGAN for Removing Field Strength Bias in Alzheimer's Disease Classification Model}
 \author{Oskar Eiler Wiese Christensen \& Anders Henriksen \\ \texttt{\{s183917, s183904\}@dtu.dk}}
-\date{\today}
+\date{January 14, 2022}
 
 \pagestyle{plain}
 \fancyhf{}
@@ -730,8 +730,8 @@ It turns out that the above adversarial losses are not always strenuous enough t
 The identity loss formulated below punishes the model if the generator changes an image that is already part of the domain it transforms to. That is, $y_{new} = G(y)$ gets zero identity loss if $y_{new}$ and $y$ are completely identical and high loss if there are vast differences. The identity loss usually keeps the generators from changing the colors of the input image to get lower errors.
 
 \[\begin{aligned}
-	\mathcal{L}_{\text {iden }}(G, F) &=\mathbb{E}_{x \sim p_{\text {data }}(x)}\left[\|F(y)-x\|_{1}\right] 
-	+\mathbb{E}_{y \sim p_{\text {data }}(y)}\left[\|G(x)-y\|_{1}\right] 
+	\mathcal{L}_{\text {iden }}(G, F) &=\mathbb{E}_{x \sim p_{\text {data }}(x)}\left[\|F(x)-x\|_{1}\right] 
+	+\mathbb{E}_{y \sim p_{\text {data }}(y)}\left[\|G(y)-y\|_{1}\right] 
 \end{aligned}\]
 
 \vspace*{-0.5cm}
@@ -762,24 +762,6 @@ A table of the used hyperparameters and their values in this project in given be
 		& Conv depths                 &&&&& & $\left[64, 128, 256, 128, 64\right]$              & \\
 		& Output dimension            &&&&& & $1x256x256$   & \\
 		&                             &&&&& &               & \\ 
-		& \multicolumn{7}{c}{\textbf{XY Model}}             & \\
-		& Discriminator learning rate &&&&& & $5e-8$        & \\
-		& Generator learning rate     &&&&& & $1e-7$        & \\
-		& Number of epochs            &&&&& & $1.5$         & \\
-		& Number of steps             &&&&& & $240000$      & \\
-		&                             &&&&& &               & \\
-		& \multicolumn{7}{c}{\textbf{XZ Model}}             & \\
-		& Discriminator learning rate &&&&& & $5e-8$        & \\
-		& Generator learning rate     &&&&& & $1e-7$        & \\
-		& Number of epochs            &&&&& & $2$           & \\
-		& Number of steps             &&&&& & $265000$      & \\
-		&                             &&&&& &               & \\
-		& \multicolumn{7}{c}{\textbf{YZ Model}}             & \\
-		& Discriminator learning rate &&&&& & $1e-7$        & \\
-		& Generator learning rate     &&&&& & $1e-7$        & \\
-		& Number of epochs            &&&&& & $1.4$         & \\
-		& Number of steps             &&&&& & $176000$      & \\
-		&                             &&&&& &               & \\
 		& \multicolumn{7}{c}{\textbf{ALL Model}}            & \\
 		& Discriminator learning rate &&&&& & $7e-8$        & \\
 		& Generator learning rate     &&&&& & $1e-7$        & \\
